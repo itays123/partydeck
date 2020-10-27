@@ -1,7 +1,7 @@
 import { Circle } from './Circle.ts';
 import { Deck } from './Deck.ts';
 
-type roundFn<T = string> = (
+export type roundFn<T = string> = (
   players: T[],
   judge: { id: number; value: T },
   question: { id: number; value: string }
