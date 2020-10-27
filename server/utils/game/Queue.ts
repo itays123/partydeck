@@ -28,4 +28,8 @@ export class Queue<T = any> {
   fromArray(array: T[]) {
     this.linkedList.fromArray(array);
   }
+
+  toArray() {
+    return this.linkedList.toArray();
+  }
 }
