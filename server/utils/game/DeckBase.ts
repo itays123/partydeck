@@ -2,7 +2,7 @@
  * Custom data structure, optimized for a set of cards and players
  */
 import { withNumericId } from '../../types.ts';
-import { generate } from '../NumericID.ts';
+import { generate } from '../shared/NumericID.ts';
 import { Queue } from './Queue.ts';
 
 function addEntryToMap<T>(entry: T, map: Map<number, T>): number {
