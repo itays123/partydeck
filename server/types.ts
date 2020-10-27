@@ -1,7 +1,7 @@
 export type RoundFunc<PlayerType = string> = (
   players: PlayerType[],
-  judge: { id: number; value: PlayerType },
-  question: { id: number; value: string }
+  judge: { id: string; value: PlayerType },
+  question: { id: string; value: string }
 ) => Promise<void>;
 
-export type withNumericId<T = any> = { id: number; value: T };
+export type withNumericId<T = any> = { id: string; value: T };

@@ -5,7 +5,7 @@ import { withNumericId } from '../../types.ts';
 import { generate } from '../shared/NumericID.ts';
 import { Queue } from './Queue.ts';
 
-function addEntryToMap<T>(entry: T, map: Map<number, T>): number {
+function addEntryToMap<T>(entry: T, map: Map<string, T>): string {
   const id = generate();
   if (map.has(id)) return addEntryToMap(entry, map);
   else {
@@ -17,8 +17,8 @@ function addEntryToMap<T>(entry: T, map: Map<number, T>): number {
 export class DeckBase<T = any> {
   // the use of two data structures will make the game more hack-prooved.
   // you won't be able to add more cards or players
-  public queue: Queue<number>;
-  public map: Map<number, T>;
+  public queue: Queue<string>;
+  public map: Map<string, T>;
 
   constructor(array: T[]) {
     this.map = new Map();
@@ -34,11 +34,11 @@ export class DeckBase<T = any> {
     this.queue.shuffle();
   }
 
-  valueOf(id: number): T | null {
+  valueOf(id: string): T | null {
     return this.map.get(id) || null;
   }
 
-  valuesOf(ids: number[]): T[] {
+  valuesOf(ids: string[]): T[] {
     const result: T[] = [];
     ids.forEach(id => {
       const value = this.valueOf(id);
@@ -47,13 +47,13 @@ export class DeckBase<T = any> {
     return result;
   }
 
-  format(id: number): withNumericId<T> | null {
+  format(id: string): withNumericId<T> | null {
     if (!this.map.has(id)) return null;
     const value = this.map.get(id)!;
     return { id, value };
   }
 
-  formatMany(ids: number[]): withNumericId<T>[] {
+  formatMany(ids: string[]): withNumericId<T>[] {
     const result: withNumericId<T>[] = [];
     ids.forEach(id => {
       const formatted = this.format(id);

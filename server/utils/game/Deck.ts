@@ -11,7 +11,7 @@ export class Deck<T = any> extends DeckBase<T> {
     return this.format(cardId)!;
   }
 
-  insertCardInBottom(cardId: number) {
+  insertCardInBottom(cardId: string) {
     // to prevent hacking the deck of cards add only cards that exists in the map
     if (this.map.has(cardId)) {
       this.queue.enqueue(cardId);
