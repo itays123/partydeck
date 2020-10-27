@@ -4,4 +4,4 @@ export type RoundFunc<PlayerType = string> = (
   question: { id: number; value: string }
 ) => Promise<void>;
 
-export type withNumericId<T = any> = { id: number; value: any };
+export type withNumericId<T = any> = { id: number; value: T };
