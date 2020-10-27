@@ -3,7 +3,7 @@ import { Circle } from './Circle.ts';
 type roundFn<T = string> = (
   players: T[],
   judge: { id: number; value: T },
-  question: string
+  question: { id: number; value: string }
 ) => Promise<void>;
 
 export class Game<PlayerType = string> {
@@ -33,7 +33,7 @@ export class Game<PlayerType = string> {
       if (this.stopRequested) break;
       const players = this.players.status();
       const judge = this.players.circle();
-      const question = 'question';
+      const question = { id: 1, value: 'question' };
       await this.round(players, judge, question);
     }
   }
