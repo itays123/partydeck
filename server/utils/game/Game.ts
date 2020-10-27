@@ -1,4 +1,5 @@
 import { Circle } from './Circle.ts';
+import { Deck } from './Deck.ts';
 
 type roundFn<T = string> = (
   players: T[],
@@ -7,18 +8,24 @@ type roundFn<T = string> = (
 ) => Promise<void>;
 
 export class Game<PlayerType = string> {
+  // Player-related variables
   private players: Circle<PlayerType>;
   // add players to the game
   private playerList: PlayerType[];
 
+  //card-related variables
+  private questionDeck: Deck<string>;
+
+  // Game-related variables
   private numberOfRounds: number;
   private stopRequested = false;
   private round: roundFn<PlayerType>;
 
-  constructor(round: roundFn<PlayerType>) {
+  constructor(questions: string[], round: roundFn<PlayerType>) {
     this.players = new Circle([]);
     this.playerList = [];
-    this.numberOfRounds = 10;
+    this.numberOfRounds = questions.length;
+    this.questionDeck = new Deck(questions);
     this.round = round;
   }
 
@@ -33,7 +40,7 @@ export class Game<PlayerType = string> {
       if (this.stopRequested) break;
       const players = this.players.status();
       const judge = this.players.circle();
-      const question = { id: 1, value: 'question' };
+      const question = this.questionDeck.pickTopCard();
       await this.round(players, judge, question);
     }
   }
