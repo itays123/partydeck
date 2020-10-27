@@ -14,8 +14,10 @@ function addEntryToMap<T>(entry: T, map: Map<number, T>): number {
 }
 
 export class DeckBase<T = any> {
-  private queue: Queue<number>;
-  private map: Map<number, T>;
+  // the use of two data structures will make the game more hack-prooved.
+  // you won't be able to add more cards or players
+  public queue: Queue<number>;
+  public map: Map<number, T>;
 
   constructor(array: T[]) {
     this.map = new Map();
@@ -29,5 +31,37 @@ export class DeckBase<T = any> {
 
     // shuffle set
     this.queue.shuffle();
+  }
+
+  valueOf(id: number): T | null {
+    return this.map.get(id) || null;
+  }
+
+  valuesOf(ids: number[]): T[] {
+    const result: T[] = [];
+    ids.forEach(id => {
+      const value = this.valueOf(id);
+      if (value) result.push(value);
+    });
+    return result;
+  }
+
+  format(id: number): { id: number; value: T } | null {
+    if (!this.map.has(id)) return null;
+    const value = this.map.get(id)!;
+    return { id, value };
+  }
+
+  formatMany(ids: number[]): { id: number; value: T }[] {
+    const result: { id: number; value: T }[] = [];
+    ids.forEach(id => {
+      const formatted = this.format(id);
+      if (formatted) result.push(formatted);
+    });
+    return result;
+  }
+
+  status() {
+    return this.valuesOf(this.queue.toArray());
   }
 }
