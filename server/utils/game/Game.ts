@@ -33,7 +33,7 @@ export class Game<PlayerType = string> {
 
     for (let i = 0; i < this.numberOfRounds; i++) {
       if (this.stopRequested) break;
-      const players = this.players.status();
+      const players = this.players.map;
       const judge = this.players.circle();
       const question = this.questionDeck.pickTopCard();
       await this.round(players, judge, question);

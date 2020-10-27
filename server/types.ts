@@ -1,5 +1,5 @@
 export type RoundFunc<PlayerType = string> = (
-  players: PlayerType[],
+  players: Map<string, PlayerType>,
   judge: { id: string; value: PlayerType },
   question: { id: string; value: string }
 ) => Promise<void>;
