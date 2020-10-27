@@ -35,8 +35,9 @@ export class LinkedList<T = any> {
       return this;
     }
 
-    this.tail.next = newNode;
+    if (this.tail) this.tail.next = newNode;
     this.tail = newNode;
+    return this;
   }
 
   delete(value: T) {
@@ -62,7 +63,7 @@ export class LinkedList<T = any> {
     }
 
     // delete tail if needs to
-    if (this.tail.value === value) {
+    if (this.tail?.value === value) {
       this.tail = currentNode;
     }
 
@@ -80,11 +81,11 @@ export class LinkedList<T = any> {
     }
 
     let currentNode = this.head;
-    while (currentNode.next) {
-      if (!currentNode.next.next) {
+    while (currentNode?.next) {
+      if (!currentNode?.next?.next) {
         currentNode.next = null;
       } else {
-        currentNode = currentNode.next;
+        currentNode = currentNode?.next;
       }
     }
     this.tail = currentNode;
@@ -118,7 +119,7 @@ export class LinkedList<T = any> {
 
     let currentNode = this.head;
     while (currentNode) {
-      nodes.push(currentNode);
+      nodes.push(currentNode.value);
       currentNode = currentNode.next;
     }
 
