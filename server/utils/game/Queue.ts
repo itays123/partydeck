@@ -32,4 +32,11 @@ export class Queue<T = any> {
   toArray() {
     return this.linkedList.toArray();
   }
+
+  shuffle() {
+    const array = this.linkedList.toArray();
+    this.linkedList = new LinkedList();
+    array.sort(() => (Math.random() > 0.5 ? 1 : -1));
+    this.linkedList.fromArray(array);
+  }
 }
