@@ -1,6 +1,7 @@
 /**
  * Custom data structure, optimized for a set of cards and players
  */
+import { withNumericId } from '../../types.ts';
 import { generate } from '../NumericID.ts';
 import { Queue } from './Queue.ts';
 
@@ -46,14 +47,14 @@ export class DeckBase<T = any> {
     return result;
   }
 
-  format(id: number): { id: number; value: T } | null {
+  format(id: number): withNumericId<T> | null {
     if (!this.map.has(id)) return null;
     const value = this.map.get(id)!;
     return { id, value };
   }
 
-  formatMany(ids: number[]): { id: number; value: T }[] {
-    const result: { id: number; value: T }[] = [];
+  formatMany(ids: number[]): withNumericId<T>[] {
+    const result: withNumericId<T>[] = [];
     ids.forEach(id => {
       const formatted = this.format(id);
       if (formatted) result.push(formatted);

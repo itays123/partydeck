@@ -1,14 +1,13 @@
-import { sleep } from 'https://deno.land/x/sleep/mod.ts';
-import { roundFn } from '../Game.ts';
+import { sleep } from '../../../deps.ts';
+import { RoundFunc, withNumericId } from '../../../types.ts';
 
-const round: roundFn = async (
+const round: RoundFunc = async (
   players: string[],
-  { id: judgeId, value: judge }: { id: number; value: string },
-  { id: questionId, value: question }: { id: number; value: string }
+  { id: judgeId, value: judge }: withNumericId<string>,
+  { id: questionId, value: question }: withNumericId<string>
 ) => {
   console.log('the current judgeId is', judgeId, 'named', judge);
   console.log('the current question is', question, 'id:', questionId);
-  console.log('there are', players.length, 'players');
   await sleep(5);
 };
 

@@ -1,3 +1,4 @@
+import { withNumericId } from '../../types.ts';
 import { DeckBase } from './DeckBase.ts';
 
 export class Deck<T = any> extends DeckBase<T> {
@@ -5,7 +6,7 @@ export class Deck<T = any> extends DeckBase<T> {
     super(array);
   }
 
-  pickTopCard(): { id: number; value: T } {
+  pickTopCard(): withNumericId<T> {
     const cardId = this.queue.dequeue()!;
     return this.format(cardId)!;
   }

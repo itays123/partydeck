@@ -1,11 +1,6 @@
+import { RoundFunc } from '../../types.ts';
 import { Circle } from './Circle.ts';
 import { Deck } from './Deck.ts';
-
-export type roundFn<T = string> = (
-  players: T[],
-  judge: { id: number; value: T },
-  question: { id: number; value: string }
-) => Promise<void>;
 
 export class Game<PlayerType = string> {
   // Player-related variables
@@ -19,9 +14,9 @@ export class Game<PlayerType = string> {
   // Game-related variables
   private numberOfRounds: number;
   private stopRequested = false;
-  private round: roundFn<PlayerType>;
+  private round: RoundFunc<PlayerType>;
 
-  constructor(questions: string[], round: roundFn<PlayerType>) {
+  constructor(questions: string[], round: RoundFunc<PlayerType>) {
     this.players = new Circle([]);
     this.playerList = [];
     this.numberOfRounds = questions.length;
