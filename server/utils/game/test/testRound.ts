@@ -1,10 +1,11 @@
 import { sleepRandomAmountOfSeconds } from '../../../deps.ts';
 import { RoundFunc, withNumericId } from '../../../types.ts';
+import { TestPlayer } from './testPlayer.ts';
 
 const selectRandomPlayer = async (
-  players: Map<string, string>
+  players: Map<string, TestPlayer>
 ): Promise<string> => {
-  await sleepRandomAmountOfSeconds(1, 5, false);
+  await sleepRandomAmountOfSeconds(5, 10, false);
   let fallbackPlayer: string;
   for (const playerId of players.keys()) {
     fallbackPlayer = playerId;
@@ -13,15 +14,15 @@ const selectRandomPlayer = async (
   return fallbackPlayer!;
 };
 
-const round: RoundFunc = async (
-  players: Map<string, string>,
-  { id: judgeId, value: judge }: withNumericId<string>,
+const round: RoundFunc<TestPlayer> = async (
+  players: Map<string, TestPlayer>,
+  { value: judge }: withNumericId<TestPlayer>,
   { id: questionId, value: question }: withNumericId<string>
 ) => {
-  console.log('the current judgeId is', judgeId, 'named', judge);
-  console.log('the current question is', question, 'id:', questionId);
+  judge.boradcast({ message: 'you are the judge!' });
   const pickedPlayer = await selectRandomPlayer(players);
-  console.log(players.get(pickedPlayer), 'was picked!');
+  console.log('\n\n\n');
+  return pickedPlayer;
 };
 
 export default round;

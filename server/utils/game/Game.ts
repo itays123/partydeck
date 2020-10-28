@@ -1,8 +1,8 @@
-import { RoundFunc } from '../../types.ts';
+import { IPlayer, RoundFunc } from '../../types.ts';
 import { Circle } from './Circle.ts';
 import { Deck } from './Deck.ts';
 
-export class Game<PlayerType = string> {
+export class Game<PlayerType extends IPlayer> {
   // Player-related variables
   private players: Circle<PlayerType>;
   // add players to the game
@@ -28,6 +28,12 @@ export class Game<PlayerType = string> {
     this.playerList.push(player);
   }
 
+  async notifyAll(message: any, round: number): Promise<void> {
+    for (let player of this.players.map.values()) {
+      await player.boradcast({ round: round + 1, ...message });
+    }
+  }
+
   async start() {
     this.players = new Circle(this.playerList);
 
@@ -36,7 +42,11 @@ export class Game<PlayerType = string> {
       const players = this.players.map;
       const judge = this.players.circle();
       const question = this.questionDeck.pickTopCard();
-      await this.round(players, judge, question);
+      await this.notifyAll({ q: question.value, j: judge.value.nickname }, i);
+      const winnerId = await this.round(players, judge, question);
+      const winner = this.players.map.get(winnerId)!;
+      winner.cardsWon.add(question.id);
+      await this.notifyAll({ playerWon: winner.nickname }, i);
     }
   }
 
