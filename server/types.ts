@@ -5,3 +5,9 @@ export type RoundFunc<PlayerType = string> = (
 ) => Promise<void>;
 
 export type withNumericId<T = any> = { id: string; value: T };
+
+export interface IPlayer {
+  nickname: string;
+  cardsWon: Set<string>;
+  boradcast(message: any): Promise<void>;
+}
