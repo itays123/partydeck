@@ -1,4 +1,4 @@
-import { withNumericId } from '../../types.ts';
+import { withNumericId } from '../types.ts';
 import { DeckBase } from './DeckBase.ts';
 
 export class Deck<T = any> extends DeckBase<T> {

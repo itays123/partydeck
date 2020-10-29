@@ -1,7 +1,7 @@
 /**
  * Custom data structure, optimized for a set of cards and players
  */
-import { withNumericId } from '../../types.ts';
+import { withNumericId } from '../types.ts';
 import { generate } from '../shared/NumericID.ts';
 import { Queue } from './Queue.ts';
 

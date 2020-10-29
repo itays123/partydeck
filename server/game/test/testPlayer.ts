@@ -1,4 +1,4 @@
-import { IPlayer } from '../../../types.ts';
+import { IPlayer } from '../../types.ts';
 
 export class TestPlayer implements IPlayer {
   nickname: string;

@@ -1,4 +1,4 @@
-import { GameEvent, IPlayer, RoundFunc } from '../../types.ts';
+import { GameEvent, IPlayer, RoundFunc } from '../types.ts';
 import { Circle } from './Circle.ts';
 import { Deck } from './Deck.ts';
 

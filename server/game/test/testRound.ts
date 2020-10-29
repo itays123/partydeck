@@ -1,5 +1,5 @@
-import { sleepRandomAmountOfSeconds } from '../../../deps.ts';
-import { RoundFunc } from '../../../types.ts';
+import { sleepRandomAmountOfSeconds } from '../../deps.ts';
+import { RoundFunc } from '../../types.ts';
 import { TestPlayer } from './testPlayer.ts';
 
 const selectRandomPlayer = async (
