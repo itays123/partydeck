@@ -39,11 +39,10 @@ export class Game<PlayerType extends IPlayer> {
 
     for (let i = 0; i < this.numberOfRounds; i++) {
       if (this.stopRequested) break;
-      const players = this.players.map;
       const judge = this.players.circle();
       const question = this.questionDeck.pickTopCard();
       await this.notifyAll({ q: question.value, j: judge.value.nickname }, i);
-      const winnerId = await this.round(players, judge, question);
+      const winnerId = await this.round(this.players.map, judge.id);
       const winner = this.players.map.get(winnerId)!;
       winner.cardsWon.add(question.id);
       await this.notifyAll({ playerWon: winner.nickname }, i);

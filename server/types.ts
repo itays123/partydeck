@@ -1,7 +1,6 @@
 export type RoundFunc<PlayerType extends IPlayer> = (
   players: Map<string, PlayerType>,
-  judge: { id: string; value: PlayerType },
-  question: { id: string; value: string }
+  judgeId: string
 ) => Promise<string>;
 
 export type withNumericId<T = any> = { id: string; value: T };
