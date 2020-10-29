@@ -1,4 +1,4 @@
-import { IPlayer, RoundFunc } from '../../types.ts';
+import { GameEvent, IPlayer, RoundFunc } from '../../types.ts';
 import { Circle } from './Circle.ts';
 import { Deck } from './Deck.ts';
 
@@ -16,12 +16,18 @@ export class Game<PlayerType extends IPlayer> {
   private stopRequested = false;
   private round: RoundFunc<PlayerType>;
 
-  constructor(questions: string[], round: RoundFunc<PlayerType>) {
+  constructor(questions: string[]) {
     this.players = new Circle([]);
     this.playerList = [];
     this.numberOfRounds = questions.length;
     this.questionDeck = new Deck(questions);
-    this.round = round;
+    this.round = async () => '';
+  }
+
+  public on(event: 'round', handler: RoundFunc<PlayerType>): void;
+  public on(...args: any) {
+    const [event, handler] = args;
+    if (event === 'round') this.round = handler;
   }
 
   addPlayer(player: PlayerType) {

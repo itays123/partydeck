@@ -1,3 +1,5 @@
+export type GameEvent = 'round';
+
 export type RoundFunc<PlayerType extends IPlayer> = (
   players: Map<string, PlayerType>,
   judgeId: string
