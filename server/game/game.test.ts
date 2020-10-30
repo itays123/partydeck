@@ -22,20 +22,22 @@ const QUESTIONS = [
   'question4',
   'question5',
   'question6',
+  'question7',
+  'question8',
+  'question9',
+  'question10',
 ];
 const PLAYERS = [
   new TestPlayer('player1'),
   new TestPlayer('player2'),
   new TestPlayer('player3'),
+  new TestPlayer('player4'),
+  new TestPlayer('player5'),
 ];
 
 Deno.test('runs a game with 6 questions', async () => {
   const game = new Game<TestPlayer>(QUESTIONS);
   let rounds: any[] = [];
-
-  game.on('start', async (players: Map<string, TestPlayer>) => {
-    if (players.size !== 3) throw new Error('there are not three players');
-  });
 
   game.on(
     'round',
@@ -44,12 +46,8 @@ Deno.test('runs a game with 6 questions', async () => {
       for (const playerId of players.keys()) {
         if (playerId !== judgeId) {
           fallbackPlayer = playerId;
-          if (Math.random() < 0.2) {
-            rounds.push({
-              judge: players.get(judgeId)!.nickname,
-              winner: players.get(playerId)!.nickname,
-            });
-            return playerId;
+          if (Math.random() < 0.3) {
+            break;
           }
         }
       }
@@ -62,15 +60,17 @@ Deno.test('runs a game with 6 questions', async () => {
   );
 
   game.on('end', async () => {
+    console.log('\n');
     console.table(rounds);
   });
 
   for (const player of PLAYERS) {
     game.addPlayer(player);
   }
-  await game.start();
+  const [{ nickname, cardsWon }] = await game.start();
+  console.log('the winner is', nickname, 'with', cardsWon.size, 'points');
 
-  if (rounds.length !== 6) {
+  if (rounds.length !== QUESTIONS.length) {
     throw new Error('wrong number of rounds');
   }
 });

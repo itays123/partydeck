@@ -64,9 +64,18 @@ export class Game<PlayerType extends IPlayer> {
     }
 
     this.endHandler();
+    return this.#scores();
   }
 
   stop() {
     this.stopRequested = true;
   }
+
+  #scores = () => {
+    const result: PlayerType[] = [];
+    for (const [, player] of this.players.map) {
+      result.push(player);
+    }
+    return result.sort((a, b) => b.cardsWon.size - a.cardsWon.size);
+  };
 }
