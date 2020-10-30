@@ -35,7 +35,7 @@ const PLAYERS = [
   new TestPlayer('player5'),
 ];
 
-Deno.test('runs a game with 6 questions', async () => {
+Deno.test('runs a game with x questions', async () => {
   const game = new Game<TestPlayer>(QUESTIONS);
   let rounds: any[] = [];
 
