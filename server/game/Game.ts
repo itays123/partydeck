@@ -1,4 +1,4 @@
-import { EndFunc, GameEvent, IPlayer, RoundFunc, StartFunc } from '../types.ts';
+import { EndHandler, IPlayer, RoundHandler, StartHandler } from '../types.ts';
 import { Circle } from './Circle.ts';
 import { Deck } from './Deck.ts';
 
@@ -14,9 +14,9 @@ export class Game<PlayerType extends IPlayer> {
   // Game-related variables
   private numberOfRounds: number;
   private stopRequested = false;
-  private roundHandler: RoundFunc<PlayerType>;
-  private startHandler: StartFunc<PlayerType>;
-  private endHandler: EndFunc;
+  private roundHandler: RoundHandler<PlayerType>;
+  private startHandler: StartHandler<PlayerType>;
+  private endHandler: EndHandler;
 
   constructor(questions: string[]) {
     this.players = new Circle([]);
@@ -28,9 +28,9 @@ export class Game<PlayerType extends IPlayer> {
     this.endHandler = async () => {};
   }
 
-  public on(event: 'round', handler: RoundFunc<PlayerType>): void;
-  public on(event: 'start', handler: StartFunc<PlayerType>): void;
-  public on(event: 'end', handler: EndFunc): void;
+  public on(event: 'round', handler: RoundHandler<PlayerType>): void;
+  public on(event: 'start', handler: StartHandler<PlayerType>): void;
+  public on(event: 'end', handler: EndHandler): void;
   public on(...args: any) {
     const [event, handler] = args;
     if (event === 'round') this.roundHandler = handler;

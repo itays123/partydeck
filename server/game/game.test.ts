@@ -1,5 +1,5 @@
 import { sleepRandomAmountOfSeconds } from '../deps.ts';
-import { IPlayer, RoundFunc } from '../types.ts';
+import { IPlayer } from '../types.ts';
 import { Game } from './Game.ts';
 
 export class TestPlayer implements IPlayer {

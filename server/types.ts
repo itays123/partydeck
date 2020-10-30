@@ -1,15 +1,15 @@
 export type GameEvent = 'round' | 'start' | 'end';
 
-export type RoundFunc<PlayerType extends IPlayer> = (
+export type RoundHandler<PlayerType extends IPlayer> = (
   players: Map<string, PlayerType>,
   judgeId: string
 ) => Promise<string>;
 
-export type StartFunc<PlayerType extends IPlayer> = (
+export type StartHandler<PlayerType extends IPlayer> = (
   players: Map<string, PlayerType>
 ) => Promise<void>;
 
-export type EndFunc = () => Promise<void>;
+export type EndHandler = () => Promise<void>;
 
 export type withNumericId<T = any> = { id: string; value: T };
 
