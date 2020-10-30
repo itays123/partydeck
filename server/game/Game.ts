@@ -1,4 +1,4 @@
-import { GameEvent, IPlayer, RoundFunc } from '../types.ts';
+import { EndFunc, GameEvent, IPlayer, RoundFunc, StartFunc } from '../types.ts';
 import { Circle } from './Circle.ts';
 import { Deck } from './Deck.ts';
 
@@ -15,6 +15,8 @@ export class Game<PlayerType extends IPlayer> {
   private numberOfRounds: number;
   private stopRequested = false;
   private round: RoundFunc<PlayerType>;
+  private startHandler: StartFunc<PlayerType>;
+  private endHandler: EndFunc;
 
   constructor(questions: string[]) {
     this.players = new Circle([]);
@@ -22,12 +24,18 @@ export class Game<PlayerType extends IPlayer> {
     this.numberOfRounds = questions.length;
     this.questionDeck = new Deck(questions);
     this.round = async () => '';
+    this.startHandler = async () => {};
+    this.endHandler = async () => {};
   }
 
   public on(event: 'round', handler: RoundFunc<PlayerType>): void;
+  public on(event: 'start', handler: StartFunc<PlayerType>): void;
+  public on(event: 'end', handler: EndFunc): void;
   public on(...args: any) {
     const [event, handler] = args;
     if (event === 'round') this.round = handler;
+    if (event === 'start') this.startHandler = handler;
+    if (event === 'end') this.endHandler = handler;
   }
 
   addPlayer(player: PlayerType) {
@@ -42,6 +50,7 @@ export class Game<PlayerType extends IPlayer> {
 
   async start() {
     this.players = new Circle(this.playerList);
+    this.startHandler(this.players.map);
 
     for (let i = 0; i < this.numberOfRounds; i++) {
       if (this.stopRequested) break;
@@ -53,6 +62,8 @@ export class Game<PlayerType extends IPlayer> {
       winner.cardsWon.add(question.id);
       await this.notifyAll({ playerWon: winner.nickname }, i);
     }
+
+    this.endHandler();
   }
 
   stop() {
