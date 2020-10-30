@@ -14,7 +14,7 @@ export class Game<PlayerType extends IPlayer> {
   // Game-related variables
   private numberOfRounds: number;
   private stopRequested = false;
-  private round: RoundFunc<PlayerType>;
+  private roundHandler: RoundFunc<PlayerType>;
   private startHandler: StartFunc<PlayerType>;
   private endHandler: EndFunc;
 
@@ -23,7 +23,7 @@ export class Game<PlayerType extends IPlayer> {
     this.playerList = [];
     this.numberOfRounds = questions.length;
     this.questionDeck = new Deck(questions);
-    this.round = async () => '';
+    this.roundHandler = async () => '';
     this.startHandler = async () => {};
     this.endHandler = async () => {};
   }
@@ -33,7 +33,7 @@ export class Game<PlayerType extends IPlayer> {
   public on(event: 'end', handler: EndFunc): void;
   public on(...args: any) {
     const [event, handler] = args;
-    if (event === 'round') this.round = handler;
+    if (event === 'round') this.roundHandler = handler;
     if (event === 'start') this.startHandler = handler;
     if (event === 'end') this.endHandler = handler;
   }
@@ -57,7 +57,7 @@ export class Game<PlayerType extends IPlayer> {
       const judge = this.players.circle();
       const question = this.questionDeck.pickTopCard();
       await this.notifyAll({ q: question.value, j: judge.value.nickname }, i);
-      const winnerId = await this.round(this.players.map, judge.id);
+      const winnerId = await this.roundHandler(this.players.map, judge.id);
       const winner = this.players.map.get(winnerId)!;
       winner.cardsWon.add(question.id);
       await this.notifyAll({ playerWon: winner.nickname }, i);
