@@ -63,7 +63,9 @@ export class Game<PlayerType extends IPlayer> {
     }
   }
 
-  async start() {
+  async start(): Promise<PlayerType[]> {
+    if (!this.playerList.length) return [];
+
     this.players = new Circle(this.playerList);
     this.startHandler(this.players.map);
 

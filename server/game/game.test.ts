@@ -1,5 +1,6 @@
 import { IPlayer, withNumericId } from '../types.ts';
 import { Game } from './Game.ts';
+import { assertThrowsAsync } from '../deps.ts';
 
 export class TestPlayer implements IPlayer {
   nickname: string;
@@ -112,4 +113,32 @@ Deno.test('runs a game with x questions', async () => {
   if (rounds.length !== QUESTIONS.length) {
     throw new Error('wrong number of rounds');
   }
+});
+
+Deno.test('runs an empty game', async () => {
+  const game = new Game<TestPlayer>(QUESTIONS, ANSWERS);
+  game.on(
+    'round',
+    async (players: Map<string, TestPlayer>, judgeId: string) => {
+      let fallbackPlayer: string;
+      for (const playerId of players.keys()) {
+        if (playerId !== judgeId) {
+          fallbackPlayer = playerId;
+          if (Math.random() < 0.3) {
+            break;
+          }
+        }
+      }
+      return fallbackPlayer!;
+    }
+  );
+
+  game.on('player-added', (name: string, answers: withNumericId<string>[]) => {
+    return new TestPlayer(name, answers);
+  });
+
+  assertThrowsAsync(async () => {
+    const [{ nickname, cardsWon }] = await game.start();
+    console.log(nickname, cardsWon);
+  });
 });
