@@ -3,6 +3,7 @@ import {
   PlayerFactory,
   RoundHandler,
   StartHandler,
+  withNumericId,
 } from '../types.ts';
 import { BasePlayer } from './BasePlayer.ts';
 import { Circle } from './Circle.ts';
@@ -27,7 +28,7 @@ export class Game<PlayerType extends BasePlayer> {
   private endHandler: EndHandler;
 
   constructor(questions: string[], answers: string[]) {
-    this.players = new Circle([]);
+    this.players = new Circle();
     this.playerList = [];
     this.numberOfRounds = questions.length;
     this.questionDeck = new Deck(questions);
@@ -50,21 +51,30 @@ export class Game<PlayerType extends BasePlayer> {
     if (event === 'connection') this.createPlayer = handler;
   }
 
+  cyclePlayer(name: string, cards: withNumericId<string>[]): PlayerType {
+    const player = this.createPlayer(name, cards);
+    if (player) {
+      if (this.players.map.has(player.id)) return this.cyclePlayer(name, cards);
+      else {
+        player.on('use', (cardId: string) => {
+          this.answerDeck.insertCardInBottom(cardId);
+          return this.answerDeck.pickTopCard();
+        });
+        this.players.addEntry(player.id, player);
+        return player;
+      }
+    } else {
+      throw new Error('no connectionHandler');
+    }
+  }
+
   addPlayer(name: string) {
     const cards = [];
     for (let i = 0; i < 4; i++) {
       let card = this.answerDeck.pickTopCard();
       cards.push(card);
     }
-    const player = this.createPlayer(name, cards);
-    if (player) {
-      player.on('use', (card: string) => {
-        this.answerDeck.insertCardInBottom(card);
-        return this.answerDeck.pickTopCard();
-      });
-
-      this.playerList.push(player);
-    }
+    this.cyclePlayer(name, cards);
   }
 
   async notifyAll(message: any, round: number): Promise<void> {
@@ -74,9 +84,8 @@ export class Game<PlayerType extends BasePlayer> {
   }
 
   async start(): Promise<PlayerType[]> {
-    if (!this.playerList.length) return [];
+    if (!this.players.map.size) return [];
 
-    this.players = new Circle(this.playerList);
     this.startHandler(this.players.map);
 
     for (let i = 0; i < this.numberOfRounds; i++) {

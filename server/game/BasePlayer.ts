@@ -1,6 +1,8 @@
+import { generate } from '../shared/NumericID.ts';
 import { UseHandler, withNumericId } from '../types.ts';
 
 export abstract class BasePlayer {
+  public id: string;
   public nickname: string;
   readonly currentCards: Map<string, string>;
   readonly cardsWon: Set<string>;
@@ -10,6 +12,7 @@ export abstract class BasePlayer {
     this.useHandler = null;
     this.nickname = nickname;
     this.cardsWon = new Set();
+    this.id = generate();
     this.currentCards = new Map();
     for (let card of initialCards) {
       this.currentCards.set(card.id, card.value);
