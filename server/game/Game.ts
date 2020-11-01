@@ -1,15 +1,14 @@
 import {
   EndHandler,
-  IPlayer,
   PlayerFactory,
   RoundHandler,
   StartHandler,
-  withNumericId,
 } from '../types.ts';
+import { BasePlayer } from './BasePlayer.ts';
 import { Circle } from './Circle.ts';
 import { Deck } from './Deck.ts';
 
-export class Game<PlayerType extends IPlayer> {
+export class Game<PlayerType extends BasePlayer> {
   // Player-related variables
   private players: Circle<PlayerType>;
   // add players to the game
@@ -59,8 +58,8 @@ export class Game<PlayerType extends IPlayer> {
     }
     const player = this.createPlayer(name, cards);
     if (player) {
-      player.on('use', (card: withNumericId<string>) => {
-        this.answerDeck.insertCardInBottom(card.id);
+      player.on('use', (card: string) => {
+        this.answerDeck.insertCardInBottom(card);
         return this.answerDeck.pickTopCard();
       });
 
@@ -70,7 +69,7 @@ export class Game<PlayerType extends IPlayer> {
 
   async notifyAll(message: any, round: number): Promise<void> {
     for (let player of this.players.map.values()) {
-      await player.boradcast({ round: round + 1, ...message });
+      await player.broadcast({ round: round + 1, ...message });
     }
   }
 

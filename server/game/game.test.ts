@@ -1,29 +1,16 @@
-import { IPlayer, UseHandler, withNumericId } from '../types.ts';
+import { withNumericId } from '../types.ts';
 import { Game } from './Game.ts';
 import { assertThrowsAsync } from '../deps.ts';
 import { assertEquals } from 'https://deno.land/std@0.76.0/testing/asserts.ts';
+import { BasePlayer } from './BasePlayer.ts';
 
-export class TestPlayer implements IPlayer {
-  nickname: string;
-  cardsWon: Set<string>;
-  currentCards: Set<withNumericId<string>>;
-  useHandler: UseHandler;
-
+export class TestPlayer extends BasePlayer {
   constructor(name: string, answerCards: withNumericId<string>[]) {
-    this.nickname = name;
-    this.cardsWon = new Set();
-    this.currentCards = new Set(answerCards);
-    this.useHandler = () => ({ id: '', value: '' });
+    super(name, answerCards);
   }
 
-  async boradcast(message: any): Promise<void> {
+  async broadcast(message: any): Promise<void> {
     // cool!
-  }
-
-  public on(event: 'use', handler: UseHandler): any;
-  public on(...args: any): any {
-    const [event, handler] = args;
-    if (event === 'use') this.useHandler = handler;
   }
 }
 
