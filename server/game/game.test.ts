@@ -1,7 +1,6 @@
 import { withNumericId } from '../types.ts';
 import { Game } from './Game.ts';
-import { assertThrowsAsync } from '../deps.ts';
-import { assertEquals } from 'https://deno.land/std@0.76.0/testing/asserts.ts';
+import { assertThrowsAsync, assertEquals, assertThrows } from '../deps.ts';
 import { BasePlayer } from './BasePlayer.ts';
 
 export class TestPlayer extends BasePlayer {
@@ -10,7 +9,16 @@ export class TestPlayer extends BasePlayer {
   }
 
   async broadcast(message: any): Promise<void> {
-    // cool!
+    if (typeof message === 'object') {
+      if (message.q) {
+        let pickedCard: string;
+        for (const cardId of this.currentCards.keys()) {
+          pickedCard = cardId;
+          if (Math.random() < 0.25) break;
+        }
+        this.useCard(pickedCard!);
+      }
+    }
   }
 }
 
@@ -86,6 +94,15 @@ const pickRandomPlayer = async (
 Deno.test('runs a game with x questions', async () => {
   const game = new Game<TestPlayer>(QUESTIONS, ANSWERS);
   let rounds: any[] = [];
+  let initialCardMap: Map<string, string[]> = new Map();
+
+  game.on('start', async (players: Map<string, TestPlayer>) => {
+    for (const [, player] of players) {
+      const cards: string[] = [];
+      for (const [cardId] of player.currentCards) cards.push(cardId);
+      initialCardMap.set(player.nickname, cards);
+    }
+  });
 
   game.on(
     'round',
@@ -116,6 +133,15 @@ Deno.test('runs a game with x questions', async () => {
 
   assertEquals(rounds.length, QUESTIONS.length);
   assertEquals(currentCards.size, 4);
+  assertThrows(() => {
+    const winnerInitialCards = initialCardMap.get(nickname)!;
+    for (const cardId of winnerInitialCards) {
+      if (!currentCards.has(cardId)) {
+        console.log('missing card', cardId);
+        throw new Error('missing card');
+      }
+    }
+  });
 });
 
 Deno.test('runs an empty game', async () => {

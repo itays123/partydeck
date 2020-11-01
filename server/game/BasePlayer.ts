@@ -33,6 +33,8 @@ export abstract class BasePlayer {
       const newCard = this.useHandler(cardId);
       this.currentCards.delete(cardId);
       this.currentCards.set(newCard.id, newCard.value);
+    } else {
+      throw new Error('no useHandler');
     }
   }
 }
