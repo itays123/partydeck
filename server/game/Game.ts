@@ -1,4 +1,10 @@
-import { EndHandler, IPlayer, RoundHandler, StartHandler } from '../types.ts';
+import {
+  EndHandler,
+  IPlayer,
+  PlayerFactory,
+  RoundHandler,
+  StartHandler,
+} from '../types.ts';
 import { Circle } from './Circle.ts';
 import { Deck } from './Deck.ts';
 
@@ -7,9 +13,11 @@ export class Game<PlayerType extends IPlayer> {
   private players: Circle<PlayerType>;
   // add players to the game
   private playerList: PlayerType[];
+  private createPlayer: PlayerFactory<PlayerType>;
 
   //card-related variables
   private questionDeck: Deck<string>;
+  private answerDeck: Deck<string>;
 
   // Game-related variables
   private numberOfRounds: number;
@@ -18,28 +26,35 @@ export class Game<PlayerType extends IPlayer> {
   private startHandler: StartHandler<PlayerType>;
   private endHandler: EndHandler;
 
-  constructor(questions: string[]) {
+  constructor(questions: string[], answers: string[]) {
     this.players = new Circle([]);
     this.playerList = [];
     this.numberOfRounds = questions.length;
     this.questionDeck = new Deck(questions);
+    this.answerDeck = new Deck(answers);
     this.roundHandler = async () => '';
     this.startHandler = async () => {};
     this.endHandler = async () => {};
+    this.createPlayer = () => null;
   }
 
   public on(event: 'round', handler: RoundHandler<PlayerType>): void;
   public on(event: 'start', handler: StartHandler<PlayerType>): void;
   public on(event: 'end', handler: EndHandler): void;
+  public on(event: 'player-added', handler: PlayerFactory<PlayerType>): void;
   public on(...args: any) {
     const [event, handler] = args;
     if (event === 'round') this.roundHandler = handler;
     if (event === 'start') this.startHandler = handler;
     if (event === 'end') this.endHandler = handler;
+    if (event === 'player-added') this.createPlayer = handler;
   }
 
-  addPlayer(player: PlayerType) {
-    this.playerList.push(player);
+  addPlayer(name: string) {
+    const player = this.createPlayer(name, []);
+    if (player) {
+      this.playerList.push(player);
+    }
   }
 
   async notifyAll(message: any, round: number): Promise<void> {
