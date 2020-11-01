@@ -1,20 +1,29 @@
-import { IPlayer, withNumericId } from '../types.ts';
+import { IPlayer, UseHandler, withNumericId } from '../types.ts';
 import { Game } from './Game.ts';
 import { assertThrowsAsync } from '../deps.ts';
+import { assertEquals } from 'https://deno.land/std@0.76.0/testing/asserts.ts';
 
 export class TestPlayer implements IPlayer {
   nickname: string;
   cardsWon: Set<string>;
   currentCards: Set<withNumericId<string>>;
+  useHandler: UseHandler;
 
   constructor(name: string, answerCards: withNumericId<string>[]) {
     this.nickname = name;
     this.cardsWon = new Set();
     this.currentCards = new Set(answerCards);
+    this.useHandler = () => ({ id: '', value: '' });
   }
 
   async boradcast(message: any): Promise<void> {
     // cool!
+  }
+
+  public on(event: 'use', handler: UseHandler): any;
+  public on(...args: any): any {
+    const [event, handler] = args;
+    if (event === 'use') this.useHandler = handler;
   }
 }
 
@@ -71,6 +80,22 @@ const ANSWERS = [
 ];
 const PLAYERS = ['player1', 'player2', 'player3', 'player4', 'player5'];
 
+const pickRandomPlayer = async (
+  players: Map<string, TestPlayer>,
+  judgeId: string
+) => {
+  let fallbackPlayer: string;
+  for (const playerId of players.keys()) {
+    if (playerId !== judgeId) {
+      fallbackPlayer = playerId;
+      if (Math.random() < 0.3) {
+        break;
+      }
+    }
+  }
+  return fallbackPlayer!;
+};
+
 Deno.test('runs a game with x questions', async () => {
   const game = new Game<TestPlayer>(QUESTIONS, ANSWERS);
   let rounds: any[] = [];
@@ -78,20 +103,12 @@ Deno.test('runs a game with x questions', async () => {
   game.on(
     'round',
     async (players: Map<string, TestPlayer>, judgeId: string) => {
-      let fallbackPlayer: string;
-      for (const playerId of players.keys()) {
-        if (playerId !== judgeId) {
-          fallbackPlayer = playerId;
-          if (Math.random() < 0.3) {
-            break;
-          }
-        }
-      }
+      const pickedPlayer = await pickRandomPlayer(players, judgeId);
       rounds.push({
         judge: players.get(judgeId)!.nickname,
-        winner: players.get(fallbackPlayer!)!.nickname,
+        winner: players.get(pickedPlayer)!.nickname,
       });
-      return fallbackPlayer!;
+      return pickedPlayer;
     }
   );
 
@@ -107,31 +124,16 @@ Deno.test('runs a game with x questions', async () => {
   for (const player of PLAYERS) {
     game.addPlayer(player);
   }
-  const [{ nickname, cardsWon }] = await game.start();
+  const [{ nickname, cardsWon, currentCards }] = await game.start();
   console.log('the winner is', nickname, 'with', cardsWon.size, 'points');
 
-  if (rounds.length !== QUESTIONS.length) {
-    throw new Error('wrong number of rounds');
-  }
+  assertEquals(rounds.length, QUESTIONS.length);
+  assertEquals(currentCards.size, 4);
 });
 
 Deno.test('runs an empty game', async () => {
   const game = new Game<TestPlayer>(QUESTIONS, ANSWERS);
-  game.on(
-    'round',
-    async (players: Map<string, TestPlayer>, judgeId: string) => {
-      let fallbackPlayer: string;
-      for (const playerId of players.keys()) {
-        if (playerId !== judgeId) {
-          fallbackPlayer = playerId;
-          if (Math.random() < 0.3) {
-            break;
-          }
-        }
-      }
-      return fallbackPlayer!;
-    }
-  );
+  game.on('round', pickRandomPlayer);
 
   game.on('connection', (name: string, answers: withNumericId<string>[]) => {
     return new TestPlayer(name, answers);

@@ -4,6 +4,7 @@ import {
   PlayerFactory,
   RoundHandler,
   StartHandler,
+  withNumericId,
 } from '../types.ts';
 import { Circle } from './Circle.ts';
 import { Deck } from './Deck.ts';
@@ -51,8 +52,18 @@ export class Game<PlayerType extends IPlayer> {
   }
 
   addPlayer(name: string) {
-    const player = this.createPlayer(name, []);
+    const cards = [];
+    for (let i = 0; i < 4; i++) {
+      let card = this.answerDeck.pickTopCard();
+      cards.push(card);
+    }
+    const player = this.createPlayer(name, cards);
     if (player) {
+      player.on('use', (card: withNumericId<string>) => {
+        this.answerDeck.insertCardInBottom(card.id);
+        return this.answerDeck.pickTopCard();
+      });
+
       this.playerList.push(player);
     }
   }

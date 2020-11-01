@@ -18,9 +18,20 @@ export type PlayerFactory<T> = (
 
 export type withNumericId<T = any> = { id: string; value: T };
 
+export type PlayerEvent = 'use';
+
+export type UseHandler = (card: withNumericId<string>) => withNumericId<string>;
+
 export interface IPlayer {
   nickname: string;
   cardsWon: Set<string>;
   currentCards: Set<withNumericId<string>>;
   boradcast(message: any): Promise<void>;
+
+  //events
+  useHandler: UseHandler;
+
+  // event handlers
+  on(event: 'use', handler: UseHandler): any;
+  on(...args: any): any;
 }
