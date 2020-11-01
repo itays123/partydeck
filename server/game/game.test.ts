@@ -4,10 +4,12 @@ import { Game } from './Game.ts';
 export class TestPlayer implements IPlayer {
   nickname: string;
   cardsWon: Set<string>;
+  currentCards: Set<string>;
 
-  constructor(name: string) {
+  constructor(name: string, answerCards: string[]) {
     this.nickname = name;
     this.cardsWon = new Set();
+    this.currentCards = new Set(answerCards);
   }
 
   async boradcast(message: any): Promise<void> {
@@ -27,13 +29,7 @@ const QUESTIONS = [
   'question9',
   'question10',
 ];
-const PLAYERS = [
-  new TestPlayer('player1'),
-  new TestPlayer('player2'),
-  new TestPlayer('player3'),
-  new TestPlayer('player4'),
-  new TestPlayer('player5'),
-];
+const PLAYERS = ['player1', 'player2', 'player3', 'player4', 'player5'];
 
 Deno.test('runs a game with x questions', async () => {
   const game = new Game<TestPlayer>(QUESTIONS);
@@ -65,7 +61,7 @@ Deno.test('runs a game with x questions', async () => {
   });
 
   for (const player of PLAYERS) {
-    game.addPlayer(player);
+    game.addPlayer(new TestPlayer(player, []));
   }
   const [{ nickname, cardsWon }] = await game.start();
   console.log('the winner is', nickname, 'with', cardsWon.size, 'points');
