@@ -1,4 +1,4 @@
-import { withNumericId } from '../types.ts';
+import { PickedCard, withNumericId } from '../types.ts';
 import { Game } from './Game.ts';
 import { assertThrowsAsync, assertEquals, assertThrows } from '../deps.ts';
 import { BasePlayer } from './BasePlayer.ts';
@@ -75,13 +75,10 @@ const ANSWERS = [
 ];
 const PLAYERS = ['player1', 'player2', 'player3', 'player4', 'player5'];
 
-const pickRandomPlayer = async (
-  players: Map<string, TestPlayer>,
-  judgeId: string
-) => {
+const pickRandomPlayer = async (cards: PickedCard[], judge: any) => {
   let fallbackPlayer: string;
-  for (const playerId of players.keys()) {
-    if (playerId !== judgeId) {
+  for (const { playerId } of cards) {
+    if (playerId !== judge.id) {
       fallbackPlayer = playerId;
       if (Math.random() < 0.3) {
         break;
@@ -95,6 +92,7 @@ Deno.test('runs a game with x questions', async () => {
   const game = new Game<TestPlayer>(QUESTIONS, ANSWERS);
   let rounds: any[] = [];
   let initialCardMap: Map<string, string[]> = new Map();
+  let usedCards: PickedCard[] = [];
 
   game.on('start', async (players: Map<string, TestPlayer>) => {
     for (const [, player] of players) {
@@ -106,10 +104,15 @@ Deno.test('runs a game with x questions', async () => {
 
   game.on(
     'round',
-    async (players: Map<string, TestPlayer>, judgeId: string) => {
-      const pickedPlayer = await pickRandomPlayer(players, judgeId);
+    async (
+      cards: PickedCard[],
+      judge: TestPlayer,
+      players: Map<string, TestPlayer>
+    ) => {
+      usedCards.push(...cards);
+      const pickedPlayer = await pickRandomPlayer(cards, judge);
       rounds.push({
-        judge: players.get(judgeId)!.nickname,
+        judge: judge.nickname,
         winner: players.get(pickedPlayer)!.nickname,
       });
       return pickedPlayer;
@@ -142,6 +145,7 @@ Deno.test('runs a game with x questions', async () => {
       }
     }
   });
+  assertEquals(usedCards.length, QUESTIONS.length * PLAYERS.length);
 });
 
 Deno.test('runs an empty game', async () => {

@@ -1,5 +1,6 @@
 import {
   EndHandler,
+  PickedCard,
   PlayerFactory,
   RoundHandler,
   StartHandler,
@@ -10,6 +11,7 @@ import { Circle } from './Circle.ts';
 import { Deck } from './Deck.ts';
 
 export class Game<PlayerType extends BasePlayer> {
+  static ROUND_TIMEOUT = 1000;
   // Player-related variables
   private players: Circle<PlayerType>;
   // add players to the game
@@ -19,6 +21,7 @@ export class Game<PlayerType extends BasePlayer> {
   //card-related variables
   private questionDeck: Deck<string>;
   private answerDeck: Deck<string>;
+  private roundCards: PickedCard[];
 
   // Game-related variables
   private numberOfRounds: number;
@@ -33,6 +36,7 @@ export class Game<PlayerType extends BasePlayer> {
     this.numberOfRounds = questions.length;
     this.questionDeck = new Deck(questions);
     this.answerDeck = new Deck(answers);
+    this.roundCards = [];
     this.roundHandler = async () => '';
     this.startHandler = async () => {};
     this.endHandler = async () => {};
@@ -58,6 +62,11 @@ export class Game<PlayerType extends BasePlayer> {
       else {
         player.on('use', (cardId: string) => {
           this.answerDeck.insertCardInBottom(cardId);
+          this.roundCards.push({
+            id: cardId,
+            value: this.answerDeck.map.get(cardId)!,
+            playerId: player.id,
+          });
           return this.answerDeck.pickTopCard();
         });
         this.players.addEntry(player.id, player);
@@ -90,10 +99,16 @@ export class Game<PlayerType extends BasePlayer> {
 
     for (let i = 0; i < this.numberOfRounds; i++) {
       if (this.stopRequested) break;
+      this.roundCards = [];
       const judge = this.players.circle();
       const question = this.questionDeck.pickTopCard();
       await this.notifyAll({ q: question.value, j: judge.value.nickname }, i);
-      const winnerId = await this.roundHandler(this.players.map, judge.id);
+      await new Promise(resolve => setTimeout(resolve, Game.ROUND_TIMEOUT));
+      const winnerId = await this.roundHandler(
+        this.roundCards,
+        judge.value,
+        this.players.map
+      );
       const winner = this.players.map.get(winnerId)!;
       winner.cardsWon.add(question.id);
       await this.notifyAll({ playerWon: winner.nickname }, i);

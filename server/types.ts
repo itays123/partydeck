@@ -1,8 +1,9 @@
 export type GameEvent = 'round' | 'start' | 'end' | 'player-added';
 
 export type RoundHandler<PlayerType> = (
-  players: Map<string, PlayerType>,
-  judgeId: string
+  cards: PickedCard[],
+  judgeId: PlayerType,
+  players: Map<string, PlayerType>
 ) => Promise<string>;
 
 export type StartHandler<PlayerType> = (
@@ -21,3 +22,5 @@ export type withNumericId<T = any> = { id: string; value: T };
 export type PlayerEvent = 'use';
 
 export type UseHandler = (cardId: string) => withNumericId<string>;
+
+export type PickedCard = { playerId: string } & withNumericId<string>;
