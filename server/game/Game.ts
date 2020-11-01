@@ -41,13 +41,13 @@ export class Game<PlayerType extends IPlayer> {
   public on(event: 'round', handler: RoundHandler<PlayerType>): void;
   public on(event: 'start', handler: StartHandler<PlayerType>): void;
   public on(event: 'end', handler: EndHandler): void;
-  public on(event: 'player-added', handler: PlayerFactory<PlayerType>): void;
+  public on(event: 'connection', handler: PlayerFactory<PlayerType>): void;
   public on(...args: any) {
     const [event, handler] = args;
     if (event === 'round') this.roundHandler = handler;
     if (event === 'start') this.startHandler = handler;
     if (event === 'end') this.endHandler = handler;
-    if (event === 'player-added') this.createPlayer = handler;
+    if (event === 'connection') this.createPlayer = handler;
   }
 
   addPlayer(name: string) {

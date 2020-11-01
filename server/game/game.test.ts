@@ -100,7 +100,7 @@ Deno.test('runs a game with x questions', async () => {
     console.table(rounds);
   });
 
-  game.on('player-added', (name: string, answers: withNumericId<string>[]) => {
+  game.on('connection', (name: string, answers: withNumericId<string>[]) => {
     return new TestPlayer(name, answers);
   });
 
@@ -133,7 +133,7 @@ Deno.test('runs an empty game', async () => {
     }
   );
 
-  game.on('player-added', (name: string, answers: withNumericId<string>[]) => {
+  game.on('connection', (name: string, answers: withNumericId<string>[]) => {
     return new TestPlayer(name, answers);
   });
 
