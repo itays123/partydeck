@@ -55,10 +55,15 @@ export class Game<PlayerType extends BasePlayer> {
     if (event === 'connection') this.createPlayer = handler;
   }
 
-  cyclePlayer(name: string, cards: withNumericId<string>[]): PlayerType {
-    const player = this.createPlayer(name, cards);
+  cyclePlayer(
+    name: string,
+    cards: withNumericId<string>[],
+    args: any[]
+  ): PlayerType {
+    const player = this.createPlayer(name, cards, ...args);
     if (player) {
-      if (this.players.map.has(player.id)) return this.cyclePlayer(name, cards);
+      if (this.players.map.has(player.id))
+        return this.cyclePlayer(name, cards, args);
       else {
         player.on('use', (cardId: string) => {
           this.answerDeck.insertCardInBottom(cardId);
@@ -77,13 +82,13 @@ export class Game<PlayerType extends BasePlayer> {
     }
   }
 
-  addPlayer(name: string) {
+  addPlayer(name: string, ...args: any[]) {
     const cards = [];
     for (let i = 0; i < 4; i++) {
       let card = this.answerDeck.pickTopCard();
       cards.push(card);
     }
-    this.cyclePlayer(name, cards);
+    this.cyclePlayer(name, cards, args);
   }
 
   async notifyAll(message: any, round: number): Promise<void> {

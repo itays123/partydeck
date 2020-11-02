@@ -14,7 +14,8 @@ export type EndHandler = () => Promise<void>;
 
 export type PlayerFactory<T> = (
   name: string,
-  answers: withNumericId<string>[]
+  answers: withNumericId<string>[],
+  ...args: any
 ) => T | null;
 
 export type withNumericId<T = any> = { id: string; value: T };

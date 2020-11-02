@@ -124,12 +124,16 @@ Deno.test('runs a game with x questions', async () => {
     console.table(rounds);
   });
 
-  game.on('connection', (name: string, answers: withNumericId<string>[]) => {
-    return new TestPlayer(name, answers);
-  });
+  game.on(
+    'connection',
+    (name: string, answers: withNumericId<string>[], ...args: any[]) => {
+      console.log(name, ...args);
+      return new TestPlayer(name, answers);
+    }
+  );
 
   for (const player of PLAYERS) {
-    game.addPlayer(player);
+    game.addPlayer(player, 'some other arg');
   }
   const [{ nickname, cardsWon, currentCards }] = await game.start();
   console.log('the winner is', nickname, 'with', cardsWon.size, 'points');
