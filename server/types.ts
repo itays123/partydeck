@@ -19,8 +19,10 @@ export type PlayerFactory<T> = (
 
 export type withNumericId<T = any> = { id: string; value: T };
 
-export type PlayerEvent = 'use';
+export type PlayerEvent = 'use' | 'disconnect';
 
 export type UseHandler = (cardId: string) => withNumericId<string>;
+
+export type DisconnectHandler = (playerId: string) => any;
 
 export type PickedCard = { playerId: string } & withNumericId<string>;

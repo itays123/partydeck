@@ -14,8 +14,9 @@ export class Player extends BasePlayer {
   async handleWebSocket() {
     for await (const ev of this.connection) {
       if (isWebSocketCloseEvent(ev)) {
-        // this.disconnectHandler
-        console.log(this.id, 'disconnected');
+        if (this.disconnectHandler) {
+          this.disconnectHandler(this.id);
+        }
       }
       if (typeof ev === 'string') {
         this.broadcast(ev.toString());

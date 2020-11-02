@@ -8,5 +8,8 @@ for await (const req of server) {
   acceptWebSocket({ conn, bufReader, bufWriter, headers }).then(async ws => {
     const player = new Player(ws, 'itay', []);
     player.handleWebSocket();
+    player.on('disconnect', (playerId: string) => {
+      console.log(playerId, 'disconnected');
+    });
   });
 }
