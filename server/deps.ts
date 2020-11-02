@@ -1,4 +1,11 @@
 export { default as ShortUniqueId } from 'https://cdn.jsdelivr.net/npm/short-unique-id/short_uuid/mod.ts';
+export { serve } from 'https://deno.land/std@0.76.0/http/server.ts';
+export {
+  acceptWebSocket,
+  isWebSocketCloseEvent,
+  isWebSocketPingEvent,
+  WebSocket,
+} from 'https://deno.land/std@0.76.0/ws/mod.ts';
 
 // test deps
 export { sleepRandomAmountOfSeconds } from 'https://deno.land/x/sleep/mod.ts';
