@@ -102,11 +102,11 @@ export class Game<PlayerType extends BasePlayer> {
   }
 
   private async waitUntilCardsPicked() {
+    console.log('waiting for players...');
     let i = 0;
     while (i < 30) {
       if (this.roundCards.length >= this.playerCount - 1) break;
       const timeout = Timeout.wait(1000);
-      console.log(i + 1);
       await timeout;
       i++;
     }

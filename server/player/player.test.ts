@@ -3,18 +3,7 @@ import { Game } from '../game/Game.ts';
 import { PickedCard, withNumericId } from '../types.ts';
 import { Player } from './Player.ts';
 
-const QUESTIONS = [
-  'question1',
-  'question2',
-  'question3',
-  'question4',
-  'question5',
-  'question6',
-  'question7',
-  'question8',
-  'question9',
-  'question10',
-];
+const QUESTIONS = ['question1', 'question2', 'question3'];
 const ANSWERS = [
   'a1',
   'a2',
@@ -72,7 +61,6 @@ Deno.test('runs a game', async () => {
 
   game.on('round', async (cards: PickedCard[], judge: Player) => {
     console.log('round started', cards);
-    judge.broadcast({ cards });
     const winnerId = await judge.pickCard(cards);
     return winnerId;
   });

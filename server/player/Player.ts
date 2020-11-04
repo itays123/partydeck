@@ -1,6 +1,6 @@
 import { BasePlayer } from '../game/BasePlayer.ts';
 import { PickedCard, withNumericId } from '../types.ts';
-import { WebSocket, isWebSocketCloseEvent } from '../deps.ts';
+import { WebSocket, isWebSocketCloseEvent, Timeout } from '../deps.ts';
 
 export class Player extends BasePlayer {
   private connection: WebSocket;
@@ -29,7 +29,7 @@ export class Player extends BasePlayer {
         if (msg.used) {
           this.useCard(msg.used);
         }
-        this.broadcast(ev.toString());
+        this.broadcast(ev.toString()); // for testing purposes
       }
     }
   }
@@ -60,11 +60,14 @@ export class Player extends BasePlayer {
   }
 
   async pickCard(cards: PickedCard[]): Promise<string> {
-    while (true) {
-      if (this.pickedCard !== null) {
-        console.log('picked!');
-        return await this.judgeHandler(this.pickedCard, cards);
-      }
+    console.log('wating for judge...');
+    let i = 0;
+    this.broadcast(cards);
+    while (this.pickedCard === null) {
+      i++;
+      const timeout = Timeout.wait(1000);
+      await timeout;
     }
+    return await this.judgeHandler(this.pickedCard!, cards);
   }
 }
