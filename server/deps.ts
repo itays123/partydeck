@@ -6,6 +6,7 @@ export {
   isWebSocketPingEvent,
   WebSocket,
 } from 'https://deno.land/std@0.76.0/ws/mod.ts';
+export { Timeout } from 'https://deno.land/x/timeout@2.3/mod.ts';
 
 // test deps
 export { sleepRandomAmountOfSeconds } from 'https://deno.land/x/sleep/mod.ts';

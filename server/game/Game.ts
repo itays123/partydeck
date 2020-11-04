@@ -9,9 +9,10 @@ import {
 import { BasePlayer } from './BasePlayer.ts';
 import { Circle } from './Circle.ts';
 import { Deck } from './Deck.ts';
+import { Timeout } from '../deps.ts';
 
 export class Game<PlayerType extends BasePlayer> {
-  static ROUND_TIMEOUT = 60 * 1000;
+  static ROUND_TIMEOUT = 30 * 1000;
   // Player-related variables
   private players: Circle<PlayerType>;
   // add players to the game
@@ -100,6 +101,14 @@ export class Game<PlayerType extends BasePlayer> {
     }
   }
 
+  private async waitUntilCardsPicked() {
+    for (let i = 0; i < Game.ROUND_TIMEOUT; i++) {
+      if (this.roundCards.length >= this.playerCount - 1) break;
+      const timeout = Timeout.wait(1000);
+      await timeout;
+    }
+  }
+
   async start(): Promise<PlayerType[]> {
     if (!this.players.map.size) return [];
 
@@ -112,7 +121,7 @@ export class Game<PlayerType extends BasePlayer> {
       const question = this.questionDeck.pickTopCard();
       judge.value.broadcast({ judge: true });
       await this.notifyAll({ q: question.value, j: judge.value.nickname }, i);
-      await new Promise(resolve => setTimeout(resolve, Game.ROUND_TIMEOUT));
+      await this.waitUntilCardsPicked();
       const winnerId = await this.roundHandler(
         this.roundCards,
         judge.value,
