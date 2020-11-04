@@ -11,7 +11,7 @@ import { Circle } from './Circle.ts';
 import { Deck } from './Deck.ts';
 
 export class Game<PlayerType extends BasePlayer> {
-  static ROUND_TIMEOUT = 1000;
+  static ROUND_TIMEOUT = 60 * 1000;
   // Player-related variables
   private players: Circle<PlayerType>;
   // add players to the game
@@ -88,12 +88,15 @@ export class Game<PlayerType extends BasePlayer> {
       let card = this.answerDeck.pickTopCard();
       cards.push(card);
     }
-    this.cyclePlayer(name, cards, args);
+    return this.cyclePlayer(name, cards, args);
   }
 
   async notifyAll(message: any, round: number): Promise<void> {
     for (let player of this.players.map.values()) {
-      await player.broadcast({ round: round + 1, ...message });
+      await player.broadcast(
+        { round: round + 1, ...message },
+        Boolean(message.q)
+      );
     }
   }
 
@@ -107,6 +110,7 @@ export class Game<PlayerType extends BasePlayer> {
       this.roundCards = [];
       const judge = this.players.circle();
       const question = this.questionDeck.pickTopCard();
+      judge.value.broadcast({ judge: true });
       await this.notifyAll({ q: question.value, j: judge.value.nickname }, i);
       await new Promise(resolve => setTimeout(resolve, Game.ROUND_TIMEOUT));
       const winnerId = await this.roundHandler(
@@ -134,4 +138,8 @@ export class Game<PlayerType extends BasePlayer> {
     }
     return result.sort((a, b) => b.cardsWon.size - a.cardsWon.size);
   };
+
+  get playerCount() {
+    return this.players.map.size;
+  }
 }

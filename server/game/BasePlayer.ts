@@ -33,7 +33,7 @@ export abstract class BasePlayer {
     if (event === 'disconnect') this.disconnectHandler = handler;
   }
 
-  abstract broadcast(message: any): Promise<void>;
+  abstract broadcast(message: any, withCards?: boolean): Promise<void>;
 
   public useCard(cardId: string) {
     if (this.useHandler) {
