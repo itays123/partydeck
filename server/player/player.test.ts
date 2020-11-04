@@ -78,4 +78,6 @@ Deno.test('runs a game', async () => {
   }
 
   await game.start();
+
+  server.close();
 });

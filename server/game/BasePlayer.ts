@@ -34,6 +34,7 @@ export abstract class BasePlayer {
   }
 
   abstract broadcast(message: any, withCards?: boolean): Promise<void>;
+  abstract closeConnection(): Promise<void>;
 
   public useCard(cardId: string) {
     if (this.useHandler) {

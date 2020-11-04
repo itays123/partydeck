@@ -135,6 +135,10 @@ export class Game<PlayerType extends BasePlayer> {
       await this.notifyAll({ playerWon: winner.nickname }, i);
     }
 
+    for (const [, player] of this.players.map) {
+      await player.closeConnection();
+    }
+
     this.endHandler();
     return this.#scores();
   }

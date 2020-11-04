@@ -34,6 +34,10 @@ export class Player extends BasePlayer {
     }
   }
 
+  async closeConnection() {
+    await this.connection.close();
+  }
+
   private async judgeHandler(picked: string, options: PickedCard[]) {
     const pickedPlayer = options.find(
       card => card.id === picked || card.value === picked

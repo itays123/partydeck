@@ -20,6 +20,10 @@ export class TestPlayer extends BasePlayer {
       }
     }
   }
+
+  async closeConnection() {
+    // cool!
+  }
 }
 
 const QUESTIONS = [
