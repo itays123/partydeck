@@ -19,10 +19,22 @@ export class Circle<T = any> {
     return this.map.get(id) || null;
   }
 
+  has(id: string) {
+    return this.map.has(id);
+  }
+
+  values() {
+    return this.map.values();
+  }
+
   circle() {
     const nodeId = this.queue.dequeue()!;
     const node = this.valueOf(nodeId)!;
     this.queue.enqueue(nodeId);
     return node;
+  }
+
+  get size() {
+    return this.map.size;
   }
 }

@@ -59,7 +59,7 @@ export class Game<PlayerType extends BasePlayer> {
     return {
       id: cardId,
       playerId,
-      value: this.answerDeck.map.get(cardId)!,
+      value: this.answerDeck.valueOf(cardId)!,
     };
   }
 
@@ -70,8 +70,7 @@ export class Game<PlayerType extends BasePlayer> {
   ): PlayerType {
     const player = this.createPlayer(name, cards, ...args);
     if (!player) throw new Error('no connection handler');
-    if (this.players.map.has(player.id))
-      return this.cyclePlayer(name, cards, args);
+    if (this.players.has(player.id)) return this.cyclePlayer(name, cards, args);
     else {
       player.on('use', (cardId: string) => {
         this.answerDeck.insertCardInBottom(cardId);
@@ -97,7 +96,7 @@ export class Game<PlayerType extends BasePlayer> {
     round: number,
     judgeId?: string
   ): Promise<void> {
-    for (let player of this.players.map.values()) {
+    for (let player of this.players.values()) {
       let broadcasted = { ...message, round: round + 1 };
       const isJudge = judgeId === player.id;
       if (judgeId) broadcasted.isJudge = isJudge;
@@ -118,7 +117,7 @@ export class Game<PlayerType extends BasePlayer> {
   }
 
   async start(): Promise<PlayerType[]> {
-    if (!this.players.map.size) return [];
+    if (!this.players.size) return [];
 
     this.startHandler(this.players.map);
 
@@ -159,13 +158,13 @@ export class Game<PlayerType extends BasePlayer> {
 
   get scores() {
     const result: PlayerType[] = [];
-    for (const [, player] of this.players.map) {
+    for (const player of this.players.values()) {
       result.push(player);
     }
     return result.sort((a, b) => b.cardsWon.size - a.cardsWon.size);
   }
 
   get playerCount() {
-    return this.players.map.size;
+    return this.players.size;
   }
 }
