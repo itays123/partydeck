@@ -143,25 +143,27 @@ export class Game<PlayerType extends BasePlayer> {
       await this.notifyAll({ playerWon: winner.nickname }, i);
     }
 
+    this.endHandler();
+    const scores = this.scores;
+
     for (const [, player] of this.players.map) {
       await player.closeConnection();
     }
 
-    this.endHandler();
-    return this.#scores();
+    return scores;
   }
 
   stop() {
     this.stopRequested = true;
   }
 
-  #scores = () => {
+  get scores() {
     const result: PlayerType[] = [];
     for (const [, player] of this.players.map) {
       result.push(player);
     }
     return result.sort((a, b) => b.cardsWon.size - a.cardsWon.size);
-  };
+  }
 
   get playerCount() {
     return this.players.map.size;
