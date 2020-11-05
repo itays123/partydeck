@@ -55,30 +55,31 @@ export class Game<PlayerType extends BasePlayer> {
     if (event === 'connection') this.createPlayer = handler;
   }
 
-  cyclePlayer(
+  private asPickedCard(cardId: string, playerId: string): PickedCard {
+    return {
+      id: cardId,
+      playerId,
+      value: this.answerDeck.map.get(cardId)!,
+    };
+  }
+
+  private cyclePlayer(
     name: string,
     cards: withNumericId<string>[],
     args: any[]
   ): PlayerType {
     const player = this.createPlayer(name, cards, ...args);
-    if (player) {
-      if (this.players.map.has(player.id))
-        return this.cyclePlayer(name, cards, args);
-      else {
-        player.on('use', (cardId: string) => {
-          this.answerDeck.insertCardInBottom(cardId);
-          this.roundCards.push({
-            id: cardId,
-            value: this.answerDeck.map.get(cardId)!,
-            playerId: player.id,
-          });
-          return this.answerDeck.pickTopCard();
-        });
-        this.players.addEntry(player.id, player);
-        return player;
-      }
-    } else {
-      throw new Error('no connectionHandler');
+    if (!player) throw new Error('no connection handler');
+    if (this.players.map.has(player.id))
+      return this.cyclePlayer(name, cards, args);
+    else {
+      player.on('use', (cardId: string) => {
+        this.answerDeck.insertCardInBottom(cardId);
+        this.roundCards.push(this.asPickedCard(cardId, player.id));
+        return this.answerDeck.pickTopCard();
+      });
+      this.players.addEntry(player.id, player);
+      return player;
     }
   }
 
