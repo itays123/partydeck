@@ -38,14 +38,6 @@ export class Player extends BasePlayer {
     await this.connection.close();
   }
 
-  private async judgeHandler(picked: string, options: PickedCard[]) {
-    const pickedPlayer = options.find(
-      card => card.id === picked || card.value === picked
-    )!.playerId;
-    this.pickedCard = null;
-    return pickedPlayer;
-  }
-
   private formatCardsMap(): [string, string][] {
     let result: [string, string][] = [];
     for (const [cardId, card] of this.currentCards) {
@@ -65,13 +57,14 @@ export class Player extends BasePlayer {
 
   async pickCard(cards: PickedCard[]): Promise<string> {
     console.log('wating for judge...');
-    let i = 0;
     this.broadcast(cards);
     while (this.pickedCard === null) {
-      i++;
       const timeout = Timeout.wait(1000);
       await timeout;
     }
-    return await this.judgeHandler(this.pickedCard!, cards);
+    const pickedPlayer = cards.find(card => card.id === this.pickedCard)!
+      .playerId;
+    this.pickedCard = null;
+    return pickedPlayer;
   }
 }
