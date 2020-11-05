@@ -4,7 +4,7 @@ import { WebSocket, isWebSocketCloseEvent, Timeout } from '../deps.ts';
 
 export class Player extends BasePlayer {
   private connection: WebSocket;
-  private pickedCard: string | null;
+  public pickedCard: string | null;
 
   static newInstance(
     name: string,
@@ -14,6 +14,20 @@ export class Player extends BasePlayer {
     const player = new Player(ws, name, cards);
     player.handleWebSocket();
     return player;
+  }
+
+  static async roundHandler(cards: PickedCard[], judge: Player) {
+    console.log('round started', cards);
+    judge.broadcast(cards);
+    while (judge.pickedCard === null) {
+      const timeout = Timeout.wait(1000);
+      await timeout;
+    }
+    console.log('a card was picked!');
+    const pickedPlayer = cards.find(card => card.id === judge.pickedCard)!
+      .playerId;
+    judge.pickedCard = null;
+    return pickedPlayer;
   }
 
   constructor(ws: WebSocket, name: string, answers: withNumericId<string>[]) {
@@ -63,18 +77,5 @@ export class Player extends BasePlayer {
       const options = this.formatCardsMap();
       await this.connection.send(JSON.stringify({ ...message, options }));
     }
-  }
-
-  async pickCard(cards: PickedCard[]): Promise<string> {
-    console.log('wating for judge...');
-    this.broadcast(cards);
-    while (this.pickedCard === null) {
-      const timeout = Timeout.wait(1000);
-      await timeout;
-    }
-    const pickedPlayer = cards.find(card => card.id === this.pickedCard)!
-      .playerId;
-    this.pickedCard = null;
-    return pickedPlayer;
   }
 }

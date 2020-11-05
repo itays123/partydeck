@@ -51,11 +51,7 @@ Deno.test('runs a game', async () => {
 
   game.on('connection', Player.newInstance);
 
-  game.on('round', async (cards: PickedCard[], judge: Player) => {
-    console.log('round started', cards);
-    const winnerId = await judge.pickCard(cards);
-    return winnerId;
-  });
+  game.on('round', Player.roundHandler);
 
   game.on('start', async () => {
     console.log('game started');
