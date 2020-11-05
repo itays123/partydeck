@@ -49,15 +49,7 @@ Deno.test('runs a game', async () => {
   console.log('http://localhost:8000/');
   const game = new Game<Player>(QUESTIONS, ANSWERS);
 
-  game.on(
-    'connection',
-    (name: string, answers: withNumericId<string>[], ws: WebSocket) => {
-      const player = new Player(ws, name, answers);
-      console.log('player added');
-      player.handleWebSocket();
-      return player;
-    }
-  );
+  game.on('connection', Player.newInstance);
 
   game.on('round', async (cards: PickedCard[], judge: Player) => {
     console.log('round started', cards);

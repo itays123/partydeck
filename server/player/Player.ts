@@ -6,6 +6,16 @@ export class Player extends BasePlayer {
   private connection: WebSocket;
   private pickedCard: string | null;
 
+  static newInstance(
+    name: string,
+    cards: withNumericId<string>[],
+    ws: WebSocket
+  ): Player {
+    const player = new Player(ws, name, cards);
+    player.handleWebSocket();
+    return player;
+  }
+
   constructor(ws: WebSocket, name: string, answers: withNumericId<string>[]) {
     super(name, answers);
     this.connection = ws;
