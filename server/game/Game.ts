@@ -12,7 +12,6 @@ import { Deck } from './Deck.ts';
 import { Timeout } from '../deps.ts';
 
 export class Game<PlayerType extends BasePlayer> {
-  static ROUND_TIMEOUT = 30 * 1000;
   // Player-related variables
   private players: Circle<PlayerType>;
   // add players to the game
@@ -22,6 +21,7 @@ export class Game<PlayerType extends BasePlayer> {
   private questionDeck: Deck<string>;
   private answerDeck: Deck<string>;
   private roundCards: PickedCard[];
+  private pickTimeout: number;
 
   // Game-related variables
   private numberOfRounds: number;
@@ -30,12 +30,13 @@ export class Game<PlayerType extends BasePlayer> {
   private startHandler: StartHandler<PlayerType>;
   private endHandler: EndHandler;
 
-  constructor(questions: string[], answers: string[]) {
+  constructor(questions: string[], answers: string[], timeout = 30) {
     this.players = new Circle();
     this.numberOfRounds = questions.length;
     this.questionDeck = new Deck(questions);
     this.answerDeck = new Deck(answers);
     this.roundCards = [];
+    this.pickTimeout = timeout;
     this.roundHandler = async () => '';
     this.startHandler = async () => {};
     this.endHandler = async () => {};
@@ -102,7 +103,7 @@ export class Game<PlayerType extends BasePlayer> {
   private async waitUntilCardsPicked() {
     console.log('waiting for players...');
     let i = 0;
-    while (i < 30) {
+    while (i < this.pickTimeout) {
       if (this.roundCards.length >= this.playerCount - 1) break;
       const timeout = Timeout.wait(1000);
       await timeout;
