@@ -1,6 +1,6 @@
 import { generate } from '../shared/NumericID.ts';
 import { withNumericId } from '../types.ts';
-import { Queue } from './Queue.ts';
+import { Queue } from '../shared/Queue.ts';
 
 export class Deck<T = any> {
   public queue: Queue<string>;

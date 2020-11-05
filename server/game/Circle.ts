@@ -1,5 +1,4 @@
-import { withNumericId } from '../types.ts';
-import { Queue } from './Queue.ts';
+import { Queue } from '../shared/Queue.ts';
 
 export class Circle<T = any> {
   public queue: Queue<string>;
