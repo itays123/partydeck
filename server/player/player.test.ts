@@ -3,7 +3,7 @@ import { Game } from '../game/Game.ts';
 import { PickedCard, withNumericId } from '../types.ts';
 import { Player } from './Player.ts';
 
-const QUESTIONS = ['question1', 'question2', 'question3'];
+const QUESTIONS = ['question1', 'question2', 'question3', 'question4'];
 const ANSWERS = [
   'a1',
   'a2',
