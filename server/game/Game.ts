@@ -91,12 +91,17 @@ export class Game<PlayerType extends BasePlayer> {
     return this.cyclePlayer(name, cards, args);
   }
 
-  async notifyAll(message: any, round: number): Promise<void> {
+  async notifyAll(
+    message: any,
+    round: number,
+    judgeId?: string
+  ): Promise<void> {
     for (let player of this.players.map.values()) {
-      await player.broadcast(
-        { round: round + 1, ...message },
-        Boolean(message.q)
-      );
+      let broadcasted = { ...message, round: round + 1 };
+      const isJudge = judgeId === player.id;
+      if (judgeId) broadcasted.isJudge = isJudge;
+      const withCards = Boolean(message.q) && !isJudge;
+      await player.broadcast(broadcasted, withCards);
     }
   }
 
@@ -121,8 +126,11 @@ export class Game<PlayerType extends BasePlayer> {
       this.roundCards = [];
       const judge = this.players.circle();
       const question = this.questionDeck.pickTopCard();
-      judge.value.broadcast({ judge: true });
-      await this.notifyAll({ q: question.value, j: judge.value.nickname }, i);
+      await this.notifyAll(
+        { q: question.value, j: judge.value.nickname },
+        i,
+        judge.id
+      );
       await this.waitUntilCardsPicked();
       const winnerId = await this.roundHandler(
         this.roundCards,
