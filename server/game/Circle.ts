@@ -1,5 +1,4 @@
 import { withNumericId } from '../types.ts';
-import { DeckBase } from './DeckBase.ts';
 import { Queue } from './Queue.ts';
 
 export class Circle<T = any> {
