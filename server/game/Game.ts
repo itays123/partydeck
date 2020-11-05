@@ -128,14 +128,14 @@ export class Game<PlayerType extends BasePlayer> {
       const judge = this.players.circle();
       const question = this.questionDeck.pickTopCard();
       await this.notifyAll(
-        { q: question.value, j: judge.value.nickname },
+        { q: question.value, j: judge.nickname },
         i,
         judge.id
       );
       await this.waitUntilCardsPicked();
       const winnerId = await this.roundHandler(
         this.roundCards,
-        judge.value,
+        judge,
         this.players.map
       );
       const winner = this.players.map.get(winnerId)!;

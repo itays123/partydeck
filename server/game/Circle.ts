@@ -15,15 +15,13 @@ export class Circle<T = any> {
     this.queue.enqueue(id);
   }
 
-  format(id: string): withNumericId<T> | null {
-    if (!this.map.has(id)) return null;
-    const value = this.map.get(id)!;
-    return { id, value };
+  valueOf(id: string) {
+    return this.map.get(id) || null;
   }
 
   circle() {
     const nodeId = this.queue.dequeue()!;
-    const node = this.format(nodeId)!;
+    const node = this.valueOf(nodeId)!;
     this.queue.enqueue(nodeId);
     return node;
   }
