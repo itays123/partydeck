@@ -1,6 +1,5 @@
-import { serve, acceptWebSocket, WebSocket } from '../deps.ts';
+import { serve, acceptWebSocket } from '../deps.ts';
 import { Game } from '../game/Game.ts';
-import { PickedCard, withNumericId } from '../types.ts';
 import { Player } from './Player.ts';
 
 const QUESTIONS = ['question1', 'question2', 'question3', 'question4'];
