@@ -13,6 +13,7 @@ export class Player extends BasePlayer {
   ): Player {
     const player = new Player(ws, name, cards);
     player.handleWebSocket();
+    console.log(player.id, 'connected');
     return player;
   }
 
@@ -23,7 +24,7 @@ export class Player extends BasePlayer {
       const timeout = Timeout.wait(1000);
       await timeout;
     }
-    console.log('a card was picked!');
+    console.log('a card was picked!', judge.pickedCard);
     const pickedPlayer = cards.find(card => card.id === judge.pickedCard)!
       .playerId;
     judge.pickedCard = null;
@@ -34,7 +35,6 @@ export class Player extends BasePlayer {
     super(name, answers);
     this.connection = ws;
     this.pickedCard = null;
-    console.log(this.id, 'connected');
   }
 
   async handleWebSocket() {
@@ -46,7 +46,6 @@ export class Player extends BasePlayer {
       }
       if (typeof ev === 'string') {
         const msg = JSON.parse(ev);
-        console.log(msg);
         if (msg.picked) {
           this.pickedCard = msg.picked;
         }
