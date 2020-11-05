@@ -1,7 +1,7 @@
 import { PickedCard, withNumericId } from '../types.ts';
 import { Game } from './Game.ts';
 import { assertThrowsAsync, assertEquals, assertThrows } from '../deps.ts';
-import { BasePlayer } from './BasePlayer.ts';
+import { BasePlayer } from '../shared/BasePlayer.ts';
 
 export class TestPlayer extends BasePlayer {
   constructor(name: string, answerCards: withNumericId<string>[]) {

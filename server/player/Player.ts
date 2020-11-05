@@ -1,4 +1,4 @@
-import { BasePlayer } from '../game/BasePlayer.ts';
+import { BasePlayer } from '../shared/BasePlayer.ts';
 import { PickedCard, withNumericId } from '../types.ts';
 import { WebSocket, isWebSocketCloseEvent, Timeout } from '../deps.ts';
 

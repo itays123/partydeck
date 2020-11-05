@@ -6,7 +6,7 @@ import {
   StartHandler,
   withNumericId,
 } from '../types.ts';
-import { BasePlayer } from './BasePlayer.ts';
+import { BasePlayer } from '../shared/BasePlayer.ts';
 import { Circle } from './Circle.ts';
 import { Deck } from './Deck.ts';
 import { Timeout } from '../deps.ts';
