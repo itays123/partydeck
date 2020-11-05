@@ -16,7 +16,6 @@ export class Game<PlayerType extends BasePlayer> {
   // Player-related variables
   private players: Circle<PlayerType>;
   // add players to the game
-  private playerList: PlayerType[];
   private createPlayer: PlayerFactory<PlayerType>;
 
   //card-related variables
@@ -33,7 +32,6 @@ export class Game<PlayerType extends BasePlayer> {
 
   constructor(questions: string[], answers: string[]) {
     this.players = new Circle();
-    this.playerList = [];
     this.numberOfRounds = questions.length;
     this.questionDeck = new Deck(questions);
     this.answerDeck = new Deck(answers);
