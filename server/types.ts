@@ -27,3 +27,10 @@ export type UseHandler = (cardId: string) => withNumericId<string>;
 export type DisconnectHandler = (playerId: string) => any;
 
 export type PickedCard = { playerId: string } & withNumericId<string>;
+
+export type Acceptable = {
+  conn: Deno.Conn;
+  bufWriter: any;
+  bufReader: any;
+  headers: Headers;
+};

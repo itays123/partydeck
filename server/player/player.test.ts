@@ -1,5 +1,6 @@
 import { serve, acceptWebSocket } from '../deps.ts';
 import { Game } from '../game/Game.ts';
+import { Acceptable } from '../types.ts';
 import { Player } from './Player.ts';
 
 const QUESTIONS = ['question1', 'question2', 'question3', 'question4'];
@@ -58,13 +59,8 @@ Deno.test('runs a game', async () => {
 
   for await (const req of server) {
     const { conn, r: bufReader, w: bufWriter, headers } = req;
-    const ws = await acceptWebSocket({ conn, bufReader, bufWriter, headers });
-    const player = game.addPlayer('itay', ws);
-    if (player) player.broadcast({ id: player.id });
-    else {
-      ws.send(JSON.stringify({ err: 'player limit exceeded', code: 403 }));
-      ws.close();
-    }
+    const wsParams: Acceptable = { conn, bufReader, bufWriter, headers };
+    await Player.acceptWebSocket(game, 'itay', wsParams);
     if (game.playerCount >= 3) break;
   }
 

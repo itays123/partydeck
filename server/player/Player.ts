@@ -1,6 +1,12 @@
 import { BasePlayer } from '../shared/BasePlayer.ts';
-import { PickedCard, withNumericId } from '../types.ts';
-import { WebSocket, isWebSocketCloseEvent, Timeout } from '../deps.ts';
+import { Acceptable, PickedCard, withNumericId } from '../types.ts';
+import {
+  WebSocket,
+  acceptWebSocket,
+  isWebSocketCloseEvent,
+  Timeout,
+} from '../deps.ts';
+import { Game } from '../game/Game.ts';
 
 export class Player extends BasePlayer {
   private connection: WebSocket;
@@ -29,6 +35,25 @@ export class Player extends BasePlayer {
       .playerId;
     judge.pickedCard = null;
     return pickedPlayer;
+  }
+
+  static async acceptWebSocket(
+    game: Game<Player>,
+    nickname: string,
+    params: Acceptable
+  ) {
+    const ws = await acceptWebSocket(params);
+    const player = game.addPlayer(nickname, ws);
+    if (player) {
+      await player.broadcast({ id: player.id });
+    } else {
+      const message = JSON.stringify({
+        err: 'player limit exceeded',
+        code: 403,
+      });
+      await ws.send(message);
+      await ws.close();
+    }
   }
 
   constructor(ws: WebSocket, name: string, answers: withNumericId<string>[]) {

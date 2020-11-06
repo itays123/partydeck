@@ -5,6 +5,7 @@ export {
   isWebSocketCloseEvent,
   isWebSocketPingEvent,
   WebSocket,
+  acceptable,
 } from 'https://deno.land/std@0.76.0/ws/mod.ts';
 export { Timeout } from 'https://deno.land/x/timeout@2.3/mod.ts';
 
