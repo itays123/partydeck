@@ -77,6 +77,10 @@ export class Game<PlayerType extends BasePlayer> {
         this.roundCards.push(this.asPickedCard(cardId, player.id));
         return this.answerDeck.pickTopCard();
       });
+      player.on('disconnect', () => {
+        console.log(player.id, 'disconnected');
+        this.players.removeEntry(player.id);
+      });
       this.players.addEntry(player.id, player);
       return player;
     }

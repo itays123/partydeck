@@ -14,6 +14,10 @@ export class Circle<T = any> {
     this.queue.enqueue(id);
   }
 
+  removeEntry(id: string) {
+    this.map.delete(id);
+  }
+
   valueOf(id: string) {
     return this.map.get(id) || null;
   }
@@ -26,11 +30,13 @@ export class Circle<T = any> {
     return this.map.values();
   }
 
-  circle() {
+  circle(): T {
     const nodeId = this.queue.dequeue()!;
-    const node = this.valueOf(nodeId)!;
-    this.queue.enqueue(nodeId);
-    return node;
+    if (this.has(nodeId)) {
+      const node = this.valueOf(nodeId)!;
+      this.queue.enqueue(nodeId);
+      return node;
+    } else return this.circle();
   }
 
   get size() {
