@@ -38,9 +38,13 @@ export abstract class BasePlayer {
 
   public useCard(cardId: string) {
     if (this.useHandler) {
-      const newCard = this.useHandler(cardId);
-      this.currentCards.delete(cardId);
-      this.currentCards.set(newCard.id, newCard.value);
+      if (this.currentCards.has(cardId)) {
+        const newCard = this.useHandler(cardId);
+        this.currentCards.delete(cardId);
+        this.currentCards.set(newCard.id, newCard.value);
+      } else {
+        this.broadcast({ err: 'card not found', code: 404 });
+      }
     } else {
       throw new Error('no useHandler');
     }
