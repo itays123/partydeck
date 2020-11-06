@@ -169,3 +169,27 @@ Deno.test('runs an empty game', async () => {
     console.log(nickname, cardsWon);
   });
 });
+
+Deno.test('limits a game', () => {
+  const game = new Game<TestPlayer>(QUESTIONS, [
+    'a1',
+    'a2',
+    'a3',
+    'a4',
+    'a5',
+    'a6',
+    'a7',
+    'a8',
+  ]);
+
+  game.on('round', pickRandomPlayer);
+  game.on('connection', (name: string, answers: withNumericId<string>[]) => {
+    return new TestPlayer(name, answers);
+  });
+
+  game.addPlayer('player1');
+  game.addPlayer('player2');
+  game.addPlayer('player3');
+
+  assertEquals(game.playerCount, 2);
+});

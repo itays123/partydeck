@@ -25,9 +25,10 @@ export class Deck<T = any> {
     this.queue.shuffle();
   }
 
-  pickTopCard(): withNumericId<T> {
-    const cardId = this.queue.dequeue()!;
-    return this.format(cardId)!;
+  pickTopCard(): withNumericId<T> | null {
+    const cardId = this.queue.dequeue();
+    if (cardId) return this.format(cardId)!;
+    else return null;
   }
 
   insertCardInBottom(cardId: string) {

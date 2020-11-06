@@ -60,7 +60,11 @@ Deno.test('runs a game', async () => {
     const { conn, r: bufReader, w: bufWriter, headers } = req;
     const ws = await acceptWebSocket({ conn, bufReader, bufWriter, headers });
     const player = game.addPlayer('itay', ws);
-    player.broadcast({ id: player.id });
+    if (player) player.broadcast({ id: player.id });
+    else {
+      ws.send(JSON.stringify({ err: 'player limit exceeded', code: 403 }));
+      ws.close();
+    }
     if (game.playerCount >= 3) break;
   }
 

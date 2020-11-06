@@ -75,7 +75,7 @@ export class Game<PlayerType extends BasePlayer> {
       player.on('use', (cardId: string) => {
         this.answerDeck.insertCardInBottom(cardId);
         this.roundCards.push(this.asPickedCard(cardId, player.id));
-        return this.answerDeck.pickTopCard();
+        return this.answerDeck.pickTopCard()!;
       });
       player.on('disconnect', () => {
         console.log(player.id, 'disconnected');
@@ -86,13 +86,14 @@ export class Game<PlayerType extends BasePlayer> {
     }
   }
 
-  addPlayer(name: string, ...args: any[]) {
+  addPlayer(name: string, ...args: any[]): PlayerType | null {
     const cards = [];
     for (let i = 0; i < 4; i++) {
       let card = this.answerDeck.pickTopCard();
-      cards.push(card);
+      if (card) cards.push(card);
     }
-    return this.cyclePlayer(name, cards, args);
+    if (cards.length === 4) return this.cyclePlayer(name, cards, args);
+    else return null;
   }
 
   async notifyAll(
@@ -129,7 +130,7 @@ export class Game<PlayerType extends BasePlayer> {
       if (this.stopRequested) break;
       this.roundCards = [];
       const judge = this.players.circle();
-      const question = this.questionDeck.pickTopCard();
+      const question = this.questionDeck.pickTopCard()!;
       await this.notifyAll(
         { q: question.value, j: judge.nickname },
         i,
