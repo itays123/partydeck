@@ -90,6 +90,7 @@ export class Game<PlayerType extends BasePlayer> {
         this.players.removeEntry(player.id);
       });
       this.players.addEntry(player.id, player);
+      this.notifyAll({ count: this.playerCount }, -1);
       return player;
     }
   }
