@@ -44,7 +44,7 @@ export class Player extends BasePlayer {
     const ws = await acceptWebSocket(params);
     const player = game.addPlayer(nickname, ws);
     if (player) {
-      await player.broadcast({ id: player.id });
+      await player.broadcast({ id: player.id, game: game.id });
     } else {
       const message = JSON.stringify({
         err: 'player limit exceeded',

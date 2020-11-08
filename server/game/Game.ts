@@ -30,7 +30,7 @@ export class Game<PlayerType extends BasePlayer> {
   private startHandler: StartHandler<PlayerType>;
   private endHandler: EndHandler;
 
-  private id: string;
+  public id: string;
 
   constructor(
     id: string,
