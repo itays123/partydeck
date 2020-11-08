@@ -74,7 +74,7 @@ export class Server {
     const id = generate();
     if (this.activeGames.has(id) || this.pendingGames.has(id))
       return this.createGame(questions, answers);
-    const game = new Game<Player>(questions, answers);
+    const game = new Game<Player>(id, questions, answers);
     game.on('connection', Player.newInstance);
     game.on('start', async () => {
       this.activeGames.set(id, game);

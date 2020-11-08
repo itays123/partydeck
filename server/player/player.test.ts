@@ -47,7 +47,7 @@ const ANSWERS = [
 Deno.test('runs a game', async () => {
   const server = serve({ port: 8000 });
   console.log('http://localhost:8000/');
-  const game = new Game<Player>(QUESTIONS, ANSWERS);
+  const game = new Game<Player>('random string', QUESTIONS, ANSWERS);
 
   game.on('connection', Player.newInstance);
 

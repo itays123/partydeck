@@ -30,7 +30,15 @@ export class Game<PlayerType extends BasePlayer> {
   private startHandler: StartHandler<PlayerType>;
   private endHandler: EndHandler;
 
-  constructor(questions: string[], answers: string[], timeout = 30) {
+  private id: string;
+
+  constructor(
+    id: string,
+    questions: string[],
+    answers: string[],
+    timeout = 30
+  ) {
+    this.id = id;
     this.players = new Circle();
     this.numberOfRounds = questions.length;
     this.questionDeck = new Deck(questions);

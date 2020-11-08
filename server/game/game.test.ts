@@ -93,7 +93,7 @@ const pickRandomPlayer = async (cards: PickedCard[], judge: any) => {
 };
 
 Deno.test('runs a game with x questions', async () => {
-  const game = new Game<TestPlayer>(QUESTIONS, ANSWERS);
+  const game = new Game<TestPlayer>('random string', QUESTIONS, ANSWERS);
   let rounds: any[] = [];
   let initialCardMap: Map<string, string[]> = new Map();
   let usedCards: PickedCard[] = [];
@@ -157,7 +157,7 @@ Deno.test('runs a game with x questions', async () => {
 });
 
 Deno.test('runs an empty game', async () => {
-  const game = new Game<TestPlayer>(QUESTIONS, ANSWERS);
+  const game = new Game<TestPlayer>('random string', QUESTIONS, ANSWERS);
   game.on('round', pickRandomPlayer);
 
   game.on('connection', (name: string, answers: withNumericId<string>[]) => {
@@ -171,7 +171,7 @@ Deno.test('runs an empty game', async () => {
 });
 
 Deno.test('limits a game', () => {
-  const game = new Game<TestPlayer>(QUESTIONS, [
+  const game = new Game<TestPlayer>('random string', QUESTIONS, [
     'a1',
     'a2',
     'a3',
