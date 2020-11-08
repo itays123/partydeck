@@ -25,7 +25,6 @@ export class Player extends BasePlayer {
 
   static async roundHandler(cards: PickedCard[], judge: Player) {
     console.log('round started', cards);
-    judge.broadcast(cards);
     while (judge.pickedCard === null) {
       const timeout = Timeout.wait(1000);
       await timeout;
