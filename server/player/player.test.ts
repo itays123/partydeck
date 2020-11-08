@@ -3,7 +3,7 @@ import { Game } from '../game/Game.ts';
 import { Acceptable } from '../types.ts';
 import { Player } from './Player.ts';
 
-const QUESTIONS = ['question1', 'question2', 'question3', 'question4'];
+const QUESTIONS = ['question1', 'question2', 'question3'];
 const ANSWERS = [
   'a1',
   'a2',
@@ -58,9 +58,11 @@ Deno.test('runs a game', async () => {
   });
 
   for await (const req of server) {
-    const { conn, r: bufReader, w: bufWriter, headers } = req;
+    const { conn, r: bufReader, w: bufWriter, headers, url } = req;
+    const params = new URLSearchParams(url.split('?')[1]);
+    const name = params.get('name') || 'anonymous';
     const wsParams: Acceptable = { conn, bufReader, bufWriter, headers };
-    await Player.acceptWebSocket(game, 'itay', wsParams);
+    await Player.acceptWebSocket(game, name, wsParams);
     if (game.playerCount >= 3) break;
   }
 
