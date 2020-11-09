@@ -1,3 +1,3 @@
 import { Server } from './server.ts';
 
-await Server.newInstance();
+await Server.serve(8000);

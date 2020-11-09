@@ -2,7 +2,7 @@ import { serve, Response, acceptable, ServerRequest } from './deps.ts';
 import { Game } from './game/Game.ts';
 import { Player } from './player/Player.ts';
 import { generate } from './shared/NumericID.ts';
-import { Acceptable } from './types.ts';
+import { Acceptable, TestFunction } from './types.ts';
 
 export class Server {
   static get INVALID_CODE_RES(): Response {
@@ -56,9 +56,22 @@ export class Server {
     ];
   }
 
-  static async newInstance() {
+  static async serve(port: number) {
     const server = new Server();
-    await server.listen();
+    for await (const req of serve({ port })) {
+      server.handler(req);
+    }
+  }
+
+  static async test(iteration: TestFunction) {
+    const server = new Server();
+    const tester = serve({ port: 8000 });
+    console.log('server is up');
+    for await (const req of tester) {
+      await server.handler(req);
+      if (!iteration(server.pendingGames, server.activeGames)) break;
+    }
+    tester.close();
   }
 
   private pendingGames: Map<string, Game<Player>>;

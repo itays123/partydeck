@@ -34,3 +34,5 @@ export type Acceptable = {
   bufReader: any;
   headers: Headers;
 };
+
+export type TestFunction = (...args: any[]) => boolean;
