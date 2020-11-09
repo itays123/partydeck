@@ -67,11 +67,14 @@ export class Server {
     const server = new Server();
     const tester = serve({ port: 8000 });
     console.log('server is up');
+    let i = 0;
     for await (const req of tester) {
       await server.handler(req);
+      i++;
       if (!iteration(server.pendingGames, server.activeGames)) break;
     }
     tester.close();
+    return i;
   }
 
   private pendingGames: Map<string, Game<Player>>;
