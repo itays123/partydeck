@@ -109,6 +109,7 @@ export class Server {
 
   async listen() {
     const server = serve({ port: 8000 });
+    console.log('server is up!');
     for await (const req of server) {
       await this.handler(req);
     }
