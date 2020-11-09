@@ -56,10 +56,9 @@ export class Server {
     ];
   }
 
-  static newInstance(): Server {
+  static async newInstance() {
     const server = new Server();
-    server.listen();
-    return server;
+    await server.listen();
   }
 
   private pendingGames: Map<string, Game<Player>>;
