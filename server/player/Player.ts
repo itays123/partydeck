@@ -87,7 +87,6 @@ export class Player extends BasePlayer {
         ) {
           this.stopHandler();
         }
-        this.broadcast(ev.toString()); // for testing purposes
       }
     }
   }
@@ -105,11 +104,11 @@ export class Player extends BasePlayer {
   }
 
   async broadcast(message: any, withCards: boolean = false): Promise<void> {
+    const isAdmin = this.isAdmin;
     if (!withCards) {
-      await this.connection.send(JSON.stringify(message));
+      await this.connection.send(JSON.stringify({ ...message, isAdmin }));
     } else {
       const options = this.formatCardsMap();
-      const isAdmin = this.isAdmin;
       const data = JSON.stringify({ ...message, options, isAdmin });
       await this.connection.send(data);
     }

@@ -39,6 +39,14 @@ export class Circle<T = any> {
     } else return this.circle();
   }
 
+  peek(): T {
+    const nodeId = this.queue.peek()!;
+    if (this.has(nodeId)) {
+      const node = this.valueOf(nodeId)!;
+      return node;
+    } else return this.peek();
+  }
+
   get size() {
     return this.map.size;
   }
