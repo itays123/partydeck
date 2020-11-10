@@ -59,7 +59,8 @@ export class Server {
   static async serve(port: number) {
     const server = new Server();
     for await (const req of serve({ port })) {
-      server.handler(req);
+      const res = await server.reqHandler(req);
+      if (res) req.respond(res);
     }
   }
 
@@ -69,7 +70,7 @@ export class Server {
     console.log('server is up');
     let i = 0;
     for await (const req of tester) {
-      await server.handler(req);
+      await server.reqHandler(req);
       i++;
       if (!iteration(server.pendingGames, server.activeGames)) break;
     }
@@ -103,7 +104,20 @@ export class Server {
     return game;
   }
 
-  async handler(req: ServerRequest): Promise<boolean> {
+  async reqHandler(req: ServerRequest): Promise<Response | null> {
+    const { url } = req;
+    if (url.startsWith('/check')) {
+      const params = new URLSearchParams(url.split('?')[1]);
+      const code = params.get('code');
+      const exists = Boolean(code && this.pendingGames.has(code));
+      const status = exists ? 200 : 404;
+      return { status, body: JSON.stringify({ exists }) };
+    }
+    await this.connect(req);
+    return null;
+  }
+
+  async connect(req: ServerRequest): Promise<boolean> {
     const { conn, r: bufReader, w: bufWriter, headers, url } = req;
     const params = new URLSearchParams(url.split('?')[1]);
     const code = params.get('code');
@@ -126,7 +140,7 @@ export class Server {
     const server = serve({ port: 8000 });
     console.log('server is up!');
     for await (const req of server) {
-      await this.handler(req);
+      await this.connect(req);
     }
   }
 }
