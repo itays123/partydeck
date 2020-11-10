@@ -1,4 +1,4 @@
-import { BasePlayer } from '../shared/BasePlayer.ts';
+import { BasePlayer } from './BasePlayer.ts';
 import { Acceptable, PickedCard, withNumericId } from '../types.ts';
 import {
   WebSocket,
