@@ -1,5 +1,10 @@
 import { generate } from '../shared/NumericID.ts';
-import { DisconnectHandler, UseHandler, withNumericId } from '../types.ts';
+import {
+  DisconnectHandler,
+  ReqHandler,
+  UseHandler,
+  withNumericId,
+} from '../types.ts';
 
 export abstract class BasePlayer {
   public id: string;
@@ -8,10 +13,14 @@ export abstract class BasePlayer {
   readonly cardsWon: Set<string>;
   private useHandler: UseHandler | null;
   protected disconnectHandler: DisconnectHandler | null;
+  protected startHandler: ReqHandler | null;
+  protected stopHandler: ReqHandler | null;
 
   constructor(nickname: string, initialCards: withNumericId<string>[]) {
     this.useHandler = null;
     this.disconnectHandler = null;
+    this.startHandler = null;
+    this.stopHandler = null;
     this.nickname = nickname;
     this.cardsWon = new Set();
     this.id = generate();
@@ -27,10 +36,14 @@ export abstract class BasePlayer {
 
   public on(event: 'use', handler: UseHandler): void;
   public on(event: 'disconnect', handler: DisconnectHandler): void;
+  public on(event: 'start', handler: ReqHandler): void;
+  public on(event: 'stop', handler: ReqHandler): void;
   public on(...args: any) {
     const [event, handler] = args;
     if (event === 'use') this.useHandler = handler;
     if (event === 'disconnect') this.disconnectHandler = handler;
+    if (event === 'start') this.startHandler = handler;
+    if (event === 'stop') this.stopHandler = handler;
   }
 
   abstract broadcast(message: any, withCards?: boolean): Promise<void>;

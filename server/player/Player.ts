@@ -72,9 +72,12 @@ export class Player extends BasePlayer {
         const msg = JSON.parse(ev);
         if (msg.picked) {
           this.pickedCard = msg.picked;
-        }
-        if (msg.used) {
+        } else if (msg.used) {
           this.useCard(msg.used);
+        } else if (msg.dispatch === 'start' && this.startHandler) {
+          this.startHandler();
+        } else if (msg.dispatch === 'stop' && this.stopHandler) {
+          this.stopHandler();
         }
         this.broadcast(ev.toString()); // for testing purposes
       }

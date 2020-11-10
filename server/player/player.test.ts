@@ -44,7 +44,7 @@ const ANSWERS = [
   'a37',
 ];
 
-Deno.test('runs a game', async () => {
+Deno.test('starts a game', async () => {
   const server = serve({ port: 8000 });
   console.log('http://localhost:8000/');
   const game = new Game<Player>('random string', QUESTIONS, ANSWERS);
@@ -57,16 +57,15 @@ Deno.test('runs a game', async () => {
     console.log('game started');
   });
 
+  game.on('end', async () => {
+    server.close();
+  });
+
   for await (const req of server) {
     const { conn, r: bufReader, w: bufWriter, headers, url } = req;
     const params = new URLSearchParams(url.split('?')[1]);
     const name = params.get('name') || 'anonymous';
     const wsParams: Acceptable = { conn, bufReader, bufWriter, headers };
     await Player.acceptWebSocket(game, name, wsParams);
-    if (game.playerCount >= 3) break;
   }
-
-  await game.start();
-
-  server.close();
 });
