@@ -59,7 +59,7 @@ export class Server {
   static async serve(port: number) {
     const server = new Server();
     for await (const req of serve({ port })) {
-      const res = await server.reqHandler(req);
+      const res = await server.handler(req);
       if (res) req.respond(res);
     }
   }
@@ -70,7 +70,8 @@ export class Server {
     console.log('server is up');
     let i = 0;
     for await (const req of tester) {
-      await server.reqHandler(req);
+      const res = await server.handler(req);
+      if (res) req.respond(res);
       i++;
       if (!iteration(server.pendingGames, server.activeGames)) break;
     }
@@ -104,7 +105,7 @@ export class Server {
     return game;
   }
 
-  async reqHandler(req: ServerRequest): Promise<Response | null> {
+  async handler(req: ServerRequest): Promise<Response | null> {
     const { url } = req;
     if (url.startsWith('/check')) {
       const params = new URLSearchParams(url.split('?')[1]);
@@ -113,8 +114,22 @@ export class Server {
       const status = exists ? 200 : 404;
       return { status, body: JSON.stringify({ exists }) };
     }
-    await this.connect(req);
-    return null;
+    if (url.startsWith('/create')) {
+      // const params = new URLSearchParams(url.split('?')[1]);
+      // const gameRef = params.get('ref');
+      // this is where you fetch questions and answers
+      console.log('creating game');
+      const game = this.createGame(...Server.TEST_GAME);
+      return { status: 201, body: JSON.stringify({ code: game.id }) };
+    }
+    if (url.startsWith('/?') && acceptable(req)) {
+      await this.connect(req);
+      return null;
+    }
+    return {
+      status: 404,
+      body: JSON.stringify({ err: 'not found', code: 404 }),
+    };
   }
 
   async connect(req: ServerRequest): Promise<boolean> {
@@ -123,17 +138,12 @@ export class Server {
     const code = params.get('code');
     const name = params.get('name') || 'anonymous';
     const wsParams: Acceptable = { conn, bufReader, bufWriter, headers };
-    let game: Game<Player>;
-    if (!acceptable(req)) return false;
-    else if (code === 'new') game = this.createGame(...Server.TEST_GAME);
-    else if (code && this.pendingGames.has(code))
-      game = this.pendingGames.get(code)!;
-    else {
-      req.respond(Server.INVALID_CODE_RES);
-      return false;
+    if (!code) return false;
+    const game = this.pendingGames.get(code);
+    if (game) {
+      await Player.acceptWebSocket(game, name, wsParams);
     }
-    await Player.acceptWebSocket(game, name, wsParams);
-    return true;
+    return this.pendingGames.has(code);
   }
 
   async listen() {
