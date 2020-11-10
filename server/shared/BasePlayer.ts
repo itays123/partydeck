@@ -9,6 +9,7 @@ import {
 export abstract class BasePlayer {
   public id: string;
   public nickname: string;
+  public isAdmin: boolean;
   readonly currentCards: Map<string, string>;
   readonly cardsWon: Set<string>;
   private useHandler: UseHandler | null;
@@ -24,10 +25,15 @@ export abstract class BasePlayer {
     this.nickname = nickname;
     this.cardsWon = new Set();
     this.id = generate();
+    this.isAdmin = false;
     this.currentCards = new Map();
     for (let card of initialCards) {
       this.currentCards.set(card.id, card.value);
     }
+  }
+
+  setAdmin() {
+    this.isAdmin = true;
   }
 
   public addToCardsWon(cardId: string) {

@@ -74,9 +74,17 @@ export class Player extends BasePlayer {
           this.pickedCard = msg.picked;
         } else if (msg.used) {
           this.useCard(msg.used);
-        } else if (msg.dispatch === 'start' && this.startHandler) {
+        } else if (
+          msg.dispatch === 'start' &&
+          this.startHandler &&
+          this.isAdmin
+        ) {
           this.startHandler();
-        } else if (msg.dispatch === 'stop' && this.stopHandler) {
+        } else if (
+          msg.dispatch === 'stop' &&
+          this.stopHandler &&
+          this.isAdmin
+        ) {
           this.stopHandler();
         }
         this.broadcast(ev.toString()); // for testing purposes
@@ -101,7 +109,9 @@ export class Player extends BasePlayer {
       await this.connection.send(JSON.stringify(message));
     } else {
       const options = this.formatCardsMap();
-      await this.connection.send(JSON.stringify({ ...message, options }));
+      const isAdmin = this.isAdmin;
+      const data = JSON.stringify({ ...message, options, isAdmin });
+      await this.connection.send(data);
     }
   }
 }
