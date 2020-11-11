@@ -23,6 +23,7 @@ export class Player extends BasePlayer {
   static async roundHandler(cards: PickedCard[], judge: Player) {
     console.log('round started', cards);
     while (judge.pickedCard === null) {
+      if (!judge.isConnected) return cards[0].playerId;
       const timeout = Timeout.wait(1000);
       await timeout;
     }
