@@ -106,13 +106,19 @@ export class Server {
   }
 
   async handler(req: ServerRequest): Promise<Response | null> {
-    const { url } = req;
+    const { url, method } = req;
+    let headers: Headers = new Headers();
+    headers.set('Access-Control-Allow-Origin', '*');
+    headers.set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+    if (method === 'OPTIONS') {
+      return { status: 200, headers };
+    }
     if (url.startsWith('/check')) {
       const params = new URLSearchParams(url.split('?')[1]);
       const code = params.get('code');
       const exists = Boolean(code && this.pendingGames.has(code));
       const status = exists ? 200 : 404;
-      return { status, body: JSON.stringify({ exists }) };
+      return { status, body: JSON.stringify({ exists }), headers };
     }
     if (url.startsWith('/create')) {
       // const params = new URLSearchParams(url.split('?')[1]);
@@ -120,7 +126,7 @@ export class Server {
       // this is where you fetch questions and answers
       console.log('creating game');
       const game = this.createGame(...Server.TEST_GAME);
-      return { status: 201, body: JSON.stringify({ code: game.id }) };
+      return { status: 201, body: JSON.stringify({ code: game.id }), headers };
     }
     if (url.startsWith('/?') && acceptable(req)) {
       await this.connect(req);
