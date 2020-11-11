@@ -9,9 +9,6 @@ import {
 import { Game } from '../game/Game.ts';
 
 export class Player extends BasePlayer {
-  private connection: WebSocket;
-  public pickedCard: string | null;
-
   static newInstance(
     name: string,
     cards: withNumericId<string>[],
@@ -55,16 +52,23 @@ export class Player extends BasePlayer {
     }
   }
 
+  private connection: WebSocket;
+  public pickedCard: string | null;
+  public isConnected: boolean;
+
   constructor(ws: WebSocket, name: string, answers: withNumericId<string>[]) {
     super(name, answers);
     this.connection = ws;
     this.pickedCard = null;
+    this.isConnected = false;
   }
 
   async handleWebSocket() {
+    this.isConnected = true;
     for await (const ev of this.connection) {
       if (isWebSocketCloseEvent(ev)) {
         if (this.disconnectHandler) {
+          this.isConnected = false;
           this.disconnectHandler(this.id);
         }
       }
@@ -93,6 +97,7 @@ export class Player extends BasePlayer {
 
   async closeConnection() {
     await this.connection.close();
+    this.isConnected = false;
   }
 
   private formatCardsMap(): [string, string][] {
