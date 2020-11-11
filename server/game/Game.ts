@@ -25,6 +25,7 @@ export class Game<PlayerType extends BasePlayer> {
 
   // Game-related variables
   private numberOfRounds: number;
+  private isStarted = false;
   private stopRequested = false;
   private roundHandler: RoundHandler<PlayerType>;
   private startHandler: StartHandler<PlayerType>;
@@ -89,6 +90,7 @@ export class Game<PlayerType extends BasePlayer> {
         console.log(player.id, 'disconnected');
         this.players.removeEntry(player.id);
         if (player.isAdmin) this.players.peek().setAdmin();
+        if (this.isStarted && this.playerCount < 3) this.stop();
       });
       player.on('start', () => this.start());
       player.on('stop', () => this.stop());
@@ -135,6 +137,7 @@ export class Game<PlayerType extends BasePlayer> {
   }
 
   async start(): Promise<PlayerType[]> {
+    this.isStarted = true;
     if (!this.players.size) return [];
 
     this.startHandler(this.players.map);
