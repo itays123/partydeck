@@ -30,10 +30,10 @@ export class Player extends BasePlayer {
       await timeout;
     }
     console.log('a card was picked!', judge.pickedCard);
-    const pickedPlayer = cards.find(card => card.id === judge.pickedCard)!
-      .playerId;
+    const pickedPlayer = cards.find(card => card.id === judge.pickedCard);
     judge.pickedCard = null;
-    return pickedPlayer;
+    if (pickedPlayer) return pickedPlayer.playerId;
+    else return null;
   }
 
   static async acceptWebSocket(
