@@ -156,9 +156,13 @@ export class Game<PlayerType extends BasePlayer> {
         judge,
         this.players.map
       );
-      const winner = this.players.map.get(winnerId)!;
-      winner.cardsWon.add(question.id);
-      await this.notifyAll({ playerWon: winner.nickname }, i);
+      if (winnerId) {
+        const winner = this.players.map.get(winnerId)!;
+        winner.cardsWon.add(question.id);
+        await this.notifyAll({ playerWon: winner.nickname }, i);
+      } else {
+        await this.notifyAll({ playerWon: 'nobody' }, i);
+      }
     }
 
     const scores = this.scores;

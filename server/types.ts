@@ -4,7 +4,7 @@ export type RoundHandler<PlayerType> = (
   cards: PickedCard[],
   judgeId: PlayerType,
   players: Map<string, PlayerType>
-) => Promise<string>;
+) => Promise<string | null>;
 
 export type StartHandler<PlayerType> = (
   players: Map<string, PlayerType>

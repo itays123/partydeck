@@ -4,8 +4,14 @@ import { assertThrowsAsync, assertEquals, assertThrows } from '../deps.ts';
 import { BasePlayer } from '../player/BasePlayer.ts';
 
 export class TestPlayer extends BasePlayer {
-  constructor(name: string, answerCards: withNumericId<string>[]) {
+  private useCards: boolean;
+  constructor(
+    name: string,
+    answerCards: withNumericId<string>[],
+    useCards = true
+  ) {
     super(name, answerCards);
+    this.useCards = useCards;
   }
 
   async broadcast(message: any): Promise<void> {
@@ -16,7 +22,7 @@ export class TestPlayer extends BasePlayer {
           pickedCard = cardId;
           if (Math.random() < 0.25) break;
         }
-        this.useCard(pickedCard!);
+        if (this.useCards) this.useCard(pickedCard!);
       }
     }
   }
@@ -192,4 +198,26 @@ Deno.test('limits a game', () => {
   game.addPlayer('player3');
 
   assertEquals(game.playerCount, 2);
+});
+
+Deno.test('simulates a round with 0 picks', async () => {
+  const game = new Game<TestPlayer>('', ['q1'], ANSWERS, 1);
+
+  game.on('connection', (name: string, answers: withNumericId<string>[]) => {
+    return new TestPlayer(name, answers, false);
+  });
+
+  game.on('round', async (cards: PickedCard[]) => {
+    if (cards.length === 0) return null;
+    else return cards[0].playerId;
+  });
+
+  game.addPlayer('player1');
+  game.addPlayer('player2');
+  game.addPlayer('player3');
+
+  const scores = await game.start();
+  assertEquals(scores[0].cardsWon.size, 0);
+  assertEquals(scores[1].cardsWon.size, 0);
+  assertEquals(scores[2].cardsWon.size, 0);
 });
