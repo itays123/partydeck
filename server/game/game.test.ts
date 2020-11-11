@@ -99,7 +99,7 @@ const pickRandomPlayer = async (cards: PickedCard[], judge: any) => {
 };
 
 Deno.test('runs a game with x questions', async () => {
-  const game = new Game<TestPlayer>('random string', QUESTIONS, ANSWERS);
+  const game = new Game<TestPlayer>('random string', QUESTIONS, ANSWERS, 30, 0);
   let rounds: any[] = [];
   let initialCardMap: Map<string, string[]> = new Map();
   let usedCards: PickedCard[] = [];
@@ -163,7 +163,7 @@ Deno.test('runs a game with x questions', async () => {
 });
 
 Deno.test('runs an empty game', async () => {
-  const game = new Game<TestPlayer>('random string', QUESTIONS, ANSWERS);
+  const game = new Game<TestPlayer>('random string', QUESTIONS, ANSWERS, 1, 0);
   game.on('round', pickRandomPlayer);
 
   game.on('connection', (name: string, answers: withNumericId<string>[]) => {
@@ -177,16 +177,13 @@ Deno.test('runs an empty game', async () => {
 });
 
 Deno.test('limits a game', () => {
-  const game = new Game<TestPlayer>('random string', QUESTIONS, [
-    'a1',
-    'a2',
-    'a3',
-    'a4',
-    'a5',
-    'a6',
-    'a7',
-    'a8',
-  ]);
+  const game = new Game<TestPlayer>(
+    'random string',
+    QUESTIONS,
+    ['a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8'],
+    1,
+    0
+  );
 
   game.on('round', pickRandomPlayer);
   game.on('connection', (name: string, answers: withNumericId<string>[]) => {
@@ -201,7 +198,7 @@ Deno.test('limits a game', () => {
 });
 
 Deno.test('simulates a round with 0 picks', async () => {
-  const game = new Game<TestPlayer>('', ['q1'], ANSWERS, 1);
+  const game = new Game<TestPlayer>('', ['q1'], ANSWERS, 1, 0);
 
   game.on('connection', (name: string, answers: withNumericId<string>[]) => {
     return new TestPlayer(name, answers, false);

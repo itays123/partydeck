@@ -27,6 +27,7 @@ export class Game<PlayerType extends BasePlayer> {
   private numberOfRounds: number;
   private isStarted = false;
   private stopRequested = false;
+  private roundDelay: number;
   private roundHandler: RoundHandler<PlayerType>;
   private startHandler: StartHandler<PlayerType>;
   private endHandler: EndHandler;
@@ -37,7 +38,8 @@ export class Game<PlayerType extends BasePlayer> {
     id: string,
     questions: string[],
     answers: string[],
-    timeout = 30
+    timeout = 30,
+    delay = 5
   ) {
     this.id = id;
     this.players = new Circle();
@@ -46,6 +48,7 @@ export class Game<PlayerType extends BasePlayer> {
     this.answerDeck = new Deck(answers);
     this.roundCards = [];
     this.pickTimeout = timeout;
+    this.roundDelay = delay;
     this.roundHandler = async () => '';
     this.startHandler = async () => {};
     this.endHandler = async () => {};
@@ -166,6 +169,7 @@ export class Game<PlayerType extends BasePlayer> {
       } else {
         await this.notifyAll({ playerWon: 'nobody' }, i);
       }
+      await Timeout.wait(this.roundDelay * 1000);
     }
 
     const scores = this.scores;
