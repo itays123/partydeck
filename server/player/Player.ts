@@ -37,11 +37,20 @@ export class Player extends BasePlayer {
   }
 
   static async acceptWebSocket(
-    game: Game<Player>,
+    game: Game<Player> | undefined,
     nickname: string,
     params: Acceptable
   ) {
     const ws = await acceptWebSocket(params);
+    if (!game) {
+      const message = JSON.stringify({
+        err: 'game not found',
+        code: 404,
+      });
+      await ws.send(message);
+      await ws.close();
+      return;
+    }
     const player = game.addPlayer(nickname, ws);
     if (player) {
       await player.broadcast({ id: player.id, game: game.id });

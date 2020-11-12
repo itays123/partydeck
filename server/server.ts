@@ -135,14 +135,11 @@ export class Server {
   async connect(req: ServerRequest): Promise<boolean> {
     const { conn, r: bufReader, w: bufWriter, headers, url } = req;
     const params = new URLSearchParams(url.split('?')[1]);
-    const code = params.get('code');
+    const code = params.get('code') || '';
     const name = params.get('name') || 'anonymous';
     const wsParams: Acceptable = { conn, bufReader, bufWriter, headers };
-    if (!code) return false;
     const game = this.pendingGames.get(code);
-    if (game) {
-      await Player.acceptWebSocket(game, name, wsParams);
-    }
+    await Player.acceptWebSocket(game, name, wsParams);
     return this.pendingGames.has(code);
   }
 }
