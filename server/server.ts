@@ -113,7 +113,7 @@ export class Server {
       const code = params.get('code');
       const exists = Boolean(code && this.pendingGames.has(code));
       const status = exists ? 200 : 404;
-      return { status, body: JSON.stringify({ exists }), headers };
+      return { status, body: JSON.stringify({ exists, status }), headers };
     }
     if (url.startsWith('/create')) {
       // const params = new URLSearchParams(url.split('?')[1]);
