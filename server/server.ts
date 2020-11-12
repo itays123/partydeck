@@ -104,6 +104,7 @@ export class Server {
     let headers: Headers = new Headers();
     headers.set('Access-Control-Allow-Origin', '*');
     headers.set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+    headers.set('Content-Type', 'application/json');
     if (method === 'OPTIONS') {
       return { status: 200, headers };
     }
@@ -119,8 +120,9 @@ export class Server {
       // const gameRef = params.get('ref');
       // this is where you fetch questions and answers
       console.log('creating game');
-      const game = this.createGame(...Server.TEST_GAME);
-      return { status: 201, body: JSON.stringify({ code: game.id }), headers };
+      const { id: code } = this.createGame(...Server.TEST_GAME);
+      const status = 201;
+      return { status, body: JSON.stringify({ code, status }), headers };
     }
     if (url.startsWith('/?') && acceptable(req)) {
       await this.connect(req);
