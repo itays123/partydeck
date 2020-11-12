@@ -5,12 +5,6 @@ import { generate } from './shared/NumericID.ts';
 import { Acceptable, TestFunction } from './types.ts';
 
 export class Server {
-  static get INVALID_CODE_RES(): Response {
-    const status = 422;
-    const body = JSON.stringify({ err: 'invalid or blank code' });
-    return { status, body };
-  }
-
   static get TEST_GAME(): [string[], string[]] {
     return [
       ['question1', 'question2', 'question3'],
@@ -150,13 +144,5 @@ export class Server {
       await Player.acceptWebSocket(game, name, wsParams);
     }
     return this.pendingGames.has(code);
-  }
-
-  async listen() {
-    const server = serve({ port: 8000 });
-    console.log('server is up!');
-    for await (const req of server) {
-      await this.connect(req);
-    }
   }
 }
