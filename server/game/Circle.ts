@@ -39,8 +39,9 @@ export class Circle<T = any> {
     } else return this.circle();
   }
 
-  peek(): T {
-    const nodeId = this.queue.peek()!;
+  peek(): T | null {
+    const nodeId = this.queue.peek();
+    if (!nodeId) return null;
     if (this.has(nodeId)) {
       const node = this.valueOf(nodeId)!;
       return node;
