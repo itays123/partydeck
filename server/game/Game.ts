@@ -98,9 +98,7 @@ export class Game<PlayerType extends BasePlayer> {
         }
         if (this.isStarted && this.playerCount < 3) this.stop();
       });
-      player.on('start', () => {
-        if (this.playerCount >= 3) this.start();
-      });
+      player.on('start', () => this.start());
       player.on('stop', () => this.stop());
       if (this.playerCount === 0) player.setAdmin();
       this.players.addEntry(player.id, player);
@@ -146,7 +144,7 @@ export class Game<PlayerType extends BasePlayer> {
 
   async start(): Promise<PlayerType[]> {
     this.isStarted = true;
-    if (!this.players.size) return [];
+    if (this.players.size < 3) return [];
 
     this.startHandler(this.players.map);
     this.notifyAll({ dispatched: 'start' }, 0);
