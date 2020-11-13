@@ -149,6 +149,8 @@ export class Game<PlayerType extends BasePlayer> {
     if (!this.players.size) return [];
 
     this.startHandler(this.players.map);
+    this.notifyAll({ dispatched: 'start' }, 0);
+    await Timeout.wait(this.roundDelay * 1000);
 
     for (let i = 0; i < this.numberOfRounds; i++) {
       if (this.stopRequested) break;
