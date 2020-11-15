@@ -1,8 +1,8 @@
 const express = require('express');
-const parser = require('body-parser').json();
 const cors = require('./shared/cors');
+const parser = require('body-parser').json();
+const jwtverify = require('./auth/verify-jwt');
 
 const app = express();
 
-app.use(parser);
-app.use(cors);
+app.use(cors, parser, jwtverify);
