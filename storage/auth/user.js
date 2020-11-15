@@ -19,7 +19,7 @@ const Schema = new mongoose.Schema({
   },
 });
 
-Schema.methods.basicLogin = async function (email, password) {
+Schema.statics.basicLogin = async function (email, password) {
   const user = await this.findOne({ email });
   if (!user) throw new Error();
   await compare(password, user.password);
@@ -27,7 +27,8 @@ Schema.methods.basicLogin = async function (email, password) {
   return token;
 };
 
-Schema.methods.register = async function (email, pw, name = undefined) {
+Schema.statics.register = async function (email, pw, name = undefined) {
+  console.log('signing up...');
   const password = await createHash(pw);
   const user = await this.create({ email, password, name });
   const token = generateJwt(user._id);
