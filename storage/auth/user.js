@@ -1,7 +1,7 @@
 const { compareSync } = require('bcrypt');
+const { sign } = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const createHash = require('./create-hash');
-const generateJwt = require('./generate-jwt');
 
 const Schema = new mongoose.Schema({
   name: {
@@ -25,6 +25,11 @@ Schema.methods.compare = async function (password) {
   else throw new Error("passwords don't match");
 };
 
+Schema.methods.token = async function () {
+  const token = sign({ uid: this._id }, 'shh');
+  return token;
+};
+
 Schema.statics.checkEmailUsed = async function (email) {
   const user = await this.findOne({ email });
   if (user) throw new Error('user exists!');
@@ -35,7 +40,7 @@ Schema.statics.basicLogin = async function (email, password) {
   const user = await this.findOne({ email });
   if (!user) throw new Error();
   await user.compare(password);
-  const token = generateJwt(user._id);
+  const token = await user.token();
   return token;
 };
 
@@ -43,7 +48,7 @@ Schema.statics.register = async function (email, pw, name = undefined) {
   console.log('signing up...');
   const password = await createHash(pw);
   const user = await this.create({ email, password, name });
-  const token = generateJwt(user._id);
+  const token = await user.token();
   return token;
 };
 
