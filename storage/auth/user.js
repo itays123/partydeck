@@ -1,7 +1,6 @@
-const { compareSync } = require('bcrypt');
+const { compareSync, genSaltSync, hashSync } = require('bcrypt');
 const { sign } = require('jsonwebtoken');
 const mongoose = require('mongoose');
-const createHash = require('./create-hash');
 
 const Schema = new mongoose.Schema({
   name: {
@@ -30,6 +29,12 @@ Schema.methods.token = async function () {
   return token;
 };
 
+Schema.statics.hash = async function (password) {
+  const salt = genSaltSync(12);
+  const hash = hashSync(password, salt);
+  return hash;
+};
+
 Schema.statics.checkEmailUsed = async function (email) {
   const user = await this.findOne({ email });
   if (user) throw new Error('user exists!');
@@ -46,7 +51,7 @@ Schema.statics.basicLogin = async function (email, password) {
 
 Schema.statics.register = async function (email, pw, name = undefined) {
   console.log('signing up...');
-  const password = await createHash(pw);
+  const password = await this.hash(pw);
   const user = await this.create({ email, password, name });
   const token = await user.token();
   return token;
