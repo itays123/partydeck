@@ -1,5 +1,5 @@
+const { compareSync } = require('bcrypt');
 const mongoose = require('mongoose');
-const compare = require('./compare-hash');
 const createHash = require('./create-hash');
 const generateJwt = require('./generate-jwt');
 
@@ -19,6 +19,12 @@ const Schema = new mongoose.Schema({
   },
 });
 
+Schema.methods.compare = async function (password) {
+  const result = compareSync(password, this.password);
+  if (result) return Promise.resolve();
+  else throw new Error("passwords don't match");
+};
+
 Schema.statics.checkEmailUsed = async function (email) {
   const user = await this.findOne({ email });
   if (user) throw new Error('user exists!');
@@ -28,7 +34,7 @@ Schema.statics.checkEmailUsed = async function (email) {
 Schema.statics.basicLogin = async function (email, password) {
   const user = await this.findOne({ email });
   if (!user) throw new Error();
-  await compare(password, user.password);
+  await user.compare(password);
   const token = generateJwt(user._id);
   return token;
 };
