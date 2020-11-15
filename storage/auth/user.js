@@ -19,6 +19,12 @@ const Schema = new mongoose.Schema({
   },
 });
 
+Schema.statics.checkEmailUsed = async function (email) {
+  const user = await Users.findOne({ email });
+  if (user) throw new Error('user exists!');
+  return Promise.resolve();
+};
+
 Schema.statics.basicLogin = async function (email, password) {
   const user = await this.findOne({ email });
   if (!user) throw new Error();

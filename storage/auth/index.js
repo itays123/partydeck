@@ -24,4 +24,14 @@ router.post('/register', async (req, res) => {
   }
 });
 
+router.get('/check', async (req, res) => {
+  try {
+    const { email } = req.query;
+    await User.checkEmailUsed(email);
+    res.sendStatus(200);
+  } catch (err) {
+    res.sendStatus(409); // 409 CONFLICT
+  }
+});
+
 module.exports = router;
