@@ -5,8 +5,16 @@ const jwtverify = require('./auth/verify-jwt');
 
 const app = express();
 
+app.use((req, res, next) => {
+  console.log(req.method, req.url);
+  next();
+});
 app.use(cors);
 app.use(parser);
 app.use(jwtverify);
+app.use((req, res) => {
+  console.log(req.uid);
+  res.sendStatus(200);
+});
 
-app.listen(4000);
+app.listen(4000, () => console.log('listening on port 4000'));
