@@ -3,7 +3,7 @@ const User = require('./user');
 
 const router = express.Router();
 
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
     const token = await User.basicLogin(email, password);
@@ -13,7 +13,7 @@ router.post('/login', (req, res) => {
   }
 });
 
-router.post('/register', (req, res) => {
+router.post('/register', async (req, res) => {
   try {
     const { email, password, name = 'anonymous' } = req.body;
     const token = await User.register(email, password, name);
@@ -21,6 +21,6 @@ router.post('/register', (req, res) => {
   } catch (err) {
     res.status(401).json({ err: 'signup failed' });
   }
-})
+});
 
 module.exports = router;
