@@ -22,14 +22,14 @@ Schema.methods.basicLogin = async function (email, password) {
   const user = await this.findOne({ email });
   if (!user) throw new Error();
   await compare(password, user.password);
-  const token = await generateJwt(user._id);
+  const token = generateJwt(user._id);
   return token;
 };
 
 Schema.methods.register = async function (email, pw, name = undefined) {
   const password = await createHash(pw);
   const user = await this.create({ email, password, name });
-  const token = await generateJwt(user._id);
+  const token = generateJwt(user._id);
   return token;
 };
 
