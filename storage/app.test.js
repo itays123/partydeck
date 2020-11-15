@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('./shared/cors');
 const parser = require('body-parser').json();
 const jwtverify = require('./auth/verify-jwt');
+const { connect } = require('./shared/mongoose');
 
 const app = express();
 
@@ -17,4 +18,6 @@ app.use((req, res) => {
   res.sendStatus(200);
 });
 
-app.listen(4000, () => console.log('listening on port 4000'));
+connect().then(() =>
+  app.listen(4000, () => console.log('listening on port 4000'))
+);
