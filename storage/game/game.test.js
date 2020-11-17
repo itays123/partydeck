@@ -1,7 +1,8 @@
+const mongoose = require('mongoose');
+require('../auth/user');
 const Game = require('./game');
 const { connect } = require('../shared/mongoose');
 const assert = require('assert');
-const mongoose = require('mongoose');
 
 const test_questions = ['q1', 'q2', 'q3'];
 const test_answers = [
@@ -28,10 +29,20 @@ before(() => {
 describe('tests the game schema', () => {
   let gameId;
   it('creates a game', done => {
-    Game.createGame(test_questions, test_answers).then(game => {
+    Game.createGame(
+      test_questions,
+      test_answers,
+      '5fb1150fb74fc136a89c2d1d'
+    ).then(game => {
       gameId = game._id;
       console.log(game._id);
       done();
+    });
+  });
+
+  it('gets a game', () => {
+    return Game.getGame(gameId).then(game => {
+      assert.strictEqual(game.author.email, 'itays2005@gmail.com');
     });
   });
 

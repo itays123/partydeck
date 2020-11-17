@@ -6,6 +6,11 @@ const Schema = new mongoose.Schema({
     default: 'en',
     enum: ['en', 'he'],
   },
+  author: {
+    type: mongoose.Types.ObjectId,
+    required: true,
+    ref: 'User',
+  },
   questions: {
     type: [String],
     validate: {
@@ -66,10 +71,16 @@ Schema.methods.setValues = async function (
   this[field] = cards;
 };
 
-Schema.statics.createGame = async function (questions, answers, lng = 'en') {
+Schema.statics.createGame = async function (
+  questions,
+  answers,
+  author,
+  lng = 'en'
+) {
   const game = await this.create({
     questions,
     answers,
+    author,
     lng,
   });
   return game;
@@ -86,6 +97,10 @@ Schema.statics.updateGame = async function (id, { questions, answers }) {
 
 Schema.statics.deleteGame = async function (id) {
   await this.findByIdAndDelete(id);
+};
+
+Schema.statics.getGame = async function (id) {
+  return await this.findById(id).populate('author');
 };
 
 const model = mongoose.model('Game', Schema);
