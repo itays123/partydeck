@@ -100,7 +100,7 @@ Schema.statics.deleteGame = async function (id) {
 };
 
 Schema.statics.getGame = async function (id) {
-  return await this.findById(id).populate('author');
+  return await this.findById(id).populate('author', 'name');
 };
 
 const model = mongoose.model('Game', Schema);
