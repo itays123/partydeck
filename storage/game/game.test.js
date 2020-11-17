@@ -1,6 +1,7 @@
 const Game = require('./game');
 const { connect } = require('../shared/mongoose');
 const assert = require('assert');
+const mongoose = require('mongoose');
 
 const test_questions = ['q1', 'q2', 'q3'];
 const test_answers = [
@@ -20,7 +21,7 @@ const test_answers = [
 
 before(() => {
   return connect().then(() => {
-    Game.collection.drop();
+    mongoose.connection.db.collection('Games').drop();
   });
 });
 
@@ -37,18 +38,26 @@ describe('tests the game schema', () => {
   it('updates a game', () => {
     return Game.updateGame(gameId, {
       questions: {
-        added: ['q4'],
-        modified: [[0, 'q0']],
+        added: ['q4', 'q5'],
+        modified: [
+          [0, 'q0'],
+          [1, 'q1'],
+        ],
       },
       answers: {
         added: ['a13', 'a14', 'a15'],
         deleted: [0, 1, 2],
       },
     }).then(game => {
-      assert.strictEqual(game.questions.length, 4);
+      assert.strictEqual(game.questions.length, 5);
       assert.strictEqual(game.questions[0], 'q0');
+      assert.strictEqual(game.questions[1], 'q1');
       assert.strictEqual(game.answers.length, 12);
       assert.strictEqual(game.answers[0], 'a4');
     });
+  });
+
+  it('deletes a game', done => {
+    Game.deleteGame(gameId).then(done);
   });
 });
