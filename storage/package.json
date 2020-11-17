@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "nodemon app.test.js",
-    "start": "node app.js"
+    "start": "node app.js",
+    "game:test": "mocha game/game.test.js"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +16,7 @@
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "mocha": "^8.2.1",
     "mongoose": "^5.10.14"
   }
 }

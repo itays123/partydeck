@@ -36,25 +36,30 @@ Schema.methods.setValues = async function (
   field
 ) {
   const existingCards = this[field];
-  modified.forEach(([index, newValue]) => {
-    existingCards[index] = newValue;
-  });
+  if (modified) {
+    modified.forEach(([index, newValue]) => {
+      existingCards[index] = newValue;
+    });
+  }
   const map = new Map();
   existingCards.forEach((card, index) => {
     const key = 'current:' + index;
     map.set(key, card);
   });
-  deleted.forEach(index => {
-    const key = 'current:' + index;
-    map.delete(key);
-  });
-  added.forEach((newCard, index), () => {
-    const key = 'new:' + index;
-    map.set(key, newCard);
-  });
-
+  if (deleted) {
+    deleted.forEach(index => {
+      const key = 'current:' + index;
+      map.delete(key);
+    });
+  }
+  if (added) {
+    added.forEach((newCard, index) => {
+      const key = 'new:' + index;
+      map.set(key, newCard);
+    });
+  }
   let cards = [];
-  for (const card in map.values()) {
+  for (const card of map.values()) {
     cards.push(card);
   }
 
