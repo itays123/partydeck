@@ -103,6 +103,13 @@ Schema.statics.getGame = async function (id) {
   return await this.findById(id).populate('author', 'name');
 };
 
+Schema.statics.getPlayableGame = async function (id) {
+  // this function sends the relevant data to the live server
+  const game = await this.findById(id).select('questions answers');
+  if (!game) return null;
+  else return [game.questions, game.answers];
+};
+
 const model = mongoose.model('Game', Schema);
 
 module.exports = model;

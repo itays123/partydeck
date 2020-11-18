@@ -5,6 +5,15 @@ const Game = require('./game');
 const router = express.Router();
 
 router.get(
+  '/playable/:id',
+  /* everyone can */ async (req, res) => {
+    const game = await Game.getPlayableGame(req.params.id);
+    const status = game ? 200 : 404;
+    res.status(status).json({ game });
+  }
+);
+
+router.get(
   '/:id',
   /* everyone can*/ async (req, res) => {
     const game = await Game.getGame(req.params.id);
