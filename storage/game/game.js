@@ -110,6 +110,13 @@ Schema.statics.getPlayableGame = async function (id) {
   else return [game.questions, game.answers];
 };
 
+Schema.statics.getUserGames = async function (uid) {
+  const games = await this.find({ author: uid })
+    .select('-__v')
+    .populate('author', 'name');
+  return games;
+};
+
 const model = mongoose.model('Game', Schema);
 
 module.exports = model;
