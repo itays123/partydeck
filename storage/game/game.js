@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
 
 const Schema = new mongoose.Schema({
   lng: {
@@ -111,9 +112,18 @@ Schema.statics.getPlayableGame = async function (id) {
 };
 
 Schema.statics.getUserGames = async function (uid) {
-  const games = await this.find({ author: uid })
-    .select('-__v')
-    .populate('author', 'name');
+  const games = await this.aggregate([
+    {
+      $match: { author: ObjectId(uid) },
+    },
+    {
+      $project: {
+        lng: 1,
+        questionCount: { $size: '$questions' },
+        answerCount: { $size: '$answers' },
+      },
+    },
+  ]);
   return games;
 };
 
