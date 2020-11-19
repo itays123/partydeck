@@ -8,7 +8,6 @@ module.exports = (req, res, next) => {
     else if (req.get(HEADER)) token = req.get(HEADER).split(' ')[1];
     const { uid } = verify(token, 'shh');
     req.uid = uid;
-    console.log(uid);
   } catch (err) {
     req.uid = null;
   } finally {

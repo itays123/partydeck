@@ -50,7 +50,6 @@ Schema.statics.basicLogin = async function (email, password) {
 };
 
 Schema.statics.register = async function (email, pw, name = undefined) {
-  console.log('signing up...');
   const password = await this.hash(pw);
   const user = await this.create({ email, password, name });
   const token = await user.token();
