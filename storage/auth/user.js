@@ -57,6 +57,11 @@ Schema.statics.register = async function (email, pw, name = undefined) {
   return token;
 };
 
+Schema.statics.getUserData = async function (id) {
+  const user = await this.findById(id).select('name');
+  return user;
+};
+
 const model = mongoose.model('User', Schema);
 
 module.exports = model;

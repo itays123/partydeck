@@ -7,6 +7,7 @@ const auth = require('./auth');
 const game = require('./game');
 const { connect } = require('./shared/mongoose');
 const cookieParser = require('cookie-parser')();
+const publicRoutes = require('./shared/pubic-routes');
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(cookieParser);
 app.use(jwtverify);
 app.use('/auth', auth);
 app.use('/game', game);
+app.use(publicRoutes);
 
 connect().then(() =>
   app.listen(4000, () => console.log('listening on port 4000'))
