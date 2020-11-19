@@ -65,6 +65,7 @@ describe('tests the game schema', () => {
       assert.strictEqual(game.questions[1], 'q1');
       assert.strictEqual(game.answers.length, 12);
       assert.strictEqual(game.answers[0], 'a4');
+      assert.strictEqual(game.name, 'Untilted Partydeck');
     });
   });
 

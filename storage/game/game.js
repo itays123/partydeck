@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 
 const Schema = new mongoose.Schema({
+  name: {
+    type: String,
+    default: 'Untilted Partydeck',
+  },
   lng: {
     type: String,
     default: 'en',
@@ -75,12 +79,14 @@ Schema.statics.createGame = async function (
   questions,
   answers,
   author,
+  name = 'Untilted Partydeck',
   lng = 'en'
 ) {
   const game = await this.create({
     questions,
     answers,
     author,
+    name,
     lng,
   });
   return game;
@@ -118,6 +124,7 @@ Schema.statics.getUserGames = async function (uid) {
     {
       $project: {
         lng: 1,
+        name: 1,
         questionCount: { $size: '$questions' },
         answerCount: { $size: '$answers' },
       },
