@@ -5,7 +5,6 @@ const Schema = new mongoose.Schema({
   lng: {
     type: String,
     default: 'en',
-    enum: ['en', 'he'],
   },
   author: {
     type: mongoose.Types.ObjectId,

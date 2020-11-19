@@ -42,7 +42,7 @@ describe('tests the game schema', () => {
 
   it('gets a game', () => {
     return Game.getGame(gameId).then(game => {
-      assert.strictEqual(game.author.email, 'itays2005@gmail.com');
+      assert.strictEqual(game.author.name, 'Itay Schechner');
     });
   });
 
