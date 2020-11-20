@@ -92,6 +92,7 @@ export class Game<PlayerType extends BasePlayer> {
       player.on('disconnect', () => {
         console.log(player.id, 'disconnected');
         this.players.removeEntry(player.id);
+        this.notifyAll({ count: this.playerCount }, -1);
         if (player.isAdmin) {
           if (this.playerCount !== 0) this.players.peek()!.setAdmin();
           else if (!this.isStarted) this.endHandler();
