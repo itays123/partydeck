@@ -162,7 +162,7 @@ export class Game<PlayerType extends BasePlayer> {
         judge.id
       );
       await this.waitUntilCardsPicked();
-      await this.notifyAll({ options: this.roundCards }, i);
+      await this.notifyAll({ pick: this.roundCards }, i);
       const winnerId = await this.roundHandler(
         this.roundCards,
         judge,

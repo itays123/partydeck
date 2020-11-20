@@ -125,8 +125,8 @@ export class Player extends BasePlayer {
     if (!withCards) {
       await this.connection.send(JSON.stringify({ ...message, isAdmin }));
     } else {
-      const options = this.formatCardsMap();
-      const data = JSON.stringify({ ...message, options, isAdmin });
+      const use = this.formatCardsMap();
+      const data = JSON.stringify({ ...message, use, isAdmin });
       await this.connection.send(data);
     }
   }
