@@ -22,7 +22,10 @@ export type withNumericId<T = any> = { id: string; value: T };
 
 export type PlayerEvent = 'use' | 'disconnect' | 'start' | 'stop';
 
-export type UseHandler = (cardId: string) => withNumericId<string>;
+export type UseHandler = (
+  cardId: string,
+  playerId: string
+) => withNumericId<string>;
 
 export type DisconnectHandler = (playerId: string) => any;
 

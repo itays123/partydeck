@@ -4,6 +4,7 @@ import {
   PlayerFactory,
   RoundHandler,
   StartHandler,
+  UseHandler,
   withNumericId,
 } from '../types.ts';
 import { BasePlayer } from '../player/BasePlayer.ts';
@@ -67,13 +68,15 @@ export class Game<PlayerType extends BasePlayer> {
     if (event === 'connection') this.createPlayer = handler;
   }
 
-  private asPickedCard(cardId: string, playerId: string): PickedCard {
-    return {
+  private handleCardUsage: UseHandler = (cardId: string, playerId: string) => {
+    this.answerDeck.insertCardInBottom(cardId);
+    this.roundCards.push({
       id: cardId,
       playerId,
       value: this.answerDeck.valueOf(cardId)!,
-    };
-  }
+    });
+    return this.answerDeck.pickTopCard()!;
+  };
 
   private cyclePlayer(
     name: string,
@@ -84,11 +87,7 @@ export class Game<PlayerType extends BasePlayer> {
     if (!player) throw new Error('no connection handler');
     if (this.players.has(player.id)) return this.cyclePlayer(name, cards, args);
     else {
-      player.on('use', (cardId: string) => {
-        this.answerDeck.insertCardInBottom(cardId);
-        this.roundCards.push(this.asPickedCard(cardId, player.id));
-        return this.answerDeck.pickTopCard()!;
-      });
+      player.on('use', this.handleCardUsage);
       player.on('disconnect', () => {
         console.log(player.id, 'disconnected');
         this.players.removeEntry(player.id);

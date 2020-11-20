@@ -58,7 +58,7 @@ export abstract class BasePlayer {
   public useCard(cardId: string) {
     if (this.useHandler) {
       if (this.currentCards.has(cardId)) {
-        const newCard = this.useHandler(cardId);
+        const newCard = this.useHandler(cardId, this.id);
         this.currentCards.delete(cardId);
         this.currentCards.set(newCard.id, newCard.value);
       } else {
