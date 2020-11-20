@@ -112,10 +112,10 @@ export class Player extends BasePlayer {
     this.isConnected = false;
   }
 
-  private formatCardsMap(): [string, string][] {
-    let result: [string, string][] = [];
+  private formatCardsMap(): withNumericId<string>[] {
+    let result: withNumericId<string>[] = [];
     for (const [cardId, card] of this.currentCards) {
-      result.push([cardId, card]);
+      result.push({ id: cardId, value: card });
     }
     return result;
   }
