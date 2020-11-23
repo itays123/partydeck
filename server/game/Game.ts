@@ -50,7 +50,7 @@ export class Game<PlayerType extends BasePlayer> {
     this.roundCards = [];
     this.pickTimeout = timeout;
     this.roundDelay = delay;
-    this.roundHandler = async () => '';
+    this.roundHandler = async () => ({ id: '', value: '', playerId: '' });
     this.startHandler = async () => {};
     this.endHandler = async () => {};
     this.createPlayer = () => null;
@@ -152,15 +152,18 @@ export class Game<PlayerType extends BasePlayer> {
       await this.notifyAll({ q: question.value, j: judge.nickname }, i);
       await this.waitUntilCardsPicked();
       await this.notifyAll({ pick: this.roundCards }, i);
-      const winnerId = await this.roundHandler(
+      const winnerCard = await this.roundHandler(
         this.roundCards,
         judge,
         this.players.map
       );
-      if (winnerId) {
-        const winner = this.players.map.get(winnerId)!;
+      if (winnerCard) {
+        const winner = this.players.map.get(winnerCard.playerId)!;
         winner.cardsWon.add(question.id);
-        await this.notifyAll({ playerWon: winner.nickname }, i);
+        await this.notifyAll(
+          { playerWon: winner.nickname, winningCard: winnerCard.value },
+          i
+        );
       } else {
         await this.notifyAll({ playerWon: 'nobody' }, i);
       }

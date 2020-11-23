@@ -20,19 +20,22 @@ export class Player extends BasePlayer {
     return player;
   }
 
-  static async roundHandler(cards: PickedCard[], judge: Player) {
+  static async roundHandler(
+    cards: PickedCard[],
+    judge: Player
+  ): Promise<PickedCard | null> {
     console.log('round started', cards);
     if (cards.length === 0) return null;
-    if (cards.length === 1) return cards[0].playerId;
+    if (cards.length === 1) return cards[0];
     while (judge.pickedCard === null) {
-      if (!judge.isConnected) return cards[0].playerId;
+      if (!judge.isConnected) return cards[0];
       const timeout = Timeout.wait(1000);
       await timeout;
     }
     console.log('a card was picked!', judge.pickedCard);
     const pickedPlayer = cards.find(card => card.id === judge.pickedCard);
     judge.pickedCard = null;
-    if (pickedPlayer) return pickedPlayer.playerId;
+    if (pickedPlayer) return pickedPlayer;
     else return null;
   }
 
