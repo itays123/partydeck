@@ -117,17 +117,10 @@ export class Game<PlayerType extends BasePlayer> {
     else return null;
   }
 
-  async notifyAll(
-    message: any,
-    round: number,
-    judgeId?: string
-  ): Promise<void> {
+  async notifyAll(message: any, round: number): Promise<void> {
     for (let player of this.players.values()) {
       let broadcasted = { ...message, round: round + 1 };
-      const isJudge = judgeId === player.id;
-      if (judgeId) broadcasted.isJudge = isJudge;
-      const withCards = Boolean(message.q) && !isJudge;
-      await player.broadcast(broadcasted, withCards);
+      await player.broadcast(broadcasted);
     }
   }
 
@@ -154,14 +147,11 @@ export class Game<PlayerType extends BasePlayer> {
       if (this.stopRequested) break;
       this.roundCards = [];
       const judge = this.players.circle();
+      judge.setJudge();
       const question = this.questionDeck.pickTopCard()!;
-      await this.notifyAll(
-        { q: question.value, j: judge.nickname },
-        i,
-        judge.id
-      );
+      await this.notifyAll({ q: question.value, j: judge.nickname }, i);
       await this.waitUntilCardsPicked();
-      await this.notifyAll({ pick: this.roundCards }, i, judge.id);
+      await this.notifyAll({ pick: this.roundCards }, i);
       const winnerId = await this.roundHandler(
         this.roundCards,
         judge,
@@ -174,6 +164,7 @@ export class Game<PlayerType extends BasePlayer> {
       } else {
         await this.notifyAll({ playerWon: 'nobody' }, i);
       }
+      judge.setPlayer();
       await Timeout.wait(this.roundDelay * 1000);
     }
 

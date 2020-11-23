@@ -10,6 +10,7 @@ export abstract class BasePlayer {
   public id: string;
   public nickname: string;
   public isAdmin: boolean;
+  public isJudge: boolean;
   readonly currentCards: Map<string, string>;
   readonly cardsWon: Set<string>;
   private useHandler: UseHandler | null;
@@ -26,6 +27,7 @@ export abstract class BasePlayer {
     this.cardsWon = new Set();
     this.id = generate();
     this.isAdmin = false;
+    this.isJudge = false;
     this.currentCards = new Map();
     for (let card of initialCards) {
       this.currentCards.set(card.id, card.value);
@@ -34,6 +36,14 @@ export abstract class BasePlayer {
 
   setAdmin() {
     this.isAdmin = true;
+  }
+
+  setJudge() {
+    this.isJudge = true;
+  }
+
+  setPlayer() {
+    this.isJudge = false;
   }
 
   public addToCardsWon(cardId: string) {
@@ -52,7 +62,7 @@ export abstract class BasePlayer {
     if (event === 'stop') this.stopHandler = handler;
   }
 
-  abstract broadcast(message: any, withCards?: boolean): Promise<void>;
+  abstract broadcast(message: any): Promise<void>;
   abstract closeConnection(): Promise<void>;
 
   public useCard(cardId: string) {

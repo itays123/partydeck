@@ -120,9 +120,12 @@ export class Player extends BasePlayer {
     return result;
   }
 
-  async broadcast(message: any, withCards: boolean = false): Promise<void> {
+  async broadcast(message: any): Promise<void> {
     let data = { ...message };
-    if (withCards) {
+    if (message.q || message.pick) {
+      data['isJudge'] = this.isJudge;
+    }
+    if (message.q && !this.isJudge) {
       const use = this.formatCardsMap();
       data['use'] = use;
     }
