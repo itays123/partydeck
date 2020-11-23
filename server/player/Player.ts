@@ -87,7 +87,7 @@ export class Player extends BasePlayer {
       if (typeof ev === 'string') {
         const msg = JSON.parse(ev);
         if (msg.picked) {
-          this.pickedCard = msg.picked;
+          this.pickCard(msg.picked);
         } else if (msg.used) {
           this.useCard(msg.used);
         } else if (
@@ -104,6 +104,14 @@ export class Player extends BasePlayer {
           this.stopHandler();
         }
       }
+    }
+  }
+
+  private pickCard(cardId: string) {
+    if (this.isJudge) {
+      this.pickedCard = cardId;
+    } else {
+      this.broadcast({ err: 'cannot preform operation', code: 401 });
     }
   }
 
