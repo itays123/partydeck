@@ -121,13 +121,15 @@ export class Player extends BasePlayer {
   }
 
   async broadcast(message: any, withCards: boolean = false): Promise<void> {
-    const isAdmin = this.isAdmin;
-    if (!withCards) {
-      await this.connection.send(JSON.stringify({ ...message, isAdmin }));
-    } else {
+    let data = { ...message };
+    if (withCards) {
       const use = this.formatCardsMap();
-      const data = JSON.stringify({ ...message, use, isAdmin });
-      await this.connection.send(data);
+      data['use'] = use;
     }
+    if (message.count || message.playerWon) {
+      const isAdmin = this.isAdmin;
+      data['isAdmin'] = isAdmin;
+    }
+    await this.connection.send(JSON.stringify(data));
   }
 }
