@@ -115,8 +115,10 @@ Schema.statics.deleteGame = async function (id) {
   await this.findByIdAndDelete(id);
 };
 
-Schema.statics.getGame = async function (id) {
-  return await this.findById(id).populate('author', 'name');
+Schema.statics.getGame = async function (id, uid = undefined) {
+  const game = await this.findOne({ _id: id }).populate('author', 'name');
+  if (game.isPrivate && game.author._id != uid) return null;
+  return game;
 };
 
 Schema.statics.getPlayableGame = async function (id) {

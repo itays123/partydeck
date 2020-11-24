@@ -16,7 +16,7 @@ router.get(
 router.get(
   '/:id',
   /* everyone can*/ async (req, res) => {
-    const game = await Game.getGame(req.params.id);
+    const game = await Game.getGame(req.params.id, req.uid);
     const status = game ? 200 : 404;
     res.status(status).json({ game });
   }
