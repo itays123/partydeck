@@ -28,9 +28,22 @@ router.get('/', onlyAuth, async (req, res) => {
 });
 
 router.post('/', onlyAuth, async (req, res) => {
-  const { questions, answers, lng = 'en' } = req.body;
   try {
-    const game = await Game.createGame(questions, answers, req.uid, lng);
+    const {
+      questions,
+      answers,
+      name = 'Untitled Partydeck',
+      lng = 'en',
+      isPrivate = false,
+    } = req.body;
+    const game = await Game.createGame(
+      questions,
+      answers,
+      req.uid,
+      name,
+      lng,
+      isPrivate
+    );
     res.status(201).json({ id: game._id });
   } catch (err) {
     res.status(422).json({ error: 'validation error' });

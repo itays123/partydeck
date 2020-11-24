@@ -15,6 +15,10 @@ const Schema = new mongoose.Schema({
     required: true,
     ref: 'User',
   },
+  isPrivate: {
+    type: Boolean,
+    default: false,
+  },
   questions: {
     type: [String],
     validate: {
@@ -80,7 +84,8 @@ Schema.statics.createGame = async function (
   answers,
   author,
   name = 'Untilted Partydeck',
-  lng = 'en'
+  lng = 'en',
+  isPrivate = false
 ) {
   const game = await this.create({
     questions,
@@ -88,15 +93,20 @@ Schema.statics.createGame = async function (
     author,
     name,
     lng,
+    isPrivate,
   });
   return game;
 };
 
-Schema.statics.updateGame = async function (id, { questions, answers }) {
+Schema.statics.updateGame = async function (
+  id,
+  { questions, answers, isPrivate }
+) {
   const game = await this.findById(id);
   if (!game) throw new Error('game not found');
   if (questions) await game.setValues(questions, 'questions');
   if (answers) await game.setValues(answers, 'answers');
+  if (isPrivate === false || isPrivate === true) game.isPrivate = isPrivate;
   await game.save();
   return game;
 };
@@ -125,6 +135,7 @@ Schema.statics.getUserGames = async function (uid) {
       $project: {
         lng: 1,
         name: 1,
+        isPrivate: 1,
         questionCount: { $size: '$questions' },
         answerCount: { $size: '$answers' },
       },

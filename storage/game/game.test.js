@@ -59,6 +59,7 @@ describe('tests the game schema', () => {
         added: ['a13', 'a14', 'a15'],
         deleted: [0, 1, 2],
       },
+      isPrivate: true,
     }).then(game => {
       assert.strictEqual(game.questions.length, 5);
       assert.strictEqual(game.questions[0], 'q0');
@@ -66,6 +67,7 @@ describe('tests the game schema', () => {
       assert.strictEqual(game.answers.length, 12);
       assert.strictEqual(game.answers[0], 'a4');
       assert.strictEqual(game.name, 'Untilted Partydeck');
+      assert.strictEqual(game.isPrivate, true);
     });
   });
 
