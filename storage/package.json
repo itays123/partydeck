@@ -6,7 +6,8 @@
   "scripts": {
     "test": "nodemon app.test.js",
     "start": "node app.js",
-    "game:test": "mocha game/game.test.js"
+    "game:test": "mocha game/game.test.js",
+    "search:test": "mocha shared/search.test.js"
   },
   "author": "",
   "license": "ISC",

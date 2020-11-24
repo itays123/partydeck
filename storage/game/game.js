@@ -39,6 +39,8 @@ const Schema = new mongoose.Schema({
   },
 });
 
+Schema.index({ '$**': 'text' });
+
 /**
  * an O(n) algorithm to set values of a field
  * @param {{ added: string[], modified: [number, string][], deleted: [number] }} changes
