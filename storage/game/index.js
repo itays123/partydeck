@@ -23,7 +23,7 @@ router.get(
 );
 
 router.get('/', onlyAuth, async (req, res) => {
-  const games = await Game.getUserGames(req.uid);
+  const games = await Game.getUserGames(req.uid, req.uid);
   res.status(200).json({ games });
 });
 

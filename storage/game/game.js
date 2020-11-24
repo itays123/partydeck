@@ -117,6 +117,7 @@ Schema.statics.deleteGame = async function (id) {
 
 Schema.statics.getGame = async function (id, uid = undefined) {
   const game = await this.findOne({ _id: id }).populate('author', 'name');
+  if (!game) return null;
   if (game.isPrivate && game.author._id != uid) return null;
   return game;
 };
@@ -128,10 +129,14 @@ Schema.statics.getPlayableGame = async function (id) {
   else return [game.questions, game.answers];
 };
 
-Schema.statics.getUserGames = async function (uid) {
+Schema.statics.getUserGames = async function (uid, auth = undefined) {
+  let match = { author: ObjectId(uid) };
+  if (uid != auth) {
+    match['isPrivate'] = false;
+  }
   const games = await this.aggregate([
     {
-      $match: { author: ObjectId(uid) },
+      $match: match,
     },
     {
       $project: {
