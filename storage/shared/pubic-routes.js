@@ -4,6 +4,16 @@ const User = require('../auth/user');
 
 const router = express.Router();
 
+router.get('/search', async (req, res) => {
+  try {
+    const { q = '', offset = 0 } = req.query;
+    const result = await Game.search(q, offset, req.uid);
+    res.status(200).json({ result });
+  } catch (err) {
+    res.status(500).json({ err: 'internal server error', code: 500 });
+  }
+});
+
 router.get('/:user', async (req, res) => {
   try {
     const userId = req.params.user;
