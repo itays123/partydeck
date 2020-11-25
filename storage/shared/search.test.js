@@ -28,8 +28,8 @@ const project = {
 
 const lookup = {
   from: 'users',
-  localField: 'author',
-  foreignField: '_id',
+  let: { id: '$author' },
+  pipeline: [{ $match: { $expr: { $eq: ['$_id', '$$id'] } } }],
   as: 'author',
 };
 
