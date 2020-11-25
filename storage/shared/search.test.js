@@ -29,7 +29,15 @@ const project = {
 const lookup = {
   from: 'users',
   let: { id: '$author' },
-  pipeline: [{ $match: { $expr: { $eq: ['$_id', '$$id'] } } }],
+  pipeline: [
+    { $match: { $expr: { $eq: ['$_id', '$$id'] } } },
+    {
+      $project: {
+        _id: 1,
+        name: 1,
+      },
+    },
+  ],
   as: 'author',
 };
 
