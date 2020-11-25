@@ -12,10 +12,12 @@ before(() => {
  * - question and answer count
  * - returning populated author
  * - only public games
+ * - limit
+ * - offset
  */
 
-// const user = mongoose.Types.ObjectId('5fb1150fb74fc136a89c2d1d');
-const user = undefined;
+const user = mongoose.Types.ObjectId('5fb1150fb74fc136a89c2d1d');
+// const user = undefined;
 const term = 'Untitled Partydeck';
 
 const match = {
@@ -53,12 +55,16 @@ const lookup = {
   as: 'author',
 };
 
+const offset = 0;
+
 describe('tests the searching functionality', () => {
   it('searches', async () => {
     return Game.aggregate([
       { $match: match },
       { $lookup: lookup },
       { $project: project },
+      { $limit: offset + 25 },
+      { $skip: offset },
     ]).then(res => console.log(res));
   });
 });
