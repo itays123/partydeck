@@ -6,7 +6,8 @@ const router = express.Router();
 
 router.get('/search', async (req, res) => {
   try {
-    const { q = '', offset = 0 } = req.query;
+    let { q = '', offset = 0 } = req.query;
+    offset = Number(offset);
     const result = await Game.search(q, offset, req.uid);
     res.status(200).json({ result });
   } catch (err) {
