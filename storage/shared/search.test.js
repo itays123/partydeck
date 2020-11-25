@@ -1,6 +1,7 @@
 require('../auth/user');
 const Game = require('../game/game');
 const { connect } = require('./mongoose');
+const mongoose = require('mongoose');
 
 before(() => {
   return connect();
@@ -13,8 +14,19 @@ before(() => {
  * - only public games
  */
 
+// const user = mongoose.Types.ObjectId('5fb1150fb74fc136a89c2d1d');
+const user = undefined;
+const term = 'Untitled Partydeck';
+
 const match = {
-  $text: { $search: 'Untitled Partydeck' },
+  $and: [
+    {
+      $text: { $search: term },
+    },
+    {
+      $or: [{ isPrivate: false }, { $expr: { $eq: ['$author', user] } }],
+    },
+  ],
 };
 
 const project = {
