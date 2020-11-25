@@ -23,7 +23,7 @@ const project = {
   isPrivate: 1,
   questionCount: { $size: '$questions' },
   answerCount: { $size: '$answers' },
-  author: 1,
+  author: { $arrayElemAt: ['$author', 0] },
 };
 
 const lookup = {
