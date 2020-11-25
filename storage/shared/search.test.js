@@ -1,7 +1,7 @@
 require('../auth/user');
 const Game = require('../game/game');
 const { connect } = require('./mongoose');
-const mongoose = require('mongoose');
+const assert = require('assert');
 
 before(() => {
   return connect();
@@ -16,55 +16,32 @@ before(() => {
  * - offset
  */
 
-const user = mongoose.Types.ObjectId('5fb1150fb74fc136a89c2d1d');
-// const user = undefined;
-const term = 'Untitled Partydeck';
-
-const match = {
-  $and: [
-    {
-      $text: { $search: term },
-    },
-    {
-      $or: [{ isPrivate: false }, { $expr: { $eq: ['$author', user] } }],
-    },
-  ],
-};
-
-const project = {
-  lng: 1,
-  name: 1,
-  isPrivate: 1,
-  questionCount: { $size: '$questions' },
-  answerCount: { $size: '$answers' },
-  author: { $arrayElemAt: ['$author', 0] },
-};
-
-const lookup = {
-  from: 'users',
-  let: { id: '$author' },
-  pipeline: [
-    { $match: { $expr: { $eq: ['$_id', '$$id'] } } },
-    {
-      $project: {
-        _id: 1,
-        name: 1,
-      },
-    },
-  ],
-  as: 'author',
-};
-
-const offset = 0;
-
 describe('tests the searching functionality', () => {
-  it('searches', async () => {
-    return Game.aggregate([
-      { $match: match },
-      { $lookup: lookup },
-      { $project: project },
-      { $limit: offset + 25 },
-      { $skip: offset },
-    ]).then(res => console.log(res));
+  it('searches with method', async () => {
+    return Game.search('Untitled Partydeck', 0, undefined).then(res => {
+      assert.strictEqual(res.length, 1);
+      assert.strictEqual(res[0].isPrivate, false);
+      assert.strictEqual(res[0].questionCount, 5);
+    });
+  });
+
+  it('searches with auth', async () => {
+    return Game.search(
+      'Untitled Partydeck',
+      0,
+      '5fb1150fb74fc136a89c2d1d'
+    ).then(res => {
+      assert.strictEqual(res.length, 2);
+    });
+  });
+
+  it('searches with offset', async () => {
+    return Game.search(
+      'Untitled Partydeck',
+      1,
+      '5fb1150fb74fc136a89c2d1d'
+    ).then(res => {
+      assert.strictEqual(res.length, 1);
+    });
   });
 });

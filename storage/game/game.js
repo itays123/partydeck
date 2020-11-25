@@ -153,6 +153,51 @@ Schema.statics.getUserGames = async function (uid, auth = undefined) {
   return games;
 };
 
+Schema.statics.search = async function (query, offset = 0, auth = undefined) {
+  let userId = undefined;
+  if (auth) userId = mongoose.Types.ObjectId(auth);
+  const match = {
+    $and: [
+      {
+        $text: { $search: query },
+      },
+      {
+        $or: [{ isPrivate: false }, { $expr: { $eq: ['$author', userId] } }],
+      },
+    ],
+  };
+  const lookup = {
+    from: 'users',
+    let: { id: '$author' },
+    pipeline: [
+      { $match: { $expr: { $eq: ['$_id', '$$id'] } } },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+        },
+      },
+    ],
+    as: 'author',
+  };
+  const project = {
+    lng: 1,
+    name: 1,
+    isPrivate: 1,
+    questionCount: { $size: '$questions' },
+    answerCount: { $size: '$answers' },
+    author: { $arrayElemAt: ['$author', 0] },
+  };
+  const result = await this.aggregate([
+    { $match: match },
+    { $lookup: lookup },
+    { $project: project },
+    { $limit: offset + 25 },
+    { $skip: offset },
+  ]);
+  return result;
+};
+
 const model = mongoose.model('Game', Schema);
 
 module.exports = model;
