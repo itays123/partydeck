@@ -8,6 +8,7 @@ const game = require('./game');
 const { connect } = require('./shared/mongoose');
 const cookieParser = require('cookie-parser')();
 const publicRoutes = require('./shared/pubic-routes');
+const { PORT } = require('./shared/consts');
 
 const app = express();
 
@@ -25,5 +26,5 @@ app.use('/game', game);
 app.use(publicRoutes);
 
 connect().then(() =>
-  app.listen(4000, () => console.log('listening on port 4000'))
+  app.listen(PORT, () => console.log(`listening on port ${PORT}`))
 );

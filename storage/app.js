@@ -8,6 +8,7 @@ const game = require('./game');
 const { connect } = require('./shared/mongoose');
 const cookieParser = require('cookie-parser')();
 const publicRoutes = require('./shared/pubic-routes');
+const { PORT } = require('./shared/consts');
 
 const app = express();
 
@@ -20,4 +21,4 @@ app.use('/auth', auth);
 app.use('/game', game);
 app.use(publicRoutes);
 
-connect().then(() => app.listen(4000));
+connect().then(() => app.listen(PORT));
