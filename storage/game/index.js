@@ -1,6 +1,7 @@
 const express = require('express');
 const onlyAuth = require('../auth/only-auth');
 const Game = require('./game');
+const security = require('./security');
 
 const router = express.Router();
 
@@ -27,7 +28,7 @@ router.get('/', onlyAuth, async (req, res) => {
   res.status(200).json({ games });
 });
 
-router.post('/', onlyAuth, async (req, res) => {
+router.post('/', onlyAuth, security, async (req, res) => {
   try {
     const {
       questions,
