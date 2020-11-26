@@ -1,6 +1,7 @@
 const { compareSync, genSaltSync, hashSync } = require('bcrypt');
 const { sign } = require('jsonwebtoken');
 const mongoose = require('mongoose');
+const { JWT_SECRET } = require('../shared/consts');
 
 const Schema = new mongoose.Schema({
   name: {
@@ -25,7 +26,7 @@ Schema.methods.compare = async function (password) {
 };
 
 Schema.methods.token = async function () {
-  const token = sign({ uid: this._id }, 'shh');
+  const token = sign({ uid: this._id }, JWT_SECRET);
   return token;
 };
 
