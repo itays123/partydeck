@@ -1,4 +1,5 @@
 const express = require('express');
+const { SECURE } = require('../shared/consts');
 const User = require('./user');
 
 const router = express.Router();
@@ -7,7 +8,9 @@ router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
     const token = await User.basicLogin(email, password);
-    res.cookie('token', token, { httpOnly: true });
+    let options = { httpOnly: true, sameSite: false };
+    if (SECURE) options['secure'] = true;
+    res.cookie('token', token, options);
     res.status(200).json({ token });
   } catch (err) {
     res.status(401).json({ err: 'login failed' });
