@@ -116,13 +116,23 @@ export class Server {
       return { status, body: JSON.stringify({ exists, status }), headers };
     }
     if (url.startsWith('/create')) {
-      // const params = new URLSearchParams(url.split('?')[1]);
-      // const gameRef = params.get('ref');
-      // this is where you fetch questions and answers
       console.log('creating game');
-      const { id: code } = this.createGame(...Server.TEST_GAME);
-      const status = 201;
-      return { status, body: JSON.stringify({ code, status }), headers };
+      const body = req.body;
+      const decoder = new TextDecoder('utf-8');
+      const data = JSON.parse(decoder.decode(await Deno.readAll(body)));
+      console.log(data);
+      if (
+        data.playable &&
+        typeof data.playable === 'object' &&
+        data.playable?.length === 2
+      ) {
+        const [questions, answers] = data.playable;
+        const { id: code } = this.createGame(questions, answers);
+        const status = 201;
+        return { status, body: JSON.stringify({ code, status }), headers };
+      } else {
+        return { status: 422, body: JSON.stringify({ err: 'no playable' }) };
+      }
     }
     if (url.startsWith('/?') && acceptable(req)) {
       await this.connect(req);
