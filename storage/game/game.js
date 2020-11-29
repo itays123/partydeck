@@ -124,10 +124,11 @@ Schema.statics.getGame = async function (id, uid = undefined) {
   return game;
 };
 
-Schema.statics.getPlayableGame = async function (id) {
+Schema.statics.getPlayableGame = async function (id, uid = undefined) {
   // this function sends the relevant data to the live server
-  const game = await this.findById(id).select('questions answers');
+  const game = await this.findById(id).select('questions answers author');
   if (!game) return null;
+  else if (game.author != uid) return null;
   else return [game.questions, game.answers];
 };
 

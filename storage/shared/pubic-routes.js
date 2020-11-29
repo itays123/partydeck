@@ -15,6 +15,19 @@ router.get('/search', async (req, res) => {
   }
 });
 
+router.get('/play/:gameId', async (req, res) => {
+  try {
+    const { gameId } = req.params;
+    const playable = await Game.getPlayableGame(gameId, req.uid);
+    if (!playable) {
+      res.status(404).json({ err: 'Game not found', code: 404 });
+      return;
+    }
+  } catch (err) {
+    res.status(500).json({ err: 'Could not start game', code: 500 });
+  }
+});
+
 router.get('/:user', async (req, res) => {
   try {
     const userId = req.params.user;

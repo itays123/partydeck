@@ -8,7 +8,7 @@ const router = express.Router();
 router.get(
   '/playable/:id',
   /* everyone can */ async (req, res) => {
-    const game = await Game.getPlayableGame(req.params.id);
+    const game = await Game.getPlayableGame(req.params.id, req.uid);
     const status = game ? 200 : 404;
     res.status(status).json({ game });
   }

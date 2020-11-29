@@ -4,3 +4,4 @@ module.exports.LIMIT_GAMES = true;
 module.exports.PORT = 4000;
 module.exports.JWT_SECRET = 'shh';
 module.exports.SECURE = false;
+module.exports.SERVER_URL = 'http://localhost:8000';
