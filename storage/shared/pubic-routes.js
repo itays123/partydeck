@@ -1,6 +1,7 @@
 const express = require('express');
 const Game = require('../game/game');
 const User = require('../auth/user');
+const createLiveGame = require('./create-live-game');
 
 const router = express.Router();
 
@@ -23,6 +24,8 @@ router.get('/play/:gameId', async (req, res) => {
       res.status(404).json({ err: 'Game not found', code: 404 });
       return;
     }
+    const { status, gameCode } = await createLiveGame(playable);
+    res.status(status).json({ code: gameCode });
   } catch (err) {
     res.status(500).json({ err: 'Could not start game', code: 500 });
   }
