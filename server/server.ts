@@ -101,7 +101,7 @@ export class Server {
 
   async handler(req: ServerRequest): Promise<Response | null> {
     const { url, method } = req;
-    let headers: Headers = new Headers();
+    const headers: Headers = new Headers();
     headers.set('Access-Control-Allow-Origin', '*');
     headers.set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
     headers.set('Content-Type', 'application/json');
