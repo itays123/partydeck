@@ -52,6 +52,7 @@ export class Server {
 
   static async serve(port: number) {
     const server = new Server();
+    console.log('server is up');
     for await (const req of serve({ port })) {
       const res = await server.handler(req);
       if (res) req.respond(res);
