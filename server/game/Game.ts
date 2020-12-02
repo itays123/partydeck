@@ -1,4 +1,5 @@
 import {
+  DisconnectHandler,
   EndHandler,
   PickedCard,
   PlayerFactory,
@@ -11,6 +12,7 @@ import { BasePlayer } from '../player/BasePlayer.ts';
 import { Circle } from './Circle.ts';
 import { Deck } from './Deck.ts';
 import { Timeout } from '../deps.ts';
+import { assertThrows } from 'https://deno.land/std@0.76.0/testing/asserts.ts';
 
 export class Game<PlayerType extends BasePlayer> {
   // Player-related variables
@@ -78,6 +80,21 @@ export class Game<PlayerType extends BasePlayer> {
     return this.answerDeck.pickTopCard()!;
   };
 
+  private handlePlayerDisconnection: DisconnectHandler = (
+    playerId: string,
+    isAdmin: boolean
+  ) => {
+    console.log(playerId, 'disconnected');
+    this.players.removeEntry(playerId);
+    this.notifyAll({ count: this.playerCount }, -1);
+    if (isAdmin) {
+      if (this.playerCount !== 0) {
+        this.players.peek()!.setAdmin();
+      } else if (!this.isStarted) this.endHandler();
+    }
+    if (this.isStarted && this.playerCount < 3) this.stop();
+  };
+
   private cyclePlayer(
     name: string,
     cards: withNumericId<string>[],
@@ -88,16 +105,7 @@ export class Game<PlayerType extends BasePlayer> {
     if (this.players.has(player.id)) return this.cyclePlayer(name, cards, args);
     else {
       player.on('use', this.handleCardUsage);
-      player.on('disconnect', () => {
-        console.log(player.id, 'disconnected');
-        this.players.removeEntry(player.id);
-        this.notifyAll({ count: this.playerCount }, -1);
-        if (player.isAdmin) {
-          if (this.playerCount !== 0) this.players.peek()!.setAdmin();
-          else if (!this.isStarted) this.endHandler();
-        }
-        if (this.isStarted && this.playerCount < 3) this.stop();
-      });
+      player.on('disconnect', this.handlePlayerDisconnection);
       player.on('start', () => this.start());
       player.on('stop', () => this.stop());
       if (this.playerCount === 0) player.setAdmin();
