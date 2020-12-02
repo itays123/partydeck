@@ -1,3 +1,8 @@
+import { CONSOLE, PORT } from './config.ts';
 import { Server } from './server.ts';
 
-await Server.serve(8000);
+if (!CONSOLE) {
+  console.log = function (...args: any[]) {};
+}
+
+await Server.serve(PORT);
