@@ -86,10 +86,10 @@ const ANSWERS = [
 const PLAYERS = ['player1', 'player2', 'player3', 'player4', 'player5'];
 
 const pickRandomPlayer = async (cards: PickedCard[], judge: any) => {
-  let fallbackPlayer: string;
-  for (const { playerId } of cards) {
-    if (playerId !== judge.id) {
-      fallbackPlayer = playerId;
+  let fallbackPlayer: PickedCard;
+  for (const card of cards) {
+    if (card.playerId !== judge.id) {
+      fallbackPlayer = card;
       if (Math.random() < 0.3) {
         break;
       }
@@ -123,7 +123,7 @@ Deno.test('runs a game with x questions', async () => {
       const pickedPlayer = await pickRandomPlayer(cards, judge);
       rounds.push({
         judge: judge.nickname,
-        winner: players.get(pickedPlayer)!.nickname,
+        winner: players.get(pickedPlayer.playerId)!.nickname,
       });
       return pickedPlayer;
     }
@@ -206,7 +206,7 @@ Deno.test('simulates a round with 0 picks', async () => {
 
   game.on('round', async (cards: PickedCard[]) => {
     if (cards.length === 0) return null;
-    else return cards[0].playerId;
+    else return cards[0];
   });
 
   game.addPlayer('player1');
