@@ -1,7 +1,7 @@
-import { serve, acceptWebSocket } from '../deps.ts';
+import { serve } from '../deps.ts';
 import { Game } from '../game/Game.ts';
 import { Acceptable } from '../types.ts';
-import { Player } from './Player.ts';
+import { Player } from '../player/Player.ts';
 
 const QUESTIONS = ['question1', 'question2', 'question3'];
 const ANSWERS = [

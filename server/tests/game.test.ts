@@ -1,88 +1,9 @@
 import { PickedCard, withNumericId } from '../types.ts';
-import { Game } from './Game.ts';
+import { Game } from '../game/Game.ts';
 import { assertThrowsAsync, assertEquals, assertThrows } from '../deps.ts';
-import { BasePlayer } from '../player/BasePlayer.ts';
+import { TestPlayer } from './TestPlayer.ts';
+import { ANSWERS, QUESTIONS } from './TestCards.ts';
 
-export class TestPlayer extends BasePlayer {
-  private useCards: boolean;
-  constructor(
-    name: string,
-    answerCards: withNumericId<string>[],
-    useCards = true
-  ) {
-    super(name, answerCards);
-    this.useCards = useCards;
-  }
-
-  async broadcast(message: any): Promise<void> {
-    if (typeof message === 'object') {
-      if (message.q) {
-        let pickedCard: string;
-        for (const cardId of this.currentCards.keys()) {
-          pickedCard = cardId;
-          if (Math.random() < 0.25) break;
-        }
-        if (this.useCards) this.useCard(pickedCard!);
-      }
-    }
-  }
-
-  async closeConnection() {
-    // cool!
-  }
-}
-
-const QUESTIONS = [
-  'question1',
-  'question2',
-  'question3',
-  'question4',
-  'question5',
-  'question6',
-  'question7',
-  'question8',
-  'question9',
-  'question10',
-];
-const ANSWERS = [
-  'a1',
-  'a2',
-  'a3',
-  'a4',
-  'a5',
-  'a6',
-  'a7',
-  'a8',
-  'a9',
-  'a10',
-  'a11',
-  'a12',
-  'a13',
-  'a14',
-  'a15',
-  'a16',
-  'a17',
-  'a18',
-  'a19',
-  'a20',
-  'a21',
-  'a22',
-  'a23',
-  'a24',
-  'a25',
-  'a26',
-  'a27',
-  'a28',
-  'a29',
-  'a30',
-  'a31',
-  'a32',
-  'a33',
-  'a34',
-  'a35',
-  'a36',
-  'a37',
-];
 const PLAYERS = ['player1', 'player2', 'player3', 'player4', 'player5'];
 
 const pickRandomPlayer = async (cards: PickedCard[], judge: any) => {

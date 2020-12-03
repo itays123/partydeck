@@ -1,7 +1,6 @@
-import { Game } from './game/Game.ts';
-import { Player } from './player/Player.ts';
-import { Server } from './server.ts';
-import { assertEquals } from './deps.ts';
+import { Game } from '../game/Game.ts';
+import { Player } from '../player/Player.ts';
+import { Server } from '../server.ts';
 
 Deno.test('runs a game', async () => {
   await Server.test(
