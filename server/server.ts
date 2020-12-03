@@ -37,24 +37,6 @@ export class Server {
     this.activeGames = new Map();
   }
 
-  createGame(questions: string[], answers: string[]): Game<Player> {
-    const id = generate();
-    if (this.activeGames.has(id) || this.pendingGames.has(id))
-      return this.createGame(questions, answers);
-    const game = new Game<Player>(id, questions, answers);
-    game.on('connection', Player.newInstance);
-    game.on('start', async () => {
-      this.activeGames.set(id, game);
-      this.pendingGames.delete(id);
-    });
-    game.on('round', Player.roundHandler);
-    game.on('end', async () => {
-      this.activeGames.delete(id);
-    });
-    this.pendingGames.set(id, game);
-    return game;
-  }
-
   async handler(req: ServerRequest): Promise<Response | null> {
     const { url, method } = req;
     const headers: Headers = new Headers();
@@ -98,6 +80,24 @@ export class Server {
       status: 404,
       body: JSON.stringify({ err: 'not found', code: 404 }),
     };
+  }
+
+  createGame(questions: string[], answers: string[]): Game<Player> {
+    const id = generate();
+    if (this.activeGames.has(id) || this.pendingGames.has(id))
+      return this.createGame(questions, answers);
+    const game = new Game<Player>(id, questions, answers);
+    game.on('connection', Player.newInstance);
+    game.on('start', async () => {
+      this.activeGames.set(id, game);
+      this.pendingGames.delete(id);
+    });
+    game.on('round', Player.roundHandler);
+    game.on('end', async () => {
+      this.activeGames.delete(id);
+    });
+    this.pendingGames.set(id, game);
+    return game;
   }
 
   async connect(req: ServerRequest): Promise<boolean> {
