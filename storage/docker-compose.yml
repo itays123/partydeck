@@ -1,0 +1,26 @@
+# PRODUCTION storage service & mongoDB.
+version: '3'
+
+services:
+  storage:
+    container_name: partydeck-storage
+    restart: always
+    build: .
+    ports:
+      - '4000:4000'
+    external_links:
+      - 'mongo'
+    environment:
+      - PORT=4000
+      - MONGO_URI=mongodb://mongo:27017/partydecks
+      - LIMIT_GAMES=true
+      - SECURE=false #modify later
+      - JWT_SECRET=abcdefghijkkmnop #modify later
+      # add server url
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - '27018:27017' # no need for this later
+    volumes:
+      - './data/db:/data/db'
