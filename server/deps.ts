@@ -1,16 +1,24 @@
 export { default as ShortUniqueId } from 'https://cdn.jsdelivr.net/npm/short-unique-id/short_uuid/mod.ts';
-export {
+import {
   serve,
-  Response,
+  Response as ResponseType,
   ServerRequest,
 } from 'https://deno.land/std@0.76.0/http/server.ts';
-export {
+import {
   acceptWebSocket,
   isWebSocketCloseEvent,
   isWebSocketPingEvent,
-  WebSocket,
+  WebSocket as WebSocketType,
   acceptable,
 } from 'https://deno.land/std@0.76.0/ws/mod.ts';
+export {
+  serve,
+  ServerRequest,
+  acceptWebSocket,
+  isWebSocketCloseEvent,
+  isWebSocketPingEvent,
+  acceptable,
+};
 export { Timeout } from 'https://deno.land/x/timeout@2.3/mod.ts';
 
 // test deps
@@ -20,3 +28,6 @@ export {
   assertEquals,
   assertThrows,
 } from 'https://deno.land/std@0.76.0/testing/asserts.ts';
+
+export type Response = ResponseType;
+export type WebSocket = WebSocketType;

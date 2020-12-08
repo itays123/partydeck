@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  server:
+    container_name: partydeck-live
+    restart: always
+    build: .
+    ports:
+      - '8000:8000'
+    environment:
+      - PORT=8000
+      - CONSOLE=1
