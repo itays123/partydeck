@@ -1,0 +1,34 @@
+# development - local
+version: '3'
+
+services:
+  storage:
+    container_name: partydeck-storage
+    restart: always
+    build: ./storage
+    ports:
+      - '4000:4000'
+    external_links:
+      - 'mongo'
+      - 'server'
+    environment:
+      - PORT=4000
+      - MONGO_URI=mongodb://mongo:27017/partydecks
+      - JWT_SECRET=abcdefghijkkmnop #modify later
+      - SERVER_URL=http://server:8000
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - '27018:27017' # no need for this later
+    volumes:
+      - './storage/data/db:/data/db'
+  server:
+    container_name: partydeck-live
+    restart: always
+    build: ./server
+    ports:
+      - '8000:8000'
+    environment:
+      - PORT=8000
+      - CONSOLE=true
