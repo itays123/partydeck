@@ -4,7 +4,7 @@ import Lobby from './Lobby';
 const GameContext = createContext();
 
 const GameContextProvider = ({ children }) => {
-  const [round, setRound] = useState(0);
+  const [round, setRound] = useState(1);
   const [playerCount, setPlayerCount] = useState(1);
   const [isAdmin, setAdmin] = useState(false);
   const [gameCode, setGameCode] = useState('123456');
