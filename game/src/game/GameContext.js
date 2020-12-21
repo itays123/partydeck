@@ -1,13 +1,13 @@
-import { createContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import Lobby from './Lobby';
 
 const GameContext = createContext();
 
 const GameContextProvider = ({ children }) => {
-  const [round, setRound] = useState(0);
+  const [round, setRound] = useState(1);
   const [playerCount, setPlayerCount] = useState(1);
   const [isAdmin, setAdmin] = useState(false);
-  const [gameCode, setGameCode] = useState('000000');
+  const [gameCode, setGameCode] = useState('123456');
   return (
     <GameContext.Provider value={{ round, isAdmin }}>
       {round === 0 ? (
@@ -22,5 +22,11 @@ const GameContextProvider = ({ children }) => {
     </GameContext.Provider>
   );
 };
+
+export function useGameContext() {
+  const context = useContext(GameContext);
+  console.log(context);
+  return context;
+}
 
 export default GameContextProvider;
