@@ -25,7 +25,6 @@ const GameContextProvider = ({ children }) => {
 
 export function useGameContext() {
   const context = useContext(GameContext);
-  console.log(context);
   return context;
 }
 
