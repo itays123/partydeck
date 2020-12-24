@@ -1,15 +1,24 @@
 import { createContext, useContext, useState } from 'react';
-import Lobby from './Lobby';
+import Lobby from '../lobby/Lobby';
 
 const GameContext = createContext();
 
 const GameContextProvider = ({ children }) => {
-  const [round, setRound] = useState(1);
+  const [round, setRound] = useState(0);
   const [playerCount, setPlayerCount] = useState(1);
   const [isAdmin, setAdmin] = useState(false);
   const [gameCode, setGameCode] = useState('123456');
   return (
-    <GameContext.Provider value={{ round, isAdmin }}>
+    <GameContext.Provider
+      value={{
+        round,
+        isAdmin,
+        setRound,
+        setPlayerCount,
+        setAdmin,
+        setGameCode,
+      }}
+    >
       {round === 0 ? (
         <Lobby
           playerCount={playerCount}

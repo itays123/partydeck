@@ -1,6 +1,5 @@
 import GameContextProvider from './game/GameContext';
-import Navbar from './navigation/Navbar';
-import CardPicker from './card/CardPicker';
+import Navbar from './shared/Navbar';
 import RoundContextProvider from './round/RoundContext';
 import Deck from './card/Deck';
 
