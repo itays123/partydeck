@@ -84,7 +84,7 @@ export class Player extends BasePlayer {
       if (isWebSocketCloseEvent(ev)) {
         if (this.disconnectHandler) {
           this.isConnected = false;
-          this.disconnectHandler(this.id, this.isAdmin);
+          this.disconnectHandler(this.id, this.isAdmin, this.nickname);
         }
       }
       if (typeof ev === 'string') {

@@ -82,11 +82,12 @@ export class Game<PlayerType extends BasePlayer> {
 
   private handlePlayerDisconnection: DisconnectHandler = (
     playerId: string,
-    isAdmin: boolean
+    isAdmin: boolean,
+    name?: string
   ) => {
     console.log(playerId, 'disconnected');
     this.players.removeEntry(playerId);
-    this.notifyAll({ count: this.playerCount }, -1);
+    this.notifyAll({ count: this.playerCount, left: name }, -1);
     if (isAdmin) {
       if (this.playerCount !== 0) {
         this.players.peek()!.setAdmin();
@@ -110,7 +111,7 @@ export class Game<PlayerType extends BasePlayer> {
       player.on('stop', () => this.stop());
       if (this.playerCount === 0) player.setAdmin();
       this.players.addEntry(player.id, player);
-      this.notifyAll({ count: this.playerCount }, -1);
+      this.notifyAll({ count: this.playerCount, joined: name }, -1);
       return player;
     }
   }
