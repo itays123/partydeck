@@ -1,10 +1,11 @@
 import { useGameContext } from '../game/GameContext';
+import JoinForm from './JoinForm';
 
 const Lobby = () => {
   const { gameCode } = useGameContext();
   return (
     <div className="lobby container mx-auto">
-      {gameCode && (
+      {gameCode ? (
         <div className="gamecode-display flex justify-center mt-4">
           {gameCode.split('').map((char, i) => (
             <div
@@ -15,6 +16,8 @@ const Lobby = () => {
             </div>
           ))}
         </div>
+      ) : (
+        <JoinForm />
       )}
     </div>
   );
