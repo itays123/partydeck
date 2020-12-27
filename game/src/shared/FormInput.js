@@ -5,26 +5,47 @@ export function useModel(
   validation = () => undefined
 ) {
   const [value, setter] = useState(initialValue);
+  const [showError, setShowError] = useState(false);
   return {
     value,
     setter,
+    showError,
+    setShowError,
     error: validation(value),
     validatedValue: validation(value) ? undefined : value,
   };
 }
 
-const FormInput = ({ model, hint }) => {
-  const { value, setter, error } = model;
+const FormInput = ({
+  model,
+  hint,
+  changeCallback = () => {},
+  className = '',
+  onKeyEnter = () => {},
+}) => {
+  const { value, setter, error, showError, setShowError } = model;
   return (
-    <div className="input my-2">
+    <div className={'input my-2 bg-gray-100 px-4 pt-2 pb-3 w-52 ' + className}>
       <input
         type="text"
-        className="bg-gray-100 px-2 py-1"
+        className="outline-none bg-gray-100 w-48"
         value={value}
-        onChange={e => setter(e.target.value)}
+        onChange={e => {
+          setter(e.target.value);
+          setShowError(false);
+          changeCallback(e.target.value);
+        }}
+        onKeyPress={e => {
+          if (e.key === 'Enter') {
+            setShowError(true);
+            onKeyEnter(value);
+          }
+        }}
         placeholder={hint}
       />
-      {error && <div className="errors">{error}</div>}
+      {error && showError && (
+        <div className="errors text-red-500 text-sm w-48">{error}</div>
+      )}
     </div>
   );
 };
