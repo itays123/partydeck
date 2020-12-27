@@ -16,6 +16,11 @@ export function useModel(
   };
 }
 
+export function classicValidate(value) {
+  if (!value) return 'This field is required';
+  else return undefined;
+}
+
 const FormInput = ({
   model,
   hint,

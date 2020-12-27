@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 export function useGameCheck() {
   const [isGameExists, setGameExists] = useState(undefined);
-  const [awaitingConfirmation, setAwaitingConfirmation] = useState(false);
+  const [awaitingConfirmation, setAwaitingConfirmation] = useState(true);
 
   return {
     checkGame(code, callback = () => {}) {
@@ -10,9 +10,9 @@ export function useGameCheck() {
       setAwaitingConfirmation(true);
       if (code.length === 6)
         setTimeout(() => {
-          setGameExists(false);
+          setGameExists(code === '000000');
           setAwaitingConfirmation(false);
-          callback();
+          callback(code === '000000');
         }, 3000);
     },
     validateGame(code) {
