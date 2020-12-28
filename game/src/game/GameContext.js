@@ -19,9 +19,9 @@ const GameContextProvider = ({ children }) => {
     setAdmin,
     setGameCode,
   };
-  const { join, start } = useWebsocket(context);
+  const websocket = useWebsocket(context);
   return (
-    <GameContext.Provider value={{ ...context, join, start }}>
+    <GameContext.Provider value={{ ...context, ...websocket }}>
       {round === 0 ? <Lobby /> : children}
     </GameContext.Provider>
   );
