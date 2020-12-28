@@ -6,9 +6,9 @@ const GameContext = createContext();
 
 const GameContextProvider = ({ children }) => {
   const [round, setRound] = useState(0);
-  const [playerCount, setPlayerCount] = useState(1);
-  const [isAdmin, setAdmin] = useState(false);
-  const [gameCode, setGameCode] = useState(undefined);
+  const [playerCount, setPlayerCount] = useState(3);
+  const [isAdmin, setAdmin] = useState(true);
+  const [gameCode, setGameCode] = useState('000000');
   const context = {
     round,
     playerCount,
@@ -19,9 +19,9 @@ const GameContextProvider = ({ children }) => {
     setAdmin,
     setGameCode,
   };
-  const { join } = useWebsocket(context);
+  const { join, start } = useWebsocket(context);
   return (
-    <GameContext.Provider value={{ ...context, join }}>
+    <GameContext.Provider value={{ ...context, join, start }}>
       {round === 0 ? <Lobby /> : children}
     </GameContext.Provider>
   );
