@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 export function useGameCheck() {
   const [isGameExists, setGameExists] = useState(undefined);
-  const [awaitingConfirmation, setAwaitingConfirmation] = useState(true);
+  const [awaitingConfirmation, setAwaitingConfirmation] = useState(1);
 
   return {
     checkGame(code, callback = () => {}) {

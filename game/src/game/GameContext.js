@@ -8,7 +8,7 @@ const GameContextProvider = ({ children }) => {
   const [round, setRound] = useState(0);
   const [playerCount, setPlayerCount] = useState(3);
   const [isAdmin, setAdmin] = useState(true);
-  const [gameCode, setGameCode] = useState('000000');
+  const [gameCode, setGameCode] = useState(undefined);
   const context = {
     round,
     playerCount,
