@@ -1,17 +1,12 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext } from 'react';
 import { useGameContext } from '../game/GameContext';
-import { cards, cardsExtended } from './testCards';
 
 const RoundContext = createContext();
 
 const RoundContextProvider = ({ children }) => {
-  const [use, setUse] = useState(cards);
-  const [pick, setPick] = useState(cardsExtended);
-  const [isJudge, setJudge] = useState(false);
-  const [question, setQuestion] = useState('');
   const { round } = useGameContext();
   return (
-    <RoundContext.Provider key={round} value={{ use, pick, isJudge, question }}>
+    <RoundContext.Provider key={round} value={{}}>
       {children}
     </RoundContext.Provider>
   );

@@ -17,3 +17,9 @@ export const cardsExtended = [
   { id: '888888', value: 'lorem ipsum sit emet' },
   { id: '999999', value: 'lorem ipsum sit emet' },
 ];
+
+export const questions = new Map([
+  [1, 'question 1'],
+  [2, 'question 2'],
+  [3, 'question 3'],
+]);

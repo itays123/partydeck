@@ -1,13 +1,12 @@
+import { useGameContext } from '../game/GameContext';
 import { useRoundContext } from '../round/RoundContext';
 import CardPicker from './CardPicker';
 
 const Deck = () => {
-  const { use, pick } = useRoundContext();
-  const pickMode = pick.length > 0;
-  console.log(pickMode);
+  const { use, pick, useMode } = useGameContext();
   return (
     <div className="deck container mx-auto overflow-y-hidden">
-      <CardPicker cards={pickMode ? pick : use} />
+      <CardPicker cards={useMode ? use : pick} />
     </div>
   );
 };
