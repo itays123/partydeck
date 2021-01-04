@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useGameContext } from '../game/GameContext';
 
 const PlayerList = () => {

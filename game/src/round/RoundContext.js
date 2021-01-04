@@ -7,9 +7,10 @@ const RoundContext = createContext();
 const RoundContextProvider = ({ children }) => {
   const { useMode, pick, isJudge, round } = useGameContext();
   return (
-    <RoundContext.Provider key={round}>
+    <RoundContext.Provider key={round} value={{ status: 'Awaiting' }}>
       {!useMode && !pick.length && <Waiting text="Waiting for Players..." />}
       {useMode && isJudge && <Waiting text="Waiting for Players..." />}
+      {!isJudge && !!pick.length && <Waiting text="Waiting for Judge..." />}
       {children}
     </RoundContext.Provider>
   );

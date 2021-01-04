@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { cards, cardsExtended, questions } from './testCards';
 
 export function useWebsocket(context) {
@@ -35,17 +35,33 @@ export function useWebsocket(context) {
   const newRound = () => {
     setRound(r => r + 1);
     setQuestion(questions.get(round));
-    setUse(cards);
+    if (!isJudge) setUse(cards);
+    if (isJudge) {
+      setTimeout(emitUse, 3000);
+    }
     setPick([]);
     setUseMode(true);
   };
 
   const emitUse = cardId => {
     setUseMode(false);
-    setTimeout(() => {
-      setPick(cardsExtended);
-    }, 3000);
+    if (!isJudge)
+      setTimeout(() => {
+        setPick(cardsExtended);
+        setTimeout(emitPick, 3000);
+      }, 3000);
   };
+
+  const emitPick = cardId => {
+    newRound();
+  };
+
+  useEffect(() => {
+    if (isJudge)
+      setTimeout(function () {
+        emitUse();
+      }, 3000);
+  }, [isJudge]);
 
   return {
     join: (gameCode, name) => {
@@ -61,6 +77,8 @@ export function useWebsocket(context) {
     onCardClick: cardId => {
       if (useMode && !isJudge) {
         emitUse(cardId);
+      } else if (!useMode && isJudge) {
+        emitPick(cardId);
       }
     },
     isJudge,
