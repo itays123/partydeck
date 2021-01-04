@@ -8,6 +8,7 @@ export function useWebsocket(context) {
   const [useMode, setUseMode] = useState(true);
   const [isJudge, setJudge] = useState(false);
   const [question, setQuestion] = useState('');
+  const [selectedCardId, setSelectedCard] = useState(undefined);
   const [players, setPlayers] = useState([
     'player',
     'player',
@@ -35,6 +36,7 @@ export function useWebsocket(context) {
   const newRound = () => {
     setRound(r => r + 1);
     setQuestion(questions.get(round));
+    setSelectedCard(undefined);
     if (!isJudge) setUse(cards);
     if (isJudge) {
       setTimeout(emitUse, 3000);
@@ -43,7 +45,8 @@ export function useWebsocket(context) {
     setUseMode(true);
   };
 
-  const emitUse = cardId => {
+  const emitUse = () => {
+    // use selectedCard
     setUseMode(false);
     if (!isJudge)
       setTimeout(() => {
@@ -52,7 +55,8 @@ export function useWebsocket(context) {
       }, 3000);
   };
 
-  const emitPick = cardId => {
+  const emitPick = () => {
+    // use selectedCard
     newRound();
   };
 
@@ -62,6 +66,10 @@ export function useWebsocket(context) {
         emitUse();
       }, 3000);
   }, [isJudge]);
+
+  useEffect(() => {
+    console.log(selectedCardId);
+  }, [selectedCardId]);
 
   return {
     join: (gameCode, name) => {
@@ -75,13 +83,19 @@ export function useWebsocket(context) {
     use,
     pick,
     onCardClick: cardId => {
+      if ((useMode && !isJudge) || (!useMode && isJudge)) {
+        setSelectedCard(cardId);
+      }
+    },
+    onCardButtonClick: () => {
       if (useMode && !isJudge) {
-        emitUse(cardId);
+        emitUse();
       } else if (!useMode && isJudge) {
-        emitPick(cardId);
+        emitPick();
       }
     },
     isJudge,
     question,
+    selectedCardId,
   };
 }
