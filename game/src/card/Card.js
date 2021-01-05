@@ -1,4 +1,10 @@
 import { useGameContext } from '../game/GameContext';
+import { motion } from 'framer-motion';
+
+const cardVariants = {
+  initial: { y: 0 },
+  selected: { y: -10 },
+};
 
 const Card = ({ id, value }) => {
   const {
@@ -8,12 +14,16 @@ const Card = ({ id, value }) => {
     onCardButtonClick,
     isJudge,
   } = useGameContext();
+  const isSelected = selectedCardId === id;
   const showUseButton =
-    ((isJudge && !useMode) || (!isJudge && useMode)) && selectedCardId === id;
+    ((isJudge && !useMode) || (!isJudge && useMode)) && isSelected;
   return (
-    <div
-      className="w-64 md:w-32 h-80 md:h-48 rounded shadow m-1 md:m-2 px-1 md:px-2 bg-gray-200 flex justify-center items-center text-center relative"
+    <motion.div
+      className="card w-64 md:w-32 h-80 md:h-48 rounded shadow m-1 md:m-2 px-1 md:px-2 bg-gray-200 flex justify-center items-center text-center relative"
       onClick={() => onCardClick(id)}
+      variants={cardVariants}
+      transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+      animate={showUseButton ? 'selected' : 'initial'}
     >
       <p className="text-2xl md:text-xl">{value}</p>
       {showUseButton && (
@@ -24,7 +34,7 @@ const Card = ({ id, value }) => {
           {useMode ? 'USE' : 'PICK'}
         </button>
       )}
-    </div>
+    </motion.div>
   );
 };
 

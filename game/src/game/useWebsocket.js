@@ -7,7 +7,7 @@ export function useWebsocket(context) {
   const [pick, setPick] = useState([]);
   const [useMode, setUseMode] = useState(true);
   const [isJudge, setJudge] = useState(false);
-  const [question, setQuestion] = useState('');
+  const [question, setQuestion] = useState('Question 1');
   const [selectedCardId, setSelectedCard] = useState(undefined);
   const [players, setPlayers] = useState([
     'player',

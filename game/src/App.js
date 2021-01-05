@@ -2,6 +2,7 @@ import GameContextProvider from './game/GameContext';
 import Navbar from './shared/Navbar';
 import RoundContextProvider from './round/RoundContext';
 import Deck from './card/Deck';
+import Question from './round/Question';
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <Navbar />
       <GameContextProvider>
         <RoundContextProvider>
+          <Question />
           <Deck />
         </RoundContextProvider>
       </GameContextProvider>

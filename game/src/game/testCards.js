@@ -1,8 +1,8 @@
 export const cards = [
-  { id: '000000', value: 'lorem ipsum sit emet' },
-  { id: '111111', value: 'lorem ipsum sit emet' },
-  { id: '222222', value: 'lorem ipsum sit emet' },
-  { id: '333333', value: 'lorem ipsum sit emet' },
+  { id: '000000', value: 'random text 1' },
+  { id: '111111', value: 'random text 2' },
+  { id: '222222', value: 'random text 3' },
+  { id: '333333', value: 'random text 4' },
 ];
 
 export const cardsExtended = [
