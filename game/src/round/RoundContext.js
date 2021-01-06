@@ -5,13 +5,16 @@ import Waiting from './Waiting';
 const RoundContext = createContext();
 
 const RoundContextProvider = ({ children }) => {
-  const { useMode, pick, isJudge, round } = useGameContext();
+  const { useMode, pick, isJudge, round, pickedCardId } = useGameContext();
   const isActive = (!isJudge && useMode) || (isJudge && pick.length > 0);
+  const isWaitingForPlayers = (!useMode || isJudge) && !pick.length;
+  const isWaitingForJudge = !isJudge && pick.length > 0 && !pickedCardId;
+  const isWaitingForRound = pickedCardId.length > 0 && pick.length > 0;
   return (
     <RoundContext.Provider key={round} value={{ isActive }}>
-      {!useMode && !pick.length && <Waiting text="Waiting for Players..." />}
-      {useMode && isJudge && <Waiting text="Waiting for Players..." />}
-      {!isJudge && !!pick.length && <Waiting text="Waiting for Judge..." />}
+      {isWaitingForPlayers && <Waiting text="Waiting for Players..." />}
+      {isWaitingForJudge && <Waiting text="Waiting for Judge..." />}
+      {isWaitingForRound && <Waiting text="Waiting for Round..." />}
       {children}
     </RoundContext.Provider>
   );

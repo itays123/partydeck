@@ -9,6 +9,8 @@ export function useWebsocket(context) {
   const [isJudge, setJudge] = useState(false);
   const [question, setQuestion] = useState('Question 1');
   const [selectedCardId, setSelectedCard] = useState(undefined);
+  const [playerWon, setPlayerWon] = useState('');
+  const [pickedCardId, setPickedCardId] = useState('');
   const [players, setPlayers] = useState([
     'player',
     'player',
@@ -34,6 +36,8 @@ export function useWebsocket(context) {
   ]);
 
   const newRound = () => {
+    setPickedCardId('');
+    setPlayerWon('');
     setRound(r => r + 1);
     setQuestion(questions.get(round));
     setSelectedCard(undefined);
@@ -57,7 +61,9 @@ export function useWebsocket(context) {
 
   const emitPick = () => {
     // use selectedCard
-    newRound();
+    setPlayerWon('random player');
+    setPickedCardId(isJudge ? selectedCardId : '000000');
+    setTimeout(newRound, 5000);
   };
 
   useEffect(() => {
@@ -97,5 +103,7 @@ export function useWebsocket(context) {
     isJudge,
     question,
     selectedCardId,
+    playerWon,
+    pickedCardId,
   };
 }
