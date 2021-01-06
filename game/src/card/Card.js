@@ -6,6 +6,10 @@ const cardVariants = {
   selected: { y: -10 },
 };
 
+/**
+ *
+ * @param {{ id: string, value: string }} param0
+ */
 const Card = ({ id, value }) => {
   const {
     onCardClick,
@@ -25,7 +29,7 @@ const Card = ({ id, value }) => {
       transition={{ type: 'spring', stiffness: 500, damping: 30 }}
       animate={showUseButton ? 'selected' : 'initial'}
     >
-      <p className="text-2xl md:text-xl">{value}</p>
+      <p className="text-2xl md:text-xl">{value.substring(0, 50)}</p>
       {showUseButton && (
         <button
           className="absolute bottom-0 bg-gray-500 py-2 w-full rounded-b text-gray-100"
