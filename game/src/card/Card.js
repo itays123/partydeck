@@ -1,5 +1,6 @@
 import { useGameContext } from '../game/GameContext';
 import { motion } from 'framer-motion';
+import { useRoundContext } from '../round/RoundContext';
 
 const cardVariants = {
   initial: { y: 0 },
@@ -16,11 +17,10 @@ const Card = ({ id, value }) => {
     selectedCardId,
     useMode,
     onCardButtonClick,
-    isJudge,
   } = useGameContext();
+  const { isActive } = useRoundContext();
   const isSelected = selectedCardId === id;
-  const showUseButton =
-    ((isJudge && !useMode) || (!isJudge && useMode)) && isSelected;
+  const showUseButton = isActive && isSelected;
   return (
     <motion.div
       className="card w-64 md:w-32 h-80 md:h-48 rounded shadow m-1 md:m-2 px-1 md:px-2 bg-gray-200 flex justify-center items-center text-center relative"

@@ -42,7 +42,7 @@ export function useWebsocket(context) {
       setTimeout(emitUse, 3000);
     }
     setPick([]);
-    setUseMode(true);
+    setUseMode(!isJudge);
   };
 
   const emitUse = () => {
