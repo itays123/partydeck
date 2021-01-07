@@ -112,5 +112,6 @@ export function useWebsocket() {
     isAdmin,
     gameCode,
     round,
+    manuallyEndGame: () => {},
   };
 }

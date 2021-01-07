@@ -17,9 +17,12 @@ const Card = ({ id, value }) => {
     selectedCardId,
     useMode,
     onCardButtonClick,
+    pickedCardId,
+    playerWon,
   } = useGameContext();
   const { isActive } = useRoundContext();
   const isSelected = selectedCardId === id;
+  const isPicked = pickedCardId === id;
   const showUseButton = isActive && isSelected;
   return (
     <motion.div
@@ -27,7 +30,7 @@ const Card = ({ id, value }) => {
       onClick={() => onCardClick(id)}
       variants={cardVariants}
       transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-      animate={showUseButton ? 'selected' : 'initial'}
+      animate={showUseButton || isPicked ? 'selected' : 'initial'}
     >
       <p className="text-2xl md:text-xl">{value.substring(0, 50)}</p>
       {showUseButton && (
@@ -37,6 +40,11 @@ const Card = ({ id, value }) => {
         >
           {useMode ? 'USE' : 'PICK'}
         </button>
+      )}
+      {isPicked && (
+        <div className="absolute bottom-0 w-full py-2 font-bold capitalize">
+          {playerWon}
+        </div>
       )}
     </motion.div>
   );

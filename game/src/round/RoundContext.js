@@ -1,11 +1,18 @@
 import { createContext, useContext } from 'react';
 import { useGameContext } from '../game/GameContext';
-import Waiting from './Waiting';
+import EndGameButton from './EndGameButton';
 
 const RoundContext = createContext();
 
 const RoundContextProvider = ({ children }) => {
-  const { useMode, pick, isJudge, round, pickedCardId } = useGameContext();
+  const {
+    useMode,
+    pick,
+    isJudge,
+    round,
+    pickedCardId,
+    isAdmin,
+  } = useGameContext();
   const isActive = (!isJudge && useMode) || (isJudge && pick.length > 0);
   const isWaitingForPlayers = (!useMode || isJudge) && !pick.length;
   const isWaitingForJudge = !isJudge && pick.length > 0 && !pickedCardId;
@@ -21,6 +28,7 @@ const RoundContextProvider = ({ children }) => {
       }}
     >
       {children}
+      {isAdmin && <EndGameButton />}
     </RoundContext.Provider>
   );
 };
