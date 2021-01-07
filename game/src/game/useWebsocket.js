@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { cards, cardsExtended, questions } from './testCards';
 
 export function useWebsocket() {
+  const [isStarted, setStarted] = useState(true);
   const [round, setRound] = useState(1);
   const [playerCount, setPlayerCount] = useState(3);
   const [isAdmin, setAdmin] = useState(true);
@@ -37,19 +38,24 @@ export function useWebsocket() {
     'player',
     'player',
   ]);
+  const [showEndScreen, setShowEndScreen] = useState(false);
 
   const newRound = () => {
-    setPickedCardId('');
-    setPlayerWon('');
-    setRound(r => r + 1);
-    setQuestion(questions.get(round));
-    setSelectedCard(undefined);
-    if (!isJudge) setUse(cards);
-    if (isJudge) {
-      setTimeout(emitUse, 3000);
+    if (isStarted) {
+      setPickedCardId('');
+      setPlayerWon('');
+      setRound(r => r + 1);
+      setQuestion(questions.get(round));
+      setSelectedCard(undefined);
+      if (!isJudge) setUse(cards);
+      if (isJudge) {
+        setTimeout(emitUse, 3000);
+      }
+      setPick([]);
+      setUseMode(!isJudge);
+    } else {
+      setShowEndScreen(true);
     }
-    setPick([]);
-    setUseMode(!isJudge);
   };
 
   const emitUse = () => {
@@ -112,6 +118,9 @@ export function useWebsocket() {
     isAdmin,
     gameCode,
     round,
-    manuallyEndGame: () => {},
+    manuallyEndGame: () => {
+      setStarted(false);
+    },
+    showEndScreen,
   };
 }

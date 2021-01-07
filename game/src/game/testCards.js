@@ -1,8 +1,5 @@
 export const cards = [
-  {
-    id: '000000',
-    value: '1234567890 234567890 234 6789 12345 7890 23456 890 2345678',
-  },
+  { id: '000000', value: 'random text 1' },
   { id: '111111', value: 'random text 2' },
   { id: '222222', value: 'random text 3' },
   { id: '333333', value: 'random text 4' },
