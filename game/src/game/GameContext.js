@@ -1,28 +1,14 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext } from 'react';
 import Lobby from '../lobby/Lobby';
 import { useWebsocket } from './useWebsocket';
 
 const GameContext = createContext();
 
 const GameContextProvider = ({ children }) => {
-  const [round, setRound] = useState(1);
-  const [playerCount, setPlayerCount] = useState(3);
-  const [isAdmin, setAdmin] = useState(true);
-  const [gameCode, setGameCode] = useState('000000');
-  const context = {
-    round,
-    playerCount,
-    isAdmin,
-    gameCode,
-    setRound,
-    setPlayerCount,
-    setAdmin,
-    setGameCode,
-  };
-  const websocket = useWebsocket(context);
+  const websocket = useWebsocket();
   return (
-    <GameContext.Provider value={{ ...context, ...websocket }}>
-      {round === 0 ? <Lobby /> : children}
+    <GameContext.Provider value={{ ...websocket }}>
+      {websocket.round === 0 ? <Lobby /> : children}
     </GameContext.Provider>
   );
 };

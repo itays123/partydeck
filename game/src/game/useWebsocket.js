@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import { cards, cardsExtended, questions } from './testCards';
 
-export function useWebsocket(context) {
-  const { setGameCode, setRound, round } = context;
+export function useWebsocket() {
+  const [round, setRound] = useState(1);
+  const [playerCount, setPlayerCount] = useState(3);
+  const [isAdmin, setAdmin] = useState(true);
+  const [gameCode, setGameCode] = useState('000000');
   const [use, setUse] = useState(cards);
   const [pick, setPick] = useState([]);
   const [useMode, setUseMode] = useState(true);
@@ -105,5 +108,9 @@ export function useWebsocket(context) {
     selectedCardId,
     playerWon,
     pickedCardId,
+    playerCount,
+    isAdmin,
+    gameCode,
+    round,
   };
 }
