@@ -3,6 +3,7 @@ import Navbar from './shared/Navbar';
 import RoundContextProvider from './round/RoundContext';
 import Deck from './card/Deck';
 import Question from './round/Question';
+import LoadingFeedback from './round/LoadingFeedback';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <GameContextProvider>
         <RoundContextProvider>
           <Question />
+          <LoadingFeedback />
           <Deck />
         </RoundContextProvider>
       </GameContextProvider>

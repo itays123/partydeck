@@ -11,10 +11,15 @@ const RoundContextProvider = ({ children }) => {
   const isWaitingForJudge = !isJudge && pick.length > 0 && !pickedCardId;
   const isWaitingForRound = pickedCardId.length > 0 && pick.length > 0;
   return (
-    <RoundContext.Provider key={round} value={{ isActive }}>
-      {isWaitingForPlayers && <Waiting text="Waiting for Players..." />}
-      {isWaitingForJudge && <Waiting text="Waiting for Judge..." />}
-      {isWaitingForRound && <Waiting text="Waiting for Round..." />}
+    <RoundContext.Provider
+      key={round}
+      value={{
+        isActive,
+        isWaitingForPlayers,
+        isWaitingForJudge,
+        isWaitingForRound,
+      }}
+    >
       {children}
     </RoundContext.Provider>
   );
