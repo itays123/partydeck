@@ -38,7 +38,7 @@ const JoinForm = () => {
       )}
       <div className="mx-auto w-52">
         <button
-          className="w-52 bg-gray-800 text-gray-100 py-2 focus:outline-none hover:bg-gray-700 disabled:opacity-70 flex justify-center"
+          className="w-52 dark-button flex justify-center"
           disabled={
             (mode === 'code' && code.error) || (mode === 'name' && name.error)
           }

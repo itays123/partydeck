@@ -24,7 +24,7 @@ const Lobby = () => {
               <div className="start-btn absolute bottom-0 left-0 right-0">
                 <div className="w-screen max-w-screen-sm mx-auto px-4 pb-6">
                   <button
-                    className="w-full bg-gray-800 text-gray-100 py-2 focus:outline-none hover:bg-gray-700 disabled:opacity-70"
+                    className="w-full dark-button"
                     disabled={playerCount < 3}
                     onClick={() => start()}
                   >
