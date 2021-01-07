@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
-import { cards, cardsExtended, questions } from './testCards';
+import {
+  cards,
+  cardsExtended,
+  questions,
+  testPlayers,
+  testScores,
+} from './testCards';
 
 export function useWebsocket() {
   const [isStarted, setStarted] = useState(true);
@@ -15,30 +21,9 @@ export function useWebsocket() {
   const [selectedCardId, setSelectedCard] = useState(undefined);
   const [playerWon, setPlayerWon] = useState('');
   const [pickedCardId, setPickedCardId] = useState('');
-  const [players, setPlayers] = useState([
-    'player',
-    'player',
-    'player',
-    'player',
-    'player',
-    'player',
-    'player',
-    'player',
-    'player',
-    'player',
-    'player',
-    'player',
-    'player',
-    'player',
-    'player',
-    'player',
-    'player',
-    'player',
-    'player',
-    'player',
-    'player',
-  ]);
+  const [players, setPlayers] = useState(testPlayers);
   const [showEndScreen, setShowEndScreen] = useState(false);
+  const [scoreboard, setScoreboard] = useState(testScores);
 
   const newRound = () => {
     if (isStarted) {
@@ -122,5 +107,6 @@ export function useWebsocket() {
       setStarted(false);
     },
     showEndScreen,
+    scoreboard,
   };
 }

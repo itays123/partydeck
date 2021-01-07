@@ -23,3 +23,36 @@ export const questions = new Map([
   [2, 'question 2'],
   [3, 'question 3'],
 ]);
+
+export const testPlayers = [
+  'player',
+  'player',
+  'player',
+  'player',
+  'player',
+  'player',
+  'player',
+  'player',
+  'player',
+  'player',
+  'player',
+  'player',
+  'player',
+  'player',
+  'player',
+  'player',
+  'player',
+  'player',
+  'player',
+  'player',
+  'player',
+];
+
+const testScorer = {
+  nickname: 'Player',
+  cardsWon: {
+    size: 4,
+  },
+};
+
+export const testScores = [testScorer, testScorer, testScorer, testScorer];

@@ -9,8 +9,13 @@ const GameContextProvider = ({ children }) => {
   const websocket = useWebsocket();
   return (
     <GameContext.Provider value={{ ...websocket }}>
-      {websocket.round === 0 ? <Lobby /> : children}
-      {websocket.showEndScreen && <Scoreboard />}
+      {websocket.showEndScreen ? (
+        <Scoreboard />
+      ) : websocket.round === 0 ? (
+        <Lobby />
+      ) : (
+        children
+      )}
     </GameContext.Provider>
   );
 };
