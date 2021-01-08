@@ -87,7 +87,10 @@ export class Game<PlayerType extends BasePlayer> {
   ) => {
     console.log(playerId, 'disconnected');
     this.players.removeEntry(playerId);
-    this.notifyAll({ count: this.playerCount, left: name }, -1);
+    this.notifyAll(
+      { context: 'PLAYER_LEFT', count: this.playerCount, left: name },
+      -1
+    );
     if (isAdmin) {
       if (this.playerCount !== 0) {
         this.players.peek()!.setAdmin();
@@ -111,7 +114,10 @@ export class Game<PlayerType extends BasePlayer> {
       player.on('stop', () => this.stop());
       if (this.playerCount === 0) player.setAdmin();
       this.players.addEntry(player.id, player);
-      this.notifyAll({ count: this.playerCount, joined: name }, -1);
+      this.notifyAll(
+        { context: 'PLAYER_JOINED', count: this.playerCount, joined: name },
+        -1
+      );
       return player;
     }
   }
@@ -149,7 +155,7 @@ export class Game<PlayerType extends BasePlayer> {
     if (this.players.size < 3) return [];
 
     this.startHandler(this.players.map);
-    this.notifyAll({ dispatched: 'start' }, 0);
+    this.notifyAll({ context: 'GAME_STARTED', dispatched: 'start' }, 0);
     await Timeout.wait(this.roundDelay * 1000);
 
     for (let i = 0; i < this.numberOfRounds; i++) {
@@ -158,9 +164,12 @@ export class Game<PlayerType extends BasePlayer> {
       const judge = this.players.circle();
       judge.setJudge();
       const question = this.questionDeck.pickTopCard()!;
-      await this.notifyAll({ q: question.value, j: judge.nickname }, i);
+      await this.notifyAll(
+        { q: question.value, j: judge.nickname, context: 'ROUND_STARTED' },
+        i
+      );
       await this.waitUntilCardsPicked();
-      await this.notifyAll({ pick: this.roundCards }, i);
+      await this.notifyAll({ pick: this.roundCards, context: 'PICK' }, i);
       const winnerCard = await this.roundHandler(
         this.roundCards,
         judge,
@@ -170,17 +179,25 @@ export class Game<PlayerType extends BasePlayer> {
         const winner = this.players.map.get(winnerCard.playerId)!;
         winner.cardsWon.add(question.id);
         await this.notifyAll(
-          { playerWon: winner.nickname, winningCard: winnerCard.value },
+          {
+            playerWon: winner.nickname,
+            winningCard: winnerCard.value,
+            context: 'ROUND_ENDED',
+          },
           i
         );
       } else {
-        await this.notifyAll({ playerWon: 'nobody' }, i);
+        await this.notifyAll(
+          { playerWon: 'nobody', context: 'ROUND_ENDED_404' },
+          i
+        );
       }
       judge.setPlayer();
       await Timeout.wait(this.roundDelay * 1000);
     }
 
     const scores = this.scores;
+    await this.notifyAll({ context: 'GAME_ENDED', scores }, -1);
 
     for (const [, player] of this.players.map) {
       await player.closeConnection();
