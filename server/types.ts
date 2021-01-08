@@ -27,7 +27,11 @@ export type UseHandler = (
   playerId: string
 ) => withNumericId<string>;
 
-export type DisconnectHandler = (playerId: string, isAdmin: boolean) => any;
+export type DisconnectHandler = (
+  playerId: string,
+  isAdmin: boolean,
+  nickname?: any
+) => any;
 
 export type ReqHandler = () => any;
 
