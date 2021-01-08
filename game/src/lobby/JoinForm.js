@@ -38,6 +38,7 @@ const JoinForm = () => {
           model={name}
           hint="YOUR NAME"
           className="mx-auto"
+          focusOnRender
           onKeyEnter={() => {
             if (name.validatedValue && !awaitingConfirmation)
               join(code.validatedValue, name.validatedValue);
