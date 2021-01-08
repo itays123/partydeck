@@ -181,7 +181,7 @@ export class Game<PlayerType extends BasePlayer> {
         await this.notifyAll(
           {
             playerWon: winner.nickname,
-            winningCard: winnerCard.value,
+            winningCard: winnerCard.id,
             context: 'ROUND_ENDED',
           },
           i
