@@ -6,7 +6,6 @@ const getRequestUrl = gameCode =>
 export function useGameCheck() {
   const [isGameExists, setGameExists] = useState(undefined);
   const [awaitingConfirmation, setAwaitingConfirmation] = useState(1);
-  console.log(process.env.REACT_APP_SERVER_URL);
 
   return {
     checkGame(code, callback = () => {}) {

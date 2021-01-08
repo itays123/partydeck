@@ -1,5 +1,6 @@
 export const initialGameState = {
   players: [],
+  gameCode: undefined,
   round: 0,
   playerCount: 1,
   pickedCardId: '',
@@ -17,6 +18,9 @@ export const initialGameState = {
 
 export function gameReducer(state, { type, payload }) {
   switch (type) {
+    case 'JOINED': {
+      return { ...state, gameCode: payload.gameCode };
+    }
     case 'PLAYER_JOINED': {
       const newPlayers = [...state.players, payload.joined];
       const newCount = payload.count;
