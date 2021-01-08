@@ -42,5 +42,8 @@ export function useGameCheck() {
       }
     },
     awaitingConfirmation,
+    clearErrors() {
+      setGameExists(undefined);
+    },
   };
 }

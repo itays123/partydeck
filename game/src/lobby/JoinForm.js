@@ -5,7 +5,12 @@ import Spinner from '../shared/Spinner';
 import { useGameCheck } from './useGameCheck';
 
 const JoinForm = () => {
-  const { validateGame, checkGame, awaitingConfirmation } = useGameCheck();
+  const {
+    validateGame,
+    checkGame,
+    awaitingConfirmation,
+    clearErrors,
+  } = useGameCheck();
   const code = useModel('', validateGame);
   const name = useModel('', classicValidate);
   const { join } = useGameContext();
@@ -17,6 +22,9 @@ const JoinForm = () => {
           model={code}
           hint="GAME CODE"
           className="mx-auto"
+          changeCallback={() => {
+            clearErrors();
+          }}
           onKeyEnter={value =>
             checkGame(value, result => {
               code.setShowError(true);

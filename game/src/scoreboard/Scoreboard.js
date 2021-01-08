@@ -10,6 +10,11 @@ const Scoreboard = () => {
       {scoreboard.map((player, i) => (
         <Row {...player} key={i} />
       ))}
+      <div className="flex justify-center mt-4">
+        <a className="dark-button px-2" href="/">
+          Join Another Game
+        </a>
+      </div>
     </div>
   );
 };
