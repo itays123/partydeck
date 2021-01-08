@@ -9,10 +9,10 @@ import {
 
 export function useWebsocket() {
   const [isStarted, setStarted] = useState(true);
-  const [round, setRound] = useState(1);
+  const [round, setRound] = useState(0);
   const [playerCount, setPlayerCount] = useState(3);
   const [isAdmin, setAdmin] = useState(true);
-  const [gameCode, setGameCode] = useState('000000');
+  const [gameCode, setGameCode] = useState(undefined);
   const [use, setUse] = useState(cards);
   const [pick, setPick] = useState([]);
   const [useMode, setUseMode] = useState(true);
