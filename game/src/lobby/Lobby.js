@@ -1,6 +1,6 @@
 import { useGameContext } from '../game/GameContext';
 import JoinForm from './JoinForm';
-import PlayerList from './PlayerList';
+import LobbyLoader from './LobbyLoader';
 
 const Lobby = () => {
   const { gameCode, isAdmin, playerCount, start } = useGameContext();
@@ -19,7 +19,7 @@ const Lobby = () => {
             ))}
           </div>
           <div className="players w-full">
-            <PlayerList />
+            <LobbyLoader />
             {isAdmin && (
               <div className="start-btn absolute bottom-0 left-0 right-0">
                 <div className="w-screen max-w-screen-sm mx-auto px-4 pb-6">

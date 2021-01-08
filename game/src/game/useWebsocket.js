@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from 'react';
+import { useReducer, useState } from 'react';
 import { initialGameState, gameReducer } from './gameReducer';
 
 const getWSUri = (gameCode, name) =>

@@ -1,5 +1,5 @@
 export const initialGameState = {
-  players: [],
+  isStarted: false,
   gameCode: undefined,
   round: 0,
   playerCount: 1,
@@ -22,25 +22,23 @@ export function gameReducer(state, { type, payload }) {
       return { ...state, gameCode: payload.gameCode };
     }
     case 'PLAYER_JOINED': {
-      const newPlayers = [...state.players, payload.joined];
       const newCount = payload.count;
       return {
         ...state,
-        players: newPlayers,
         playerCount: newCount,
         isAdmin: payload.isAdmin,
       };
     }
     case 'PLAYER_LEFT': {
-      const index = state.players.findIndex(p => p === payload.left);
-      const newPlayers = state.players.splice(index, 1);
       const newCount = payload.count;
       return {
         ...state,
-        players: newPlayers,
         playerCount: newCount,
         isAdmin: payload.isAdmin,
       };
+    }
+    case 'GAME_STARTED': {
+      return { ...state, isStarted: true };
     }
     case 'ROUND_STARTED': {
       const round = state.round + 1;

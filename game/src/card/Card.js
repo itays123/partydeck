@@ -20,10 +20,10 @@ const Card = ({ id, value }) => {
     pickedCardId,
     playerWon,
   } = useGameContext();
-  const { isActive } = useRoundContext();
+  const { isActive, isWaitingForRound } = useRoundContext();
   const isSelected = selectedCardId === id;
   const isPicked = pickedCardId === id;
-  const showUseButton = isActive && isSelected;
+  const showUseButton = isActive && isSelected && !isWaitingForRound;
   return (
     <motion.div
       className="card w-64 md:w-32 h-80 md:h-48 rounded shadow m-1 md:m-2 px-1 md:px-2 bg-gray-200 flex justify-center items-center text-center relative"
