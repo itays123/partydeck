@@ -1,5 +1,4 @@
 import { useGameContext } from '../game/GameContext';
-import { questions } from '../game/testCards';
 
 const Question = () => {
   const { question } = useGameContext();

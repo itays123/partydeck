@@ -15,7 +15,7 @@ export const initialGameState = {
   scoreboard: [],
 };
 
-export function reducer(state, { type, payload }) {
+export function gameReducer(state, { type, payload }) {
   switch (type) {
     case 'PLAYER_JOINED': {
       const newPlayers = [...state.players, payload.joined];
