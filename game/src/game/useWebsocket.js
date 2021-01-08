@@ -30,7 +30,9 @@ export function useWebsocket() {
         return ws;
       });
     },
-    start: () => {},
+    start: () => {
+      sendMessage({ dispatch: 'start' });
+    },
     onCardClick: cardId => {
       dispatch({ type: 'CARD_SELECTED', payload: { selected: cardId } });
     },
@@ -42,6 +44,8 @@ export function useWebsocket() {
         sendMessage({ picked: state.selectedCardId });
       }
     },
-    manuallyEndGame: () => {},
+    manuallyEndGame: () => {
+      sendMessage({ dispatch: 'stop' });
+    },
   };
 }

@@ -24,13 +24,23 @@ export function gameReducer(state, { type, payload }) {
     case 'PLAYER_JOINED': {
       const newPlayers = [...state.players, payload.joined];
       const newCount = payload.count;
-      return { ...state, players: newPlayers, playerCount: newCount };
+      return {
+        ...state,
+        players: newPlayers,
+        playerCount: newCount,
+        isAdmin: payload.isAdmin,
+      };
     }
     case 'PLAYER_LEFT': {
       const index = state.players.findIndex(p => p === payload.left);
       const newPlayers = state.players.splice(index, 1);
       const newCount = payload.count;
-      return { ...state, players: newPlayers, playerCount: newCount };
+      return {
+        ...state,
+        players: newPlayers,
+        playerCount: newCount,
+        isAdmin: payload.isAdmin,
+      };
     }
     case 'ROUND_STARTED': {
       const round = state.round + 1;
@@ -71,6 +81,7 @@ export function gameReducer(state, { type, payload }) {
         ...state,
         playerWon: payload.playerWon,
         pickedCardId: payload.winningCard,
+        isAdmin: payload.isAdmin,
       };
     }
     case 'ROUND_ENDED_404': {
