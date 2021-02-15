@@ -1,1 +1,5 @@
-export default function useLogin() {}
+export default function useLogin() {
+  return {
+    login(email, passoword) {},
+  };
+}
