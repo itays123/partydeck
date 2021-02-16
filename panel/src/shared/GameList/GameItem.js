@@ -17,7 +17,7 @@ const GameItem = ({
   }
   return (
     <div className="game-item bg-gray-100 rounded shadowed px-8 py-6">
-      <h3 className="title text-xl md:text-2xl">
+      <h3 className="title text-xl md:text-2xl text-purple-600 font-bold">
         <Link to={'/game/' + _id}>{name}</Link>
       </h3>
       <p>
