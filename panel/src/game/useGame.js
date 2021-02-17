@@ -4,7 +4,7 @@ export function useGame(gameId) {
     lng: 'en',
     name: 'A Random Deck',
     isPrivate: false,
-    author: { name: 'Itay' },
+    author: { name: 'Itay', _id: '' },
     questions: [
       'question',
       'question',
