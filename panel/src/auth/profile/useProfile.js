@@ -4,6 +4,7 @@ export function useProfile(userId) {
     name: 'Itay',
     games: [
       {
+        _id: 1,
         lng: 'en',
         name: 'A Random Deck',
         isPrivate: false,
@@ -11,6 +12,7 @@ export function useProfile(userId) {
         answerCount: 54,
       },
       {
+        _id: 2,
         lng: 'en',
         name: 'A Random Deck #2',
         isPrivate: true,
