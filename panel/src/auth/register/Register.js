@@ -33,7 +33,6 @@ const Register = () => {
         model={email}
         hint="Your Email"
         className="mx-auto"
-        focusOnRender
         changeCallback={() => clearErrors()}
         onKeyEnter={value => {
           checkEmail(value, () => {
