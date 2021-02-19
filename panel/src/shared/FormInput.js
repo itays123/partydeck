@@ -28,6 +28,7 @@ const FormInput = ({
   className = '',
   onKeyEnter = () => {},
   focusOnRender,
+  type,
 }) => {
   const { value, setter, error, showError, setShowError } = model;
   const ref = useRef();
@@ -41,7 +42,7 @@ const FormInput = ({
   return (
     <div className={'input my-2 bg-gray-100 px-4 pt-2 pb-3 w-52 ' + className}>
       <input
-        type="text"
+        type={type || 'text'}
         className="outline-none bg-gray-100 w-48"
         ref={ref}
         value={value}

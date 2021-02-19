@@ -15,3 +15,9 @@ code {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .dark-button {
+    @apply bg-gray-800 text-gray-100 py-2 focus:outline-none hover:bg-gray-700 disabled:opacity-70;
+  }
+}
