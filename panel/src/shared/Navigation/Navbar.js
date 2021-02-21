@@ -8,7 +8,7 @@ import SignedOutLinks from './SignedOutLinks';
 const Navbar = () => {
   const { isSignedIn } = useAuthContext();
   return (
-    <nav className="bg-gray-100 dark:bg-purple-900 nav px-8 w-screen flex">
+    <nav className="bg-gray-100 dark:bg-purple-900 nav px-8 w-screen flex z-50">
       <div className="md:px-4 lg:px-6 flex items-center h-16 ml-8">
         <img src={logo} width={20} height={20} alt="" />
         <h1 className="text-xl text-purple-900 dark:text-gray-100 font-bold">

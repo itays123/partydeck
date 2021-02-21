@@ -1,22 +1,18 @@
 import { BrowserRouter, Route } from 'react-router-dom';
 import AuthContextProvider from './auth/AuthContext';
 import Login from './auth/login/Login';
-import { useProfile } from './auth/profile/useProfile';
 import Register from './auth/register/Register';
 import GameView from './game/view/GameView';
-import GameList from './shared/GameList/GameList';
 import Navbar from './shared/Navigation/Navbar';
+import SearchResults from './shared/Search/SearchResults';
 
 function App() {
-  const profile = useProfile('');
   return (
     <BrowserRouter>
       <AuthContextProvider>
-        <div className="app w-screen h-screen bg-gray-200 mx-0 overflow-y-hidden">
+        <div className="app w-screen h-screen bg-gray-200 mx-0 overflow-y-hidden relative">
           <Navbar />
-          <Route exact path="/">
-            <GameList sharedAuthor={profile} games={profile.games} />
-          </Route>
+          <Route exact path="/"></Route>
           <Route path="/game/:id">
             <GameView />
           </Route>
@@ -25,6 +21,9 @@ function App() {
           </Route>
           <Route path="/start">
             <Register />
+          </Route>
+          <Route path="/search">
+            <SearchResults />
           </Route>
         </div>
       </AuthContextProvider>
