@@ -1,4 +1,9 @@
+import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+
 const Search = ({ className = '' }) => {
+  const { push } = useHistory();
+  const [query, setQuery] = useState();
   return (
     <div className={className}>
       <div className="flex items-center h-full bg-gray-200 dark:bg-purple-700 rounded px-2">
@@ -15,6 +20,12 @@ const Search = ({ className = '' }) => {
         <input
           type="text"
           placeholder="Search Games..."
+          onChange={e => setQuery(e.target.value)}
+          onKeyPress={e => {
+            if (e.key === 'Enter') {
+              push(`/search?q=${query}`);
+            }
+          }}
           className="flex-grow h-full pl-1 bg-transparent outline-none placeholder-gray-600 dark:placeholder-purple-300"
         />
       </div>
