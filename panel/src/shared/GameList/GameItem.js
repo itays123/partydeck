@@ -1,6 +1,7 @@
 import { useGameListContext } from './GameListContext';
 import { Link } from 'react-router-dom';
 import languages from '../helpers/languages';
+import { useAuthor } from './useAuthor';
 
 const GameItem = ({
   _id,
@@ -11,10 +12,7 @@ const GameItem = ({
   answerCount,
   author,
 }) => {
-  const context = useGameListContext();
-  if (!author) {
-    author = context.author;
-  }
+  const { authorName, profileLink } = useAuthor(author);
   return (
     <div className="game-item bg-gray-100 rounded shadowed px-8 py-6">
       <h3 className="title text-xl md:text-2xl text-purple-600 font-bold">
@@ -22,7 +20,7 @@ const GameItem = ({
       </h3>
       <p>
         <span>
-          Created by <Link to={'/' + author._id}>{author.name}</Link>
+          Created by <Link to={profileLink}>{authorName}</Link>
         </span>
         {languages[lng] && <span> &middot; {languages[lng].nativeName}</span>}
         {isPrivate ? <span> &middot; private</span> : null}
