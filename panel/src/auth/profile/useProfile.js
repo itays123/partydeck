@@ -1,4 +1,8 @@
+import { useAuthContext } from '../AuthContext';
+
 export function useProfile(userId) {
+  const { user } = useAuthContext();
+  if (!userId) return user;
   return {
     _id: userId,
     name: 'Itay',
