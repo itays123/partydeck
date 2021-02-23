@@ -21,4 +21,6 @@ app.use('/auth', auth);
 app.use('/game', game);
 app.use(publicRoutes);
 
-connect().then(() => app.listen(PORT));
+connect().then(() =>
+  app.listen(PORT, () => console.log(`listening on port ${PORT}`))
+);
