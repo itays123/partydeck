@@ -6,6 +6,8 @@ import DeckEditorWrapper from './edit/DeckEditorWrapper';
 import { usePlayGame } from './view/usePlayGame';
 import EditorOnly from './edit/EditorOnly';
 import PrivatePublicToggle from './edit/PrivatePublicToggle/PrivatePublicToggle';
+import GameSettingsViewEdit from './GameSettingsViewEdit';
+import GameActions from './GameActions';
 
 const GameViewEdit = () => {
   const { id } = useParams();
@@ -20,31 +22,9 @@ const GameViewEdit = () => {
               <h1 className="text-xl md:text-2xl lg:text-4xl font-bold text-purple-600">
                 {game.name}
               </h1>
-              <h2 className="text-lg md:text-xl">
-                Made by{' '}
-                <Link to={'/' + game.author._id}>{game.author.name}</Link>
-              </h2>
-              <h3 className="text-md">
-                {languages[game.lng] && (
-                  <span>{languages[game.lng].nativeName}</span>
-                )}
-                <EditorOnly shouldNotBeEditor>
-                  &middot;
-                  {game.isPrivate ? 'Private' : 'Public'}
-                </EditorOnly>
-                <EditorOnly>
-                  <PrivatePublicToggle />
-                </EditorOnly>
-              </h3>
+              <GameSettingsViewEdit />
             </section>
-            <section className="actions flex justify-end">
-              <button
-                className="play px-3 py-1 ml-4 rounded bg-purple-600 text-gray-100 font-bold"
-                onClick={() => play()}
-              >
-                Play
-              </button>
-            </section>
+            <GameActions play={play} />
           </header>
         </div>
         <div>
