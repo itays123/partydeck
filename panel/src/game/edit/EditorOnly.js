@@ -1,8 +1,8 @@
 import { useGameEditorContext } from './GameEditorContext';
 
-const EditorOnly = ({ children }) => {
+const EditorOnly = ({ children, shouldNotBeEditor = false }) => {
   const { isEditable } = useGameEditorContext();
-  return isEditable ? children : null;
+  return isEditable !== shouldNotBeEditor ? children : null;
 };
 
 export default EditorOnly;
