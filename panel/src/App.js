@@ -4,15 +4,14 @@ import Login from './auth/login/Login';
 import Profile from './auth/profile/Profile';
 import Register from './auth/register/Register';
 import GameView from './game/view/GameView';
-import Navbar from './shared/Navigation/Navbar';
+import NavWrapper from './shared/Navigation/NavWrapper';
 import SearchResults from './shared/Search/SearchResults';
 
 function App() {
   return (
     <BrowserRouter>
       <AuthContextProvider>
-        <div className="app w-screen h-screen bg-gray-200 mx-0 overflow-y-hidden relative">
-          <Navbar />
+        <NavWrapper>
           <Route exact path="/">
             <Profile />
           </Route>
@@ -31,7 +30,7 @@ function App() {
           <Route path="/search">
             <SearchResults />
           </Route>
-        </div>
+        </NavWrapper>
       </AuthContextProvider>
     </BrowserRouter>
   );

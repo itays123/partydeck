@@ -11,7 +11,7 @@ const GameView = () => {
   const { play } = usePlayGame(id);
   const { user } = useAuthContext();
   return (
-    <div className="game-view w-screen relative h-screen">
+    <div className="game-view scrollable">
       <div className="bg-gray-100 w-full">
         <header className="container mx-auto pt-8 pb-4 px-2">
           <section className="details">
@@ -46,7 +46,7 @@ const GameView = () => {
           </section>
         </header>
       </div>
-      <div className="overflow-y-scroll w-full py-4 bottom-0 top-0 h-full pb-32">
+      <div>
         <CardList title="Questions" list={game.questions} />
         <CardList title="Answers" list={game.answers} />
       </div>
