@@ -20,7 +20,7 @@ const GameEditorContextProvider = ({
   const isGameNew = !!!initialName; // if a title does not exist, the game is new.
   const isEditable = user._id === author?._id || isGameNew;
   const [name, setName] = useState(initialName);
-  const [isPrivate, setIsPrivate] = useState(initialIsPrivate);
+  const [isPrivate, setPrivate] = useState(initialIsPrivate);
   const questions = useDeckEditor(initialQuestions);
   const answers = useDeckEditor(initialAnswers);
 
@@ -32,7 +32,7 @@ const GameEditorContextProvider = ({
         name,
         setName,
         isPrivate,
-        setIsPrivate,
+        setPrivate,
         questions,
         answers,
       }}

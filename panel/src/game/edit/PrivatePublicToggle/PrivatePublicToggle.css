@@ -1,0 +1,4 @@
+input:checked ~ .toggle__dot {
+  transform: translateX(100%);
+  @apply bg-purple-600;
+}

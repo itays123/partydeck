@@ -4,6 +4,8 @@ import GameEditorContextProvider from './edit/GameEditorContext';
 import { useGame } from './useGame';
 import DeckEditorWrapper from './edit/DeckEditorWrapper';
 import { usePlayGame } from './view/usePlayGame';
+import EditorOnly from './edit/EditorOnly';
+import PrivatePublicToggle from './edit/PrivatePublicToggle/PrivatePublicToggle';
 
 const GameViewEdit = () => {
   const { id } = useParams();
@@ -24,9 +26,15 @@ const GameViewEdit = () => {
               </h2>
               <h3 className="text-md">
                 {languages[game.lng] && (
-                  <span>{languages[game.lng].nativeName} &middot; </span>
+                  <span>{languages[game.lng].nativeName}</span>
                 )}
-                {game.isPrivate ? 'Private' : 'Public'}
+                <EditorOnly shouldNotBeEditor>
+                  &middot;
+                  {game.isPrivate ? 'Private' : 'Public'}
+                </EditorOnly>
+                <EditorOnly>
+                  <PrivatePublicToggle />
+                </EditorOnly>
               </h3>
             </section>
             <section className="actions flex justify-end">
