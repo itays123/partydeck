@@ -16,6 +16,8 @@ const GameEditorContextProvider = ({
   name: initialName,
   author,
   lng: initialLng = 'en',
+  play = () => {},
+  remove = () => {},
 }) => {
   const { user } = useAuthContext();
   const isGameNew = !!!initialName; // if a title does not exist, the game is new.
@@ -40,6 +42,8 @@ const GameEditorContextProvider = ({
         questions,
         answers,
         author: isGameNew ? user : author,
+        play,
+        remove,
       }}
     >
       {children}

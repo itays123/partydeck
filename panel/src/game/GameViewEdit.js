@@ -1,11 +1,8 @@
-import { Link, useParams } from 'react-router-dom';
-import languages from '../shared/helpers/languages';
+import { useHistory, useParams } from 'react-router-dom';
 import GameEditorContextProvider from './edit/GameEditorContext';
 import { useGame } from './useGame';
 import DeckEditorWrapper from './edit/DeckEditorWrapper';
 import { usePlayGame } from './view/usePlayGame';
-import EditorOnly from './edit/EditorOnly';
-import PrivatePublicToggle from './edit/PrivatePublicToggle/PrivatePublicToggle';
 import GameSettingsViewEdit from './GameSettingsViewEdit';
 import GameActions from './GameActions';
 
@@ -13,8 +10,13 @@ const GameViewEdit = () => {
   const { id } = useParams();
   const game = useGame(id);
   const { play } = usePlayGame(id);
+  const history = useHistory();
   return (
-    <GameEditorContextProvider {...game}>
+    <GameEditorContextProvider
+      {...game}
+      play={play}
+      remove={() => history.push('/')}
+    >
       <div className="game-view scrollable">
         <div className="bg-gray-100 w-full">
           <header className="container mx-auto pt-8 pb-4 px-2">
@@ -24,7 +26,7 @@ const GameViewEdit = () => {
               </h1>
               <GameSettingsViewEdit />
             </section>
-            <GameActions play={play} />
+            <GameActions />
           </header>
         </div>
         <div>
