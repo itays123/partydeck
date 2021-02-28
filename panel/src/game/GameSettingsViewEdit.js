@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import languages from '../shared/helpers/languages';
+import GameLanguageSelect from './create/GameLanguageSelect';
+import NewGamesOnly from './create/NewGamesOnly';
 import EditorOnly from './edit/EditorOnly';
 import { useGameEditorContext } from './edit/GameEditorContext';
 import PrivatePublicToggle from './edit/PrivatePublicToggle/PrivatePublicToggle';
@@ -11,8 +13,13 @@ const GameSettingsViewEdit = () => {
       <h2 className="text-lg md:text-xl">
         Made by <Link to={'/' + author._id}>{author.name}</Link>
       </h2>
+      <NewGamesOnly>
+        <GameLanguageSelect />
+      </NewGamesOnly>
       <h3 className="text-md">
-        {languages[lng] && <span>{languages[lng].nativeName}</span>}
+        <NewGamesOnly gameShouldExist>
+          {languages[lng] && <span>{languages[lng].nativeName}</span>}
+        </NewGamesOnly>
         <EditorOnly shouldNotBeEditor>
           &middot;
           {isPrivate ? 'Private' : 'Public'}
