@@ -37,6 +37,7 @@ export function useDeckEditor(initialDeck = []) {
         setAdded(map => {
           const newMap = new Map(map);
           newMap.delete(key);
+          return newMap;
         });
       } else {
         setDeleted(set => set.add(key));
@@ -44,6 +45,7 @@ export function useDeckEditor(initialDeck = []) {
       setDeck(map => {
         const newMap = new Map(map);
         newMap.delete(key);
+        return newMap;
       });
     },
   };
