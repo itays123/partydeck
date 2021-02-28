@@ -22,6 +22,7 @@ export function useDeckEditor(initialDeck = []) {
     deleted,
     addCard(value) {
       const key = Math.max(...deck.keys()) + 1;
+      setFocusedCardIndex(deck.size); // the deck size will increase, and the new index will equal the current deck size
       setDeck(map => new Map(map.set(key, value)));
       setAdded(map => new Map(map.set(key, value)));
     },
