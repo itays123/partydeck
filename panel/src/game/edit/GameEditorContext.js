@@ -21,8 +21,8 @@ const GameEditorContextProvider = ({
   const isEditable = user._id === author?._id || isGameNew;
   const [name, setName] = useState(initialName);
   const [isPrivate, setIsPrivate] = useState(initialIsPrivate);
-  const questionEditor = useDeckEditor(initialQuestions);
-  const answerEditor = useDeckEditor(initialAnswers);
+  const questions = useDeckEditor(initialQuestions);
+  const answers = useDeckEditor(initialAnswers);
 
   return (
     <GameEditorContext.Provider
@@ -33,8 +33,8 @@ const GameEditorContextProvider = ({
         setName,
         isPrivate,
         setIsPrivate,
-        questionEditor,
-        answerEditor,
+        questions,
+        answers,
       }}
     >
       {children}

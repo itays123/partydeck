@@ -40,8 +40,8 @@ const GameView = () => {
           </header>
         </div>
         <div>
-          <CardList title="Questions" list={game.questions} />
-          <CardList title="Answers" list={game.answers} />
+          <CardList title="Questions" contextEditor="questions" />
+          <CardList title="Answers" contextEditor="answers" />
         </div>
       </div>
     </GameEditorContextProvider>
