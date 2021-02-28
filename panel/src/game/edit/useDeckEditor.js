@@ -13,6 +13,7 @@ export function useDeckEditor(initialDeck = []) {
   const [modified, setModified] = useState(new Map());
   const [deleted, setDeleted] = useState(new Set());
   const [deck, setDeck] = useState(asMap(initialDeck));
+  const [focusedCardIndex, setFocusedCardIndex] = useState(-1);
 
   return {
     deck,
@@ -47,6 +48,15 @@ export function useDeckEditor(initialDeck = []) {
         newMap.delete(key);
         return newMap;
       });
+    },
+    // focus utilities
+    focusedCardIndex,
+    setFocusedCardIndex,
+    clearFocus() {
+      setFocusedCardIndex(-1);
+    },
+    next() {
+      setFocusedCardIndex(i => ++i);
     },
   };
 }

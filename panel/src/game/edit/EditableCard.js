@@ -1,20 +1,35 @@
+import { useEffect, useRef } from 'react';
 import EditorOnly from './EditorOnly';
 import { useGameEditorContext } from './GameEditorContext';
 
 const EditableCard = ({
   text,
+  focused,
   onTextChange = () => {},
   onDeletePress = () => {},
+  onTabPress = () => {},
+  onFocus = () => {},
 }) => {
   const { isEditable } = useGameEditorContext();
+  const ref = useRef();
+
+  useEffect(() => {
+    if (focused) ref.current.focus();
+  }, [focused]);
+
   return (
-    <div className="card rounded shadow bg-gray-100 text-center py-8 md:py-16 relative group">
+    <div
+      className="card rounded shadow bg-gray-100 text-center py-8 md:py-16 relative group"
+      onClick={onFocus}
+    >
       <input
         className="focus:outline-none bg-transparent text-center"
         type="text"
         placeholder="An Empty Card"
         value={text}
+        ref={ref}
         readOnly={!isEditable}
+        onKeyDown={e => e.key === 'Tab' && onTabPress()}
         onChange={e => onTextChange(e.target.value)}
       />
       <EditorOnly>
