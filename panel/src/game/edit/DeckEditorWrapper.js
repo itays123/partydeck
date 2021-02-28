@@ -1,7 +1,7 @@
-import DeckEditor from '../edit/DeckEditor';
-import { useGameEditorContext } from '../edit/GameEditorContext';
+import DeckEditor from './DeckEditor';
+import { useGameEditorContext } from './GameEditorContext';
 
-const CardList = ({ title, contextEditor }) => {
+const DeckEditorWrapper = ({ title, contextEditor }) => {
   const context = useGameEditorContext();
   const editor = context[contextEditor];
   return (
@@ -17,4 +17,4 @@ const CardList = ({ title, contextEditor }) => {
   );
 };
 
-export default CardList;
+export default DeckEditorWrapper;

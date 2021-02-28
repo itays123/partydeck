@@ -1,11 +1,11 @@
 import { Link, useParams } from 'react-router-dom';
-import languages from '../../shared/helpers/languages';
-import GameEditorContextProvider from '../edit/GameEditorContext';
-import { useGame } from '../useGame';
-import CardList from './CardList';
-import { usePlayGame } from './usePlayGame';
+import languages from '../shared/helpers/languages';
+import GameEditorContextProvider from './edit/GameEditorContext';
+import { useGame } from './useGame';
+import DeckEditorWrapper from './edit/DeckEditorWrapper';
+import { usePlayGame } from './view/usePlayGame';
 
-const GameView = () => {
+const GameViewEdit = () => {
   const { id } = useParams();
   const game = useGame(id);
   const { play } = usePlayGame(id);
@@ -40,12 +40,12 @@ const GameView = () => {
           </header>
         </div>
         <div>
-          <CardList title="Questions" contextEditor="questions" />
-          <CardList title="Answers" contextEditor="answers" />
+          <DeckEditorWrapper title="Questions" contextEditor="questions" />
+          <DeckEditorWrapper title="Answers" contextEditor="answers" />
         </div>
       </div>
     </GameEditorContextProvider>
   );
 };
 
-export default GameView;
+export default GameViewEdit;
