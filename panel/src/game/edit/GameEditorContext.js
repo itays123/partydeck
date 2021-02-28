@@ -35,6 +35,7 @@ const GameEditorContextProvider = ({
         setPrivate,
         questions,
         answers,
+        author: isGameNew ? user : author,
       }}
     >
       {children}
