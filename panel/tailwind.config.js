@@ -3,10 +3,9 @@ module.exports = {
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     extend: {},
-    fill: theme => ({
-      light: theme('colors.purple.300'),
-      dark: theme('colors.gray.500'),
-    }),
+    fill: {
+      current: 'currentColor',
+    },
   },
   variants: {
     extend: {
