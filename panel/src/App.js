@@ -3,6 +3,7 @@ import AuthContextProvider from './auth/AuthContext';
 import Login from './auth/login/Login';
 import Profile from './auth/profile/Profile';
 import Register from './auth/register/Register';
+import CreateGame from './game/create/CreateGame';
 import GameViewEdit from './game/GameViewEdit';
 import NavWrapper from './shared/Navigation/NavWrapper';
 import SearchResults from './shared/Search/SearchResults';
@@ -29,6 +30,9 @@ function App() {
           </Route>
           <Route path="/search">
             <SearchResults />
+          </Route>
+          <Route path="/create">
+            <CreateGame />
           </Route>
         </NavWrapper>
       </AuthContextProvider>

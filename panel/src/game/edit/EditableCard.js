@@ -40,7 +40,7 @@ const EditableCard = ({
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
-            className="fill-current text-gray-100"
+            className="fill-current text-gray-500"
             width={24}
             height={24}
           >
