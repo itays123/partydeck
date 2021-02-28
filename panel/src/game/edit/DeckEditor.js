@@ -39,7 +39,7 @@ const DeckEditor = ({ editor }) => {
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
-            className="fill-dark"
+            className="fill-current text-gray-500"
             width={48}
             height={48}
           >
