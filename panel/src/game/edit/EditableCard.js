@@ -7,6 +7,7 @@ const EditableCard = ({ text, onTextChange = () => {} }) => {
       <input
         className="focus:outline-none bg-transparent text-center"
         type="text"
+        placeholder="An Empty Card"
         value={text}
         readOnly={!isEditable}
         onChange={e => onTextChange(e.target.value)}
