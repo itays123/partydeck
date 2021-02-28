@@ -1,3 +1,5 @@
+import EditableCard from '../edit/EditableCard';
+
 const CardList = ({ list, title }) => {
   return (
     <div className="card-list container mx-auto overflow-y-visible mt-4 px-2">
@@ -7,12 +9,7 @@ const CardList = ({ list, title }) => {
       </h3>
       <section className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-2 pb-6">
         {list.map((text, index) => (
-          <div
-            className="card rounded shadow bg-gray-100 text-center py-8 md:py-16"
-            key={`${text}:${index}`}
-          >
-            {text}
-          </div>
+          <EditableCard key={index} text={text} onTextChange={() => {}} />
         ))}
       </section>
     </div>
