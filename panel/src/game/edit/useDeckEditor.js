@@ -20,7 +20,7 @@ export function useDeckEditor(initialDeck = []) {
     modified,
     deleted,
     addCard(value) {
-      const key = deck.size;
+      const key = Math.max(...deck.keys()) + 1;
       setDeck(map => new Map(map.set(key, value)));
       setAdded(map => new Map(map.set(key, value)));
     },
