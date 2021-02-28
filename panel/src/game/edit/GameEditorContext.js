@@ -13,7 +13,7 @@ const GameEditorContextProvider = ({
   questions: initialQuestions,
   answers: initialAnswers,
   isPrivate: initialIsPrivate,
-  name: initialName,
+  name: initialName = '',
   author,
   lng: initialLng = 'en',
   play = () => {},
