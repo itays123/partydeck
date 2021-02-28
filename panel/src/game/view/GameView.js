@@ -1,5 +1,4 @@
 import { Link, useParams } from 'react-router-dom';
-import { useAuthContext } from '../../auth/AuthContext';
 import languages from '../../shared/helpers/languages';
 import { useGame } from '../useGame';
 import CardList from './CardList';
@@ -9,7 +8,6 @@ const GameView = () => {
   const { id } = useParams();
   const game = useGame(id);
   const { play } = usePlayGame(id);
-  const { user } = useAuthContext();
   return (
     <div className="game-view scrollable">
       <div className="bg-gray-100 w-full">
@@ -29,14 +27,6 @@ const GameView = () => {
             </h3>
           </section>
           <section className="actions flex justify-end">
-            {user._id === game.author._id && (
-              <Link
-                to={'/edit/' + id}
-                className="edit px-3 py-1 ml-4 rounded bg-purple-600 text-gray-100 font-bold"
-              >
-                Edit
-              </Link>
-            )}
             <button
               className="play px-3 py-1 ml-4 rounded bg-purple-600 text-gray-100 font-bold"
               onClick={() => play()}
