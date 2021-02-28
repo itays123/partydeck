@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from 'react';
 import { useAuthContext } from '../../auth/AuthContext';
+import { useDeckEditor } from './useDeckEditor';
 
 const GameEditorContext = createContext();
 
@@ -16,10 +17,12 @@ const GameEditorContextProvider = ({
   author,
 }) => {
   const { user } = useAuthContext();
-  const isEditable = user._id === author?._id;
   const isGameNew = !!!initialName; // if a title does not exist, the game is new.
+  const isEditable = user._id === author?._id || isGameNew;
   const [name, setName] = useState(initialName);
   const [isPrivate, setIsPrivate] = useState(initialIsPrivate);
+  const questionEditor = useDeckEditor(initialQuestions);
+  const answerEditor = useDeckEditor(initialAnswers);
 
   return (
     <GameEditorContext.Provider
@@ -30,6 +33,8 @@ const GameEditorContextProvider = ({
         setName,
         isPrivate,
         setIsPrivate,
+        questionEditor,
+        answerEditor,
       }}
     >
       {children}
