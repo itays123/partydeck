@@ -1,5 +1,6 @@
 import { BrowserRouter, Route } from 'react-router-dom';
 import AuthContextProvider from './auth/AuthContext';
+import AuthOnly from './auth/AuthOnly';
 import Login from './auth/login/Login';
 import Profile from './auth/profile/Profile';
 import Register from './auth/register/Register';
@@ -24,16 +25,22 @@ function App() {
             <Profile />
           </Route>
           <Route path="/login">
-            <Login />
+            <AuthOnly shouldNotBeAuthenticated redirect="/">
+              <Login />
+            </AuthOnly>
           </Route>
           <Route path="/start">
-            <Register />
+            <AuthOnly shouldNotBeAuthenticated redirect="/">
+              <Register />
+            </AuthOnly>
           </Route>
           <Route path="/search">
             <SearchResults />
           </Route>
           <Route path="/create">
-            <CreateGame />
+            <AuthOnly redirect="/">
+              <CreateGame />
+            </AuthOnly>
           </Route>
         </NavWrapper>
       </AuthContextProvider>
