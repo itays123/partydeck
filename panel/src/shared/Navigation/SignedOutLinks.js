@@ -1,14 +1,13 @@
+import AuthOnly from '../../auth/AuthOnly';
 import NavigationButton from './NavigationButton';
 
 const SignedOutLinks = () => {
-  return [
-    <NavigationButton to="/login" key="login">
-      Login
-    </NavigationButton>,
-    <NavigationButton to="/register" key="register">
-      Get Started
-    </NavigationButton>,
-  ];
+  return (
+    <AuthOnly shouldNotBeAuthenticated>
+      <NavigationButton to="/login">Login</NavigationButton>
+      <NavigationButton to="/register">Get Started</NavigationButton>
+    </AuthOnly>
+  );
 };
 
 export default SignedOutLinks;

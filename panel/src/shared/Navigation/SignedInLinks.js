@@ -1,12 +1,13 @@
+import AuthOnly from '../../auth/AuthOnly';
 import NavigationButton from './NavigationButton';
 
 const SignedInLinks = () => {
-  return [
-    <NavigationButton key="home">My Games</NavigationButton>,
-    <NavigationButton to="/create" key="new">
-      New Game
-    </NavigationButton>,
-  ];
+  return (
+    <AuthOnly>
+      <NavigationButton>My Games</NavigationButton>
+      <NavigationButton to="/create">New Game</NavigationButton>
+    </AuthOnly>
+  );
 };
 
 export default SignedInLinks;
