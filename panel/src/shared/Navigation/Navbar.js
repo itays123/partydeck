@@ -1,3 +1,4 @@
+import { GameWebsiteLink } from '../helpers/GameWebsiteLink';
 import Search from '../Search/Search';
 import NavigationButton from './NavigationButton';
 import logo from './partydeck.svg';
@@ -17,10 +18,9 @@ const Navbar = () => {
       <div className="links flex items-stretch pl-4">
         <SignedInLinks />
         <SignedOutLinks />
-        <NavigationButton to="" external>
+        <NavigationButton to={GameWebsiteLink} external>
           Join Game
         </NavigationButton>
-        {/* TODO: Link to client */}
       </div>
     </nav>
   );

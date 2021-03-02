@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useAuthContext } from '../auth/AuthContext';
 import AuthOnly from '../auth/AuthOnly';
 import GameList from './GameList/GameList';
+import { GameWebsiteLink } from './helpers/GameWebsiteLink';
 
 const Home = () => {
   const { user, logout } = useAuthContext();
@@ -23,9 +24,8 @@ const Home = () => {
               </Link>
               <a
                 className="bg-pink-500 colorful-button animation-scaleup"
-                href="/"
+                href={GameWebsiteLink}
               >
-                {/* TODO: Live game address */}
                 Join Game
               </a>
               <button
@@ -51,9 +51,8 @@ const Home = () => {
               </Link>
               <a
                 className="bg-blue-500 colorful-button animation-scaleup"
-                href="/"
+                href={GameWebsiteLink}
               >
-                {/* TODO: Live game address */}
                 Join Game
               </a>
             </AuthOnly>
