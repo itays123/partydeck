@@ -14,7 +14,8 @@ const Register = () => {
   const email = useModel('', validateEmail);
   const passwordConfirm = useModel('', classicValidate);
   const password = useModel('', value => {
-    if (value !== passwordConfirm.value) return 'Password must match';
+    if (value.trim() === '') return 'Password must not be empty';
+    else if (value !== passwordConfirm.value) return 'Passwords must match';
     else return undefined;
   });
   const showPasswordInput =
