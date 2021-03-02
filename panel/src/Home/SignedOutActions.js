@@ -7,15 +7,15 @@ const SignedOutActions = () => {
     <AuthOnly shouldNotBeAuthenticated>
       <Link
         className="bg-yellow-500 colorful-button animation-scaleup"
-        to="/start"
-      >
-        Get Started
-      </Link>
-      <Link
-        className="bg-pink-500 colorful-button animation-scaleup"
         to="/login"
       >
         Log In
+      </Link>
+      <Link
+        className="bg-pink-500 colorful-button animation-scaleup"
+        to="/start"
+      >
+        Get Started
       </Link>
       <a
         className="bg-blue-500 colorful-button animation-scaleup"
