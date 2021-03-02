@@ -1,15 +1,18 @@
 import { useProfile } from './useProfile';
-import { useParams } from 'react-router-dom';
+import { Redirect, useParams } from 'react-router-dom';
 import GameList from '../../shared/GameList/GameList';
 import UserDetails from './UserDetails';
-import HomepageActions from './HomepageActions';
+import { useAuthContext } from '../AuthContext';
 
 const Profile = () => {
+  const { user } = useAuthContext();
   const { id } = useParams();
   const profile = useProfile(id);
-  return (
+  return user._id === id ? (
+    <Redirect to="/" />
+  ) : (
     <div className="profile container mx-auto">
-      {id ? <UserDetails profile={profile} /> : <HomepageActions />}
+      <UserDetails profile={profile} />
       <GameList games={profile.games} sharedAuthor={profile} />
     </div>
   );

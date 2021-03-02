@@ -5,6 +5,7 @@ import Profile from './auth/profile/Profile';
 import Register from './auth/register/Register';
 import CreateGame from './game/create/CreateGame';
 import GameViewEdit from './game/GameViewEdit';
+import Home from './shared/Home';
 import NavWrapper from './shared/Navigation/NavWrapper';
 import SearchResults from './shared/Search/SearchResults';
 
@@ -14,7 +15,7 @@ function App() {
       <AuthContextProvider>
         <NavWrapper>
           <Route exact path="/">
-            <Profile />
+            <Home />
           </Route>
           <Route path="/game/:id">
             <GameViewEdit />
