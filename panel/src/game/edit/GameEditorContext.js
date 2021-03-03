@@ -11,9 +11,9 @@ export function useGameEditorContext() {
 
 const GameEditorContextProvider = ({
   children,
-  questions: initialQuestions,
-  answers: initialAnswers,
-  isPrivate: initialIsPrivate,
+  questions: initialQuestions = [],
+  answers: initialAnswers = [],
+  isPrivate: initialIsPrivate = false,
   name: initialName = '',
   author,
   lng: initialLng = 'en',
@@ -30,6 +30,16 @@ const GameEditorContextProvider = ({
   const questions = useDeckEditor(initialQuestions);
   const answers = useDeckEditor(initialAnswers);
   const history = useHistory();
+
+  const questionsAreChanged = (card, key) => card !== initialQuestions?.[key];
+  const answersAreChanged = (card, key) => card !== initialAnswers?.[key];
+  const isChanged =
+    name !== initialName ||
+    isPrivate !== initialIsPrivate ||
+    [...questions.deck.values()].some(questionsAreChanged) ||
+    [...answers.deck.values()].some(answersAreChanged) ||
+    questions.deck.size !== initialQuestions?.length ||
+    answers.deck.size !== initialAnswers?.length;
 
   const clearState = () => {
     questions.clearFocus();
@@ -82,6 +92,7 @@ const GameEditorContextProvider = ({
       value={{
         isEditable,
         isGameNew,
+        isChanged,
         name,
         setName,
         isPrivate,
