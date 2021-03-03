@@ -16,7 +16,8 @@ export function useDeckEditor(initialDeck = []) {
   const [focusedCardIndex, setFocusedCardIndex] = useState(-1);
 
   const addCardAndFocus = value => {
-    const key = Math.max(...deck.keys()) + 1;
+    let key = Math.max(...deck.keys()) + 1;
+    if (key < 0) key = 0;
     setFocusedCardIndex(deck.size); // the deck size will increase, and the new index will equal the current deck size
     setDeck(map => new Map(map.set(key, value)));
     setAdded(map => new Map(map.set(key, value)));
@@ -64,6 +65,12 @@ export function useDeckEditor(initialDeck = []) {
       // if increasing the focused index will point to an undefined card, create one
       if (focusedCardIndex + 1 === deck.size) addCardAndFocus('');
       else setFocusedCardIndex(i => ++i);
+    },
+    clearState() {
+      setAdded(new Map());
+      setModified(new Map());
+      setDeleted(new Set());
+      setDeck(new Map());
     },
   };
 }
