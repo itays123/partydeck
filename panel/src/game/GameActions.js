@@ -8,7 +8,7 @@ const GameActions = () => {
     <section className="actions flex justify-start flex-row-reverse">
       <NewGamesOnly gameShouldExist>
         <button
-          className="play px-3 py-1 ml-4 text-purple-900 font-medium flex focus:outline-none disabled:opacity-50"
+          className="play action-button"
           onClick={play}
           disabled={isChanged}
         >
@@ -27,10 +27,7 @@ const GameActions = () => {
       </NewGamesOnly>
       <EditorOnly>
         <NewGamesOnly gameShouldExist>
-          <button
-            className="remove px-3 py-1 ml-4 text-purple-900 font-medium flex focus:outline-none"
-            onClick={remove}
-          >
+          <button className="remove action-button" onClick={remove}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -45,7 +42,7 @@ const GameActions = () => {
           </button>
         </NewGamesOnly>
         <button
-          className="save px-3 py-1 ml-4 text-purple-900 font-medium flex focus:outline-none disabled:opacity-50"
+          className="save action-button"
           onClick={save}
           disabled={!isChanged}
         >
@@ -62,7 +59,7 @@ const GameActions = () => {
           Save
         </button>
         <button
-          className="save px-3 py-1 ml-4 text-purple-900 font-medium flex focus:outline-none disabled:opacity-50"
+          className="discard action-button"
           onClick={discard}
           disabled={!isChanged}
         >
