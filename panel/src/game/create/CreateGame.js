@@ -3,10 +3,12 @@ import GameEditorContextProvider from '../edit/GameEditorContext';
 import GameActions from '../GameActions';
 import GameSettingsViewEdit from '../GameSettingsViewEdit';
 import GameNameForm from './GameNameForm';
+import { useCreateGame } from './useCreateGame';
 
 const CreateGame = () => {
+  const { create } = useCreateGame();
   return (
-    <GameEditorContextProvider>
+    <GameEditorContextProvider save={create}>
       <div className="game-view scrollable">
         <div className="bg-gray-100 w-full">
           <header className="container mx-auto pt-8 pb-4 px-2">

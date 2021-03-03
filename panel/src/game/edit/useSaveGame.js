@@ -1,9 +1,9 @@
 import { useHistory } from 'react-router-dom';
 
-export function useCreateGame() {
+export function useSaveGame() {
   const history = useHistory();
   return {
-    create(game) {
+    save(changes) {
       history.push('/game/1');
     },
   };

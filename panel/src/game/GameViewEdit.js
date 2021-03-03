@@ -5,16 +5,19 @@ import DeckEditorWrapper from './edit/DeckEditorWrapper';
 import { usePlayGame } from './view/usePlayGame';
 import GameSettingsViewEdit from './GameSettingsViewEdit';
 import GameActions from './GameActions';
+import { useSaveGame } from './edit/useSaveGame';
 
 const GameViewEdit = () => {
   const { id } = useParams();
   const game = useGame(id);
+  const { save } = useSaveGame();
   const { play } = usePlayGame(id);
   const history = useHistory();
   return (
     <GameEditorContextProvider
       {...game}
       play={play}
+      save={save}
       remove={() => history.push('/')}
     >
       <div className="game-view scrollable">

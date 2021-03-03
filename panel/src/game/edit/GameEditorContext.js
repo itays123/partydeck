@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useAuthContext } from '../../auth/AuthContext';
 import { useDeckEditor } from './useDeckEditor';
 
@@ -18,6 +19,7 @@ const GameEditorContextProvider = ({
   lng: initialLng = 'en',
   play = () => {},
   remove = () => {},
+  save: saveFunc = () => {},
 }) => {
   const { user } = useAuthContext();
   const isGameNew = !!!initialName; // if a title does not exist, the game is new.
@@ -27,6 +29,53 @@ const GameEditorContextProvider = ({
   const [lng, setLng] = useState(initialLng);
   const questions = useDeckEditor(initialQuestions);
   const answers = useDeckEditor(initialAnswers);
+  const history = useHistory();
+
+  const clearState = () => {
+    questions.clearFocus();
+    questions.clearState();
+    answers.clearFocus();
+    answers.clearState();
+    if (isGameNew) {
+      setLng(initialLng);
+      setName(initialName);
+      setPrivate(initialIsPrivate);
+    }
+  };
+
+  const save = () => {
+    let arg;
+    if (isGameNew) {
+      arg = {
+        name,
+        lng,
+        isPrivate,
+        questions: [...questions.added.values()],
+        answers: [...answers.added.values()],
+      };
+    } else {
+      arg = {
+        questions: {
+          added: [...questions.added.values()],
+          modified: [...questions.modified.entries()],
+          deleted: [...questions.deleted.values()],
+        },
+        answers: {
+          added: [...answers.added.values()],
+          modified: [...answers.modified.entries()],
+          deleted: [...answers.deleted.values()],
+        },
+        isPrivate,
+      };
+    }
+    saveFunc(arg);
+    clearState(); // refresh
+  };
+
+  const discard = () => {
+    clearState();
+    history.push('/');
+  };
 
   return (
     <GameEditorContext.Provider
@@ -44,6 +93,8 @@ const GameEditorContextProvider = ({
         author: isGameNew ? user : author,
         play,
         remove,
+        discard,
+        save,
       }}
     >
       {children}

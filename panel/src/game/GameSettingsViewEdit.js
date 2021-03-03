@@ -11,7 +11,7 @@ const GameSettingsViewEdit = () => {
   return (
     <>
       <h2 className="text-lg md:text-xl">
-        Made by <Link to={'/' + author._id}>{author.name}</Link>
+        Made by <Link to={'/user/' + author._id}>{author.name}</Link>
       </h2>
       <NewGamesOnly>
         <GameLanguageSelect />
