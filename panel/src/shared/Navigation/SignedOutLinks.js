@@ -5,7 +5,7 @@ const SignedOutLinks = () => {
   return (
     <AuthOnly shouldNotBeAuthenticated>
       <NavigationButton to="/login">Login</NavigationButton>
-      <NavigationButton to="/register">Get Started</NavigationButton>
+      <NavigationButton to="/start">Get Started</NavigationButton>
     </AuthOnly>
   );
 };
