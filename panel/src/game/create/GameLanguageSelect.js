@@ -10,7 +10,9 @@ const GameLanguageSelect = () => {
       className="bg-transparent focus:outline-none"
     >
       {Object.keys(languages).map(code => (
-        <option value={code}>{languages[code].nativeName}</option>
+        <option value={code} key={code}>
+          {languages[code].nativeName}
+        </option>
       ))}
     </select>
   );
