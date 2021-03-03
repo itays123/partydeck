@@ -66,7 +66,7 @@ const Register = () => {
       )}
       <div className="mx-auto w-52">
         <button
-          className="w-52 dark-button flex justify-center"
+          className="w-52 w-52 colorful-button bg-green-400 animation-scaleup flex justify-center"
           disabled={Boolean(showPasswordInput ? password.error : email.error)}
           onClick={() => {
             if (
