@@ -7,7 +7,7 @@ import SignedOutLinks from './SignedOutLinks';
 
 const Navbar = () => {
   return (
-    <nav className="bg-gray-100 nav px-8 w-screen flex z-50">
+    <nav className="bg-gray-100 nav px-8 w-screen flex">
       <div className="md:px-4 lg:px-6 flex items-center h-16 ml-8">
         <img src={logo} width={20} height={20} alt="" />
         <h1 className="text-xl text-purple-900 font-bold">Partydeck</h1>
