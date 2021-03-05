@@ -7,7 +7,7 @@ const DeckEditorWrapper = ({ title, contextEditor }) => {
   return (
     <div className="card-list container mx-auto overflow-y-visible mt-4 px-2">
       <h3>
-        <span className="font-bold text-2xl">{title} </span>
+        <span className="font-medium text-2xl">{title} </span>
         <span className="font-thin text-gray-700 text-sm">
           {editor.deck.size}
         </span>
