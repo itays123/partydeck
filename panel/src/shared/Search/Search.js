@@ -6,11 +6,11 @@ const Search = ({ className = '' }) => {
   const [query, setQuery] = useState();
   return (
     <div className={className}>
-      <div className="flex items-center h-full bg-gray-200 dark:bg-purple-700 rounded px-2">
+      <div className="flex items-center h-full bg-gray-200 rounded px-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
-          className="stroke-1 fill-current text-gray-600 dark:text-purple-300"
+          className="stroke-1 fill-current text-gray-600"
           width={18}
           height={18}
         >
@@ -26,7 +26,7 @@ const Search = ({ className = '' }) => {
               push(`/search?q=${query}`);
             }
           }}
-          className="flex-grow h-full pl-1 bg-transparent outline-none placeholder-gray-600 dark:placeholder-purple-300"
+          className="flex-grow h-full pl-1 bg-transparent outline-none placeholder-gray-600"
         />
       </div>
     </div>
