@@ -1,4 +1,3 @@
-import { useGameListContext } from './GameListContext';
 import { Link } from 'react-router-dom';
 import languages from '../helpers/languages';
 import { useAuthor } from './useAuthor';
@@ -15,7 +14,7 @@ const GameItem = ({
   const { authorName, profileLink } = useAuthor(author);
   return (
     <div className="game-item bg-gray-100 rounded shadowed px-8 py-6">
-      <h3 className="title text-xl md:text-2xl text-purple-600 font-bold">
+      <h3 className="title text-xl md:text-2xl text-purple-600 font-medium">
         <Link to={'/game/' + _id}>{name}</Link>
       </h3>
       <p>
