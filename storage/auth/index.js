@@ -42,6 +42,11 @@ router.post('/register', async (req, res) => {
   }
 });
 
+router.delete('/logout', (req, res) => {
+  res.clearCookie('token');
+  res.sendStatus(200);
+});
+
 router.get('/check', async (req, res) => {
   try {
     const { email } = req.query;
