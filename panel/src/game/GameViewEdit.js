@@ -4,22 +4,20 @@ import { useGame } from './useGame';
 import DeckEditorWrapper from './edit/DeckEditorWrapper';
 import { usePlayGame } from './view/usePlayGame';
 import GameSettingsViewEdit from './GameSettingsViewEdit';
-import GameActions from './GameActions';
 import { useSaveGame } from './edit/useSaveGame';
+import Play from './action/Play';
+import Remove from './action/Remove';
+import Save from './action/Save';
+import Discard from './action/Discard';
 
 const GameViewEdit = () => {
   const { id } = useParams();
   const game = useGame(id);
-  const { save } = useSaveGame();
+  const { save, isSaveLoading } = useSaveGame();
   const { play } = usePlayGame(id);
   const history = useHistory();
   return (
-    <GameEditorContextProvider
-      {...game}
-      play={play}
-      save={save}
-      remove={() => history.push('/')}
-    >
+    <GameEditorContextProvider {...game}>
       <div className="game-view scrollable">
         <div className="bg-gray-100 w-full">
           <header className="container mx-auto pt-8 pb-4 px-2">
@@ -29,7 +27,15 @@ const GameViewEdit = () => {
               </h1>
               <GameSettingsViewEdit />
             </section>
-            <GameActions />
+            <section className="actions flex justify-start flex-row-reverse">
+              <Play onClick={play} />
+              <Remove
+                onClick={() => history.push('/')}
+                disabled={isSaveLoading}
+              />
+              <Save onClick={save} disabled={isSaveLoading} />
+              <Discard onClick={() => history.push('/')} />
+            </section>
           </header>
         </div>
         <div>

@@ -102,6 +102,7 @@ const GameEditorContextProvider = ({
         questions,
         answers,
         author: isGameNew ? user : author,
+        clearState,
         play,
         remove,
         discard,

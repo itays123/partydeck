@@ -1,12 +1,15 @@
+import { useHistory } from 'react-router';
+import Discard from '../action/Discard';
+import Save from '../action/Save';
 import DeckEditorWrapper from '../edit/DeckEditorWrapper';
 import GameEditorContextProvider from '../edit/GameEditorContext';
-import GameActions from '../GameActions';
 import GameSettingsViewEdit from '../GameSettingsViewEdit';
 import GameNameForm from './GameNameForm';
 import { useCreateGame } from './useCreateGame';
 
 const CreateGame = () => {
-  const { create } = useCreateGame();
+  const { create, isLoading } = useCreateGame();
+  const history = useHistory();
   return (
     <GameEditorContextProvider save={create}>
       <div className="game-view scrollable">
@@ -16,7 +19,10 @@ const CreateGame = () => {
               <GameNameForm />
               <GameSettingsViewEdit />
             </section>
-            <GameActions />
+            <section className="actions flex justify-start flex-row-reverse">
+              <Save onClick={create} disabled={isLoading} />
+              <Discard onClick={() => history.push('/')} />
+            </section>
           </header>
         </div>
         <div>
