@@ -17,9 +17,6 @@ const GameEditorContextProvider = ({
   name: initialName = '',
   author,
   lng: initialLng = 'en',
-  play = () => {},
-  remove = () => {},
-  save: saveFunc = () => {},
 }) => {
   const { user } = useAuthContext();
   const isGameNew = !!!initialName; // if a title does not exist, the game is new.
@@ -53,40 +50,6 @@ const GameEditorContextProvider = ({
     }
   };
 
-  const save = () => {
-    let arg;
-    if (isGameNew) {
-      arg = {
-        name,
-        lng,
-        isPrivate,
-        questions: [...questions.added.values()],
-        answers: [...answers.added.values()],
-      };
-    } else {
-      arg = {
-        questions: {
-          added: [...questions.added.values()],
-          modified: [...questions.modified.entries()],
-          deleted: [...questions.deleted.values()],
-        },
-        answers: {
-          added: [...answers.added.values()],
-          modified: [...answers.modified.entries()],
-          deleted: [...answers.deleted.values()],
-        },
-        isPrivate,
-      };
-    }
-    saveFunc(arg);
-    clearState(); // refresh
-  };
-
-  const discard = () => {
-    clearState();
-    history.push('/');
-  };
-
   return (
     <GameEditorContext.Provider
       value={{
@@ -103,10 +66,6 @@ const GameEditorContextProvider = ({
         answers,
         author: isGameNew ? user : author,
         clearState,
-        play,
-        remove,
-        discard,
-        save,
       }}
     >
       {children}
