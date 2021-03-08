@@ -1,17 +1,76 @@
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 
 export function useSaveGame() {
-  const history = useHistory();
   const [isLoading, setLoading] = useState(false);
   return {
     isSaveLoading: isLoading,
     save(changes) {
       setLoading(true);
-      setTimeout(() => {
-        setLoading(false);
-        history.push('/game/1');
-      }, 3000);
+      return new Promise(resolve => {
+        setTimeout(() => {
+          setLoading(false);
+          resolve({
+            _id: '1',
+            lng: 'en',
+            name: 'A Random Deck',
+            isPrivate: false,
+            author: { name: 'Itay', _id: '1' },
+            questions: [
+              'question',
+              'question',
+              'question',
+              'question',
+              'question',
+              'question',
+              'question',
+              'question',
+              'question',
+              'question',
+              'question',
+              'question',
+              'question',
+              'question',
+              'question',
+              'question',
+              'question',
+              'question',
+              'question',
+              'question',
+              'question',
+              'question',
+              'question',
+              'question',
+            ],
+            answers: [
+              'answer',
+              'answer',
+              'answer',
+              'answer',
+              'answer',
+              'answer',
+              'answer',
+              'answer',
+              'answer',
+              'answer',
+              'answer',
+              'answer',
+              'answer',
+              'answer',
+              'answer',
+              'answer',
+              'answer',
+              'answer',
+              'answer',
+              'answer',
+              'answer',
+              'answer',
+              'answer',
+              'answer',
+              'answer',
+            ],
+          });
+        }, 3000);
+      });
     },
   };
 }

@@ -12,7 +12,7 @@ import Discard from './action/Discard';
 
 const GameViewEdit = () => {
   const { id } = useParams();
-  const game = useGame(id);
+  const { game } = useGame(id);
   const { save, isSaveLoading } = useSaveGame();
   const { play } = usePlayGame(id);
   const history = useHistory();
@@ -33,7 +33,11 @@ const GameViewEdit = () => {
                 onClick={() => history.push('/')}
                 disabled={isSaveLoading}
               />
-              <Save onClick={save} disabled={isSaveLoading} />
+              <Save
+                onClick={save}
+                disabled={isSaveLoading}
+                callback={() => window.location.reload()}
+              />
               <Discard onClick={() => history.push('/')} />
             </section>
           </header>

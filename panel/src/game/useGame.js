@@ -1,5 +1,7 @@
+import { useState } from 'react';
+
 export function useGame(gameId) {
-  return {
+  const [game, setGame] = useState({
     _id: gameId,
     lng: 'en',
     name: 'A Random Deck',
@@ -58,5 +60,9 @@ export function useGame(gameId) {
       'answer',
       'answer',
     ],
+  });
+
+  return {
+    game,
   };
 }

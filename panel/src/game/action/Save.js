@@ -2,7 +2,7 @@ import SvgWrapper from '../../shared/SvgWrapper';
 import EditorOnly from '../edit/EditorOnly';
 import { useGameEditorContext } from '../edit/GameEditorContext';
 
-const Save = ({ disabled, onClick = () => {} }) => {
+const Save = ({ disabled, onClick = async () => {}, callback = () => {} }) => {
   const {
     isGameNew,
     isChanged,
@@ -11,6 +11,7 @@ const Save = ({ disabled, onClick = () => {} }) => {
     isPrivate,
     questions,
     answers,
+    clearState,
   } = useGameEditorContext();
 
   const saveClickHandler = () => {
@@ -38,7 +39,7 @@ const Save = ({ disabled, onClick = () => {} }) => {
         isPrivate,
       };
     }
-    onClick(arg); // refresh
+    onClick(arg).then(callback);
   };
 
   return (
