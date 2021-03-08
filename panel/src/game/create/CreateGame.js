@@ -20,7 +20,7 @@ const CreateGame = () => {
               <GameSettingsViewEdit />
             </section>
             <section className="actions flex justify-start flex-row-reverse">
-              <Save onClick={create} disabled={isLoading} />
+              <Save onClick={create} isLoading={isLoading} />
               <Discard onClick={() => history.push('/')} />
             </section>
           </header>

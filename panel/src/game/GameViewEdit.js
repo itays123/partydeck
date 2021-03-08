@@ -35,7 +35,7 @@ const GameViewEdit = () => {
               />
               <Save
                 onClick={save}
-                disabled={isSaveLoading}
+                isLoading={isSaveLoading}
                 callback={() => window.location.reload()}
               />
               <Discard onClick={() => history.push('/')} />
