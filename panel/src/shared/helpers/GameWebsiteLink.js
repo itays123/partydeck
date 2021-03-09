@@ -1,1 +1,1 @@
-export const GameWebsiteLink = 'http://localhost:3001';
+export const GameWebsiteLink = process.env.REACT_APP_GAME_URL;
