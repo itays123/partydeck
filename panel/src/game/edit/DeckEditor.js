@@ -1,3 +1,4 @@
+import SvgWrapper from '../../shared/SvgWrapper';
 import EditableCard from './EditableCard';
 import EditorOnly from './EditorOnly';
 
@@ -36,16 +37,10 @@ const DeckEditor = ({ editor }) => {
           className="rounded text-center py-8 border-4 border-dashed border-gray-500 flex items-center justify-center focus:outline-none"
           onClick={() => addCard('')}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            className="fill-current text-gray-500"
-            width={48}
-            height={48}
-          >
+          <SvgWrapper w={48} h={48} className="text-gray-500">
             <path d="M0 0h24v24H0z" fill="none" />
             <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-          </svg>
+          </SvgWrapper>
         </button>
       </EditorOnly>
     </section>
