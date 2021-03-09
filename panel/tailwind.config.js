@@ -11,6 +11,8 @@ module.exports = {
     extend: {
       fill: ['dark'],
       opacity: ['disabled'],
+      backgroundColor: ['checked'],
+      borderColor: ['checked'],
     },
   },
   plugins: [],
