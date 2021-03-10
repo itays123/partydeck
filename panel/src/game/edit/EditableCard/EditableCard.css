@@ -1,0 +1,7 @@
+.length-display {
+  opacity: 0;
+}
+
+.card > input:focus ~ .length-display {
+  opacity: 100;
+}

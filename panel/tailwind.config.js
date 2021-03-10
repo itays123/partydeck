@@ -10,7 +10,7 @@ module.exports = {
   variants: {
     extend: {
       fill: ['dark'],
-      opacity: ['disabled'],
+      opacity: ['disabled', 'group-focus'],
       backgroundColor: ['checked'],
       borderColor: ['checked'],
     },

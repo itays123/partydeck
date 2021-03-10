@@ -1,5 +1,5 @@
 import SvgWrapper from '../../shared/SvgWrapper';
-import EditableCard from './EditableCard';
+import EditableCard from './EditableCard/EditableCard';
 import EditorOnly from './EditorOnly';
 
 /**
