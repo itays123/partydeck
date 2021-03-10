@@ -6,7 +6,7 @@ const NavigationButton = ({
   external = false,
   hideOnSmallScreens = false,
 }) => {
-  const className = `items-center justify-center h-full px-2 md:px-3 hover:bg-gray-300 text-gray-700 text-sm md:text-md ${
+  const className = `items-center justify-center h-full px-2 md:px-3 hover:bg-gray-300 text-gray-700 text-sm md:text-base ${
     hideOnSmallScreens ? 'hidden md:flex' : 'flex'
   }`;
   return !!!external ? (
