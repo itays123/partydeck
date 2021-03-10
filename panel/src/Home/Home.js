@@ -1,6 +1,7 @@
 import { useAuthContext } from '../auth/AuthContext';
 import AuthOnly from '../auth/AuthOnly';
 import GameList from '../shared/GameList/GameList';
+import Search from '../shared/Search/Search';
 import AboutText from './AboutText';
 import SignedInActions from './SignedInActions';
 import SignedOutActions from './SignedOutActions';
@@ -27,12 +28,15 @@ const Home = () => {
           </div>
         </header>
         <AuthOnly>
-          <h3 className="mt-6 text-xl -mb-6 px-8 md:px-0">
+          <h3 className="mt-6 text-xl md:-mb-6 px-8 md:px-0">
             <span className="font-medium text-2xl pb-2">My Games </span>
             <span className="font-thin text-gray-700 text-sm">
               {user.games.length}
             </span>
           </h3>
+          <div className="md:hidden px-8 md:px-0 mt-2 -mb-4">
+            <Search />
+          </div>
           <GameList games={user.games} sharedAuthor={user} />
         </AuthOnly>
       </div>
