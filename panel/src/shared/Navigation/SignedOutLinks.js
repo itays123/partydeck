@@ -4,7 +4,9 @@ import NavigationButton from './NavigationButton';
 const SignedOutLinks = () => {
   return (
     <AuthOnly shouldNotBeAuthenticated>
-      <NavigationButton to="/login">Login</NavigationButton>
+      <NavigationButton to="/login" hideOnSmallScreens>
+        Login
+      </NavigationButton>
       <NavigationButton to="/start">Get Started</NavigationButton>
     </AuthOnly>
   );
