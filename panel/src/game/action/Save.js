@@ -3,7 +3,7 @@ import SvgWrapper from '../../shared/SvgWrapper';
 import EditorOnly from '../edit/EditorOnly';
 import { useGameEditorContext } from '../edit/GameEditorContext';
 
-const Save = ({ isLoading, onClick = async () => {}, callback = () => {} }) => {
+const Save = ({ isLoading, onClick = async () => {}, callback }) => {
   const {
     isGameNew,
     isChanged,
@@ -39,7 +39,9 @@ const Save = ({ isLoading, onClick = async () => {}, callback = () => {} }) => {
         isPrivate,
       };
     }
-    onClick(arg).then(callback);
+    if (callback) {
+      onClick(arg).then(callback);
+    } else onClick(arg);
   };
 
   return (
