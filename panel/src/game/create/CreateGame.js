@@ -14,7 +14,7 @@ const CreateGame = () => {
     <GameEditorContextProvider>
       <div className="game-view scrollable">
         <div className="bg-gray-100 w-full">
-          <header className="container mx-auto pt-8 pb-4 px-2">
+          <header className="container mx-auto pt-8 pb-4 px-8 md:px-2">
             <section className="details">
               <GameNameForm />
               <GameSettingsViewEdit />
