@@ -2,7 +2,7 @@ import SvgWrapper from '../../shared/SvgWrapper';
 import EditorOnly from '../edit/EditorOnly';
 import { useGameEditorContext } from '../edit/GameEditorContext';
 
-const Discard = ({ onClick = () => {} }) => {
+const Discard = ({ onClick = () => {}, isSaveLoading = false }) => {
   const { isChanged, clearState } = useGameEditorContext();
   return (
     <EditorOnly>
@@ -12,7 +12,7 @@ const Discard = ({ onClick = () => {} }) => {
           clearState();
           onClick();
         }}
-        disabled={!isChanged}
+        disabled={!isChanged || isSaveLoading}
       >
         <SvgWrapper>
           <path d="M0 0h24v24H0z" fill="none" />

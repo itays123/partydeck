@@ -21,7 +21,10 @@ const CreateGame = () => {
             </section>
             <section className="actions flex justify-start flex-row-reverse">
               <Save onClick={create} isLoading={isLoading} />
-              <Discard onClick={() => history.push('/')} />
+              <Discard
+                onClick={() => history.push('/')}
+                isSaveLoading={isLoading}
+              />
             </section>
           </header>
         </div>

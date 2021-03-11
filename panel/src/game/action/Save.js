@@ -46,8 +46,8 @@ const Save = ({ isLoading, onClick = async () => {}, callback = () => {} }) => {
     <EditorOnly>
       <button
         className="save action-button"
-        onClick={saveClickHandler}
-        disabled={!isChanged || isLoading}
+        onClick={isLoading ? undefined : saveClickHandler}
+        disabled={!isChanged}
       >
         {!isLoading ? (
           <>

@@ -9,10 +9,13 @@ export function useCreateGame() {
     isLoading,
     create(game) {
       setLoading(true);
-      setTimeout(() => {
-        setLoading(false);
-        history.push('/game/1');
-      }, 3000);
+      return new Promise(resolve => {
+        setTimeout(() => {
+          setLoading(false);
+          history.push('/game/1');
+          resolve();
+        }, 3000);
+      });
     },
   };
 }

@@ -20,14 +20,14 @@ const GameViewEdit = () => {
     <GameEditorContextProvider {...game}>
       <div className="game-view scrollable">
         <div className="bg-gray-100 w-full">
-          <header className="container mx-auto pt-8 pb-4 px-2">
+          <header className="container mx-auto pt-8 pb-4 px-8 md:px-2">
             <section className="details">
               <h1 className="text-xl md:text-2xl lg:text-4xl font-bold text-purple-600">
                 {game.name}
               </h1>
               <GameSettingsViewEdit />
             </section>
-            <section className="actions flex justify-start flex-row-reverse">
+            <section className="actions flex justify-start flex-row-reverse mt-2">
               <Play onClick={play} />
               <Remove
                 onClick={() => history.push('/')}
@@ -38,7 +38,10 @@ const GameViewEdit = () => {
                 isLoading={isSaveLoading}
                 callback={() => window.location.reload()}
               />
-              <Discard onClick={() => history.push('/')} />
+              <Discard
+                onClick={() => history.push('/')}
+                isSaveLoading={isSaveLoading}
+              />
             </section>
           </header>
         </div>

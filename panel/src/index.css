@@ -32,6 +32,9 @@ code {
   .action-button {
     @apply px-3 py-1 ml-4 text-purple-900 font-medium flex focus:outline-none disabled:opacity-50;
   }
+  .action-button:disabled {
+    @apply hidden md:flex;
+  }
   .link-li {
     @apply block text-left hover:text-gray-600 text-base;
   }
