@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import FormInput, { classicValidate, useModel } from '../../shared/FormInput';
 import Spinner from '../../shared/Spinner';
 import CookieConfirm from '../CookieConfirm';
@@ -92,6 +93,14 @@ const Register = () => {
           GO
         </button>
         {showPasswordInput && <CookieConfirm />}
+        <div className="my-2 w-52 mx-auto">
+          <span className="text-gray-600 text-sm text-left">
+            Already have an account? {` `}
+            <Link to="/login" className="underline">
+              Log In
+            </Link>
+          </span>
+        </div>
       </div>
     </div>
   );
