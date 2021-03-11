@@ -30,9 +30,7 @@ const Home = () => {
         <AuthOnly>
           <h3 className="mt-6 text-xl md:-mb-6 px-8 md:px-0">
             <span className="font-medium text-2xl pb-2">My Games </span>
-            <span className="font-thin text-gray-700 text-sm">
-              {user.games.length}
-            </span>
+            <span className="text-gray-700 text-sm">{user.games.length}</span>
           </h3>
           <div className="md:hidden px-8 md:px-0 mt-2 -mb-4">
             <Search />
