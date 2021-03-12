@@ -9,7 +9,7 @@ export function useAuthContext() {
 
 const AuthContextProvider = ({ children }) => {
   const dummyData = {
-    isSignedIn: true,
+    isSignedIn: false,
     logout() {},
     user: {
       _id: '1',
