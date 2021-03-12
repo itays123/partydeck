@@ -27,9 +27,9 @@ export function useFetch(
     }
     setLoading(true);
     const response = await fetch(fetchPath(path) + query, reqInit);
+    if (isJson) setData(await response.json());
     setLoading(false);
     setStatus(response.status);
-    if (isJson) setData(await response.json());
     return response;
   };
 
