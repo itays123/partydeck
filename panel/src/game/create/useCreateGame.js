@@ -8,7 +8,7 @@ export function useCreateGame() {
 
   useEffect(() => {
     if (data.id && !isLoading) {
-      history.push('/');
+      history.push('/game/' + data.id);
     }
   }, [data, history, isLoading]);
 
