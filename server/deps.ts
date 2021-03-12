@@ -19,7 +19,7 @@ export {
   isWebSocketPingEvent,
   acceptable,
 };
-export { Timeout } from 'https://deno.land/x/timeout@2.3/mod.ts';
+export { Timeout } from 'https://deno.land/x/timeout@2.4/mod.ts';
 
 // test deps
 export { sleepRandomAmountOfSeconds } from 'https://deno.land/x/sleep/mod.ts';

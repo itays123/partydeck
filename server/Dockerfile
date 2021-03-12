@@ -5,6 +5,7 @@ RUN apt-get install -y curl unzip
 
 RUN curl -fsSL https://deno.land/x/install/install.sh | sh
 RUN ln -s /root/.deno/bin/deno /usr/local/bin
+RUN deno upgrade --version 1.7.1
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
