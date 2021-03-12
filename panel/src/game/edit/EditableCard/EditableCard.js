@@ -34,7 +34,6 @@ const EditableCard = ({
         onKeyDown={e => e.key === 'Tab' && onTabPress()}
         onChange={e => {
           const { value } = e.target;
-          console.log(value.length);
           if (value.length <= 50) onTextChange(value);
         }}
       />

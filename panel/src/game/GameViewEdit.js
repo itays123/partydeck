@@ -14,7 +14,7 @@ import Spinner from '../shared/Spinner';
 const GameViewEdit = () => {
   const { id } = useParams();
   const game = useGame(id);
-  const { save, isSaveLoading } = useSaveGame();
+  const { save, isSaveLoading } = useSaveGame(id);
   const { play } = usePlayGame(id);
   const history = useHistory();
   return game.isLoading ? (

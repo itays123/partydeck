@@ -20,13 +20,12 @@ const GameEditorContextProvider = ({
 }) => {
   const { user } = useAuthContext();
   const isGameNew = !!!initialName; // if a title does not exist, the game is new.
-  const isEditable = user._id === author?._id || isGameNew;
+  const isEditable = user?._id === author?._id || isGameNew;
   const [name, setName] = useState(initialName);
   const [isPrivate, setPrivate] = useState(initialIsPrivate);
   const [lng, setLng] = useState(initialLng);
   const questions = useDeckEditor(initialQuestions);
   const answers = useDeckEditor(initialAnswers);
-  const history = useHistory();
 
   const questionsAreChanged = (card, key) => card !== initialQuestions?.[key];
   const answersAreChanged = (card, key) => card !== initialAnswers?.[key];
