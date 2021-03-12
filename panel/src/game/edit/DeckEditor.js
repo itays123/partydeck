@@ -15,6 +15,7 @@ const DeckEditor = ({ editor }) => {
     focusedCardIndex,
     setFocusedCardIndex,
     next,
+    canDelete,
   } = editor;
   return (
     <section className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-2 pb-6">
@@ -25,6 +26,7 @@ const DeckEditor = ({ editor }) => {
             key={key}
             text={text}
             focused={index === focusedCardIndex}
+            canDelete={canDelete}
             onTextChange={value => modifyCard(key, value)}
             onDeletePress={() => deleteCard(key)}
             onFocus={() => setFocusedCardIndex(index)}

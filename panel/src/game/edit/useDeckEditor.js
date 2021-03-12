@@ -8,7 +8,7 @@ function asMap(deck = []) {
   return map;
 }
 
-export function useDeckEditor(initialDeck = []) {
+export function useDeckEditor(initialDeck = [], minDeckSize = 0) {
   const [added, setAdded] = useState(new Map());
   const [modified, setModified] = useState(new Map());
   const [deleted, setDeleted] = useState(new Set());
@@ -28,6 +28,7 @@ export function useDeckEditor(initialDeck = []) {
     added,
     modified,
     deleted,
+    canDelete: deck.size > minDeckSize,
     addCard(value) {
       addCardAndFocus(value);
     },

@@ -24,8 +24,8 @@ const GameEditorContextProvider = ({
   const [name, setName] = useState(initialName);
   const [isPrivate, setPrivate] = useState(initialIsPrivate);
   const [lng, setLng] = useState(initialLng);
-  const questions = useDeckEditor(initialQuestions);
-  const answers = useDeckEditor(initialAnswers);
+  const questions = useDeckEditor(initialQuestions, 3);
+  const answers = useDeckEditor(initialAnswers, 12);
 
   const questionsAreChanged = (card, key) => card !== initialQuestions?.[key];
   const answersAreChanged = (card, key) => card !== initialAnswers?.[key];

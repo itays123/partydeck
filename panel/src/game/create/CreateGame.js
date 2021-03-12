@@ -11,7 +11,10 @@ const CreateGame = () => {
   const { create, isLoading } = useCreateGame();
   const history = useHistory();
   return (
-    <GameEditorContextProvider>
+    <GameEditorContextProvider
+      questions={['', '', '']} // game must have at least 3 questions
+      answers={['', '', '', '', '', '', '', '', '', '', '', '']} // game must have at least 12 answers
+    >
       <div className="game-view scrollable">
         <div className="bg-gray-100 w-full">
           <header className="container mx-auto pt-8 pb-4 px-8 md:px-2">
