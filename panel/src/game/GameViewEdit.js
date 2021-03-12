@@ -11,6 +11,7 @@ import Save from './action/Save';
 import Discard from './action/Discard';
 import Spinner from '../shared/Spinner';
 import { useDeleteGame } from './edit/useDeleteGame';
+import PageNotFound from '../shared/PageNotFound';
 
 const GameViewEdit = () => {
   const { id } = useParams();
@@ -19,12 +20,18 @@ const GameViewEdit = () => {
   const { remove } = useDeleteGame(id);
   const { play } = usePlayGame(id);
   const history = useHistory();
-  return game.isLoading ? (
-    <div className="container mx-auto mt-8 flex">
-      <Spinner />
-      Loading...
-    </div>
-  ) : (
+
+  if (game.isLoading)
+    return (
+      <div className="container mx-auto mt-8 flex">
+        <Spinner />
+        Loading...
+      </div>
+    );
+
+  if (game.status === 404) return <PageNotFound />;
+
+  return (
     <GameEditorContextProvider {...game}>
       <div className="game-view scrollable">
         <div className="bg-gray-100 w-full">
