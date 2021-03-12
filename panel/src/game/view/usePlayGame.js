@@ -11,7 +11,6 @@ export function usePlayGame(gameId) {
 
   useEffect(() => {
     if (data.code && !isLoading) {
-      console.log(data.code);
       window.open(GameWebsiteLink + '?code=' + data.code);
     }
   }, [data, isLoading]);
