@@ -14,7 +14,7 @@ const Login = () => {
   } = useCheckEmail(true);
   const email = useModel('', validateEmail);
   const password = useModel('', classicValidate);
-  const { login } = useLogin();
+  const { login, isLoginLoading } = useLogin();
   const showPasswordInput =
     awaitingConfirmation === false && email.validatedValue;
   return (
@@ -65,6 +65,7 @@ const Login = () => {
           }}
         >
           {awaitingConfirmation === true && email.validatedValue && <Spinner />}
+          {isLoginLoading && <Spinner />}
           GO
         </button>
         {showPasswordInput && <CookieConfirm />}
