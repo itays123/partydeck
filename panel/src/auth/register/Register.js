@@ -60,7 +60,11 @@ const Register = () => {
             changeCallback={() => password.setShowError(false)}
             onKeyEnter={() => {
               if (!password.error)
-                register(email.validatedValue, password.validatedValue);
+                register(
+                  name.validatedValue,
+                  email.validatedValue,
+                  password.validatedValue
+                );
               else password.setShowError(true);
             }}
           />
