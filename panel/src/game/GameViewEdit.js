@@ -10,11 +10,13 @@ import Remove from './action/Remove';
 import Save from './action/Save';
 import Discard from './action/Discard';
 import Spinner from '../shared/Spinner';
+import { useDeleteGame } from './edit/useDeleteGame';
 
 const GameViewEdit = () => {
   const { id } = useParams();
   const game = useGame(id);
   const { save, isSaveLoading } = useSaveGame(id);
+  const { remove } = useDeleteGame(id);
   const { play } = usePlayGame(id);
   const history = useHistory();
   return game.isLoading ? (
@@ -35,10 +37,7 @@ const GameViewEdit = () => {
             </section>
             <section className="actions flex justify-start flex-row-reverse mt-2">
               <Play onClick={play} />
-              <Remove
-                onClick={() => history.push('/')}
-                disabled={isSaveLoading}
-              />
+              <Remove onClick={remove} disabled={isSaveLoading} />
               <Save
                 onClick={save}
                 isLoading={isSaveLoading}

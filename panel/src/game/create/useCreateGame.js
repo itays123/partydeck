@@ -1,21 +1,21 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useFetch } from '../../shared/helpers/useAsyncFetch';
 
 export function useCreateGame() {
   const history = useHistory();
-  const [isLoading, setLoading] = useState(false);
+  const { isLoading, doFetch, data } = useFetch('/game', 'POST', false);
+
+  useEffect(() => {
+    if (data.id && !isLoading) {
+      history.push('/');
+    }
+  }, [data, history, isLoading]);
 
   return {
     isLoading,
     create(game) {
-      setLoading(true);
-      return new Promise(resolve => {
-        setTimeout(() => {
-          setLoading(false);
-          history.push('/game/1');
-          resolve();
-        }, 3000);
-      });
+      doFetch(game);
     },
   };
 }
