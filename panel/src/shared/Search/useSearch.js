@@ -1,48 +1,22 @@
 import { useEffect, useState } from 'react';
-
-const sampleDecklist = [
-  {
-    lng: 'en',
-    name: 'A Random Deck',
-    isPrivate: false,
-    questionCount: 12,
-    answerCount: 54,
-    author: { name: 'Itay' },
-  },
-  {
-    lng: 'en',
-    name: 'A Random Deck #2',
-    isPrivate: true,
-    questionCount: 43,
-    answerCount: 183,
-    author: { name: 'Itay' },
-  },
-];
+import { useFetch } from '../helpers/useAsyncFetch';
 
 export function useSearch(query) {
   const [result, setResult] = useState([]);
-  const [isLoading, setLoading] = useState(false);
+  const { isLoading, doFetch, data } = useFetch('/search?q=' + query);
 
   useEffect(() => {
-    setResult([]);
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setResult(sampleDecklist);
-    }, 1000);
-  }, [query]);
+    if (data.result) {
+      setResult(arr => [...arr, ...data.result]);
+    }
+  }, [data]);
 
   return {
     result,
     isLoading,
+    isMore: data.result?.length !== 0,
     loadMore() {
-      setLoading(true);
-      setTimeout(() => {
-        setLoading(false);
-        setResult(list => {
-          return [...list, ...sampleDecklist];
-        });
-      }, 1000);
+      doFetch(undefined, '&offset=' + result.length);
     },
   };
 }
