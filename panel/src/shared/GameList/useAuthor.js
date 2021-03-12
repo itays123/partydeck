@@ -7,7 +7,7 @@ export function useAuthor(author) {
   if (!author) {
     author = sharedAuthor;
   }
-  const isSelf = user._id === author._id;
+  const isSelf = user?._id === author._id;
   return {
     authorName: author.name,
     profileLink: isSelf ? '/' : '/user/' + author._id,
