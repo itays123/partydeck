@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from 'react';
+import { useFetch } from '../shared/helpers/useAsyncFetch';
 
 const AuthContext = createContext();
 
@@ -8,34 +9,18 @@ export function useAuthContext() {
 }
 
 const AuthContextProvider = ({ children }) => {
-  const [isSignedIn, setSignedIn] = useState(false);
+  const { doFetch, data, status, isLoading } = useFetch('/auth/profile');
 
   return (
     <AuthContext.Provider
       value={{
-        isSignedIn,
-        setSignedIn,
-        logout() {},
-        user: {
-          _id: '1',
-          name: 'Itay',
-          games: [
-            {
-              lng: 'en',
-              name: 'A Random Deck',
-              isPrivate: false,
-              questionCount: 12,
-              answerCount: 54,
-            },
-            {
-              lng: 'en',
-              name: 'A Random Deck #2',
-              isPrivate: true,
-              questionCount: 43,
-              answerCount: 183,
-            },
-          ],
+        isLoading,
+        isSignedIn: status === 200,
+        refresh() {
+          doFetch();
         },
+        logout() {},
+        user: data.user,
       }}
     >
       {children}

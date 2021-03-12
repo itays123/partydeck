@@ -13,7 +13,7 @@ const Home = () => {
       <div className="container mx-auto">
         <header className="homepage-actions mt-8 px-8 md:px-0">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-purple-900">
-            <AuthOnly>Hi {String(user.name).split(' ')[0]}!</AuthOnly>
+            <AuthOnly>Hi {String(user?.name).split(' ')[0]}!</AuthOnly>
             <AuthOnly shouldNotBeAuthenticated>Welcome!</AuthOnly>
           </h1>
           <AuthOnly>
@@ -30,12 +30,12 @@ const Home = () => {
         <AuthOnly>
           <h3 className="mt-6 text-xl md:-mb-6 px-8 md:px-0">
             <span className="font-medium text-2xl pb-2">My Games </span>
-            <span className="text-gray-700 text-sm">{user.games.length}</span>
+            <span className="text-gray-700 text-sm">{user?.games?.length}</span>
           </h3>
           <div className="md:hidden px-8 md:px-0 mt-2 -mb-4">
             <Search />
           </div>
-          <GameList games={user.games} sharedAuthor={user} />
+          <GameList games={user?.games} sharedAuthor={user} />
         </AuthOnly>
       </div>
     </div>
