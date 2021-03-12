@@ -1,5 +1,19 @@
+import { useFetch } from '../../shared/helpers/useAsyncFetch';
+import { useAuthContext } from '../AuthContext';
+
 export function useRegister() {
+  const { refresh } = useAuthContext();
+  const { doFetch, isLoading } = useFetch('/auth/register', 'POST', false);
+
   return {
-    register(name, email, password) {},
+    isRegisterLoading: isLoading,
+    register(name, email, password) {
+      const body = {
+        name,
+        email: String(email).toLowerCase(),
+        password,
+      };
+      doFetch(body).then(refresh);
+    },
   };
 }
