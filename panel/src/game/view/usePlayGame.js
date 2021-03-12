@@ -1,5 +1,25 @@
-export function usePlayGame(id) {
+import { useEffect } from 'react';
+import { GameWebsiteLink } from '../../shared/helpers/GameWebsiteLink';
+import { useFetch } from '../../shared/helpers/useAsyncFetch';
+
+export function usePlayGame(gameId) {
+  const { doFetch, data, isLoading } = useFetch(
+    '/play/' + gameId,
+    'GET',
+    false
+  );
+
+  useEffect(() => {
+    if (data.code && !isLoading) {
+      console.log(data.code);
+      window.open(GameWebsiteLink + '?code=' + data.code);
+    }
+  }, [data, isLoading]);
+
   return {
-    play() {},
+    play() {
+      console.log('playing...');
+      doFetch();
+    },
   };
 }
