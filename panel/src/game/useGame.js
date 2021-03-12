@@ -1,68 +1,10 @@
-import { useState } from 'react';
+import { useFetch } from '../shared/helpers/useAsyncFetch';
 
 export function useGame(gameId) {
-  const [game, setGame] = useState({
-    _id: gameId,
-    lng: 'en',
-    name: 'A Random Deck',
-    isPrivate: false,
-    author: { name: 'Itay', _id: '1' },
-    questions: [
-      'question',
-      'question',
-      'question',
-      'question',
-      'question',
-      'question',
-      'question',
-      'question',
-      'question',
-      'question',
-      'question',
-      'question',
-      'question',
-      'question',
-      'question',
-      'question',
-      'question',
-      'question',
-      'question',
-      'question',
-      'question',
-      'question',
-      'question',
-      'question',
-    ],
-    answers: [
-      'answer',
-      'answer',
-      'answer',
-      'answer',
-      'answer',
-      'answer',
-      'answer',
-      'answer',
-      'answer',
-      'answer',
-      'answer',
-      'answer',
-      'answer',
-      'answer',
-      'answer',
-      'answer',
-      'answer',
-      'answer',
-      'answer',
-      'answer',
-      'answer',
-      'answer',
-      'answer',
-      'answer',
-      'answer',
-    ],
-  });
+  const { data, isLoading } = useFetch('/game/' + gameId);
 
   return {
-    game,
+    ...data.game,
+    isLoading,
   };
 }
