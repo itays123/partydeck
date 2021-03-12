@@ -9,10 +9,12 @@ const MyGames = () => {
   const { isLoading, games } = useProfile(user._id); // to refresh games on every render
   return (
     <>
-      <h3 className="mt-6 text-xl md:-mb-6 px-8 md:px-0">
-        <span className="font-medium text-2xl pb-2">My Games </span>
+      <h3 className="mt-8 text-xl md:-mb-4 px-8 md:px-0">
+        <span className="text-3xl md:text-4xl lg:text-5xl font-bold text-purple-900 pb-2">
+          My Games
+        </span>
         {!isLoading && (
-          <span className="text-gray-700 text-sm">{user?.games?.length}</span>
+          <span className="text-gray-700 text-lg"> {user?.games?.length}</span>
         )}
       </h3>
       <div className="md:hidden px-8 md:px-0 mt-2 -mb-4">

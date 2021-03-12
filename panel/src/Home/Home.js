@@ -5,30 +5,23 @@ import GameList from '../shared/GameList/GameList';
 import Search from '../shared/Search/Search';
 import AboutText from './AboutText';
 import MyGames from './MyGames';
-import SignedInActions from './SignedInActions';
 import SignedOutActions from './SignedOutActions';
 
 const Home = () => {
-  const { user } = useAuthContext();
   return (
     <div className="home scrollable">
       <div className="container mx-auto">
-        <header className="homepage-actions mt-8 px-8 md:px-0">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-purple-900">
-            <AuthOnly>Hi {String(user?.name).split(' ')[0]}!</AuthOnly>
-            <AuthOnly shouldNotBeAuthenticated>Welcome!</AuthOnly>
-          </h1>
-          <AuthOnly>
-            <h2 className="mt-4 text-xl">What would you like to do?</h2>
-          </AuthOnly>
-          <AuthOnly shouldNotBeAuthenticated>
+        <AuthOnly shouldNotBeAuthenticated>
+          <header className="homepage-actions mt-8 px-8 md:px-0">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-purple-900">
+              Welcome!
+            </h1>
             <AboutText />
-          </AuthOnly>
-          <div className="grid grid gird-cols-1 md:grid-cols-3 w-full md:w-3/4 lg:w-2/3 max-w-lg mt-4 gap-4">
-            <SignedInActions />
-            <SignedOutActions />
-          </div>
-        </header>
+            <div className="grid grid gird-cols-1 md:grid-cols-3 w-full md:w-3/4 lg:w-2/3 max-w-lg mt-4 gap-4">
+              <SignedOutActions />
+            </div>
+          </header>
+        </AuthOnly>
         <AuthOnly>
           <MyGames />
         </AuthOnly>
