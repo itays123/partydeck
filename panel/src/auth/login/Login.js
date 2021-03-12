@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
-import FormInput, { classicValidate, useModel } from '../../shared/FormInput';
+import FormInput, { useModel } from '../../shared/FormInput';
 import Spinner from '../../shared/Spinner';
 import CookieConfirm from '../CookieConfirm';
 import { useCheckEmail } from '../useCheckEmail';
 import useLogin from './useLogin';
 
 const Login = () => {
+  const { login, isLoginLoading, loginFailed, clearError } = useLogin();
   const {
     validateEmail,
     checkEmail,
@@ -13,8 +14,11 @@ const Login = () => {
     clearErrors,
   } = useCheckEmail(true);
   const email = useModel('', validateEmail);
-  const password = useModel('', classicValidate);
-  const { login, isLoginLoading } = useLogin();
+  const password = useModel('', value => {
+    if (value.trim() === '') return 'Password must not be empty';
+    else if (loginFailed) return 'Incorrect password';
+    else return undefined;
+  });
   const showPasswordInput =
     awaitingConfirmation === false && email.validatedValue;
   return (
@@ -39,6 +43,7 @@ const Login = () => {
           hint="Your Password"
           className="mx-auto"
           focusOnRender
+          changeCallback={() => clearError()}
           onKeyEnter={() => {
             if (!password.error)
               login(email.validatedValue, password.validatedValue);
