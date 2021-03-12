@@ -32,7 +32,7 @@ describe('tests the game schema', () => {
     Game.createGame(
       test_questions,
       test_answers,
-      '5fb1150fb74fc136a89c2d1d'
+      '604b77f578f78d4bc85f3500'
     ).then(game => {
       gameId = game._id;
       console.log(game._id);
@@ -68,6 +68,16 @@ describe('tests the game schema', () => {
       assert.strictEqual(game.answers[0], 'a4');
       assert.strictEqual(game.name, 'Untilted Partydeck');
       assert.strictEqual(game.isPrivate, true);
+    });
+  });
+
+  it('updates a game #2', () => {
+    return Game.updateGame(gameId, {
+      questions: {
+        modified: [[0, 'hello']],
+      },
+    }).then(game => {
+      assert.strictEqual(game.questions[0], 'hello');
     });
   });
 
