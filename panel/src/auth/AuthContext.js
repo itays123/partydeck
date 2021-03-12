@@ -10,6 +10,7 @@ export function useAuthContext() {
 
 const AuthContextProvider = ({ children }) => {
   const { doFetch, data, status, isLoading } = useFetch('/auth/profile');
+  const { doFetch: logout } = useFetch('/auth/logout', 'DELETE', false, false);
 
   return (
     <AuthContext.Provider
@@ -19,7 +20,9 @@ const AuthContextProvider = ({ children }) => {
         refresh() {
           doFetch();
         },
-        logout() {},
+        logout() {
+          logout().then(() => doFetch());
+        },
         user: data.user,
       }}
     >
