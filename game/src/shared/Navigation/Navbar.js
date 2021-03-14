@@ -1,4 +1,4 @@
-import logo from '../partydeck.svg';
+import logo from '../../partydeck.svg';
 
 const Navbar = () => {
   return (
