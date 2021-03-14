@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useGameContext } from '../game/GameContext';
 import FormInput, { classicValidate, useModel } from '../shared/FormInput';
+import { useQuery } from '../shared/Navigation/useQuery';
 import Spinner from '../shared/Spinner';
 import { useGameCheck } from './useGameCheck';
 
@@ -11,10 +12,25 @@ const JoinForm = () => {
     awaitingConfirmation,
     clearErrors,
   } = useGameCheck();
-  const code = useModel('', validateGame);
+  const { code: urlCode } = useQuery();
+  const code = useModel(urlCode || '', validateGame);
   const name = useModel('', classicValidate);
   const { join } = useGameContext();
   const [mode, setMode] = useState('code');
+
+  useEffect(() => {
+    if (
+      urlCode &&
+      awaitingConfirmation === 1 // initial state
+    ) {
+      const callback = function (res) {
+        code.setShowError(true);
+        if (res) setMode('name');
+      };
+      checkGame(urlCode, callback);
+    }
+  }, [urlCode, checkGame, code, awaitingConfirmation]);
+
   return (
     <div className="join-form w-full h-96 pt-20">
       {mode === 'code' && (
