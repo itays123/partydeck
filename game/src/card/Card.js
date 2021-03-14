@@ -26,7 +26,7 @@ const Card = ({ id, value }) => {
   const showUseButton = isActive && isSelected && !isWaitingForRound;
   return (
     <motion.div
-      className="card w-64 md:w-32 h-80 md:h-48 rounded shadow m-1 md:m-2 px-1 md:px-2 bg-gray-200 flex justify-center items-center text-center relative"
+      className="card w-64 md:w-32 h-80 md:h-48 rounded shadow my-4 md:my-2 mx-1 md:mx-2 px-1 md:px-2 bg-gray-200 flex justify-center items-center text-center relative"
       onClick={() => onCardClick(id)}
       variants={cardVariants}
       transition={{ type: 'spring', stiffness: 500, damping: 30 }}

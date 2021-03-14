@@ -29,4 +29,7 @@ code {
   .dark-button {
     @apply bg-gray-800 text-gray-100 py-2 focus:outline-none hover:bg-gray-700 disabled:opacity-70;
   }
+  .scrollable {
+    @apply absolute top-0 bottom-0 left-0 right-0 h-full w-full overflow-y-scroll;
+  }
 }

@@ -10,9 +10,11 @@ function App() {
     <NavWrapper>
       <GameContextProvider>
         <RoundContextProvider>
-          <Question />
-          <LoadingFeedback />
-          <Deck />
+          <div className="scrollable">
+            <Question />
+            <LoadingFeedback />
+            <Deck />
+          </div>
         </RoundContextProvider>
       </GameContextProvider>
     </NavWrapper>
