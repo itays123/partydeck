@@ -45,3 +45,5 @@ export type Acceptable = {
 };
 
 export type TestFunction = (...args: any[]) => boolean;
+
+export type ScoreboardRow = { nickname: string; cardsWon: { size: number } };

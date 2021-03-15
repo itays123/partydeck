@@ -7,6 +7,7 @@ import {
   StartHandler,
   UseHandler,
   withNumericId,
+  ScoreboardRow,
 } from '../types.ts';
 import { BasePlayer } from '../player/BasePlayer.ts';
 import { Circle } from './Circle.ts';
@@ -150,7 +151,7 @@ export class Game<PlayerType extends BasePlayer> {
     }
   }
 
-  async start(): Promise<PlayerType[]> {
+  async start(): Promise<ScoreboardRow[]> {
     this.isStarted = true;
     if (this.players.size < 3) return [];
 
@@ -212,9 +213,12 @@ export class Game<PlayerType extends BasePlayer> {
   }
 
   get scores() {
-    const result: PlayerType[] = [];
+    const result: ScoreboardRow[] = [];
     for (const player of this.players.values()) {
-      result.push(player);
+      result.push({
+        nickname: player.nickname,
+        cardsWon: { size: player.cardsWon.size },
+      });
     }
     return result.sort((a, b) => b.cardsWon.size - a.cardsWon.size);
   }
