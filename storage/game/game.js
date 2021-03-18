@@ -119,10 +119,14 @@ Schema.statics.deleteGame = async function (id) {
 };
 
 Schema.statics.getGame = async function (id, uid = undefined) {
-  const game = await this.findOne({ _id: id }).populate('author', 'name');
-  if (!game) return null;
-  if (game.isPrivate && game.author._id != uid) return null;
-  return game;
+  try {
+    const game = await this.findOne({ _id: id }).populate('author', 'name');
+    if (!game) return null;
+    if (game.isPrivate && game.author._id != uid) return null;
+    return game;
+  } catch (err) {
+    return null;
+  }
 };
 
 Schema.statics.getPlayableGame = async function (id, uid = undefined) {
