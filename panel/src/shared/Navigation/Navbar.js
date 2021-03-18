@@ -1,7 +1,7 @@
 import { GameWebsiteLink } from '../helpers/GameWebsiteLink';
 import Search from '../Search/Search';
 import NavigationButton from './NavigationButton';
-import logo from './partydeck.svg';
+import logo from '../../partydeck.svg';
 import SignedInLinks from './SignedInLinks';
 import SignedOutLinks from './SignedOutLinks';
 

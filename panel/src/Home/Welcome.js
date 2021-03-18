@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { GameWebsiteLink } from '../shared/helpers/GameWebsiteLink';
 import Search from '../shared/Search/Search';
 import CardDecoration from './decorations/CardDecoration';
+import logo from '../partydeck.svg';
 
 const Welcome = () => {
   return (
@@ -29,7 +30,9 @@ const Welcome = () => {
             </Link>
           </div>
         </div>
-        <div className="flex-1 bg-purple-600 hidden md:block"></div>
+        <div className="flex-1 hidden md:flex justify-center items-center">
+          <img src={logo} width={256} height={256} alt="" />
+        </div>
       </header>
       <section id="rules" className="flex flex-col md:flex-row space-x-8">
         <div className="flex-1 p-4">
