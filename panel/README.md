@@ -2,6 +2,77 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Components & Hooks
+
+- The `App` component is responsible for routing
+
+### Authentication
+
+- login
+  - `Login` is the page responsible for login operations, containing a form.
+  - `useLogin` is the hook responsible for fetching the login route of the server.
+- profile
+  - `Profile` is the page responsible for showing user's public games.
+  - `useProfile` is responsible for fetching the user data.
+  - `UserDetails` is the header component of the `Profile` page.
+- register
+  - `Register` is the page responsible for register operations, containing a form.
+  - `useRegister` is the hook responsible for fetching the register route of the server.
+- `AuthContextProvider`, `useAuthContext` are the component and hook responsible for using the `AuthContext`.
+- `AuthOnly` is a component that displays its children only if the user is authenticated
+- `CookieConfirm` is a prompt showed in the `Login` and `Register` pages.
+- `useCheckEmail` is a validation hook for the email input field in the `Login` and `Register` pages.
+
+### Game view/edit/create
+
+- action
+  - `Discard`, `Play`, `Remove`, `Save` are the action buttons displayed in the game pages.
+- create
+  - `CreateGame` is the page responsible for the create game form
+  - `GameLanguageSelect` is the component responsible for editing the language
+  - `GameNameForm` is the component responsible for naming a game.
+  - `NewGamesOnly` is a component that only shows its children if the game is new.
+  - `useCreateGame` is the component responsible for fetching the create game route.
+- edit
+  - `EditableCard` is the component responsible for displaying a card, and modifying/deleting it if editor.
+  - `PrivatePublicToggle`
+  - `DeckEditor` is a component that gets an editor object from the props and uses it.
+  - `DeckEditorWrapper` is responsible for getting the editor object depending on the deck type and giving it to the deck editor
+  - `EditorOnly` is a component that only shows its children if the game author id is the same as the user id.
+  - `GameEditorContextProvider`, `useGameEditorContext` are the component and hook responsible for using the GameEditorContext.
+  - `useDeckEditor` is responsible for saving the deck edited state in an efficient way and formatting it if needed. It is also responsible for tracking the user focus.
+  - `useDeleteGame` is responsible for fetching the delete game route.
+  - `useSaveGame` is responsible for fetching the update game route.
+- view
+  - `usePlayGame` is responsible for fetching the play route.
+- `GameSettingsViewEdit` is responsible for editing the game settings, such as name, language, private state etc.
+- `GameViewEdit` is the page responsible for viewing and editing existing games.
+- `useGame` is responsible for editing existing games.
+
+### Home
+
+- `Home` is the default page.
+- `MyGames` is the component shown to signed in users.
+- `Welcome` is the component shown to unauthenticated users.
+
+### shared components and hooks
+
+- `GameList` is a component responsible for displaying a list of `GameItem`s
+  - `GameItem` is a component that shows game data such as name, language, creator and number of cards.
+  - `GameListContext`, `useAuthor` are responsible for storing a shared author in the profile and home page.
+- Navigation: `NavWrapper` is a component responsible for setting the position of the `Navbar` on the screen
+  - `Navbar` is the component responsible for showing the header of the application.
+  - `NavigationButton`
+  - `SignedInDialog` is the prompt opened when pressing the user photo in the `SignedInLinks`
+  - `SignedInLinks`, `SignedOutLinks` are the links shown depending on the auth state.
+- `Search` is the search input component that redirects to the `SearchResults` page, showing a `GameList`
+  - `useQuery` is the hook responsible for extrenalizing the query out of the current url
+  - `useSearch` is responsible for fetching the search route.
+- `FormInput` is used in authentication prompts.
+- `PageNotFound` is the fallback page.
+- `Spinner` is a simple loading animation.
+- `SvgWrapper` is a component responsible for wrapping svg paths.
+
 ## Available Scripts
 
 In the project directory, you can run:
