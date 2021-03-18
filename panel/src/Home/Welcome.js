@@ -3,6 +3,8 @@ import { GameWebsiteLink } from '../shared/helpers/GameWebsiteLink';
 import Search from '../shared/Search/Search';
 import CardDecoration from './decorations/CardDecoration';
 import GameDecoration from './decorations/GameDecoration';
+import PeopleDecoration from './decorations/PeopleDecoration';
+import HeartDecoration from './decorations/HeartDecoration';
 import logo from '../partydeck.svg';
 
 const Welcome = () => {
@@ -44,10 +46,10 @@ const Welcome = () => {
             Everyone gets 4 answer cards. <br />
             During each round, you can use one of those cards to answer a
             question in the most funny or clever way you have. <br />
-            When everyone has answered, one of the players picks the funniest
+            When everyone has answered, one of the players picks the best
             answer! <br />
             Nobody will know what was the card you used unless you win the
-            round, so if you don't have a funny answer just dump one of your
+            round, so if you don't have a good answer just dump one of your
             cards.
           </p>
           <div className="flex">
@@ -90,16 +92,16 @@ const Welcome = () => {
             Inspiration
           </h2>
           <p className="my-6 text-lg text-gray-100">
-            Partydeck is a cool online card game you can play with friends
-            online or together. <br />
-            You can create your own custom decks or play with decks created by
-            others if they decide to make them public. <br />
-            In order to create your own decks, create an account or log in to
-            your existing one. <br />
-            Have fun playing and partying!
+            The COVID-19 pandemic is the inspiration for this app. <br />
+            We want to keep people toghether in those challenging times, and
+            this is why this game is playable from distance as well. <br />
+            However, if it's possible for you to meet in person, this is a great
+            party game to play as well.
           </p>
         </div>
-        <div className="flex-1"></div>
+        <div className="flex-1 hidden md:flex">
+          <PeopleDecoration />
+        </div>
       </section>
       <section id="feedback" className="flex flex-col md:flex-row space-x-8">
         <div className="flex-1 p-4">
@@ -124,7 +126,9 @@ const Welcome = () => {
             </a>
           </div>
         </div>
-        <div className="flex-1 bg-pink-400 hidden md:block"></div>
+        <div className="flex-1 hidden md:flex">
+          <HeartDecoration />
+        </div>
       </section>
     </div>
   );
