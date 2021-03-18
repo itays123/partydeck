@@ -2,6 +2,48 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Components & Hooks
+
+### Card
+
+- `Card` is the component responsible for displaying a card
+- `CardPicker` is responsible for displaying a list of `Card`s
+- `Deck` is the component that tracks use / pick and renders the matching `CardPicker`.
+
+### Game
+
+- `GameContextProvider`, `useGameContext` are the hook and component responsible for using the `GameContext`. The context's value is the `gameReducer`'s state.
+- `useWebsocket` is the component responsible for dispatching events of the reducer as a result of websocket events.
+
+### Lobby
+
+- `JoinForm` is the component responsible for collecting the name and game code of the user.
+- `Lobby` is the page that renders if the websocket connection is not open and was never closed before.
+- `LobbyLoader` is the component responsible for showing a `Spinner` and the matching loading message.
+- `useGameCheck` is the component responsible for validating the game code.
+
+### Round
+
+- `EndGameButton` is a button shown by the end of a round for the game admin
+- `LoadingFeedback` is the component responsible for showing what's happenning in the game.
+- `Question` is the component responsible for displaying the current question and judge.
+- `RoundContextProvider` and `useRoundContext` are the component and hook responsible for using the `RoundContext`, that stores the round current state and player activity.
+- `Waiting` is a compbination of the `Spinner` and a text used by the `LoadingFeedback` compnent.
+
+### Scoreboard
+
+- `Row` is the component responsible for displaying a player name and score.
+- `Scoreboard` is the component rendered when the websocker connection has been closed.
+
+### Shared Components
+
+- Navigation
+  - `Navbar` is the app's header
+  - `NavWrapper` is the component responsible for positioning the navbar on screen.
+  - `useQuery` is a hook responsible for extracting query params from the current url.
+- `FormInput` is a custom form input.
+- `Spinner` is a simple loading animation.
+
 ## Available Scripts
 
 In the project directory, you can run:
