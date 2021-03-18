@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { GameWebsiteLink } from '../shared/helpers/GameWebsiteLink';
 import Search from '../shared/Search/Search';
+import CardDecoration from './decorations/CardDecoration';
 
 const Welcome = () => {
   return (
@@ -36,13 +37,14 @@ const Welcome = () => {
             Rules
           </h2>
           <p className="my-6 text-lg">
-            Partydeck is a cool online card game you can play with friends
-            online or together. <br />
-            You can create your own custom decks or play with decks created by
-            others if they decide to make them public. <br />
-            In order to create your own decks, create an account or log in to
-            your existing one. <br />
-            Have fun playing and partying!
+            Everyone gets 4 answer cards. <br />
+            During each round, you can use one of those cards to answer a
+            question in the most funny or clever way you have. <br />
+            When everyone has answered, one of the players picks the funniest
+            answer! <br />
+            Nobody will know what was the card you used unless you win the
+            round, so if you don't have a funny answer just dump one of your
+            cards.
           </p>
           <div className="flex">
             <a
@@ -53,7 +55,9 @@ const Welcome = () => {
             </a>
           </div>
         </div>
-        <div className="flex-1 bg-yellow-500 hidden md:block"></div>
+        <div className="flex-1 hidden md:flex">
+          <CardDecoration />
+        </div>
       </section>
       <section id="library" className="flex flex-col md:flex-row-reverse space">
         <div className="flex-1 md:ml-8 p-4">

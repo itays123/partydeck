@@ -13,6 +13,7 @@ module.exports = {
       opacity: ['disabled', 'group-focus'],
       backgroundColor: ['checked'],
       borderColor: ['checked'],
+      display: ['odd'],
     },
   },
   plugins: [],
