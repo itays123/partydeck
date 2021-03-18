@@ -1,7 +1,7 @@
 const VideoChatWindow = ({ selected }) => {
   return (
     <div
-      className={`flex rounded-sm ring-gray-100 ${
+      className={`flex rounded-sm ring-blue-600 ${
         selected ? 'ring-4' : 'ring-1'
       }`}
     ></div>

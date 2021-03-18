@@ -83,15 +83,12 @@ const Welcome = () => {
           <GameDecoration />
         </div>
       </section>
-      <section
-        id="inspiration"
-        className="flex flex-col md:flex-row space-x-8 bg-blue-600"
-      >
+      <section id="inspiration" className="flex flex-col md:flex-row space-x-8">
         <div className="flex-1 p-4">
-          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-100">
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-blue-600">
             Inspiration
           </h2>
-          <p className="my-6 text-lg text-gray-100">
+          <p className="my-6 text-lg text-blue-600">
             The COVID-19 pandemic is the inspiration for this app. <br />
             We want to keep people toghether in those challenging times, and
             this is why this game is playable from distance as well. <br />
