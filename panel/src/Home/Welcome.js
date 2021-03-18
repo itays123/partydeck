@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { GameWebsiteLink } from '../shared/helpers/GameWebsiteLink';
 import Search from '../shared/Search/Search';
 import CardDecoration from './decorations/CardDecoration';
+import GameDecoration from './decorations/GameDecoration';
 import logo from '../partydeck.svg';
 
 const Welcome = () => {
@@ -68,17 +69,17 @@ const Welcome = () => {
             The Game Library
           </h2>
           <p className="my-6 text-lg">
-            Partydeck is a cool online card game you can play with friends
-            online or together. <br />
-            You can create your own custom decks or play with decks created by
-            others if they decide to make them public. <br />
-            In order to create your own decks, create an account or log in to
-            your existing one. <br />
-            Have fun playing and partying!
+            You can create your own custom decks and set them public, so anyone
+            in the world will be able to use them! <br />
+            If you don't want your game to be visible in the game library,
+            simply set it to private. <br />
+            You can change your deck's visibility at any time.
           </p>
           <Search className="shadow-xl py-3 rounded-full ring-1 ring-gray-500 px-2" />
         </div>
-        <div className="flex-1 bg-green-400 hidden md:block"></div>
+        <div className="flex-1 hidden md:flex">
+          <GameDecoration />
+        </div>
       </section>
       <section
         id="inspiration"
