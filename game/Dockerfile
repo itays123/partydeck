@@ -20,4 +20,6 @@ RUN npm run build
 
 RUN npm install -g serve
 
-CMD ["serve", "-s", "build", "-l", "3001"]
+EXPOSE $PORT
+
+CMD serve -s build -l $PORT
