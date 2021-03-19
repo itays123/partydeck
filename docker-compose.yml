@@ -32,3 +32,15 @@ services:
     environment:
       - PORT=8000
       - CONSOLE=true
+  game:
+    container_name: patrydeck-live-game-frontend
+    restart: always
+    build:
+      context: ./game
+      args:
+        - REACT_APP_SERVER_URL=http://localhost:8000
+        - REACT_APP_SERVER_WS=ws://localhost:8000
+    ports:
+      - '3001:3001'
+    external_links:
+      - 'server'

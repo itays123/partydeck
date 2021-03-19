@@ -12,4 +12,8 @@ WORKDIR /usr/src/app
 
 COPY . /usr/src/app
 
+EXPOSE $PORT
+
+ENV CONSOLE=false
+
 CMD ["deno", "run", "-A", "mod.ts"]
