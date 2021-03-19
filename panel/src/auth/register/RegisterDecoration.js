@@ -16,11 +16,11 @@ const ringColor = {
 
 const RegisterDecoration = () => {
   const items = [];
-  for (let i = 0; i < 48; i++)
+  for (let i = 0; i < 96; i++)
     items.push(<CardSkeleton ringColor={ringColor[i % 5]} />);
   return (
     <div className="md:flex-grow overflow-hidden md:ml-16 hidden md:block">
-      <div className="flex flex-wrap p-4 origin-top-left transform -rotate-45">
+      <div className="flex flex-wrap p-4 origin-top-left xl:origin-top-right transform -rotate-45">
         {items}
       </div>
     </div>
