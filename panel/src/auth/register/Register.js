@@ -3,7 +3,7 @@ import FormInput, { classicValidate, useModel } from '../../shared/FormInput';
 import Spinner from '../../shared/Spinner';
 import CookieConfirm from '../CookieConfirm';
 import { useCheckEmail } from '../useCheckEmail';
-import RegisterDecoration from './RegisterDecoration';
+import AuthDecoration from '../AuthDecoration';
 import { useRegister } from './useRegister';
 
 const Register = () => {
@@ -115,7 +115,7 @@ const Register = () => {
           </div>
         </div>
       </div>
-      <RegisterDecoration />
+      <AuthDecoration />
     </div>
   );
 };

@@ -14,7 +14,7 @@ const ringColor = {
   4: 'purple-600',
 };
 
-const RegisterDecoration = () => {
+const AuthDecoration = () => {
   const items = [];
   for (let i = 0; i < 96; i++)
     items.push(<CardSkeleton ringColor={ringColor[i % 5]} />);
@@ -27,4 +27,4 @@ const RegisterDecoration = () => {
   );
 };
 
-export default RegisterDecoration;
+export default AuthDecoration;
