@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  game:
+    container_name: patrydeck-live-game-frontend
+    restart: always
+    build: .
+    ports:
+      - '3001:3001'
+    external_links:
+      - 'server'
+    environment:
+      - REACT_APP_SERVER_URL=http://server:8000
+      - REACT_APP_SERVER_WS=ws://server:8000
