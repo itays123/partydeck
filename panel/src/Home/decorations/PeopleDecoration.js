@@ -1,8 +1,8 @@
-const VideoChatWindow = ({ selected }) => {
+const VideoChatWindow = ({ selected, showOnXlOnly }) => {
   return (
     <div
-      className={`flex rounded-sm ring-blue-600 ${
-        selected ? 'ring-4' : 'ring-1'
+      className={`rounded-sm ring-blue-600 ${selected ? 'ring-4' : 'ring-1'} ${
+        showOnXlOnly ? 'hidden xl:flex' : 'flex'
       }`}
     ></div>
   );
@@ -10,7 +10,7 @@ const VideoChatWindow = ({ selected }) => {
 
 const PeopleDecoration = () => {
   return (
-    <div className="flex-grow grid grid-cols-3 grid-rows-3 gap-4 p-4">
+    <div className="flex-grow grid grid-cols-3 grid-rows-3 gap-4 p-4 xl:grid-cols-5">
       <VideoChatWindow />
       <VideoChatWindow />
       <VideoChatWindow />
@@ -20,6 +20,12 @@ const PeopleDecoration = () => {
       <VideoChatWindow />
       <VideoChatWindow />
       <VideoChatWindow />
+      <VideoChatWindow showOnXlOnly />
+      <VideoChatWindow showOnXlOnly />
+      <VideoChatWindow showOnXlOnly />
+      <VideoChatWindow showOnXlOnly />
+      <VideoChatWindow showOnXlOnly />
+      <VideoChatWindow showOnXlOnly />
     </div>
   );
 };
