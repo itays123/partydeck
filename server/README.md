@@ -22,7 +22,7 @@ The server has many objects created in order to make the code more readable and 
 
 ### Circle<T>
 
-- identifiers
+- attributes
   - `queue: Queue<string>` is used to circle throught the ids of the map.
   - `map: Map<string, T>` is used to identify the next id in line.
 - methods
@@ -39,7 +39,7 @@ The server has many objects created in order to make the code more readable and 
 
 The deck auto-generates the ids itself.
 
-- identifiers
+- attributes
   - `queue: Queue<string>` is used to circle throught the ids of the map.
   - `map: Map<string, T>` is used to identify the next id in line.
 - methods
@@ -55,7 +55,7 @@ The deck auto-generates the ids itself.
 
 The BasePlayer class was created in order to extend it for test usages and production usages.
 
-- identifiers
+- attributes
   - `id: string` is used to identify the player in the game.
   - `nickname: string`
   - `isAdmin: boolean`
@@ -85,7 +85,7 @@ The test player object has no special implementations.
 
 The player is the production implementation of the BasePlayer object
 
-- identifiers:
+- attributes:
   - `connection: Websocket`
   - `pickedCard: string | null` for ease of accessing this object across methods.
   - `isConnected: boolean`
@@ -96,7 +96,7 @@ The player is the production implementation of the BasePlayer object
 
 ### Game<PlayerType extrends BasePlayer>
 
-- identifiers:
+- attributes:
   - `players: Circle<PlayerType>`
   - `createPlayer: PlayerFactory<PlayerType>`
   - `questionDeck: Deck<string>`
