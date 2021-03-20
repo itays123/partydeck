@@ -1,0 +1,15 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'build',
+        '-t',
+        'gcr.io/partydeck-game-panel/partydeck-game-panel',
+        '--build-arg',
+        'REACT_APP_API_URL=https://partydeck-storage-server-vb7jqd4a2q-ue.a.run.app',
+        '--build-arg',
+        'REACT_APP_GAME_URL=https://partydeck-live-game-cww2nfrdpq-ue.a.run.app',
+        '.',
+      ]
+images:
+  - 'gcr.io/partydeck-game-panel/partydeck-game-panel'
