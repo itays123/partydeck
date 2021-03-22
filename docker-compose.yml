@@ -6,12 +6,12 @@ services:
     container_name: partydeck-panel
     restart: always
     build:
-      context: .
+      context: ./panel
       args:
         - MONGO_URI=mongodb://mongo:27017/partydecks
         - JWT_SECRET=abcdefghijkkmnop
         - SERVER_URL=http://localhost:8000
-        - GAME_URL=http://localhost:3001
+        - REACT_APP_GAME_URL=http://localhost:3001
     ports:
       - '4000:4000'
     external_links:
@@ -46,5 +46,7 @@ services:
         - REACT_APP_SERVER_WS=ws://localhost:8000
     ports:
       - '3001:3001'
+    environment:
+      - PORT=3001
     external_links:
       - 'server'
