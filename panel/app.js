@@ -1,14 +1,14 @@
 const express = require('express');
-const cors = require('./shared/cors');
+const cors = require('./server/shared/cors');
 const jsonParser = require('body-parser').json();
 const urlParser = express.urlencoded({ extended: true });
-const jwtverify = require('./auth/verify-jwt');
-const auth = require('./auth');
-const game = require('./game');
-const { connect } = require('./shared/mongoose');
+const jwtverify = require('./server/auth/verify-jwt');
+const auth = require('./server/auth');
+const game = require('./server/game');
+const { connect } = require('./server/shared/mongoose');
 const cookieParser = require('cookie-parser')();
-const publicRoutes = require('./shared/pubic-routes');
-const { PORT } = require('./shared/consts');
+const publicRoutes = require('./server/shared/pubic-routes');
+const { PORT } = require('./server/shared/consts');
 
 const app = express();
 
