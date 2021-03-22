@@ -3,20 +3,21 @@ version: '3'
 
 services:
   storage:
-    container_name: partydeck-storage
+    container_name: partydeck-panel
     restart: always
-    build: .
+    build:
+      context: .
+      args:
+        - MONGO_URI=mongodb://mongo:27017/partydecks
+        - JWT_SECRET=abcdefghijkkmnop
     ports:
       - '4000:4000'
     external_links:
       - 'mongo'
     environment:
       - PORT=4000
-      - MONGO_URI=mongodb://mongo:27017/partydecks
-      - LIMIT_GAMES=true
+      - LIMIT_GAMES=false
       - SECURE=false #modify later
-      - JWT_SECRET=abcdefghijkkmnop #modify later
-      # add server url
   mongo:
     container_name: mongo
     image: mongo
