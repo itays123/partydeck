@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 
 const fetchPath = path => {
-  if (process.env.NODE_ENV !== 'production') return path;
-  else return process.env.REACT_APP_API_URL + path;
+  return '/api' + path;
 };
 
 /**
