@@ -7,6 +7,7 @@ const { connect } = require('./server/shared/mongoose');
 const cookieParser = require('cookie-parser')();
 const { PORT } = require('./server/shared/consts');
 const routes = require('./server/routes');
+const path = require('path');
 
 const app = express();
 
@@ -16,6 +17,13 @@ app.use(urlParser);
 app.use(cookieParser);
 app.use(jwtverify);
 app.use('/api', routes);
+
+// serve frontend
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 connect().then(() =>
   app.listen(PORT, () => console.log(`listening on port ${PORT}`))
