@@ -21,8 +21,8 @@ const Save = ({ isLoading, onClick = async () => {}, callback }) => {
         name,
         lng,
         isPrivate,
-        questions: [...questions.added.values()],
-        answers: [...answers.added.values()],
+        questions: [...questions.deck.values()],
+        answers: [...answers.deck.values()],
       };
     } else {
       arg = {
