@@ -1,4 +1,4 @@
 node_modules
 
 # for profuction only
-# storage/data
+server/data
