@@ -131,9 +131,11 @@ Schema.statics.getGame = async function (id, uid = undefined) {
 
 Schema.statics.getPlayableGame = async function (id, uid = undefined) {
   // this function sends the relevant data to the live server
-  const game = await this.findById(id).select('questions answers author');
+  const game = await this.findById(id).select(
+    'questions answers author isPrivate'
+  );
   if (!game) return null;
-  else if (game.author != uid) return null;
+  else if (game.author != uid && game.isPrivate) return null;
   else return [game.questions, game.answers];
 };
 
