@@ -10,12 +10,13 @@ services:
       args:
         - MONGO_URI=mongodb://mongo:27017/partydecks
         - JWT_SECRET=abcdefghijkkmnop
-        - SERVER_URL=http://localhost:8000
+        - SERVER_URL=http://server:8000
         - REACT_APP_GAME_URL=http://localhost:3001
     ports:
       - '4000:4000'
     external_links:
       - 'mongo'
+      - 'server'
     environment:
       - PORT=4000
       - LIMIT_GAMES=false
@@ -26,7 +27,7 @@ services:
     ports:
       - '27018:27017' # no need for this later
     volumes:
-      - './storage/data/db:/data/db'
+      - './panel/server/data/db:/data/db'
   server:
     container_name: partydeck-live
     restart: always
