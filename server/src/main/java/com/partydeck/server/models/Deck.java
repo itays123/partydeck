@@ -4,9 +4,11 @@ import java.util.*;
 import java.util.function.Consumer;
 
 /**
- * An object representing a deck of cards
- * @param <K>
- * @param <T>
+ * An object representing a deck of cards.
+ * @author Itay Schechner
+ * @version 1.0
+ * @param <K> the identifier type of the object
+ * @param <T> the entry type
  */
 public class Deck<K, T extends Identifiable<K>> implements Iterable<T> {
 
