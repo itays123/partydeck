@@ -7,9 +7,9 @@ package com.partydeck.server.models.shared;
  */
 public class Card implements Identifiable<String> {
 
-    private String id;
+    private final String id;
 
-    private String content;
+    private final String content;
 
     public Card(String id, String content) {
         this.id = id;
@@ -28,5 +28,13 @@ public class Card implements Identifiable<String> {
 
     public String getContent() {
         return content;
+    }
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "id='" + id + '\'' +
+                ", content='" + content + '\'' +
+                '}';
     }
 }
