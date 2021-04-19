@@ -1,7 +1,5 @@
 package com.partydeck.server.models.shared;
 
-import com.partydeck.server.models.shared.Identifiable;
-
 /**
  * An object representing a card in the game
  * @author Itay Schechner
