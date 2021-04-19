@@ -6,8 +6,17 @@ package com.partydeck.server.models.shared;
  */
 public interface Identifiable<K> {
 
+    /**
+     * Checks if a given id is identical to the identifiable object id
+     * @param id the id to compare to
+     * @return true if the two values match
+     */
     boolean is(K id);
 
+    /**
+     * Returns the id of the object
+     * @return the object id
+     */
     K getId();
 
 }
