@@ -1,4 +1,4 @@
-package com.partydeck.server.models;
+package com.partydeck.server.models.shared;
 
 /**
  * An interface that ensures the object has a unique key

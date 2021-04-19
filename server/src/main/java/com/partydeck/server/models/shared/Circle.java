@@ -1,74 +1,75 @@
-package com.partydeck.server.models;
+package com.partydeck.server.models.shared;
 
 import java.util.*;
 import java.util.function.Consumer;
 
 /**
- * An object representing a deck of cards.
+ * An object representing a circle of entries
  * @author Itay Schechner
  * @version 1.0
- * @param <K> the identifier type of the object
- * @param <T> the entry type
+ * @param <K> the unique key type of the entry
+ * @param <T> the type of the entry
  */
-public class Deck<K, T extends Identifiable<K>> implements Iterable<T> {
+public class Circle<K,T extends Identifiable<K>> implements Iterable<T> {
 
-    private final Set<T> originalDeck;
-    private final Queue<T> currentDeck;
+    private final Queue<T> queue;
 
     /**
-     * Default constructor. Generates an empty deck.
+     * Default constructor - initializes the queue.
      */
-    public Deck() {
-        this.originalDeck = new HashSet<>();
-        this.currentDeck = new LinkedList<>();
+    public Circle() {
+        this.queue = new LinkedList<>();
     }
 
     /**
-     * Generates a deck from a given entry type.
-     * @param entries the entries to add to the deck.
+     * Add an entry to the circle
+     * @param entry the entry to be added
      */
-    public Deck(Iterable<T> entries) {
-        this();
-        for (T entry: entries) {
-            originalDeck.add(entry);
-            currentDeck.add(entry);
-        }
+    public void addEntry(T entry) {
+        queue.add(entry);
     }
 
     /**
-     * Finds the top entry of the deck, if exists
-     * @return the entry as optional.
+     * Remove an entry from the circle
+     * @param entry the entry to be removed
      */
-    public Optional<T> pickTopCard() {
-        if (currentDeck.isEmpty())
-            return Optional.empty();
-        else {
-            T entry = currentDeck.remove();
-            return Optional.of(entry);
-        }
+    public void removeEntry(T entry) {
+        queue.remove(entry);
     }
 
     /**
-     * Checks if the original deck has an entry with a given identifier
-     * @param id the identifier of the entry
-     * @return true if the identifier is present
+     * remove an entry by its id
+     * @param id the id of the entry to be removed
+     */
+    public void removeEntry(K id) {
+        for (T entry: queue)
+            if (entry.is(id))
+                removeEntry(entry);
+    }
+
+    /**
+     * Check if the circle has an entry with a given id
+     * @param id the id of the entry
+     * @return true if the entry exists
      */
     public boolean has(K id) {
-        for (T entry: originalDeck)
+        for (T entry: queue)
             if (entry.is(id))
                 return true;
         return false;
     }
 
-    public void insertCardInBottom(K id) {
-        for (T entry: originalDeck)
-            if (entry.is(id))
-                insertCardInBottom(entry);
-    }
+    /**
+     * Circle through the entries
+     * @return the next entry
+     */
+    public Optional<T> circle() {
+        if (queue.isEmpty())
+            return Optional.empty();
 
-    public void insertCardInBottom(T entry) {
-        if (originalDeck.contains(entry))
-            currentDeck.add(entry);
+        T entry = queue.remove();
+        queue.add(entry); // add entry at the end
+        return Optional.of(entry);
     }
 
 
@@ -78,7 +79,7 @@ public class Deck<K, T extends Identifiable<K>> implements Iterable<T> {
      * @return an Iterator.
      */
     public Iterator<T> iterator() {
-        return currentDeck.iterator();
+        return queue.iterator();
     }
 
     /**
@@ -102,7 +103,7 @@ public class Deck<K, T extends Identifiable<K>> implements Iterable<T> {
      * @since 1.8
      */
     public void forEach(Consumer<? super T> action) {
-        currentDeck.forEach(action);
+        queue.forEach(action);
     }
 
     /**
@@ -123,6 +124,6 @@ public class Deck<K, T extends Identifiable<K>> implements Iterable<T> {
      * @since 1.8
      */
     public Spliterator<T> spliterator() {
-        return currentDeck.spliterator();
+        return queue.spliterator();
     }
 }
