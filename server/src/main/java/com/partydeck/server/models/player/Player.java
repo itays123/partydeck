@@ -1,5 +1,6 @@
 package com.partydeck.server.models.player;
 
+import com.partydeck.server.models.shared.BroadcastContext;
 import com.partydeck.server.models.shared.Card;
 import com.partydeck.server.models.shared.Identifiable;
 
@@ -183,9 +184,10 @@ public abstract class Player implements Identifiable<String> {
 
     /**
      * Broadcast a message
-     * @param json the message to broadcast
+     * @param context the context of the broadcast
+     * @param args the args to send.
      */
-    public abstract void broadcast(String json);
+    public abstract void broadcast(BroadcastContext context, Object[] ...args);
 
     /**
      * A String representation of the player
