@@ -190,6 +190,12 @@ public abstract class Player implements Identifiable<String> {
     public abstract void broadcast(BroadcastContext context, Object[] ...args);
 
     /**
+     * Accept the connection
+     * @param args the connection to make.
+     */
+    public abstract void acceptConnection(Object[] ...args);
+
+    /**
      * A String representation of the player
      * @return the string holding the player values.
      */
