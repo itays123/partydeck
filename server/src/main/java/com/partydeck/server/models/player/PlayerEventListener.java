@@ -9,6 +9,8 @@ public interface PlayerEventListener {
 
     /**
      * Fires every time a player uses a card
+     * @param card the card used
+     * @param player the player that used the card
      * @return the new card to be added
      */
     Card onCardUse(Card card, Player player);
@@ -25,6 +27,7 @@ public interface PlayerEventListener {
 
     /**
      * Fires when the player has disconnected
+     * @param player the player who disconnected
      */
     void onPlayerDisconnection(Player player);
 

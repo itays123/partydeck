@@ -60,17 +60,26 @@ public class Deck<K, T extends Identifiable<K>> implements Iterable<T> {
         return false;
     }
 
+    /**
+     * Returns an entry to the bottom if existed before
+     * @param id the id of the entry
+     */
     public void insertCardInBottom(K id) {
         for (T entry: originalDeck)
             if (entry.is(id))
                 insertCardInBottom(entry);
     }
 
+    /**
+     * Returns an entry to the bottom if existed before
+     * @param entry the entry to add
+     */
     public void insertCardInBottom(T entry) {
         if (originalDeck.contains(entry))
             currentDeck.add(entry);
     }
 
+    /* TODO: Shuffle */
 
     /**
      * Returns an iterator over elements of type {@code T}.
