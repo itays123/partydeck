@@ -12,6 +12,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * An object representing the game
+ * @author Itay Schechner
+ * @version 1.0
+ */
 public class Game implements PlayerEventListener, Identifiable<String> {
 
     public static final int TIMEOUT = 30 * 1000; // 30 seconds
@@ -78,7 +83,7 @@ public class Game implements PlayerEventListener, Identifiable<String> {
      * Fires when the admin requests to start the game
      */
     @Override
-    public void onStartRequest() {
+    public void onStartRequest(Player player) {
 
     }
 
@@ -86,7 +91,7 @@ public class Game implements PlayerEventListener, Identifiable<String> {
      * Fires when the admin requests to stop the game
      */
     @Override
-    public void onStopRequest() {
+    public void onStopRequest(Player player) {
 
     }
 

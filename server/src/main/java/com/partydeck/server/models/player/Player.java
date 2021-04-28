@@ -164,12 +164,12 @@ public abstract class Player implements Identifiable<String> {
 
     protected void handleStartRequest() {
         if (eventListener != null && admin)
-            eventListener.onStartRequest();
+            eventListener.onStartRequest(this);
     }
 
     protected void handleStopRequest() {
         if (eventListener != null && admin)
-            eventListener.onStopRequest();
+            eventListener.onStopRequest(this);
     }
 
     protected void handleDisconnection() {

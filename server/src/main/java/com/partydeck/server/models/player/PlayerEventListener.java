@@ -18,12 +18,12 @@ public interface PlayerEventListener {
     /**
      * Fires when the admin requests to start the game
      */
-    void onStartRequest();
+    void onStartRequest(Player player);
 
     /**
      * Fires when the admin requests to stop the game
      */
-    void onStopRequest();
+    void onStopRequest(Player player);
 
     /**
      * Fires when the player has disconnected
