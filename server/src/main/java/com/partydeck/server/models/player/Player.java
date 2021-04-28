@@ -198,7 +198,7 @@ public abstract class Player implements Identifiable<String> {
      * Accept the connection
      * @param args the connection to make.
      */
-    public abstract void acceptConnection(Object[] args);
+    public abstract void acceptConnection(Object ...args);
 
     /**
      * A String representation of the player

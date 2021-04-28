@@ -7,10 +7,7 @@ import com.partydeck.server.models.shared.Circle;
 import com.partydeck.server.models.shared.Deck;
 import com.partydeck.server.models.shared.Identifiable;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * An object representing the game
@@ -140,7 +137,7 @@ public class Game implements PlayerEventListener, Identifiable<String> {
      * @param args the connection args
      * @return true if player is successfully added
      */
-    public boolean addPlayer(Player player, Object[] args) {
+    public boolean addPlayer(Player player, Object ...args) {
         if (answerDeck.size() < Player.NUMBER_OF_CARDS) // if there are not enough cards
             return false;
 
@@ -152,7 +149,7 @@ public class Game implements PlayerEventListener, Identifiable<String> {
 
         player.setCards(cards);
         player.setPlayerEventListener(this);
-        player.acceptConnection(args);
+        player.acceptConnection(Arrays.stream(args));
 
         return true;
     }
