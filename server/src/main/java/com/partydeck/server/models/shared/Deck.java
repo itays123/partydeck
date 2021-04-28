@@ -79,6 +79,14 @@ public class Deck<K, T extends Identifiable<K>> implements Iterable<T> {
             currentDeck.add(entry);
     }
 
+    /**
+     * Returns the amount of entries in the current deck
+     * @return the current deck size
+     */
+    public int size() {
+        return currentDeck.size();
+    }
+
     /* TODO: Shuffle */
 
     /**

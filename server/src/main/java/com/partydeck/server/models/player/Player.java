@@ -45,14 +45,11 @@ public abstract class Player implements Identifiable<String> {
      * Creates a new player object
      * @param id the id of the player
      * @param nickname the nickname of the player
-     * @param initialCards the initial cards given to the player
      */
-    public Player(String id, String nickname, Card[] initialCards) {
+    public Player(String id, String nickname) {
         this();
         this.id = id;
         this.nickname = nickname;
-
-        System.arraycopy(initialCards, 0, currentCards, 0, NUMBER_OF_CARDS);
     }
 
     /**
@@ -112,6 +109,14 @@ public abstract class Player implements Identifiable<String> {
      */
     public void setJudge(boolean judge) {
         this.judge = judge;
+    }
+
+    /**
+     * Set the cards of the player
+     * @param cards the new cards to set
+     */
+    public void setCards(Card[] cards) {
+        System.arraycopy(cards, 0, currentCards, 0, NUMBER_OF_CARDS);
     }
 
     /**
@@ -193,7 +198,7 @@ public abstract class Player implements Identifiable<String> {
      * Accept the connection
      * @param args the connection to make.
      */
-    public abstract void acceptConnection(Object[] ...args);
+    public abstract void acceptConnection(Object[] args);
 
     /**
      * A String representation of the player

@@ -125,4 +125,35 @@ public class Game implements PlayerEventListener, Identifiable<String> {
     public String getId() {
         return this.id;
     }
+
+    /**
+     * Set the game event listener
+     * @param eventListener the event listener to set
+     */
+    public void setGameEventListener(GameEventListener eventListener) {
+        this.eventListener = eventListener;
+    }
+
+    /**
+     * Adds a player to the game
+     * @param player the player to add
+     * @param args the connection args
+     * @return true if player is successfully added
+     */
+    public boolean addPlayer(Player player, Object[] args) {
+        if (answerDeck.size() < Player.NUMBER_OF_CARDS) // if there are not enough cards
+            return false;
+
+        // get the player initial cards
+        Card[] cards = new Card[Player.NUMBER_OF_CARDS];
+        for (int i = 0; i < cards.length; i++) {
+            cards[i] = answerDeck.pickTopCard().orElseThrow(); // will not throw
+        }
+
+        player.setCards(cards);
+        player.setPlayerEventListener(this);
+        player.acceptConnection(args);
+
+        return true;
+    }
 }
