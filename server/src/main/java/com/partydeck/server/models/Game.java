@@ -149,7 +149,7 @@ public class Game implements PlayerEventListener, Identifiable<String> {
 
         player.setCards(cards);
         player.setPlayerEventListener(this);
-        player.acceptConnection(Arrays.stream(args));
+        player.acceptConnection(args);
 
         return true;
     }
