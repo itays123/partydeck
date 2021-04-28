@@ -192,7 +192,7 @@ public abstract class Player implements Identifiable<String> {
      * @param context the context of the broadcast
      * @param args the args to send.
      */
-    public abstract void broadcast(BroadcastContext context, Object[] ...args);
+    public abstract void broadcast(BroadcastContext context, Object ...args);
 
     /**
      * Accept the connection
