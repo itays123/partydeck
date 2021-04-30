@@ -2,19 +2,19 @@ package com.partydeck.server.models;
 
 import com.partydeck.server.models.player.Player;
 import com.partydeck.server.models.player.PlayerEventListener;
+import com.partydeck.server.models.round.Round;
+import com.partydeck.server.models.round.RoundEventListener;
 import com.partydeck.server.models.shared.Card;
 import com.partydeck.server.models.shared.Circle;
 import com.partydeck.server.models.shared.Deck;
 import com.partydeck.server.models.shared.Identifiable;
-
-import java.util.*;
 
 /**
  * An object representing the game
  * @author Itay Schechner
  * @version 1.0
  */
-public class Game implements PlayerEventListener, Identifiable<String> {
+public class Game implements PlayerEventListener, RoundEventListener, Identifiable<String> {
 
     public static final int TIMEOUT = 30 * 1000; // 30 seconds
     public static final int DELAY = 5 * 1000; // 5 seconds
@@ -26,8 +26,7 @@ public class Game implements PlayerEventListener, Identifiable<String> {
     private Deck<String, Card> questionDeck;
     private Deck<String, Card> answerDeck;
 
-    private Map<Card, Player> roundCache;
-    private Set<Player> notPicked;
+    private Round currentRound;
 
     private boolean started;
     private boolean stopRequested;
@@ -42,8 +41,7 @@ public class Game implements PlayerEventListener, Identifiable<String> {
         this.players = new Circle<>();
         this.questionDeck = new Deck<>();
         this.answerDeck = new Deck<>();
-        this.roundCache = new HashMap<>();
-        this.notPicked = new HashSet<>();
+        this.currentRound = null;
         this.started = false;
         this.stopRequested = false;
         this.eventListener = null;
@@ -130,8 +128,35 @@ public class Game implements PlayerEventListener, Identifiable<String> {
     public void onStartRequest(Player player) {
         if (player.isAdminOf(this) && players.size() >= MIN_NUMBER_OF_PLAYERS) { // if the start request was valid
 
-            
+            started = true;
+            currentRound = new Round();
+            currentRound.setRoundEventListener(this);
+            currentRound.setNumberOfParticipants(players.size());
+            currentRound.start();
 
+        }
+    }
+
+    /**
+     * Fires every time a new round is created
+     */
+    @Override
+    public void onRoundStart() {
+        try {
+
+            if (!started || stopRequested) // if round should not be started
+                throw new Exception("Round should not be started");
+
+            Card question = questionDeck.pickTopCard().orElseThrow(); // if there aren't any questions left, finish the game
+            Player judge = players.circle().orElseThrow(); // if there aren't any players left, finish the game
+            judge.setJudge(true);
+
+            currentRound.setJudge(judge);
+
+            // TODO: Broadcast the question
+
+        } catch (Exception e) {
+            // TODO: finish the game
         }
     }
 
@@ -145,8 +170,20 @@ public class Game implements PlayerEventListener, Identifiable<String> {
     @Override
     public Card onCardUse(Card card, Player player) {
         answerDeck.insertCardInBottom(card);
-        // TODO: Use cache
-        return answerDeck.pickTopCard().orElse(card);
+        currentRound.recordUse(card, player);
+        // TODO: Broadcast usage
+        return answerDeck.pickTopCard().orElseThrow(); // there must be a card here since it was recently inserted
+    }
+
+    /**
+     * Fires when all of the options are ready
+     *
+     * @param options the options picked by the players
+     * @param judge   the current judge
+     */
+    @Override
+    public void onOptionsReady(Iterable<Card> options, Player judge) {
+
     }
 
     /**
