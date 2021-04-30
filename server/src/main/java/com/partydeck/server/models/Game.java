@@ -61,47 +61,6 @@ public class Game implements PlayerEventListener, Identifiable<String> {
         this.answerDeck = new Deck<>(answers);
     }
 
-
-    /**
-     * Fires every time a player uses a card
-     *
-     * @param card   the card used
-     * @param player the player that used the card
-     * @return the new card to be added
-     */
-    @Override
-    public Card onCardUse(Card card, Player player) {
-        answerDeck.insertCardInBottom(card);
-        // TODO: Use cache
-        return answerDeck.pickTopCard().orElse(card);
-    }
-
-    /**
-     * Fires when the admin requests to start the game
-     */
-    @Override
-    public void onStartRequest(Player player) {
-
-    }
-
-    /**
-     * Fires when the admin requests to stop the game
-     */
-    @Override
-    public void onStopRequest(Player player) {
-
-    }
-
-    /**
-     * Fires when the player has disconnected
-     *
-     * @param player the player who disconnected
-     */
-    @Override
-    public void onPlayerDisconnection(Player player) {
-
-    }
-
     /**
      * Checks if a given id is identical to the identifiable object id
      *
@@ -161,5 +120,45 @@ public class Game implements PlayerEventListener, Identifiable<String> {
         }
 
         return false;
+    }
+
+    /**
+     * Fires when the admin requests to start the game
+     */
+    @Override
+    public void onStartRequest(Player player) {
+
+    }
+
+    /**
+     * Fires every time a player uses a card
+     *
+     * @param card   the card used
+     * @param player the player that used the card
+     * @return the new card to be added
+     */
+    @Override
+    public Card onCardUse(Card card, Player player) {
+        answerDeck.insertCardInBottom(card);
+        // TODO: Use cache
+        return answerDeck.pickTopCard().orElse(card);
+    }
+
+    /**
+     * Fires when the admin requests to stop the game
+     */
+    @Override
+    public void onStopRequest(Player player) {
+        
+    }
+
+    /**
+     * Fires when the player has disconnected
+     *
+     * @param player the player who disconnected
+     */
+    @Override
+    public void onPlayerDisconnection(Player player) {
+
     }
 }
