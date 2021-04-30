@@ -81,7 +81,7 @@ public class Game implements PlayerEventListener, Identifiable<String> {
      */
     @Override
     public void onStartRequest(Player player) {
-        
+
     }
 
     /**
@@ -157,8 +157,9 @@ public class Game implements PlayerEventListener, Identifiable<String> {
                 player.makeAdmin();
 
             players.addEntry(player);
+            return true;
         }
 
-        return true;
+        return false;
     }
 }
