@@ -81,7 +81,7 @@ public class Game implements PlayerEventListener, Identifiable<String> {
      */
     @Override
     public void onStartRequest(Player player) {
-
+        
     }
 
     /**
@@ -141,15 +141,23 @@ public class Game implements PlayerEventListener, Identifiable<String> {
         if (answerDeck.size() < Player.NUMBER_OF_CARDS) // if there are not enough cards
             return false;
 
-        // get the player initial cards
-        Card[] cards = new Card[Player.NUMBER_OF_CARDS];
-        for (int i = 0; i < cards.length; i++) {
-            cards[i] = answerDeck.pickTopCard().orElseThrow(); // will not throw
-        }
-
-        player.setCards(cards);
         player.setPlayerEventListener(this);
         player.acceptConnection(args);
+
+        if (player.isConnected()) { // if connection is successful
+            // get the player initial cards
+            Card[] cards = new Card[Player.NUMBER_OF_CARDS];
+            for (int i = 0; i < cards.length; i++) {
+                cards[i] = answerDeck.pickTopCard().orElseThrow(); // will not throw
+            }
+
+            player.setCards(cards);
+
+            if (players.size() == 0)
+                player.makeAdmin();
+
+            players.addEntry(player);
+        }
 
         return true;
     }

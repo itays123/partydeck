@@ -67,6 +67,16 @@ public class PlayerTest {
                 arg2 = null;
             }
         }
+
+        /**
+         * Checks if a player is connected
+         *
+         * @return true if the player has an active connection
+         */
+        @Override
+        public boolean isConnected() {
+            return false;
+        }
     }
 
 }

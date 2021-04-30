@@ -201,6 +201,12 @@ public abstract class Player implements Identifiable<String> {
     public abstract void acceptConnection(Object ...args);
 
     /**
+     * Checks if a player is connected
+     * @return true if the player has an active connection
+     */
+    public abstract boolean isConnected();
+
+    /**
      * A String representation of the player
      * @return the string holding the player values.
      */

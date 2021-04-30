@@ -48,6 +48,14 @@ public class Circle<K,T extends Identifiable<K>> implements Iterable<T> {
     }
 
     /**
+     * Checks the number of entries in the circle
+     * @return the size of the circle as an integer
+     */
+    public int size() {
+        return queue.size();
+    }
+
+    /**
      * Check if the circle has an entry with a given id
      * @param id the id of the entry
      * @return true if the entry exists
