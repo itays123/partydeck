@@ -78,6 +78,15 @@ public abstract class Player implements Identifiable<String> {
     }
 
     /**
+     * A secure way of checking if a player is the game admin
+     * @param eventListener the player event listener to administrate
+     * @return true if the event listener is the one that the player admins.
+     */
+    public boolean isAdminOf(PlayerEventListener eventListener) {
+        return admin && this.eventListener == eventListener;
+    }
+
+    /**
      * Returns the judge state of the player
      * @return true if player is the current judge
      */

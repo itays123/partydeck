@@ -87,6 +87,14 @@ public class Deck<K, T extends Identifiable<K>> implements Iterable<T> {
         return currentDeck.size();
     }
 
+    /**
+     * Checks if a deck has entries in it
+     * @return true if the current deck is not empty
+     */
+    public boolean hasNext() {
+        return !currentDeck.isEmpty();
+    }
+
     /* TODO: Shuffle */
 
     /**

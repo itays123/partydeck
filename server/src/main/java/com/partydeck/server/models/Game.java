@@ -18,6 +18,7 @@ public class Game implements PlayerEventListener, Identifiable<String> {
 
     public static final int TIMEOUT = 30 * 1000; // 30 seconds
     public static final int DELAY = 5 * 1000; // 5 seconds
+    public static final int MIN_NUMBER_OF_PLAYERS = 3;
 
     private String id;
 
@@ -127,7 +128,11 @@ public class Game implements PlayerEventListener, Identifiable<String> {
      */
     @Override
     public void onStartRequest(Player player) {
+        if (player.isAdminOf(this) && players.size() >= MIN_NUMBER_OF_PLAYERS) { // if the start request was valid
 
+            
+
+        }
     }
 
     /**
@@ -149,7 +154,8 @@ public class Game implements PlayerEventListener, Identifiable<String> {
      */
     @Override
     public void onStopRequest(Player player) {
-        
+        if (player.isAdminOf(this))
+            stopRequested = true;
     }
 
     /**
