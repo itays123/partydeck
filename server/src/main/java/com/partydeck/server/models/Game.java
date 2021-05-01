@@ -4,10 +4,14 @@ import com.partydeck.server.models.player.Player;
 import com.partydeck.server.models.player.PlayerEventListener;
 import com.partydeck.server.models.round.Round;
 import com.partydeck.server.models.round.RoundEventListener;
-import com.partydeck.server.models.shared.Card;
-import com.partydeck.server.models.shared.Circle;
-import com.partydeck.server.models.shared.Deck;
-import com.partydeck.server.models.shared.Identifiable;
+import com.partydeck.server.models.shared.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * An object representing the game
@@ -91,6 +95,12 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         this.eventListener = eventListener;
     }
 
+    private void broadcastAll(BroadcastContext context, Object... args) {
+        for (Player player: players) {
+            player.broadcast(context, args);
+        }
+    }
+
     /**
      * Adds a player to the game
      * @param player the player to add
@@ -117,7 +127,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
                 player.makeAdmin();
 
             players.addEntry(player);
-            // TODO: Notify player joined
+            broadcastAll(BroadcastContext.PLAYER_JOINED, players.size(), player.getNickname());
             return true;
         }
 
@@ -135,7 +145,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
             if (eventListener != null)
                 eventListener.onGameStart();
 
-            // TODO: Notify game started
+            broadcastAll(BroadcastContext.GAME_STARTED, "start");
 
             started = true;
             currentRound = new Round();
@@ -162,10 +172,10 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
 
             currentRound.setJudge(judge);
 
-            // TODO: Broadcast the question
+            broadcastAll(BroadcastContext.ROUND_STARTED, judge.getNickname(), question.getContent());
 
         } catch (Exception e) {
-            // TODO: finish the game
+            endGame();
         }
     }
 
@@ -180,7 +190,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     public Card onCardUse(Card card, Player player) {
         answerDeck.insertCardInBottom(card);
         currentRound.recordUse(card, player);
-        // TODO: Broadcast usage
+        broadcastAll(BroadcastContext.CARD_USED, player.getNickname());
         return answerDeck.pickTopCard().orElseThrow(); // there must be a card here since it was recently inserted
     }
 
@@ -204,7 +214,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
      */
     @Override
     public void onOptionsReady(Iterable<Card> options, Player judge) {
-        // TODO: Broadcast pick event
+        broadcastAll(BroadcastContext.PICK, options);
     }
 
     /**
@@ -219,9 +229,9 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
             try {
                 Player winner = currentRound.getWinner(cardId).orElseThrow();
                 winner.incrementRoundsWon();
-                // TODO: Broadcast winner
+                broadcastAll(BroadcastContext.ROUND_ENDED, cardId, winner.getNickname());
             } catch (Exception e) {
-                // Todo: Broadcast round ended 404
+                broadcastAll(BroadcastContext.ROUND_ENDED_404);
             } finally {
                 judge.setJudge(false);
                 startRoundOrEndGame();
@@ -236,7 +246,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
      */
     @Override
     public void onUnexpectedRoundEnd(Player judge) {
-        // Todo: Broadcast round ended 404
+        broadcastAll(BroadcastContext.ROUND_ENDED_404);
         judge.setJudge(false);
         startRoundOrEndGame();
     }
@@ -260,7 +270,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     public void onPlayerDisconnection(Player player) {
         players.removeEntry(player);
         currentRound.setNumberOfParticipants(players.size());
-        // TODO: Notify player left
+        broadcastAll(BroadcastContext.PLAYER_LEFT, players.size(), player.getNickname());
         if (started && players.size() < 3)
             endGame();
         else if (player.isAdminOf(this))
@@ -276,9 +286,17 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     }
 
     private void endGame() {
-        // TODO: Broadcast scores (game ended context)
-        // TODO: Close all connections
+        broadcastAll(BroadcastContext.GAME_ENDED, scores());
+        for (Player player: players)
+            player.closeConnection();
         if (eventListener != null)
             eventListener.onGameEnd();
+    }
+
+    private Iterable<ScoreboardRow> scores() {
+        List<ScoreboardRow> scores = new ArrayList<>();
+        for (Player player: players)
+            scores.add(new ScoreboardRow(player));
+        return scores.stream().sorted().collect(Collectors.toList());
     }
 }
