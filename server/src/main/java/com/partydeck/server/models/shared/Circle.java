@@ -80,6 +80,13 @@ public class Circle<K,T extends Identifiable<K>> implements Iterable<T> {
         return Optional.of(entry);
     }
 
+    public Optional<T> peek() {
+        if (queue.isEmpty())
+            return Optional.empty();
+
+        return Optional.of(queue.peek());
+    }
+
 
     /**
      * Returns an iterator over elements of type {@code T}.

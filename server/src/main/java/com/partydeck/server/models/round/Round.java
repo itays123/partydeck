@@ -1,5 +1,6 @@
 package com.partydeck.server.models.round;
 
+import com.partydeck.server.models.Game;
 import com.partydeck.server.models.player.Player;
 import com.partydeck.server.models.shared.Card;
 
@@ -102,7 +103,7 @@ public class Round {
      */
     public void emitSkip() {
         if (eventListener != null) {
-            if (judging || cache.size() < 2) {
+            if (judging || cache.size() < Game.MIN_NUMBER_OF_PLAYERS - 1) {
                 eventListener.onUnexpectedRoundEnd(judge);
             } else { // player uses are pending
                 judging = true;

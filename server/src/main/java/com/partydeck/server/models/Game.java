@@ -117,6 +117,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
                 player.makeAdmin();
 
             players.addEntry(player);
+            // TODO: Notify player joined
             return true;
         }
 
@@ -130,6 +131,11 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     @Override
     public void onStartRequest(Player player) {
         if (player.isAdminOf(this) && players.size() >= MIN_NUMBER_OF_PLAYERS) { // if the start request was valid
+
+            if (eventListener != null)
+                eventListener.onGameStart();
+
+            // TODO: Notify game started
 
             started = true;
             currentRound = new Round();
@@ -252,14 +258,27 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
      */
     @Override
     public void onPlayerDisconnection(Player player) {
-
+        players.removeEntry(player);
+        currentRound.setNumberOfParticipants(players.size());
+        // TODO: Notify player left
+        if (started && players.size() < 3)
+            endGame();
+        else if (player.isAdminOf(this))
+            players.peek().orElseThrow().makeAdmin();
     }
 
     private void startRoundOrEndGame() {
         currentRound.clear();
         if (questionDeck.hasNext() && !stopRequested)
             currentRound.start();
-        // else
-        // TODO: Finish the game
+        else
+            endGame();
+    }
+
+    private void endGame() {
+        // TODO: Broadcast scores (game ended context)
+        // TODO: Close all connections
+        if (eventListener != null)
+            eventListener.onGameEnd();
     }
 }
