@@ -16,6 +16,13 @@ public interface PlayerEventListener {
     Card onCardUse(Card card, Player player);
 
     /**
+     * Fires every time a judge picks a card
+     * @param cardId the picked card id
+     * @param judge the current judge
+     */
+    void onJudgePick(String cardId, Player judge);
+
+    /**
      * Fires when the admin requests to start the game
      */
     void onStartRequest(Player player);

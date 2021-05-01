@@ -3,8 +3,7 @@ package com.partydeck.server.models.round;
 import com.partydeck.server.models.player.Player;
 import com.partydeck.server.models.shared.Card;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * An object responsible for tracking the round state
@@ -13,7 +12,8 @@ import java.util.Map;
  */
 public class Round {
 
-    private Map<Card, Player> cache;
+    private Map<String, Player> cache;
+    private Set<Card> options;
     private boolean judging;
     private RoundEventListener eventListener;
     private Player judge;
@@ -24,6 +24,7 @@ public class Round {
      */
     public Round() {
         cache = new HashMap<>();
+        options = new HashSet<>();
         judging = false;
         eventListener = null;
         judge = null;
@@ -41,7 +42,8 @@ public class Round {
      * Clear the round object
      */
     public void clear() {
-        cache = new HashMap<>();
+        cache.clear();
+        options.clear();
         judging = false;
         judge = null;
     }
@@ -76,12 +78,15 @@ public class Round {
      * @param player the player to set
      */
     public void recordUse(Card card, Player player) {
-        cache.put(card, player);
+        cache.put(card.getId(), player);
+        options.add(card);
         if (cache.size() == numberOfParticipants && eventListener != null) {
             judging = true;
-            eventListener.onOptionsReady(cache.keySet(), judge);
+            eventListener.onOptionsReady(options, judge);
         }
     }
 
-
+    public Optional<Player> getWinner(String cardId) {
+        return Optional.ofNullable(cache.get(cardId));
+    }
 }

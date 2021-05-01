@@ -94,6 +94,10 @@ public abstract class Player implements Identifiable<String> {
         return judge;
     }
 
+    public boolean isJudgeOf(PlayerEventListener eventListener) {
+        return judge && this.eventListener == eventListener;
+    }
+
     /**
      * Returns the number of rounds won by the player
      * @return the number of rounds won.
@@ -174,6 +178,11 @@ public abstract class Player implements Identifiable<String> {
             if (card.is(cardId))
                 handleCardUsage(card, i);
         }
+    }
+
+    protected void handleJudgePick(String cardId) {
+        if (judge && eventListener != null)
+            eventListener.onJudgePick(cardId, this);
     }
 
     protected void handleStartRequest() {

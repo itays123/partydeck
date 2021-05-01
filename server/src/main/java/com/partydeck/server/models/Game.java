@@ -187,6 +187,32 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     }
 
     /**
+     * Fires every time a judge picks a card
+     *
+     * @param cardId  the picked card id
+     * @param judge the current judge
+     */
+    @Override
+    public void onJudgePick(String cardId, Player judge) {
+        if (judge.isJudgeOf(this)) {
+            try {
+                Player winner = currentRound.getWinner(cardId).orElseThrow();
+                winner.incrementRoundsWon();
+                // TODO: Broadcast winner
+            } catch (Exception e) {
+                // Todo: Broadcast round ended 404
+            } finally {
+                judge.setJudge(false);
+                currentRound.clear();
+                if (questionDeck.hasNext() && !stopRequested)
+                    currentRound.start();
+                // else
+                    // TODO: Finish the game
+            }
+        }
+    }
+
+    /**
      * Fires when the admin requests to stop the game
      */
     @Override
