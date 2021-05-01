@@ -7,11 +7,8 @@ import com.partydeck.server.models.round.RoundEventListener;
 import com.partydeck.server.models.shared.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * An object representing the game
@@ -286,7 +283,8 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     }
 
     private void endGame() {
-        broadcastAll(BroadcastContext.GAME_ENDED, scores());
+        Iterable<ScoreboardRow> scores = scores();
+        broadcastAll(BroadcastContext.GAME_ENDED, scores);
         for (Player player: players)
             player.closeConnection();
         if (eventListener != null)
