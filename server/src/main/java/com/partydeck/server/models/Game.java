@@ -124,6 +124,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
                 player.makeAdmin();
 
             players.addEntry(player);
+            player.broadcast(BroadcastContext.JOINED, player.getId(), player.isAdmin());
             broadcastAll(BroadcastContext.PLAYER_JOINED, players.size(), player.getNickname());
             return true;
         }

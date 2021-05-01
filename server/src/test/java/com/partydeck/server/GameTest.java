@@ -103,6 +103,10 @@ public class GameTest {
                             LOGGER.info(("ROUND ENDED, winner: " + args[1])::toString);
                     }
                     break;
+                    case GAME_ENDED: {
+                        if (isAdmin())
+                            result = (List<ScoreboardRow>) args[0];
+                    }
                     default:
                         break;
                 }
