@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 public class Deck<K, T extends Identifiable<K>> implements Iterable<T> {
 
     private final Set<T> originalDeck;
-    private final Queue<T> currentDeck;
+    private final LinkedList<T> currentDeck;
 
     /**
      * Default constructor. Generates an empty deck.
@@ -95,7 +95,13 @@ public class Deck<K, T extends Identifiable<K>> implements Iterable<T> {
         return !currentDeck.isEmpty();
     }
 
-    /* TODO: Shuffle */
+    /**
+     * Shuffle the deck
+     * @apiNote this algorithm is not efficient, only use when creating games.
+     */
+    public void shuffle() {
+        Collections.shuffle(currentDeck);
+    }
 
     /**
      * Returns an iterator over elements of type {@code T}.

@@ -58,6 +58,8 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         this.id = id;
         this.questionDeck = new Deck<>(questions);
         this.answerDeck = new Deck<>(answers);
+        questionDeck.shuffle();
+        answerDeck.shuffle();
     }
 
     /**
