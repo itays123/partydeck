@@ -123,6 +123,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
 
     /**
      * Fires when the admin requests to start the game
+     * @param player the player who asked to start
      */
     @Override
     public void onStartRequest(Player player) {
@@ -176,6 +177,18 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     }
 
     /**
+     * Fires when a player asks to skip
+     *
+     * @param player the player who asked to skip
+     */
+    @Override
+    public void onSkipRequest(Player player) {
+        if (player.isAdminOf(this)) {
+            currentRound.emitSkip();
+        }
+    }
+
+    /**
      * Fires when all of the options are ready
      *
      * @param options the options picked by the players
@@ -203,17 +216,26 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
                 // Todo: Broadcast round ended 404
             } finally {
                 judge.setJudge(false);
-                currentRound.clear();
-                if (questionDeck.hasNext() && !stopRequested)
-                    currentRound.start();
-                // else
-                    // TODO: Finish the game
+                startRoundOrEndGame();
             }
         }
     }
 
     /**
+     * Fires when a round is unexpectedly ended
+     *
+     * @param judge the judge of the round
+     */
+    @Override
+    public void onUnexpectedRoundEnd(Player judge) {
+        // Todo: Broadcast round ended 404
+        judge.setJudge(false);
+        startRoundOrEndGame();
+    }
+
+    /**
      * Fires when the admin requests to stop the game
+     * @param player the player wo asked to stop
      */
     @Override
     public void onStopRequest(Player player) {
@@ -229,5 +251,13 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     @Override
     public void onPlayerDisconnection(Player player) {
 
+    }
+
+    private void startRoundOrEndGame() {
+        currentRound.clear();
+        if (questionDeck.hasNext() && !stopRequested)
+            currentRound.start();
+        // else
+        // TODO: Finish the game
     }
 }

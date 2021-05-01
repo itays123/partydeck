@@ -24,11 +24,19 @@ public interface PlayerEventListener {
 
     /**
      * Fires when the admin requests to start the game
+     * @param player the player who asked to start
      */
     void onStartRequest(Player player);
 
     /**
+     * Fires when a player asks to skip
+     * @param player the player who asked to skip
+     */
+    void onSkipRequest(Player player);
+
+    /**
      * Fires when the admin requests to stop the game
+     * @param player the player wo asked to stop
      */
     void onStopRequest(Player player);
 

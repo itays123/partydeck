@@ -16,6 +16,12 @@ public interface RoundEventListener {
     void onOptionsReady(Iterable<Card> options, Player judge);
 
     /**
+     * Fires when a round is unexpectedly ended
+     * @param judge the judge of the round
+     */
+    void onUnexpectedRoundEnd(Player judge);
+
+    /**
      * Fires every time a new round is created
      */
     void onRoundStart();

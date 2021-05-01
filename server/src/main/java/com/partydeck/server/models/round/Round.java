@@ -78,6 +78,8 @@ public class Round {
      * @param player the player to set
      */
     public void recordUse(Card card, Player player) {
+        if (judging)
+            return;
         cache.put(card.getId(), player);
         options.add(card);
         if (cache.size() == numberOfParticipants && eventListener != null) {
@@ -93,5 +95,19 @@ public class Round {
      */
     public Optional<Player> getWinner(String cardId) {
         return Optional.ofNullable(cache.get(cardId));
+    }
+
+    /**
+     * Skip the current state of the round
+     */
+    public void emitSkip() {
+        if (eventListener != null) {
+            if (judging || cache.size() < 2) {
+                eventListener.onUnexpectedRoundEnd(judge);
+            } else { // player uses are pending
+                judging = true;
+                eventListener.onOptionsReady(options, judge);
+            }
+        }
     }
 }
