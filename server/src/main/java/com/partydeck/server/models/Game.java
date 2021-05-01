@@ -196,7 +196,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
      */
     @Override
     public void onOptionsReady(Iterable<Card> options, Player judge) {
-
+        // TODO: Broadcast pick event
     }
 
     /**
