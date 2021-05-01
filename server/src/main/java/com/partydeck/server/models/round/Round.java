@@ -86,6 +86,11 @@ public class Round {
         }
     }
 
+    /**
+     * Maps a card id to a player
+     * @param cardId the id of the card that was picked
+     * @return the player who used the card
+     */
     public Optional<Player> getWinner(String cardId) {
         return Optional.ofNullable(cache.get(cardId));
     }
