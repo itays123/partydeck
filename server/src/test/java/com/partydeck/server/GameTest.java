@@ -129,10 +129,10 @@ public class GameTest {
         /**
          * handle messages received by the user
          *
-         * @param args the args received by the suer
+         * @param message the message received by the suer
          */
         @Override
-        public void handleMessage(Map<String, Object> args) {
+        public void handleMessage(String message) {
 
         }
     }

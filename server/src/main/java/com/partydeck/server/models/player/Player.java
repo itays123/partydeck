@@ -203,6 +203,11 @@ public abstract class Player implements Identifiable<String> {
             eventListener.onPlayerDisconnection(this);
     }
 
+    protected void handleSkipRequest() {
+        if (eventListener != null && admin)
+            eventListener.onSkipRequest(this);
+    }
+
     /**
      * Close the connection implementation
      */
@@ -232,9 +237,9 @@ public abstract class Player implements Identifiable<String> {
 
     /**
      * handle messages received by the user
-     * @param args the args received by the suer
+     * @param message the message received by the suer
      */
-    public abstract void handleMessage(Map<String, Object> args);
+    public abstract void handleMessage(String message);
 
     /**
      * A String representation of the player
