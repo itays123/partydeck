@@ -108,15 +108,13 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     /**
      * Adds a player to the game
      * @param player the player to add
-     * @param args the connection args
      * @return true if player is successfully added
      */
-    public boolean addPlayer(Player player, Object ...args) {
+    public boolean addPlayer(Player player) {
         if (answerDeck.size() < Player.NUMBER_OF_CARDS) // if there are not enough cards
             return false;
 
         player.setPlayerEventListener(this);
-        player.acceptConnection(args);
 
         if (player.isConnected()) { // if connection is successful
             // get the player initial cards

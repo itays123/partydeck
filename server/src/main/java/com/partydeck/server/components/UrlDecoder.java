@@ -6,6 +6,11 @@ import org.springframework.stereotype.Component;
 import java.net.URI;
 import java.util.*;
 
+/**
+ * The component responsible for decoding urls
+ * @author Itay Schechner
+ * @version 1.0
+ */
 @Component
 public class UrlDecoder {
 

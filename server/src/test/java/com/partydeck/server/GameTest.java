@@ -117,16 +117,6 @@ public class GameTest {
         }
 
         /**
-         * Accept the connection
-         *
-         * @param args the connection to make.
-         */
-        @Override
-        public void acceptConnection(Object... args) {
-
-        }
-
-        /**
          * Checks if a player is connected
          *
          * @return true if the player has an active connection
@@ -134,6 +124,16 @@ public class GameTest {
         @Override
         public boolean isConnected() {
             return true;
+        }
+
+        /**
+         * handle messages received by the user
+         *
+         * @param args the args received by the suer
+         */
+        @Override
+        public void handleMessage(Map<String, Object> args) {
+
         }
     }
 
