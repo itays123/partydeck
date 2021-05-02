@@ -4,6 +4,9 @@ import com.partydeck.server.models.shared.BroadcastContext;
 import com.partydeck.server.models.shared.Card;
 import com.partydeck.server.models.shared.Identifiable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A class representing a player object
  * @author Itay Schechner
@@ -210,7 +213,16 @@ public abstract class Player implements Identifiable<String> {
      * @param context the context of the broadcast
      * @param args the args to send.
      */
-    public abstract void broadcast(BroadcastContext context, Object ...args);
+    public abstract void broadcast(BroadcastContext context, Map<String, Object> args);
+
+    public void broadcast(BroadcastContext context, Object... args) {
+        Map<String, Object> argsMap = new HashMap<>();
+        for (int i = 0; i < args.length - 1; i+=2) {
+            if (args[i] instanceof String)
+                argsMap.put((String) args[i], args[i + 1]);
+        }
+        broadcast(context, argsMap);
+    }
 
     /**
      * Accept the connection

@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootTest
 public class GameTest {
@@ -65,11 +66,11 @@ public class GameTest {
          * @param args    the args to send.
          */
         @Override
-        public void broadcast(BroadcastContext context, Object... args) {
+        public void broadcast(BroadcastContext context, Map<String, Object> args) {
             try {
                 switch (context) {
                     case PLAYER_JOINED: {
-                        int numberOfPlayers = (int) args[0];
+                        int numberOfPlayers = (int) args.get("count");
                         if (numberOfPlayers >= 3 && isAdmin()) {
                             LOGGER.info("Commanding start"::toString);
                             new Thread(this::handleStartRequest).start();
@@ -88,7 +89,7 @@ public class GameTest {
                     break;
                     case PICK: {
                         if (isJudge()) {
-                            Iterable<Card> options = (Iterable<Card>) args[0];
+                            Iterable<Card> options = (Iterable<Card>) args.get("options");
                             String pickedCardId = "";
                             for (Card card: options) {
                                 pickedCardId = card.getId();
@@ -100,12 +101,12 @@ public class GameTest {
                     break;
                     case ROUND_ENDED: {
                         if (isAdmin())
-                            LOGGER.info(("ROUND ENDED, winner: " + args[1])::toString);
+                            LOGGER.info(("ROUND ENDED, winner: " + args.get("playerWon"))::toString);
                     }
                     break;
                     case GAME_ENDED: {
                         if (isAdmin())
-                            result = (List<ScoreboardRow>) args[0];
+                            result = (List<ScoreboardRow>) args.get("scores");
                     }
                     default:
                         break;

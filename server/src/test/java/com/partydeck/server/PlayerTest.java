@@ -6,6 +6,8 @@ import com.partydeck.server.models.shared.BroadcastContext;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Map;
+
 @SpringBootTest
 public class PlayerTest {
 
@@ -46,7 +48,7 @@ public class PlayerTest {
          * @param args    the args to send.
          */
         @Override
-        public void broadcast(BroadcastContext context, Object... args) {
+        public void broadcast(BroadcastContext context, Map<String, Object> args) {
 
         }
 

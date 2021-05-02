@@ -4,7 +4,7 @@ package com.partydeck.server.models.shared;
  * Broadcast context
  */
 public enum BroadcastContext {
-    JOINED,
+    INIT,
     PLAYER_JOINED,
     PLAYER_LEFT,
     GAME_STARTED,

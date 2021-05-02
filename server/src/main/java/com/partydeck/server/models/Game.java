@@ -7,7 +7,9 @@ import com.partydeck.server.models.round.RoundEventListener;
 import com.partydeck.server.models.shared.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -93,8 +95,13 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     }
 
     private void broadcastAll(BroadcastContext context, Object... args) {
+        Map<String, Object> argsMap = new HashMap<>();
+        for (int i = 0; i < args.length - 1; i+=2) {
+            if (args[i] instanceof String)
+                argsMap.put((String) args[i], args[i + 1]);
+        }
         for (Player player: players) {
-            player.broadcast(context, args);
+            player.broadcast(context, argsMap);
         }
     }
 
@@ -124,8 +131,8 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
                 player.makeAdmin();
 
             players.addEntry(player);
-            player.broadcast(BroadcastContext.JOINED, player.getId(), player.isAdmin());
-            broadcastAll(BroadcastContext.PLAYER_JOINED, players.size(), player.getNickname());
+            player.broadcast(BroadcastContext.INIT, "id", player.getId(), "isAdmin", player.isAdmin(), "game", id);
+            broadcastAll(BroadcastContext.PLAYER_JOINED, "count", players.size(), "joined", player.getNickname());
             return true;
         }
 
@@ -143,7 +150,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
             if (eventListener != null)
                 eventListener.onGameStart();
 
-            broadcastAll(BroadcastContext.GAME_STARTED, "start");
+            broadcastAll(BroadcastContext.GAME_STARTED, "dispatched", "start");
 
             started = true;
             currentRound = new Round();
@@ -170,7 +177,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
 
             currentRound.setJudge(judge);
 
-            broadcastAll(BroadcastContext.ROUND_STARTED, judge.getNickname(), question.getContent());
+            broadcastAll(BroadcastContext.ROUND_STARTED, "j", judge.getNickname(), "q", question.getContent());
 
         } catch (Exception e) {
             endGame();
@@ -188,7 +195,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     public Card onCardUse(Card card, Player player) {
         answerDeck.insertCardInBottom(card);
         currentRound.recordUse(card, player);
-        broadcastAll(BroadcastContext.CARD_USED, player.getNickname());
+        broadcastAll(BroadcastContext.CARD_USED, "cardUsed", player.getNickname());
         return answerDeck.pickTopCard().orElseThrow(); // there must be a card here since it was recently inserted
     }
 
@@ -212,7 +219,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
      */
     @Override
     public void onOptionsReady(Iterable<Card> options, Player judge) {
-        broadcastAll(BroadcastContext.PICK, options);
+        broadcastAll(BroadcastContext.PICK, "options", options);
     }
 
     /**
@@ -227,9 +234,9 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
             try {
                 Player winner = currentRound.getWinner(cardId).orElseThrow();
                 winner.incrementRoundsWon();
-                broadcastAll(BroadcastContext.ROUND_ENDED, cardId, winner.getNickname());
+                broadcastAll(BroadcastContext.ROUND_ENDED, "winningCard", cardId, "playerWon", winner.getNickname());
             } catch (Exception e) {
-                broadcastAll(BroadcastContext.ROUND_ENDED_404);
+                broadcastAll(BroadcastContext.ROUND_ENDED_404, "playerWon", "nobody");
             } finally {
                 judge.setJudge(false);
                 startRoundOrEndGame();
@@ -244,7 +251,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
      */
     @Override
     public void onUnexpectedRoundEnd(Player judge) {
-        broadcastAll(BroadcastContext.ROUND_ENDED_404);
+        broadcastAll(BroadcastContext.ROUND_ENDED_404, "playerWon", "nobody");
         judge.setJudge(false);
         startRoundOrEndGame();
     }
@@ -268,7 +275,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     public void onPlayerDisconnection(Player player) {
         players.removeEntry(player);
         currentRound.setNumberOfParticipants(players.size());
-        broadcastAll(BroadcastContext.PLAYER_LEFT, players.size(), player.getNickname());
+        broadcastAll(BroadcastContext.PLAYER_LEFT, "count", players.size(), "left", player.getNickname());
         if (started && players.size() < 3)
             endGame();
         else if (player.isAdminOf(this))
@@ -285,7 +292,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
 
     private void endGame() {
         Iterable<ScoreboardRow> scores = scores();
-        broadcastAll(BroadcastContext.GAME_ENDED, scores);
+        broadcastAll(BroadcastContext.GAME_ENDED, "scores", scores);
         for (Player player: players)
             player.closeConnection();
         if (eventListener != null)

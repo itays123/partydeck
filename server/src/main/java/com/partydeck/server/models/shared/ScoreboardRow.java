@@ -83,6 +83,6 @@ public class ScoreboardRow implements Comparable<ScoreboardRow> {
      */
     @Override
     public int compareTo(ScoreboardRow o) {
-        return score - o.score;
+        return o.score - score;
     }
 }
