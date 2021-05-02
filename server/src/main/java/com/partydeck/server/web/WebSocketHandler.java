@@ -42,6 +42,10 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        if (connections.containsKey(session.getId()))
+            connections.get(session.getId()).handleMessage(message.getPayload());
+        else
+            session.close(CloseStatus.SESSION_NOT_RELIABLE);
     }
 
     @Override
