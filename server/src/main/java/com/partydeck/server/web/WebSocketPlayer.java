@@ -1,7 +1,6 @@
 package com.partydeck.server.web;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.partydeck.server.models.player.Player;
 import com.partydeck.server.models.shared.BroadcastContext;
@@ -19,7 +18,7 @@ import java.util.Optional;
  * @author Itay Schechner
  * @version 1.0
  */
-public class PlayerWebSocketImpl extends Player {
+public class WebSocketPlayer extends Player implements WebSocketSessionWrapper {
 
     private static final Type TYPE = new TypeToken<Map<String, Object>>(){}.getType();
 
@@ -33,7 +32,7 @@ public class PlayerWebSocketImpl extends Player {
      * @param nickname the nickname of the player
      * @param session the WebSocket session of the player.
      */
-    public PlayerWebSocketImpl(String id, String nickname, WebSocketSession session) {
+    public WebSocketPlayer(String id, String nickname, WebSocketSession session) {
         super(id, nickname);
         this.session = session;
         gson = new Gson();
@@ -84,12 +83,12 @@ public class PlayerWebSocketImpl extends Player {
     }
 
     /**
-     * handle messages received by the user
+     * Fires when a new mess
      *
-     * @param message the message received by the suer
+     * @param message the message in a string format
      */
     @Override
-    public void handleMessage(String message) {
+    public void onMessage(String message) {
         try {
             Map<String, Object> data = gson.fromJson(message, TYPE);
             String context = (String) Optional.ofNullable(data.get("context")).orElseThrow();
@@ -126,5 +125,13 @@ public class PlayerWebSocketImpl extends Player {
                 throw new UnsupportedOperationException();
 
         }
+    }
+
+    /**
+     * Emits after the session is disconnected
+     */
+    @Override
+    public void onUnexpectedDisconnection() {
+        handleDisconnection();
     }
 }

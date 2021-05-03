@@ -125,16 +125,6 @@ public class GameTest {
         public boolean isConnected() {
             return true;
         }
-
-        /**
-         * handle messages received by the user
-         *
-         * @param message the message received by the suer
-         */
-        @Override
-        public void handleMessage(String message) {
-
-        }
     }
 
 }

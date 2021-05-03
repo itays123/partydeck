@@ -198,7 +198,7 @@ public abstract class Player implements Identifiable<String> {
             eventListener.onStopRequest(this);
     }
 
-    public void handleDisconnection() {
+    protected void handleDisconnection() {
         if (eventListener != null)
             eventListener.onPlayerDisconnection(this);
     }
@@ -234,12 +234,6 @@ public abstract class Player implements Identifiable<String> {
      * @return true if the player has an active connection
      */
     public abstract boolean isConnected();
-
-    /**
-     * handle messages received by the user
-     * @param message the message received by the suer
-     */
-    public abstract void handleMessage(String message);
 
     /**
      * A String representation of the player
