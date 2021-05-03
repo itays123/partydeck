@@ -193,7 +193,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     public Card onCardUse(Card card, Player player) {
         answerDeck.insertCardInBottom(card);
         currentRound.recordUse(card, player);
-        broadcastAll(BroadcastContext.PLAYER_USAGE, "cardUsed", player.getNickname());
+        broadcastAll(BroadcastContext.PLAYER_USAGE, "playerId", player.getId(), "playerName", player.getNickname());
         return answerDeck.pickTopCard().orElseThrow(); // there must be a card here since it was recently inserted
     }
 
