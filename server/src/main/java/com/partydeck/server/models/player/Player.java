@@ -23,13 +23,13 @@ public abstract class Player implements Identifiable<String> {
 
     private boolean admin;
 
-    private boolean judge;
+    protected boolean judge;
 
     private PlayerEventListener eventListener;
 
     private int roundsWon;
 
-    private final Card[] currentCards;
+    protected final Card[] currentCards;
 
     /**
      * Empty constructor. Sets everything up.

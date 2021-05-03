@@ -64,8 +64,24 @@ public class WebSocketPlayer extends Player implements WebSocketSessionWrapper {
     @Override
     public void broadcast(BroadcastContext context, Map<String, Object> args) {
         args.put("context", context.toString());
-        String json = gson.toJson(args);
+
+        // put personal values
+        switch (context) {
+            case PLAYER_JOINED:
+            case PLAYER_LEFT:
+                args.put("isAdmin", isAdmin());
+                break;
+
+            case ROUND_STARTED:
+                if (!judge)
+                    args.put("use", currentCards);
+            case PICK:
+                args.put("isJudge", judge);
+                break;
+        }
+
         try {
+            String json = gson.toJson(args);
             session.sendMessage(new TextMessage(json));
         } catch (IOException e) {
             closeConnection(CloseStatus.SESSION_NOT_RELIABLE);
