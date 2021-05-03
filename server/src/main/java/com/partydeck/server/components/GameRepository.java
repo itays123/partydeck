@@ -21,4 +21,8 @@ public class GameRepository {
         return false;
     }
 
+    public boolean hasGame(String code) {
+        return games.containsKey(code);
+    }
+
 }
