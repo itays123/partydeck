@@ -2,10 +2,10 @@ package com.partydeck.server;
 
 import com.partydeck.server.models.Game;
 import com.partydeck.server.models.GameEventListener;
-import com.partydeck.server.models.player.Player;
-import com.partydeck.server.models.shared.BroadcastContext;
-import com.partydeck.server.models.shared.Card;
-import com.partydeck.server.models.shared.ScoreboardRow;
+import com.partydeck.server.models.Player;
+import com.partydeck.server.models.BroadcastContext;
+import com.partydeck.server.models.helpers.Card;
+import com.partydeck.server.models.helpers.ScoreboardRow;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.logging.Logger;
 import org.junit.platform.commons.logging.LoggerFactory;

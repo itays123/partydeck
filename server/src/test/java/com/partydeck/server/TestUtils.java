@@ -1,7 +1,7 @@
 package com.partydeck.server;
 
 import com.partydeck.server.models.Game;
-import com.partydeck.server.models.shared.Card;
+import com.partydeck.server.models.helpers.Card;
 
 import java.util.ArrayList;
 import java.util.List;

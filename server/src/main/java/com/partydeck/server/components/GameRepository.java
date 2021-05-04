@@ -1,7 +1,7 @@
 package com.partydeck.server.components;
 
 import com.partydeck.server.models.Game;
-import com.partydeck.server.models.player.Player;
+import com.partydeck.server.models.Player;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;

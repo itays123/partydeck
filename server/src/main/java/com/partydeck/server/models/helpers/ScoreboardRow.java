@@ -1,6 +1,6 @@
-package com.partydeck.server.models.shared;
+package com.partydeck.server.models.helpers;
 
-import com.partydeck.server.models.player.Player;
+import com.partydeck.server.models.Player;
 
 /**
  * An object representing a scoreboard row

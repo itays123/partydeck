@@ -1,4 +1,6 @@
-package com.partydeck.server.models.shared;
+package com.partydeck.server.models.iterable;
+
+import com.partydeck.server.models.helpers.Identifiable;
 
 import java.util.*;
 import java.util.function.Consumer;

@@ -2,8 +2,8 @@ package com.partydeck.server.web;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.partydeck.server.models.player.Player;
-import com.partydeck.server.models.shared.BroadcastContext;
+import com.partydeck.server.models.Player;
+import com.partydeck.server.models.BroadcastContext;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;

@@ -1,4 +1,4 @@
-package com.partydeck.server.models.shared;
+package com.partydeck.server.models;
 
 /**
  * Broadcast context

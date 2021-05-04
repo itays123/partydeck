@@ -1,6 +1,7 @@
-package com.partydeck.server.models.player;
+package com.partydeck.server.models.events;
 
-import com.partydeck.server.models.shared.Card;
+import com.partydeck.server.models.Player;
+import com.partydeck.server.models.helpers.Card;
 
 /**
  * An interface used to handle player events

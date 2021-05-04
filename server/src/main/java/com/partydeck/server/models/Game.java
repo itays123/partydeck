@@ -1,10 +1,10 @@
 package com.partydeck.server.models;
 
-import com.partydeck.server.models.player.Player;
-import com.partydeck.server.models.player.PlayerEventListener;
-import com.partydeck.server.models.round.Round;
-import com.partydeck.server.models.round.RoundEventListener;
-import com.partydeck.server.models.shared.*;
+import com.partydeck.server.models.iterable.Circle;
+import com.partydeck.server.models.iterable.Deck;
+import com.partydeck.server.models.events.PlayerEventListener;
+import com.partydeck.server.models.events.RoundEventListener;
+import com.partydeck.server.models.helpers.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;

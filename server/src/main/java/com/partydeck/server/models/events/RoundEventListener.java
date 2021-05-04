@@ -1,7 +1,7 @@
-package com.partydeck.server.models.round;
+package com.partydeck.server.models.events;
 
-import com.partydeck.server.models.player.Player;
-import com.partydeck.server.models.shared.Card;
+import com.partydeck.server.models.Player;
+import com.partydeck.server.models.helpers.Card;
 
 /**
  * An interface for handling round events

@@ -1,8 +1,8 @@
-package com.partydeck.server.models.player;
+package com.partydeck.server.models;
 
-import com.partydeck.server.models.shared.BroadcastContext;
-import com.partydeck.server.models.shared.Card;
-import com.partydeck.server.models.shared.Identifiable;
+import com.partydeck.server.models.events.PlayerEventListener;
+import com.partydeck.server.models.helpers.Card;
+import com.partydeck.server.models.helpers.Identifiable;
 
 import java.util.HashMap;
 import java.util.Map;
