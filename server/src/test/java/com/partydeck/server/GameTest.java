@@ -34,12 +34,12 @@ public class GameTest {
         game.addPlayer(player3);
         game.setGameEventListener(new GameEventListener() {
             @Override
-            public void onGameStart() {
+            public void onGameStart(String gameId) {
 
             }
 
             @Override
-            public void onGameEnd() {
+            public void onGameEnd(String gameId) {
                 LOGGER.info(result::toString);
             }
         });

@@ -160,7 +160,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         if (player.isAdminOf(this) && players.size() >= MIN_NUMBER_OF_PLAYERS) { // if the start request was valid
 
             if (eventListener != null)
-                eventListener.onGameStart();
+                eventListener.onGameStart(id);
 
             broadcastAll(BroadcastContext.GAME_STARTED, "dispatched", "start");
 
@@ -308,7 +308,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         for (Player player: players)
             player.closeConnection();
         if (eventListener != null)
-            eventListener.onGameEnd();
+            eventListener.onGameEnd(id);
     }
 
     private Iterable<ScoreboardRow> scores() {
