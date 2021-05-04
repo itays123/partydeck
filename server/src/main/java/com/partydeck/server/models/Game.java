@@ -66,6 +66,19 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     }
 
     /**
+     * Creates a new Game object
+     * @param id the id of the game
+     * @param questions the list of string questions
+     * @param answers the list of string answers
+     */
+    public Game(String id, List<String> questions, List<String> answers) {
+        this(id,
+            questions.stream().map(question -> new Card("q" + question.hashCode(), question)).collect(Collectors.toList()),
+            answers.stream().map(answer -> new Card("a" + answer.hashCode(), answer)).collect(Collectors.toList())
+        );
+    }
+
+    /**
      * Checks if a given id is identical to the identifiable object id
      *
      * @param id the id to compare to
