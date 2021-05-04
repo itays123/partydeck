@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * An object representing the game
@@ -73,8 +74,8 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
      */
     public Game(String id, List<String> questions, List<String> answers) {
         this(id,
-            questions.stream().map(question -> new Card("q" + question.hashCode(), question)).collect(Collectors.toList()),
-            answers.stream().map(answer -> new Card("a" + answer.hashCode(), answer)).collect(Collectors.toList())
+            IntStream.range(0, questions.size()).mapToObj(index -> new Card("q" + index, questions.get(index))).collect(Collectors.toList()),
+            IntStream.range(0, answers.size()).mapToObj(index -> new Card("a" + index, answers.get(index))).collect(Collectors.toList())
         );
     }
 
