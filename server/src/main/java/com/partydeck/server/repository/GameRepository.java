@@ -1,4 +1,4 @@
-package com.partydeck.server.components;
+package com.partydeck.server.repository;
 
 import com.partydeck.server.models.Game;
 import com.partydeck.server.models.GameEventListener;

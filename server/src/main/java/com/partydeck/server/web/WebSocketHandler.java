@@ -1,7 +1,7 @@
 package com.partydeck.server.web;
 
-import com.partydeck.server.components.GameRepository;
-import com.partydeck.server.components.UrlParser;
+import com.partydeck.server.repository.GameRepository;
+import com.partydeck.server.repository.UrlParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;

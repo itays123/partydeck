@@ -1,7 +1,7 @@
 package com.partydeck.server.services;
 
-import com.partydeck.server.components.GameCodeGenerator;
-import com.partydeck.server.components.GameRepository;
+import com.partydeck.server.repository.GameCodeGenerator;
+import com.partydeck.server.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.partydeck.server.components;
+package com.partydeck.server.repository;
 
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
