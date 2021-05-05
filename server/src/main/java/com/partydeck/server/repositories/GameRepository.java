@@ -19,20 +19,37 @@ public class GameRepository implements GameEventListener {
 
     private final Map<String, Game> games = new HashMap<>();
 
-    public boolean addPlayerToGame(String gameCode, Player player) {
-        // TODO: Throw error
+    /**
+     * Adds a player to a game if exists
+     * @param gameCode the code of the game
+     * @param player the player to add
+     * @return true if the player added successfully
+     * @throws IllegalArgumentException if the game does not exist
+     */
+    public boolean addPlayerToGame(String gameCode, Player player) throws IllegalArgumentException {
         Game game = games.get(gameCode);
         if (game != null)
             return game.addPlayer(player);
-        return false;
+        throw new IllegalArgumentException();
     }
 
+    /**
+     * Creates a new game object
+     * @param id the id of the game
+     * @param questions the questions of the game
+     * @param answers the answers of the game
+     */
     public void createGame(String id, List<String> questions, List<String> answers) {
         Game game = new Game(id, questions, answers);
-        // game.setGameEventListener
+        game.setGameEventListener(this);
         games.put(id, game);
     }
 
+    /**
+     * Checks if a game with a certain code exists
+     * @param code the code of the game
+     * @return true if the game exists
+     */
     public boolean hasGame(String code) {
         return games.containsKey(code);
     }
@@ -54,6 +71,6 @@ public class GameRepository implements GameEventListener {
      */
     @Override
     public void onGameEnd(String gameId) {
-
+        games.remove(gameId);
     }
 }

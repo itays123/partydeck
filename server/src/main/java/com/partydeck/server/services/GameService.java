@@ -7,6 +7,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * The game service
+ * @author Itay Schechner
+ * @version 1.0
+ */
 @Service
 public class GameService {
 
@@ -16,9 +21,25 @@ public class GameService {
     @Autowired
     private GameRepository gameRepository;
 
-    public void createGame(List<String> questions, List<String> answers) {
+    /**
+     * Creates a new game
+     * @param questions the list of questions
+     * @param answers the list of answers
+     * @return the code of the newly created game
+     */
+    public String createGame(List<String> questions, List<String> answers) {
         String uniqueGameCode = generator.generate(gameRepository::hasGame);
-        // Create game
+        gameRepository.createGame(uniqueGameCode, questions, answers);
+        return uniqueGameCode;
+    }
+
+    /**
+     * Checks if a game exists
+     * @param code the code of the game to check
+     * @return true if the game exists
+     */
+    public boolean checkGame(String code) {
+        return gameRepository.hasGame(code);
     }
 
 }
