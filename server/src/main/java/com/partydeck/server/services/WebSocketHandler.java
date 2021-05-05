@@ -1,8 +1,8 @@
 package com.partydeck.server.services;
 
-import com.partydeck.server.repository.ConnectionProvider;
-import com.partydeck.server.repository.GameRepository;
-import com.partydeck.server.repository.UrlParser;
+import com.partydeck.server.repositories.ConnectionProvider;
+import com.partydeck.server.repositories.GameRepository;
+import com.partydeck.server.repositories.UrlParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

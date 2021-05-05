@@ -1,4 +1,4 @@
-package com.partydeck.server.repository;
+package com.partydeck.server.repositories;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

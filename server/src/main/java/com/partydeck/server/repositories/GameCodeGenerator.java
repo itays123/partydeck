@@ -1,4 +1,4 @@
-package com.partydeck.server.repository;
+package com.partydeck.server.repositories;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;

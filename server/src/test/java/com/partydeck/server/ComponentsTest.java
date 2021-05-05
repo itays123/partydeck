@@ -1,6 +1,6 @@
 package com.partydeck.server;
 
-import com.partydeck.server.repository.UrlParser;
+import com.partydeck.server.repositories.UrlParser;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
