@@ -6,6 +6,7 @@ import com.partydeck.server.models.helpers.Identifiable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * A class representing a player object
@@ -176,6 +177,9 @@ public abstract class Player implements Identifiable<String> {
     }
 
     protected void handleCardUsage(String cardId) {
+        if (judge)
+            return;
+
         for (int i = 0; i < NUMBER_OF_CARDS; i++) {
             Card card = currentCards[i];
             if (card.is(cardId))
@@ -206,6 +210,35 @@ public abstract class Player implements Identifiable<String> {
     protected void handleSkipRequest() {
         if (eventListener != null && admin)
             eventListener.onSkipRequest(this);
+    }
+
+    protected void handleMessage(BroadcastContext context, Map<String, Object> data) throws UnsupportedOperationException {
+        switch (context) {
+            case START:
+                handleStartRequest();
+                break;
+
+            case STOP:
+                handleStopRequest();
+                break;
+
+            case SKIP:
+                handleSkipRequest();
+                break;
+
+            case USED:
+                String usedCardId = (String) Optional.ofNullable(data.get("used")).orElseThrow();
+                handleCardUsage(usedCardId);
+                break;
+
+            case PICKED:
+                String pickedCardId = (String) Optional.ofNullable(data.get("picked")).orElseThrow();
+                handleJudgePick(pickedCardId);
+
+            default:
+                throw new UnsupportedOperationException();
+
+        }
     }
 
     /**
