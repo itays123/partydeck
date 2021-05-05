@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * An object representing the game
@@ -69,13 +70,26 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     /**
      * Creates a new Game object
      * @param id the id of the game
+     * @param questions the game card questions as stream
+     * @param answers the game card answers as stream
+     */
+    public Game(String id, Stream<Card> questions, Stream<Card> answers) {
+        this();
+        this.id = id;
+        this.questionDeck = new Deck<>(questions);
+        this.answerDeck = new Deck<>(answers);
+    }
+
+    /**
+     * Creates a new Game object
+     * @param id the id of the game
      * @param questions the list of string questions
      * @param answers the list of string answers
      */
     public Game(String id, List<String> questions, List<String> answers) {
         this(id,
-            IntStream.range(0, questions.size()).mapToObj(index -> new Card("q" + index, questions.get(index))).collect(Collectors.toList()),
-            IntStream.range(0, answers.size()).mapToObj(index -> new Card("a" + index, answers.get(index))).collect(Collectors.toList())
+            IntStream.range(0, questions.size()).mapToObj(index -> new Card(id + "@q" + index, questions.get(index))),
+            IntStream.range(0, answers.size()).mapToObj(index -> new Card(id + "@a" + index, answers.get(index)))
         );
     }
 

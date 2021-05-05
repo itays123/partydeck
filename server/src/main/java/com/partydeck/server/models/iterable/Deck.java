@@ -4,6 +4,8 @@ import com.partydeck.server.models.helpers.Identifiable;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * An object representing a deck of cards.
@@ -35,6 +37,16 @@ public class Deck<K, T extends Identifiable<K>> implements Iterable<T> {
             originalDeck.add(entry);
             currentDeck.add(entry);
         }
+    }
+
+    /**
+     * Generates a shuffled deck from a stream
+     * @param entries the stream of entries
+     */
+    public Deck(Stream<T> entries) {
+        originalDeck = entries.collect(Collectors.toSet());
+        currentDeck = entries.collect(Collectors.toCollection(LinkedList::new));
+        Collections.shuffle(currentDeck);
     }
 
     /**
