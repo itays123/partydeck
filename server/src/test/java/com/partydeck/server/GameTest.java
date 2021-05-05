@@ -117,6 +117,16 @@ public class GameTest {
         }
 
         /**
+         * Broadcast a message
+         *
+         * @param args the args to send.
+         */
+        @Override
+        public void broadcast(Map<String, Object> args) {
+
+        }
+
+        /**
          * Checks if a player is connected
          *
          * @return true if the player has an active connection

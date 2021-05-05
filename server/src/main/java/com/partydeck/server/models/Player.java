@@ -248,10 +248,34 @@ public abstract class Player implements Identifiable<String> {
 
     /**
      * Broadcast a message
+     * @param args the args to send.
+     */
+    public abstract void broadcast(Map<String, Object> args);
+
+    /**
+     * Broadcast a message
      * @param context the context of the broadcast
      * @param args the args to send.
      */
-    public abstract void broadcast(BroadcastContext context, Map<String, Object> args);
+    public void broadcast(BroadcastContext context, Map<String, Object> args) {
+        args.put("context", context.toString());
+
+        // put personal values
+        switch (context) {
+            case PLAYER_JOINED:
+            case PLAYER_LEFT:
+                args.put("isAdmin", isAdmin());
+                break;
+
+            case ROUND_STARTED:
+                if (!judge)
+                    args.put("use", currentCards);
+            case PICK:
+                args.put("isJudge", judge);
+                break;
+        }
+        broadcast(args);
+    }
 
     public void broadcast(BroadcastContext context, Object... args) {
         Map<String, Object> argsMap = new HashMap<>();
