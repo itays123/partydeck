@@ -3,18 +3,22 @@ package com.partydeck.server.services;
 import com.partydeck.server.repository.ConnectionProvider;
 import com.partydeck.server.repository.GameRepository;
 import com.partydeck.server.repository.UrlParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class WebSocketHandler extends TextWebSocketHandler {
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(WebSocketHandler.class);
 
     @Autowired
     private UrlParser urlParser;
@@ -29,13 +33,17 @@ public class WebSocketHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         try {
             Map<String, String> query = urlParser.parse(session.getUri());
-            String code = query.get("code");
-            String name = query.get("name");
+            String code = Optional.ofNullable(query.get("code")).orElseThrow(IllegalArgumentException::new);
+            String name = Optional.ofNullable(query.get("name")).orElseThrow(IllegalArgumentException::new);
+
+            LOGGER.debug("New connection made " + code, name);
 
             connectionProvider.addConnection(session, code, name, gameRepository::addPlayerToGame);
 
-        } catch (Exception e) {
+        } catch (UnsupportedOperationException e) {
             session.close(CloseStatus.BAD_DATA);
+        } catch (IllegalArgumentException e) {
+            session.close(CloseStatus.NOT_ACCEPTABLE);
         }
     }
 
