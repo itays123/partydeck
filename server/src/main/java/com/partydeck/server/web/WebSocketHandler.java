@@ -1,7 +1,7 @@
 package com.partydeck.server.web;
 
 import com.partydeck.server.components.GameRepository;
-import com.partydeck.server.components.UrlDecoder;
+import com.partydeck.server.components.UrlParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -14,7 +14,7 @@ import java.util.Map;
 public class WebSocketHandler extends TextWebSocketHandler {
 
     @Autowired
-    private UrlDecoder decoder;
+    private UrlParser urlParser;
 
     @Autowired
     private GameRepository gameRepository;
@@ -24,7 +24,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         try {
-            Map<String, String> query = decoder.decode(session.getUri());
+            Map<String, String> query = urlParser.parse(session.getUri());
             String code = query.get("code");
             String name = query.get("name");
             WebSocketPlayer player = new WebSocketPlayer(session.getId(), name, session);

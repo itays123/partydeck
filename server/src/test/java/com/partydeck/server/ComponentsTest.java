@@ -1,6 +1,6 @@
 package com.partydeck.server;
 
-import com.partydeck.server.components.UrlDecoder;
+import com.partydeck.server.components.UrlParser;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,13 +14,13 @@ import java.util.Map;
 public class ComponentsTest {
 
     @Autowired
-    UrlDecoder decoder;
+    UrlParser urlParser;
 
     @Test
     void testDecoding() throws URISyntaxException {
         String url = "ws://localhost:8080/ws?code=123456&name=admin";
         URI uri = new URI(url);
-        Map<String, String> query = decoder.decode(uri);
+        Map<String, String> query = urlParser.parse(uri);
         Assert.isTrue(query.get("name").equals("admin"), "name is not admin");
     }
 

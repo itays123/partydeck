@@ -12,9 +12,9 @@ import java.util.*;
  * @version 1.0
  */
 @Component
-public class UrlDecoder {
+public class UrlParser {
 
-    public Map<String, String> decode(@Nullable URI uri) {
+    public Map<String, String> parse(@Nullable URI uri) {
         try {
             Map<String, String> decoded = new LinkedHashMap<>();
             String query = Optional.ofNullable(uri).orElseThrow().getQuery();
