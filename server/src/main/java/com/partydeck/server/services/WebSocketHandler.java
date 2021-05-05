@@ -4,6 +4,8 @@ import com.partydeck.server.repository.ConnectionProvider;
 import com.partydeck.server.repository.GameRepository;
 import com.partydeck.server.repository.UrlParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -11,6 +13,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.util.Map;
 
+@Component
 public class WebSocketHandler extends TextWebSocketHandler {
 
     @Autowired
