@@ -15,6 +15,11 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * The component responsible for the logic of handling WebSocket requests
+ * @author Itay Schechner
+ * @version 1.0
+ */
 @Component
 public class WebSocketHandler extends TextWebSocketHandler {
 

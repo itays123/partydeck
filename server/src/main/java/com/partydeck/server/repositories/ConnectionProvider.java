@@ -16,6 +16,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiFunction;
 
+/**
+ * The repository responsible for handling connections
+ * @author Itay Schechner
+ * @version 1.0
+ */
 @Repository
 public class ConnectionProvider {
 
