@@ -45,10 +45,13 @@ public class ConnectionProvider {
      * Fire when a new message is received
      * @param session the session responsible for the message
      * @param message the message to send
+     * @throws IOException if the handling has gone wrong and the session closure produced an error
      */
-    public void handleMessage(WebSocketSession session, String message) {
-        Optional.ofNullable(connections.get(session.getId()))
-                .ifPresent(player -> player.handleMessage(message));
+    public void handleMessage(WebSocketSession session, String message) throws IOException {
+        SessionWrapperPlayer connection = connections.get(session.getId());
+        if (connection != null) {
+            connection.handleMessage(message);
+        }
     }
 
     /**
@@ -129,13 +132,13 @@ public class ConnectionProvider {
          *
          * @param message the message in a string format
          */
-        public void handleMessage(String message) {
+        public void handleMessage(String message) throws IOException {
             try {
                 Map<String, Object> data = gson.fromJson(message, TYPE);
                 String context = (String) Optional.ofNullable(data.get("context")).orElseThrow();
                 handleMessage(BroadcastContext.valueOf(context), data);
             } catch (Exception e) {
-                closeConnection(CloseStatus.SESSION_NOT_RELIABLE);
+                session.close(CloseStatus.SESSION_NOT_RELIABLE);
             }
         }
 
