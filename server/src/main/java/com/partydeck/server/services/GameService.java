@@ -25,9 +25,10 @@ public class GameService {
      * Creates a new game
      * @param questions the list of questions
      * @param answers the list of answers
+     * @throws StackOverflowError if the generator didn't manage to find a unique id.
      * @return the code of the newly created game
      */
-    public String createGame(List<String> questions, List<String> answers) {
+    public String createGame(List<String> questions, List<String> answers) throws StackOverflowError {
         String uniqueGameCode = generator.generate(gameRepository::hasGame);
         gameRepository.createGame(uniqueGameCode, questions, answers);
         return uniqueGameCode;
