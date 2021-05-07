@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.partydeck.server.models.BroadcastContext;
 import com.partydeck.server.models.Player;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -24,6 +26,8 @@ import java.util.function.BiFunction;
 @Repository
 public class ConnectionProvider {
 
+    public static final Logger logger = LoggerFactory.getLogger(ConnectionProvider.class);
+
     private final Map<String, SessionWrapperPlayer> connections = new HashMap<>();
 
     /**
@@ -35,6 +39,7 @@ public class ConnectionProvider {
      * @throws UnsupportedOperationException when the player is not added
      */
     public void addConnection(WebSocketSession session, String code, String name, BiFunction<String, Player, Boolean> acceptor) throws UnsupportedOperationException {
+        logger.info("SESSION CREATED: " + session.getId());
         SessionWrapperPlayer player = new SessionWrapperPlayer(session.getId(), name, session);
         if (acceptor.apply(code, player)) // if player is accepted
             connections.put(session.getId(), player);
@@ -60,6 +65,7 @@ public class ConnectionProvider {
      * @param closeStatus the close status
      */
     public void removeConnection(WebSocketSession session, CloseStatus closeStatus) {
+        logger.info("SESSION DISCONNECTED: " + session.getId());
         Optional.ofNullable(connections.remove(session.getId()))
                 .filter(player -> !closeStatus.equalsCode(CloseStatus.NO_STATUS_CODE)) // if connection was not closed by the user itself
                 .ifPresent(SessionWrapperPlayer::handleDisconnection);
