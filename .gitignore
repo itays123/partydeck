@@ -4,3 +4,7 @@ server/bundle.js
 storage/data
 
 game/.eslintcache
+server/target
+server/HELP.md
+server/src
+server/.idea
