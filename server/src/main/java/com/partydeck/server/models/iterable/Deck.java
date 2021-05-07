@@ -44,8 +44,10 @@ public class Deck<K, T extends Identifiable<K>> implements Iterable<T> {
      * @param entries the stream of entries
      */
     public Deck(Stream<T> entries) {
-        originalDeck = entries.collect(Collectors.toSet());
-        currentDeck = entries.collect(Collectors.toCollection(LinkedList::new));
+        originalDeck = new HashSet<>();
+        currentDeck = entries
+                .peek(originalDeck::add)
+                .collect(Collectors.toCollection(LinkedList::new));
         Collections.shuffle(currentDeck);
     }
 

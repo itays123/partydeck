@@ -39,8 +39,11 @@ public class GameCodeGenerator {
      * @return a unique generated code
      */
     public String generate(Function<String, Boolean> codeExists) {
-        String code = generate();
-        return codeExists.apply(code) ? generate(codeExists) : code;
+        String code;
+        do {
+            code = generate();
+        } while (codeExists.apply(code));
+        return code;
     }
 
     @Bean
