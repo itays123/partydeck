@@ -300,12 +300,17 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     @Override
     public void onPlayerDisconnection(Player player) {
         players.removeEntry(player);
-        currentRound.setNumberOfParticipants(players.size());
+
+        if (currentRound != null)
+            currentRound.setNumberOfParticipants(players.size());
+
+        if (player.isAdminOf(this))
+            players.peek().ifPresent(Player::makeAdmin);
+
         broadcastAll(BroadcastContext.PLAYER_LEFT, "count", players.size(), "left", player.getNickname());
-        if (started && players.size() < 3)
+
+        if ((started && players.size() < 3) || players.size() == 0)
             endGame();
-        else if (player.isAdminOf(this))
-            players.peek().orElseThrow().makeAdmin();
     }
 
     private void startRoundOrEndGame() {
