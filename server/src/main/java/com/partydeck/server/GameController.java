@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpServerErrorException;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -36,11 +37,14 @@ public class GameController {
     /**
      * Check if a game with a certain id exists
      * @param code the code to check
+     * @param response the response object
      * @return an object with the check result
      */
     @GetMapping("/check")
-    public CheckGameResponse checkGame(@RequestParam String code) {
+    public CheckGameResponse checkGame(@RequestParam String code, HttpServletResponse response) {
         boolean exists = gameService.checkGame(code);
+        if (!exists)
+            response.setStatus(404);
         return new CheckGameResponse(exists ? 200 : 404, exists);
     }
 
