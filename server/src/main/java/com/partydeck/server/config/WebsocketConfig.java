@@ -1,4 +1,4 @@
-package com.partydeck.server;
+package com.partydeck.server.config;
 
 import com.partydeck.server.services.WebSocketHandler;
 import org.slf4j.Logger;
