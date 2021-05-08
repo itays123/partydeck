@@ -1,3 +1,14 @@
+const envFilePath =
+  process.env.TARGET === 'cloud' ? '.env.server.prod' : '.env.server';
+
+const path = require('path');
+require('dotenv').config({ path: path.join(process.cwd(), envFilePath) });
+
+console.log(
+  'starting application with JWT secret length of',
+  process.env.JWT_SECRET ? process.env.JWT_SECRET.length : 'undefined'
+);
+
 module.exports.HEADER = 'Authorization';
 module.exports.MONGO_URI =
   process.env.MONGO_URI || 'mongodb://localhost:27017/partydecks';

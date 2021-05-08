@@ -10,9 +10,7 @@ steps:
         '--build-arg',
         'REACT_APP_GAME_URL=https://partydeck-live-game-cww2nfrdpq-ue.a.run.app',
         '--build-arg',
-        'MONGO_URI=mongodb+srv://itays205:itays123@partydeck.afnwv.mongodb.net/partydecks?retryWrites=true&w=majority',
-        '--build-arg',
-        'JWT_SECRET=abcdefghijklmnopqrstuvwxyzitayschechner',
+        'TARGET=cloud',
         '.',
       ]
 images:
