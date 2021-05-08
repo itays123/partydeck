@@ -8,7 +8,7 @@ steps:
         '--build-arg',
         'REACT_APP_SERVER_URL=https://partydeck-live-server-rewlbc24ka-ue.a.run.app',
         '--build-arg',
-        'REACT_APP_SERVER_WS=wss://partydeck-live-server-rewlbc24ka-ue.a.run.app',
+        'REACT_APP_SERVER_WS=wss://partydeck-live-server-rewlbc24ka-ue.a.run.app/ws',
         '.',
       ]
 images:
