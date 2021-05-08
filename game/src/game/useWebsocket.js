@@ -47,6 +47,9 @@ export function useWebsocket() {
         sendMessage({ picked: state.selectedCardId, context: 'PICKED' });
       }
     },
+    overrideSkip: () => {
+      sendMessage({ context: 'SKIP' });
+    },
     manuallyEndGame: () => {
       sendMessage({ context: 'STOP' });
     },

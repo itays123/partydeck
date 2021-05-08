@@ -1,6 +1,7 @@
 import { createContext, useContext } from 'react';
 import { useGameContext } from '../game/GameContext';
 import EndGameButton from './EndGameButton';
+import SkipButton from './SkipButton';
 
 const RoundContext = createContext();
 
@@ -29,6 +30,7 @@ const RoundContextProvider = ({ children }) => {
     >
       {children}
       {isAdmin && <EndGameButton />}
+      {(isWaitingForJudge || isWaitingForPlayers) && isAdmin && <SkipButton />}
     </RoundContext.Provider>
   );
 };
