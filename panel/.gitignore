@@ -23,3 +23,8 @@ yarn-debug.log*
 yarn-error.log*
 
 data
+
+# holds secrets
+.env.server
+.env.server.prod
+cloudbuild.yml
