@@ -1,4 +1,5 @@
 export const initialGameState = {
+  isConnected: true,
   isStarted: false,
   gameCode: undefined,
   round: 0,
@@ -105,6 +106,9 @@ export function gameReducer(state, { type, payload }) {
         showEndScreen: true,
         scoreboard: payload.scores,
       };
+    }
+    case 'DISCONNECTED': {
+      return { ...state, isConnected: false };
     }
     default: {
       return state;

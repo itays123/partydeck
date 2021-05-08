@@ -27,6 +27,9 @@ export function useWebsocket() {
           console.log(data);
           if (data.context) dispatch({ type: data.context, payload: data });
         };
+        ws.onclose = () => {
+          dispatch({ type: 'DISCONNECTED' });
+        };
         return ws;
       });
     },
