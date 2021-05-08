@@ -79,7 +79,6 @@ export function gameReducer(state, { type, payload }) {
         ...state,
         playerWon: payload.playerWon,
         pickedCardId: payload.winningCard,
-        isAdmin: payload.isAdmin,
       };
     }
     case 'ROUND_ENDED_404': {
