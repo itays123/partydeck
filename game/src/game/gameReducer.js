@@ -10,6 +10,7 @@ export const initialGameState = {
   selectedCardId: '',
   isJudge: false,
   use: [],
+  playersUsed: new Map(),
   pick: [],
   useMode: true,
   showEndScreen: false,
@@ -63,6 +64,7 @@ export function gameReducer(state, { type, payload }) {
         use,
         pick,
         useMode,
+        playersUsed: new Map(),
       };
     }
     case 'CARD_SELECTED': {
@@ -70,6 +72,15 @@ export function gameReducer(state, { type, payload }) {
     }
     case 'CARD_USED': {
       return { ...state, useMode: false };
+    }
+    case 'PLAYER_USAGE': {
+      return {
+        ...state,
+        playersUsed: state.playersUsed.set(
+          payload.playerId,
+          payload.playerName
+        ),
+      };
     }
     case 'PICK': {
       return { ...state, pick: payload.pick };
