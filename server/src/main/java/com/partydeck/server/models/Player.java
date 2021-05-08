@@ -234,6 +234,7 @@ public abstract class Player implements Identifiable<String> {
             case PICKED:
                 String pickedCardId = (String) Optional.ofNullable(data.get("picked")).orElseThrow();
                 handleJudgePick(pickedCardId);
+                break;
 
             default:
                 throw new UnsupportedOperationException();

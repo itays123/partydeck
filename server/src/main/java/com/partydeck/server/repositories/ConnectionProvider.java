@@ -67,7 +67,7 @@ public class ConnectionProvider {
     public void removeConnection(WebSocketSession session, CloseStatus closeStatus) {
         logger.info("SESSION DISCONNECTED: " + session.getId());
         Optional.ofNullable(connections.remove(session.getId()))
-                .filter(player -> !closeStatus.equalsCode(CloseStatus.NO_STATUS_CODE)) // if connection was not closed by the user itself
+                .filter(player -> !closeStatus.equalsCode(CloseStatus.NORMAL)) // if connection was not closed by the user itself
                 .ifPresent(SessionWrapperPlayer::handleDisconnection);
     }
 
@@ -96,7 +96,7 @@ public class ConnectionProvider {
          */
         @Override
         public void closeConnection() {
-            closeConnection(CloseStatus.NO_STATUS_CODE);
+            closeConnection(CloseStatus.NORMAL);
         }
 
         private void closeConnection(CloseStatus status) {
@@ -142,6 +142,7 @@ public class ConnectionProvider {
             try {
                 Map<String, Object> data = gson.fromJson(message, TYPE);
                 String context = (String) Optional.ofNullable(data.get("context")).orElseThrow();
+                logger.info("MESSAGE INCOMING (" + context + "): " + data.toString());
                 handleMessage(BroadcastContext.valueOf(context), data);
             } catch (Exception e) {
                 session.close(CloseStatus.SESSION_NOT_RELIABLE);

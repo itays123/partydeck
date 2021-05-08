@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -245,7 +248,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
      */
     @Override
     public void onOptionsReady(Iterable<Card> options, Player judge) {
-        broadcastAll(BroadcastContext.PICK, "options", options);
+        broadcastAll(BroadcastContext.PICK, "pick", options);
     }
 
     /**
@@ -265,7 +268,8 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
                 broadcastAll(BroadcastContext.ROUND_ENDED_404, "playerWon", "nobody");
             } finally {
                 judge.setJudge(false);
-                startRoundOrEndGame();
+                ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+                executorService.schedule(this::startRoundOrEndGame, DELAY, TimeUnit.MILLISECONDS);
             }
         }
     }
