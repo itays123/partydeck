@@ -2,7 +2,7 @@ import { useReducer, useState } from 'react';
 import { initialGameState, gameReducer } from './gameReducer';
 
 const getWSUri = (gameCode, name) =>
-  `${process.env.REACT_APP_SERVER_WS}/?code=${gameCode}&name=${name}`;
+  `${process.env.REACT_APP_SERVER_WS}?code=${gameCode}&name=${name}`;
 
 export function useWebsocket() {
   const [state, dispatch] = useReducer(gameReducer, initialGameState);
@@ -31,7 +31,7 @@ export function useWebsocket() {
       });
     },
     start: () => {
-      sendMessage({ dispatch: 'start' });
+      sendMessage({ context: 'START' });
     },
     onCardClick: cardId => {
       dispatch({ type: 'CARD_SELECTED', payload: { selected: cardId } });
@@ -39,13 +39,13 @@ export function useWebsocket() {
     onCardButtonClick: () => {
       if (state.useMode && !state.isJudge) {
         dispatch({ type: 'CARD_USED' });
-        sendMessage({ used: state.selectedCardId });
+        sendMessage({ used: state.selectedCardId, context: 'USED' });
       } else if (!state.useMode && state.isJudge) {
-        sendMessage({ picked: state.selectedCardId });
+        sendMessage({ picked: state.selectedCardId, context: 'PICKED' });
       }
     },
     manuallyEndGame: () => {
-      sendMessage({ dispatch: 'stop' });
+      sendMessage({ context: 'STOP' });
     },
   };
 }
