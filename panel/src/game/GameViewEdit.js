@@ -2,7 +2,6 @@ import { useHistory, useParams } from 'react-router-dom';
 import GameEditorContextProvider from './edit/GameEditorContext';
 import { useGame } from './useGame';
 import DeckEditorWrapper from './edit/DeckEditorWrapper';
-import { usePlayGame } from './view/usePlayGame';
 import GameSettingsViewEdit from './GameSettingsViewEdit';
 import { useSaveGame } from './edit/useSaveGame';
 import Play from './action/Play';
