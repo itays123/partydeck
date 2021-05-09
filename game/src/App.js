@@ -5,6 +5,7 @@ import Question from './round/Question';
 import LoadingFeedback from './round/LoadingFeedback';
 import NavWrapper from './shared/Navigation/NavWrapper';
 import PlayersUsed from './round/PlayersUsed';
+import AdminControls from './round/AdminControls';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <LoadingFeedback />
             <PlayersUsed />
             <Deck />
+            <AdminControls />
           </div>
         </RoundContextProvider>
       </GameContextProvider>

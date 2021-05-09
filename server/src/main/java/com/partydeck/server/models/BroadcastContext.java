@@ -22,4 +22,5 @@ public enum BroadcastContext {
     SKIP,
     USED,
     PICKED,
+    NEXT,
 }

@@ -24,6 +24,12 @@ public interface PlayerEventListener {
     void onJudgePick(String cardId, Player judge);
 
     /**
+     * Fires when the game admin presses 'next'.
+     * @param player the player who pressed next
+     */
+    void onNextRoundRequest(Player player);
+
+    /**
      * Fires when the admin requests to start the game
      * @param player the player who asked to start
      */

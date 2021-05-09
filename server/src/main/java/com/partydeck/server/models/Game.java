@@ -268,8 +268,6 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
                 broadcastAll(BroadcastContext.ROUND_ENDED_404, "playerWon", "nobody");
             } finally {
                 judge.setJudge(false);
-                ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-                executorService.schedule(this::startRoundOrEndGame, DELAY, TimeUnit.MILLISECONDS);
             }
         }
     }
@@ -283,7 +281,22 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     public void onUnexpectedRoundEnd(Player judge) {
         broadcastAll(BroadcastContext.ROUND_ENDED_404, "playerWon", "nobody");
         judge.setJudge(false);
-        startRoundOrEndGame();
+    }
+
+    /**
+     * Fires when the game admin presses 'next'.
+     *
+     * @param player the player who pressed next
+     */
+    @Override
+    public void onNextRoundRequest(Player player) {
+        if (player.isAdminOf(this)) {
+            currentRound.clear();
+            if (questionDeck.hasNext() && !stopRequested)
+                currentRound.start();
+            else
+                endGame(false);
+        }
     }
 
     /**
@@ -292,8 +305,10 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
      */
     @Override
     public void onStopRequest(Player player) {
-        if (player.isAdminOf(this))
+        if (player.isAdminOf(this)) {
             stopRequested = true;
+            endGame(false);
+        }
     }
 
     /**
@@ -315,14 +330,6 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
 
         if ((started && players.size() < 3) || players.size() == 0)
             endGame(true);
-    }
-
-    private void startRoundOrEndGame() {
-        currentRound.clear();
-        if (questionDeck.hasNext() && !stopRequested)
-            currentRound.start();
-        else
-            endGame(false);
     }
 
     private void endGame(boolean interrupted) {

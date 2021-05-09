@@ -212,6 +212,11 @@ public abstract class Player implements Identifiable<String> {
             eventListener.onSkipRequest(this);
     }
 
+    protected void handleNextRoundRequest() {
+        if (eventListener != null && admin)
+            eventListener.onNextRoundRequest(this);
+    }
+
     protected void handleMessage(BroadcastContext context, Map<String, Object> data) throws UnsupportedOperationException {
         switch (context) {
             case START:
@@ -224,6 +229,10 @@ public abstract class Player implements Identifiable<String> {
 
             case SKIP:
                 handleSkipRequest();
+                break;
+
+            case NEXT:
+                handleNextRoundRequest();
                 break;
 
             case USED:

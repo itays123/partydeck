@@ -50,6 +50,9 @@ export function useWebsocket() {
     overrideSkip: () => {
       sendMessage({ context: 'SKIP' });
     },
+    requestNextRound: () => {
+      sendMessage({ context: 'NEXT' });
+    },
     manuallyEndGame: () => {
       sendMessage({ context: 'STOP' });
     },

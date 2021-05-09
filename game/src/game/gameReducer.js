@@ -10,6 +10,7 @@ export const initialGameState = {
   judge: '',
   selectedCardId: '',
   isJudge: false,
+  skipped: false,
   use: [],
   playersUsed: new Map(),
   pick: [],
@@ -66,6 +67,7 @@ export function gameReducer(state, { type, payload }) {
         pick,
         useMode,
         playersUsed: new Map(),
+        skipped: false,
       };
     }
     case 'CARD_SELECTED': {
@@ -98,6 +100,7 @@ export function gameReducer(state, { type, payload }) {
         ...state,
         playerWon: '',
         pickedCardId: '',
+        skipped: true,
       };
     }
     case 'GAME_ENDED': {

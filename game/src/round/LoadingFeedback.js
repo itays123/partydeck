@@ -3,7 +3,7 @@ import { useRoundContext } from './RoundContext';
 import Waiting from './Waiting';
 
 const LoadingFeedback = () => {
-  const { playerWon, judge } = useGameContext();
+  const { playerWon, judge, skipped, isAdmin } = useGameContext();
   const {
     isWaitingForJudge,
     isWaitingForPlayers,
@@ -13,8 +13,11 @@ const LoadingFeedback = () => {
     <>
       {isWaitingForPlayers && <Waiting text="Waiting for Players..." />}
       {isWaitingForJudge && <Waiting text={`Waiting for ${judge}...`} />}
-      {isWaitingForRound && (
-        <Waiting text={`${playerWon}`.toLocaleUpperCase() + ' Won!'} />
+      {isWaitingForRound &&
+        !skipped &&
+        `${playerWon}`.toLocaleUpperCase() + ' Won!'}
+      {isWaitingForRound && !isAdmin && (
+        <Waiting text={'Waiting for game admin...'} />
       )}
     </>
   );
