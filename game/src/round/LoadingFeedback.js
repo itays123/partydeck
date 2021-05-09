@@ -13,9 +13,11 @@ const LoadingFeedback = () => {
     <>
       {isWaitingForPlayers && <Waiting text="Waiting for Players..." />}
       {isWaitingForJudge && <Waiting text={`Waiting for ${judge}...`} />}
-      {isWaitingForRound &&
-        !skipped &&
-        `${playerWon}`.toLocaleUpperCase() + ' Won!'}
+      {isWaitingForRound && !skipped && (
+        <div className="text-center text-gray-100 text-lg mt-2">
+          {playerWon} Won!
+        </div>
+      )}
       {isWaitingForRound && !isAdmin && (
         <Waiting text={'Waiting for game admin...'} />
       )}
