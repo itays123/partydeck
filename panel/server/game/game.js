@@ -136,7 +136,7 @@ Schema.statics.getPlayableGame = async function (id, uid = undefined) {
   );
   if (!game) return null;
   else if (game.author != uid && game.isPrivate) return null;
-  else return [game.questions, game.answers];
+  else return { questions: game.questions, answers: game.answers };
 };
 
 Schema.statics.getUserGames = async function (uid, auth = undefined) {

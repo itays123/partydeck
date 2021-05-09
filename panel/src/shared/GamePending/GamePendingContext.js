@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { useFetch } from '../helpers/useAsyncFetch';
 
 const GamePendingContext = createContext();
 
@@ -10,25 +9,30 @@ export function useGamePendingContext() {
 const GamePendingContextProvider = ({ children }) => {
   const [gameId, setGameId] = useState();
   const [liveCode, setLiveCode] = useState();
-  const { data, doFetch, isLoading, status } = useFetch(
-    '/play/' + gameId,
-    'GET',
-    false
-  );
+  const [isLoading, setLoading] = useState(true);
+  const [hasError, setError] = useState(false);
 
   useEffect(() => {
-    if (gameId && status !== 500) doFetch();
-  }, [gameId, doFetch, status]);
-
-  useEffect(() => {
-    if (data.code && !isLoading && data.code !== 500) setLiveCode(data.code);
-  }, [data, isLoading]);
+    if (gameId) {
+      setLoading(true);
+      fetch('/api/play/' + gameId)
+        .then(res => res.json())
+        .then(({ code }) => {
+          setLoading(false);
+          return code ? setLiveCode(code) : setError(true);
+        })
+        .catch(() => {
+          setLoading(false);
+          setError(true);
+        });
+    }
+  }, [gameId]);
 
   return (
     <GamePendingContext.Provider
       value={{
         isPending: isLoading || !gameId,
-        hasError: status === 500,
+        hasError,
         gameId,
         setGameId,
         liveCode,

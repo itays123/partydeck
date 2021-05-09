@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Redirect, useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import Spinner from '../Spinner';
@@ -7,19 +6,7 @@ import { useGamePendingContext } from './GamePendingContext';
 const { REACT_APP_GAME_URL } = process.env;
 
 const GameCreationPending = () => {
-  const {
-    isPending,
-    liveCode,
-    gameId,
-    hasError,
-    setGameId,
-  } = useGamePendingContext();
-
-  useEffect(() => {
-    return () => {
-      setGameId(null);
-    };
-  });
+  const { isPending, liveCode, gameId, hasError } = useGamePendingContext();
 
   return gameId ? (
     <div className="container mx-auto flex flex-col items-center justify-center">

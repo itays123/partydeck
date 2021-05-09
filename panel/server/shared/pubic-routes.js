@@ -18,6 +18,7 @@ router.get('/search', async (req, res) => {
 
 router.get('/play/:gameId', async (req, res) => {
   try {
+    console.log('handling PLAY request');
     const { gameId } = req.params;
     const playable = await Game.getPlayableGame(gameId, req.uid);
     if (!playable) {
@@ -27,7 +28,7 @@ router.get('/play/:gameId', async (req, res) => {
     const { status, gameCode } = await createLiveGame(playable);
     res.status(status).json({ code: gameCode });
   } catch (err) {
-    res.status(500).json({ err: 'Could not start game', code: 500 });
+    res.status(500).json({ err: 'Could not start game', status: 500 });
   }
 });
 
