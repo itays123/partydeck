@@ -14,6 +14,7 @@ public enum BroadcastContext {
     PICK,
     ROUND_ENDED,
     ROUND_ENDED_404,
+    GAME_INTERRUPTED,
     GAME_ENDED,
     // client to server
     START,

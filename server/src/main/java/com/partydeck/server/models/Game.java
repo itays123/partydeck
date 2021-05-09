@@ -209,7 +209,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
             broadcastAll(BroadcastContext.ROUND_STARTED, "j", judge.getNickname(), "q", question.getContent());
 
         } catch (Exception e) {
-            endGame();
+            endGame(false);
         }
     }
 
@@ -314,7 +314,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         broadcastAll(BroadcastContext.PLAYER_LEFT, "count", players.size(), "left", player.getNickname());
 
         if ((started && players.size() < 3) || players.size() == 0)
-            endGame();
+            endGame(true);
     }
 
     private void startRoundOrEndGame() {
@@ -322,12 +322,16 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         if (questionDeck.hasNext() && !stopRequested)
             currentRound.start();
         else
-            endGame();
+            endGame(false);
     }
 
-    private void endGame() {
-        Iterable<ScoreboardRow> scores = scores();
-        broadcastAll(BroadcastContext.GAME_ENDED, "scores", scores);
+    private void endGame(boolean interrupted) {
+        if (interrupted) {
+            broadcastAll(BroadcastContext.GAME_INTERRUPTED);
+        } else {
+            Iterable<ScoreboardRow> scores = scores();
+            broadcastAll(BroadcastContext.GAME_ENDED, "scores", scores);
+        }
         for (Player player: players)
             player.closeConnection();
         if (eventListener != null)
