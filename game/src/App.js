@@ -2,9 +2,7 @@ import GameContextProvider from './game/GameContext';
 import RoundContextProvider from './round/RoundContext';
 import Deck from './card/Deck';
 import Question from './round/Question';
-import LoadingFeedback from './round/LoadingFeedback';
 import NavWrapper from './shared/Navigation/NavWrapper';
-import PlayersUsed from './round/PlayersUsed';
 import AdminControls from './round/AdminControls';
 import ConnectedOnly from './game/filters/ConnectedOnly';
 import JoinForm from './lobby/JoinForm';
@@ -14,6 +12,7 @@ import ActiveRoundOnly from './game/filters/ActiveRoundOnly';
 import Scoreboard from './scoreboard/Scoreboard';
 import UnexpectedDisconnectionOnly from './game/filters/UnexpectedDisconnectionOnly';
 import DisconnectionDialog from './game/DisconnectionDialog';
+import LoadingFeedback from './round/LoadingFeedback';
 
 function App() {
   return (
@@ -26,7 +25,6 @@ function App() {
                 <div className="scrollable">
                   <Question />
                   <LoadingFeedback />
-                  <PlayersUsed />
                   <Deck />
                   <AdminControls />
                 </div>
