@@ -11,5 +11,15 @@ steps:
         'REACT_APP_SERVER_WS=wss://partydeck-live-server-rewlbc24ka-ue.a.run.app/ws',
         '.',
       ]
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      [
+        'run',
+        'deploy',
+        'partydeck-live-game',
+        '--image=gcr.io/partydeck-live-game/partydeck-live-game',
+        '--platform=managed',
+        '--region=us-east1',
+      ]
 images:
   - 'gcr.io/partydeck-live-game/partydeck-live-game'

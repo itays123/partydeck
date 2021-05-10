@@ -13,5 +13,15 @@ steps:
         'TARGET=cloud',
         '.',
       ]
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      [
+        'run',
+        'deploy',
+        'partydeck-game-panel',
+        '--image=gcr.io/partydeck-game-panel/partydeck-game-panel',
+        '--platform=managed',
+        '--region=us-east1',
+      ]
 images:
   - 'gcr.io/partydeck-game-panel/partydeck-game-panel'
