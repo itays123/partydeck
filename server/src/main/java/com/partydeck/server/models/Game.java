@@ -118,6 +118,14 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     }
 
     /**
+     * Returns the number of players in the game
+     * @return the size of the players cache
+     */
+    public int getPlayerCount() {
+        return this.players.size();
+    }
+
+    /**
      * Set the game event listener
      * @param eventListener the event listener to set
      */

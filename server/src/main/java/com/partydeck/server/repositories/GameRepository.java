@@ -8,6 +8,12 @@ import org.springframework.stereotype.Repository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * The component responsible for saving the games
@@ -16,6 +22,8 @@ import java.util.Map;
  */
 @Repository
 public class GameRepository implements GameEventListener {
+
+    private static final int REMOVE_EMPTY_GAME_DELAY = 5;
 
     private final Map<String, Game> games = new HashMap<>();
 
@@ -43,6 +51,17 @@ public class GameRepository implements GameEventListener {
         Game game = new Game(id, questions, answers);
         game.setGameEventListener(this);
         games.put(id, game);
+
+        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+        scheduledExecutorService.schedule(removeGameIfNotActive(id), REMOVE_EMPTY_GAME_DELAY, TimeUnit.MINUTES);
+    }
+
+    private Runnable removeGameIfNotActive(String gameId) {
+        return () -> {
+            Game game = games.get(gameId);
+            if (game != null && game.getPlayerCount() == 0)
+                games.remove(gameId);
+        };
     }
 
     /**
