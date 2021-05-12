@@ -1,0 +1,30 @@
+steps:
+  - name: 'maven:3-jdk-11'
+    entrypoint: mvn
+    args: ['test']
+  - name: 'maven:3-jdk-11'
+    entrypoint: mvn
+    args:
+      [
+        'package',
+        '-Dmaven.test.skip=true',
+      ]
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/partydeck-live-server/partydeck-live-server', '--build-arg=JAR_FILE=target/server-1.0.0.jar', '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'push',
+      'gcr.io/partydeck-live-server/partydeck-live-server'
+    ]
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      [
+        'run',
+        'deploy',
+        'partydeck-live-server',
+        '--image=gcr.io/partydeck-live-server/partydeck-live-server',
+        '--platform=managed',
+        '--region=us-east1',
+      ]
+images:
+  - 'gcr.io/partydeck-live-server/partydeck-live-server'
