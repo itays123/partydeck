@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.partydeck</groupId>
 	<artifactId>server</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>server</name>
 	<description>Websocket server for the partydeck live game</description>
 	<properties>
