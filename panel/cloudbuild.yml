@@ -13,6 +13,8 @@ steps:
         'TARGET=cloud',
         '.',
       ]
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/partydeck-game-panel/partydeck-game-panel']
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
       [

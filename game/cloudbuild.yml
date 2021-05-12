@@ -11,6 +11,8 @@ steps:
         'REACT_APP_SERVER_WS=wss://partydeck-live-server-rewlbc24ka-ue.a.run.app/ws',
         '.',
       ]
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/partydeck-live-game/partydeck-live-game']
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
       [
