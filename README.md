@@ -1,8 +1,14 @@
 # Partydeck - A cool online card game
 
-The `Partydeck` app contains 4 microservices, all connected:
+The `Partydeck` app contains 3 microservices, all connected:
 
-- **The live `server`**, responsible for creating live games, shufling the cards and generating game codes. Powered by the brand new `Deno` runtime.
-- **The `storage` API**, responsible for storing a game's cards and title. The storage server is a traditional `Node.js` and `MongoDB` server.
+- **The live `server`**, responsible for creating live games, shufling the cards and generating game codes. Powered by Java and the Spring framework.
 - **The live `game`**, the fronend `React.js` app that connects to the live server.
-- **The game `panel`**, the frontend `React.js` UI to create games.
+- **The game `panel`**, a traditional MERN application to store and manage decks.
+
+## Want to give it a try?
+
+1. Go to the game panel url: https://partydeck-game-panel-iygnk5fpxq-ue.a.run.app
+2. Sign up and create a game (or choose one from the public library)
+3. Click 'play' to create a live game
+4. Invite your friends to play
