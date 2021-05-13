@@ -142,7 +142,7 @@ public class ConnectionProvider {
             try {
                 Map<String, Object> data = gson.fromJson(message, TYPE);
                 String context = (String) Optional.ofNullable(data.get("context")).orElseThrow();
-                logger.info("MESSAGE INCOMING (" + context + "): " + data.toString());
+                logger.debug("MESSAGE INCOMING (" + context + "): " + data.toString());
                 handleMessage(BroadcastContext.valueOf(context), data);
             } catch (Exception e) {
                 session.close(CloseStatus.SESSION_NOT_RELIABLE);
