@@ -1,4 +1,9 @@
 steps:
+  - name: 'gcr.io/cloud-builders/npm'
+    entrypoint: node
+    args: ['./loadSecrets.js']
+    env:
+      - 'TARGET=cloud'
   - name: 'gcr.io/cloud-builders/docker'
     args:
       [
@@ -10,10 +15,20 @@ steps:
         '--build-arg',
         'REACT_APP_GAME_URL=https://partydeck-live-game-cww2nfrdpq-ue.a.run.app',
         '--build-arg',
-        'MONGO_URI=mongodb+srv://itays205:itays123@partydeck.afnwv.mongodb.net/partydecks?retryWrites=true&w=majority',
-        '--build-arg',
-        'JWT_SECRET=abcdefghijklmnopqrstuvwxyzitayschechner',
+        'TARGET=cloud',
         '.',
+      ]
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/partydeck-game-panel/partydeck-game-panel']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      [
+        'run',
+        'deploy',
+        'partydeck-game-panel',
+        '--image=gcr.io/partydeck-game-panel/partydeck-game-panel',
+        '--platform=managed',
+        '--region=us-east1',
       ]
 images:
   - 'gcr.io/partydeck-game-panel/partydeck-game-panel'

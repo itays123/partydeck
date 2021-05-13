@@ -1,4 +1,5 @@
 export const initialGameState = {
+  isConnected: true,
   isStarted: false,
   gameCode: undefined,
   round: 0,
@@ -9,7 +10,9 @@ export const initialGameState = {
   judge: '',
   selectedCardId: '',
   isJudge: false,
+  skipped: false,
   use: [],
+  playersUsed: new Map(),
   pick: [],
   useMode: true,
   showEndScreen: false,
@@ -63,6 +66,8 @@ export function gameReducer(state, { type, payload }) {
         use,
         pick,
         useMode,
+        playersUsed: new Map(),
+        skipped: false,
       };
     }
     case 'CARD_SELECTED': {
@@ -70,6 +75,15 @@ export function gameReducer(state, { type, payload }) {
     }
     case 'CARD_USED': {
       return { ...state, useMode: false };
+    }
+    case 'PLAYER_USAGE': {
+      return {
+        ...state,
+        playersUsed: state.playersUsed.set(
+          payload.playerId,
+          payload.playerName
+        ),
+      };
     }
     case 'PICK': {
       return { ...state, pick: payload.pick };
@@ -79,7 +93,6 @@ export function gameReducer(state, { type, payload }) {
         ...state,
         playerWon: payload.playerWon,
         pickedCardId: payload.winningCard,
-        isAdmin: payload.isAdmin,
       };
     }
     case 'ROUND_ENDED_404': {
@@ -87,6 +100,7 @@ export function gameReducer(state, { type, payload }) {
         ...state,
         playerWon: '',
         pickedCardId: '',
+        skipped: true,
       };
     }
     case 'GAME_ENDED': {
@@ -95,6 +109,9 @@ export function gameReducer(state, { type, payload }) {
         showEndScreen: true,
         scoreboard: payload.scores,
       };
+    }
+    case 'DISCONNECTED': {
+      return { ...state, isConnected: false };
     }
     default: {
       return state;

@@ -1,0 +1,7 @@
+./mvnw spring-boot:build-image \
+  -Dspring-boot.build-image.imageName=gcr.io/partydeck-live-server/partydeck-live-server \
+  -Dspring-boot.build-image.builder=gcr.io/buildpacks/builder
+
+docker push gcr.io/partydeck-live-server/partydeck-live-server
+
+then, run with gcloud

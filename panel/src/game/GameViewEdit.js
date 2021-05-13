@@ -2,7 +2,6 @@ import { useHistory, useParams } from 'react-router-dom';
 import GameEditorContextProvider from './edit/GameEditorContext';
 import { useGame } from './useGame';
 import DeckEditorWrapper from './edit/DeckEditorWrapper';
-import { usePlayGame } from './view/usePlayGame';
 import GameSettingsViewEdit from './GameSettingsViewEdit';
 import { useSaveGame } from './edit/useSaveGame';
 import Play from './action/Play';
@@ -12,13 +11,14 @@ import Discard from './action/Discard';
 import Spinner from '../shared/Spinner';
 import { useDeleteGame } from './edit/useDeleteGame';
 import PageNotFound from '../shared/PageNotFound';
+import { useGamePending } from '../shared/GamePending/GameCreationPending';
 
 const GameViewEdit = () => {
   const { id } = useParams();
   const game = useGame(id);
   const { save, isSaveLoading } = useSaveGame(id);
   const { remove } = useDeleteGame(id);
-  const { play } = usePlayGame(id);
+  const { redirectToPage } = useGamePending(id);
   const history = useHistory();
 
   if (game.isLoading)
@@ -43,7 +43,7 @@ const GameViewEdit = () => {
               <GameSettingsViewEdit />
             </section>
             <section className="actions flex justify-start flex-row-reverse mt-2">
-              <Play onClick={play} />
+              <Play onClick={redirectToPage} />
               <Remove onClick={remove} disabled={isSaveLoading} />
               <Save
                 onClick={save}

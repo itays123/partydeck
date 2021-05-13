@@ -1,19 +1,7 @@
-FROM ubuntu
+FROM openjdk:11.0.10-jdk
 
-RUN apt-get update
-RUN apt-get install -y curl unzip
+ARG JAR_FILE=JAR_FILE_MUST_BE_SPECIFIED_AS_BUILD_ARG
 
-RUN curl -fsSL https://deno.land/x/install/install.sh | sh
-RUN ln -s /root/.deno/bin/deno /usr/local/bin
-RUN deno upgrade --version 1.7.1
+COPY ${JAR_FILE} app.jar
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-
-COPY . /usr/src/app
-
-EXPOSE $PORT
-
-ENV CONSOLE=false
-
-CMD ["deno", "run", "-A", "mod.ts"]
+ENTRYPOINT ["java", "-jar","/app.jar"]

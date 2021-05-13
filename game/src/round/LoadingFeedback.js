@@ -1,21 +1,31 @@
-import { useGameContext } from '../game/GameContext';
-import { useRoundContext } from './RoundContext';
+import AdminOnly from '../game/filters/AdminOnly';
+import NotSkippedOnly from './filters/NotSkippedOnly';
+import PendingNextRoundOnly from './filters/PendingNextRoundOnly';
+import WaitingForJudgeOnly from './filters/WaitingForJudgeOnly';
+import WaitingForPlayersOnly from './filters/WaitingForPlayersOnly';
+import PlayersUsed from './PlayersUsed';
 import Waiting from './Waiting';
+import WaitingForJudge from './WaitingForJudge';
+import WinnerDisplay from './WinnerDisplay';
 
 const LoadingFeedback = () => {
-  const { playerWon, judge } = useGameContext();
-  const {
-    isWaitingForJudge,
-    isWaitingForPlayers,
-    isWaitingForRound,
-  } = useRoundContext();
   return (
     <>
-      {isWaitingForPlayers && <Waiting text="Waiting for Players..." />}
-      {isWaitingForJudge && <Waiting text={`Waiting for ${judge}...`} />}
-      {isWaitingForRound && (
-        <Waiting text={`${playerWon}`.toLocaleUpperCase() + ' Won!'} />
-      )}
+      <WaitingForPlayersOnly>
+        <Waiting text="Waiting for Players..." />
+        <PlayersUsed />
+      </WaitingForPlayersOnly>
+      <WaitingForJudgeOnly>
+        <WaitingForJudge />
+      </WaitingForJudgeOnly>
+      <PendingNextRoundOnly>
+        <NotSkippedOnly>
+          <WinnerDisplay />
+        </NotSkippedOnly>
+        <AdminOnly inverted>
+          <Waiting text="Waiting for game admin..." />
+        </AdminOnly>
+      </PendingNextRoundOnly>
     </>
   );
 };
