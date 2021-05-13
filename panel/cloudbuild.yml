@@ -1,4 +1,9 @@
 steps:
+  - name: 'gcr.io/cloud-builders/npm'
+    entrypoint: node
+    args: ['./loadSecrets.js']
+    env:
+      - 'TARGET=cloud'
   - name: 'gcr.io/cloud-builders/docker'
     args:
       [

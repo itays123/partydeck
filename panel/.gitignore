@@ -25,5 +25,4 @@ yarn-error.log*
 data
 
 # has secrets in it
-.env.server
-.env.server.prod
+secrets.json

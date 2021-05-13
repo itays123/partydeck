@@ -1,0 +1,5 @@
+.gitignore
+.git
+node_modules
+
+!secrets.json
