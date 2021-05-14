@@ -33,6 +33,7 @@
     "test": "craco test",
     "eject": "react-scripts eject",
     "server": "node app.js",
+    "server-local": "set TARGET=local && npm run server",
     "server-test": "nodemon app.test.js"
   },
   "eslintConfig": {
