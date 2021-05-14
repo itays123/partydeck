@@ -12,3 +12,9 @@ The `Partydeck` app contains 3 microservices, all connected:
 2. Sign up and create a game (or choose one from the public library)
 3. Click 'play' to create a live game
 4. Invite your friends to play
+
+## License
+
+This software has no open-srouce license, which means the default copyright laws apply to it. Under Github's terms of service, you can view and fork the code for this repository for private use.
+
+For more information regarding non-licensed softwares: https://choosealicense.com/no-permission/
