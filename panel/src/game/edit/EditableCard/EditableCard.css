@@ -2,6 +2,6 @@
   opacity: 0;
 }
 
-.card > input:focus ~ .length-display {
+.card > textarea:focus ~ .length-display {
   opacity: 100;
 }

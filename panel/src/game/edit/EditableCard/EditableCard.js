@@ -22,11 +22,12 @@ const EditableCard = ({
 
   return (
     <div
-      className="card rounded shadow bg-gray-100 text-center py-8 md:py-16 relative group"
+      className="card rounded shadow bg-gray-100 text-center pt-8 md:pt-12 pb-12 relative group"
       onClick={onFocus}
     >
-      <input
-        className="focus:outline-none bg-transparent text-center"
+      <textarea
+        rows="3"
+        className="focus:outline-none bg-transparent text-center resize-none"
         type="text"
         placeholder="An Empty Card"
         value={text}
