@@ -7,12 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * The component responsible for saving the games
@@ -22,9 +17,7 @@ import java.util.function.Supplier;
 @Repository
 public class GameRepository implements GameEventListener {
 
-    private static final int REMOVE_EMPTY_GAME_DELAY = 5;
-
-    private final Map<String, Game> games = new HashMap<>();
+    private final Map<String, Game> games = new ConcurrentHashMap<>();
 
     /**
      * Adds a player to a game if exists
