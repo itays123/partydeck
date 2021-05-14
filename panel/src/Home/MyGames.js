@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useAuthContext } from '../auth/AuthContext';
 import { useProfile } from '../auth/profile/useProfile';
 import GameList from '../shared/GameList/GameList';
@@ -14,7 +15,7 @@ const MyGames = () => {
           My Games
         </span>
         {!isLoading && (
-          <span className="text-gray-700 text-lg"> {user?.games?.length}</span>
+          <span className="text-gray-700 text-lg"> {games?.length || ''}</span>
         )}
       </h3>
       <div className="md:hidden px-8 md:px-0 mt-2 -mb-4">
@@ -25,7 +26,18 @@ const MyGames = () => {
       ) : (
         <div className="flex mt-8">
           <Spinner />
-          Loading Game...
+          Loading Games...
+        </div>
+      )}
+      {games?.length === 0 && (
+        <div className="w-full h-full flex flex-col items-center justify-center space-y-4 mt-8">
+          <h3 className="text-xl">No games yet!</h3>
+          <Link
+            to="/create"
+            className="colorful-button animation-scaleup bg-purple-600"
+          >
+            Create Game
+          </Link>
         </div>
       )}
     </>
