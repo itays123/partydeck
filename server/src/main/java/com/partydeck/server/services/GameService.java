@@ -2,10 +2,12 @@ package com.partydeck.server.services;
 
 import com.partydeck.server.repositories.GameCodeGenerator;
 import com.partydeck.server.repositories.GameRepository;
+import com.partydeck.server.repositories.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The game service
@@ -15,23 +17,32 @@ import java.util.List;
 @Service
 public class GameService {
 
+    private static final int REMOVE_EMPTY_GAME_DELAY = 5;
+
     @Autowired
     private GameCodeGenerator generator;
 
     @Autowired
     private GameRepository gameRepository;
 
+    @Autowired
+    private Scheduler scheduler;
+
     /**
      * Creates a new game
      * @param questions the list of questions
      * @param answers the list of answers
-     * @throws StackOverflowError if the generator didn't manage to find a unique id.
      * @return the code of the newly created game
      */
-    public String createGame(List<String> questions, List<String> answers) throws StackOverflowError {
+    public String createGame(List<String> questions, List<String> answers) {
         String uniqueGameCode = generator.generate(gameRepository::hasGame);
         gameRepository.createGame(uniqueGameCode, questions, answers);
+        scheduler.schedule(removeGameIfEmpty(uniqueGameCode), REMOVE_EMPTY_GAME_DELAY, TimeUnit.MINUTES);
         return uniqueGameCode;
+    }
+
+    private Runnable removeGameIfEmpty(String gameId) {
+        return () -> gameRepository.removeGame(gameId);
     }
 
     /**

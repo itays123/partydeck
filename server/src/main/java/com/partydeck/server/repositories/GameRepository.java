@@ -5,7 +5,6 @@ import com.partydeck.server.models.GameEventListener;
 import com.partydeck.server.models.Player;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -51,17 +50,16 @@ public class GameRepository implements GameEventListener {
         Game game = new Game(id, questions, answers);
         game.setGameEventListener(this);
         games.put(id, game);
-
-        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-        scheduledExecutorService.schedule(removeGameIfNotActive(id), REMOVE_EMPTY_GAME_DELAY, TimeUnit.MINUTES);
     }
 
-    private Runnable removeGameIfNotActive(String gameId) {
-        return () -> {
-            Game game = games.get(gameId);
-            if (game != null && game.getPlayerCount() == 0)
-                games.remove(gameId);
-        };
+    /**
+     * Remove a game if it is empty
+     * @param gameId the id of the game to remove
+     */
+    public void removeGame(String gameId) {
+        Game game = games.get(gameId);
+        if (game != null && game.getPlayerCount() == 0)
+            games.remove(gameId);
     }
 
     /**
