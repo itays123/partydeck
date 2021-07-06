@@ -1,7 +1,6 @@
 import { createContext, useContext, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useAuthContext } from '../../auth/AuthContext';
-import { useDeckEditor } from './useDeckEditor';
+import { useAuthContext } from '../auth/AuthContext';
+import { useDeckEditor } from './deck/useDeckEditor';
 
 const GameEditorContext = createContext();
 

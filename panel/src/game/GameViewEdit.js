@@ -1,15 +1,15 @@
 import { useHistory, useParams } from 'react-router-dom';
-import GameEditorContextProvider from './edit/GameEditorContext';
+import GameEditorContextProvider from './GameEditorContext';
 import { useGame } from './useGame';
-import DeckEditorWrapper from './edit/DeckEditorWrapper';
-import GameSettingsViewEdit from './GameSettingsViewEdit';
-import { useSaveGame } from './edit/useSaveGame';
+import DeckEditorWrapper from './deck/DeckEditorWrapper';
+import GameSettingsViewEdit from './settings/GameSettingsViewEdit';
+import { useSaveGame } from './action/useSaveGame';
 import Play from './action/Play';
 import Remove from './action/Remove';
 import Save from './action/Save';
 import Discard from './action/Discard';
 import Spinner from '../shared/Spinner';
-import { useDeleteGame } from './edit/useDeleteGame';
+import { useDeleteGame } from './action/useDeleteGame';
 import PageNotFound from '../shared/PageNotFound';
 import { useGamePending } from '../shared/GamePending/GameCreationPending';
 

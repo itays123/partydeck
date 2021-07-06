@@ -1,11 +1,11 @@
 import { useHistory } from 'react-router';
-import Discard from '../action/Discard';
-import Save from '../action/Save';
-import DeckEditorWrapper from '../edit/DeckEditorWrapper';
-import GameEditorContextProvider from '../edit/GameEditorContext';
-import GameSettingsViewEdit from '../GameSettingsViewEdit';
-import GameNameForm from './GameNameForm';
-import { useCreateGame } from './useCreateGame';
+import Discard from './action/Discard';
+import Save from './action/Save';
+import DeckEditorWrapper from './deck/DeckEditorWrapper';
+import GameEditorContextProvider from './GameEditorContext';
+import GameSettingsViewEdit from './settings/GameSettingsViewEdit';
+import GameNameForm from './settings/GameNameForm';
+import { useCreateGame } from './action/useCreateGame';
 
 const CreateGame = () => {
   const { create, isLoading } = useCreateGame();

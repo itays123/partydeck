@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useGameEditorContext } from '../edit/GameEditorContext';
+import { useGameEditorContext } from '../GameEditorContext';
 
 const GameNameForm = () => {
   const { name, setName } = useGameEditorContext();

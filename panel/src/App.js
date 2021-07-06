@@ -4,7 +4,7 @@ import AuthOnly from './auth/AuthOnly';
 import Login from './auth/login/Login';
 import Profile from './auth/profile/Profile';
 import Register from './auth/register/Register';
-import CreateGame from './game/create/CreateGame';
+import CreateGame from './game/CreateGame';
 import GameViewEdit from './game/GameViewEdit';
 import Home from './Home/Home';
 import GameCreationPending from './shared/GamePending/GameCreationPending';

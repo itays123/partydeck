@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import SvgWrapper from '../../../shared/SvgWrapper';
-import EditorOnly from '../EditorOnly';
-import { useGameEditorContext } from '../GameEditorContext';
+import EditorOnly from '../../wrapper/EditorOnly';
+import { useGameEditorContext } from '../../GameEditorContext';
 import './EditableCard.css';
 
 const EditableCard = ({

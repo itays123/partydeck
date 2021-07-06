@@ -1,4 +1,4 @@
-import { useGameEditorContext } from '../GameEditorContext';
+import { useGameEditorContext } from '../../GameEditorContext';
 import './PrivatePublicToggle.css';
 
 const PrivatePublicToggle = () => {

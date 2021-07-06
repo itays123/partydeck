@@ -1,6 +1,6 @@
 import SvgWrapper from '../../shared/SvgWrapper';
 import EditableCard from './EditableCard/EditableCard';
-import EditorOnly from './EditorOnly';
+import EditorOnly from '../wrapper/EditorOnly';
 
 /**
  *

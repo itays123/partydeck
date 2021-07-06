@@ -1,4 +1,4 @@
-import { useGameEditorContext } from '../edit/GameEditorContext';
+import { useGameEditorContext } from '../GameEditorContext';
 
 const NewGamesOnly = ({ children, gameShouldExist = false }) => {
   const { isGameNew } = useGameEditorContext();

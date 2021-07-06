@@ -1,5 +1,5 @@
 import DeckEditor from './DeckEditor';
-import { useGameEditorContext } from './GameEditorContext';
+import { useGameEditorContext } from '../GameEditorContext';
 
 const DeckEditorWrapper = ({ title, contextEditor }) => {
   const context = useGameEditorContext();

@@ -1,18 +1,11 @@
 import Spinner from '../../shared/Spinner';
 import SvgWrapper from '../../shared/SvgWrapper';
-import EditorOnly from '../edit/EditorOnly';
-import { useGameEditorContext } from '../edit/GameEditorContext';
+import EditorOnly from '../wrapper/EditorOnly';
+import { useGameEditorContext } from '../GameEditorContext';
 
 const Save = ({ isLoading, onClick = async () => {}, callback }) => {
-  const {
-    isGameNew,
-    isChanged,
-    name,
-    lng,
-    isPrivate,
-    questions,
-    answers,
-  } = useGameEditorContext();
+  const { isGameNew, isChanged, name, lng, isPrivate, questions, answers } =
+    useGameEditorContext();
 
   const saveClickHandler = () => {
     let arg;

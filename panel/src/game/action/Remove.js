@@ -1,7 +1,7 @@
 import SvgWrapper from '../../shared/SvgWrapper';
-import NewGamesOnly from '../create/NewGamesOnly';
-import EditorOnly from '../edit/EditorOnly';
-import { useGameEditorContext } from '../edit/GameEditorContext';
+import NewGamesOnly from '../wrapper/NewGamesOnly';
+import EditorOnly from '../wrapper/EditorOnly';
+import { useGameEditorContext } from '../GameEditorContext';
 
 const Remove = ({ onClick = () => {}, disabled }) => {
   const { isChanged } = useGameEditorContext();

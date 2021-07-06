@@ -1,6 +1,6 @@
 import SvgWrapper from '../../shared/SvgWrapper';
-import NewGamesOnly from '../create/NewGamesOnly';
-import { useGameEditorContext } from '../edit/GameEditorContext';
+import NewGamesOnly from '../wrapper/NewGamesOnly';
+import { useGameEditorContext } from '../GameEditorContext';
 
 const Play = ({ onClick = () => {} }) => {
   const { isChanged } = useGameEditorContext();

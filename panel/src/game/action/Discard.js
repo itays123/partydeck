@@ -1,6 +1,6 @@
 import SvgWrapper from '../../shared/SvgWrapper';
-import EditorOnly from '../edit/EditorOnly';
-import { useGameEditorContext } from '../edit/GameEditorContext';
+import EditorOnly from '../wrapper/EditorOnly';
+import { useGameEditorContext } from '../GameEditorContext';
 
 const Discard = ({ onClick = () => {}, isSaveLoading = false }) => {
   const { isChanged, clearState } = useGameEditorContext();
