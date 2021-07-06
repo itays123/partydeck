@@ -16,6 +16,7 @@
     "dotenv": "^9.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "klyva": "^0.8.6",
     "mocha": "^8.2.1",
     "mongoose": "^5.10.14",
     "node-fetch": "^2.6.1",
