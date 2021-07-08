@@ -1,18 +1,7 @@
-import { atom, Atom, RemovableAtom, useAtom, useAtomSlice } from 'klyva';
-import React, { useState } from 'react';
+import { atom, Atom, useAtom, useAtomSlice } from 'klyva';
+import { useState } from 'react';
+import { Editor } from '../types';
 import { Added, Changes, Deck, Deleted, Modified } from './DeckEditorTypes';
-
-export type Editor = {
-  cardAtomList: RemovableAtom<string>[];
-  canDelete: boolean;
-  focusedCardIndex: number;
-  setFocusedCardIndex: React.Dispatch<React.SetStateAction<number>>;
-  clearFocus(): void;
-  next(): void;
-  addCard(): void;
-  changes(): Changes;
-  clearState(): void;
-};
 
 export function useDeckEditor(
   deckAtom: Atom<Deck>,
@@ -21,6 +10,13 @@ export function useDeckEditor(
 ): Editor {
   const [focusedCardIndex, setFocusedCardIndex] = useState(-1);
   const [deckSize] = useAtom(atom(get => get(deckAtom).length));
+  const [isChanged] = useAtom(
+    atom(
+      get =>
+        get(deckAtom).length !== initialDeck.length ||
+        get(deckAtom).some((card, index) => card !== initialDeck[index])
+    )
+  );
   const cardAtomList = useAtomSlice(deckAtom);
 
   return {
@@ -28,6 +24,7 @@ export function useDeckEditor(
     canDelete: deckSize > minDeckSize,
     focusedCardIndex,
     setFocusedCardIndex,
+    isChanged,
     clearFocus() {
       setFocusedCardIndex(-1);
     },

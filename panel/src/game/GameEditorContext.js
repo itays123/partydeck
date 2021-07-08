@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from 'react';
 import { useAuthContext } from '../auth/AuthContext';
 import { useDeckEditor } from './deck/useDeckEditor';
 
-const GameEditorContext = createContext();
+export const GameEditorContext = createContext();
 
 export function useGameEditorContext() {
   return useContext(GameEditorContext);
