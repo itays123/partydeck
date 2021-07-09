@@ -29,9 +29,9 @@ public class GameTest {
         Player player2 = new PlayerReactiveImpl("Player2");
         Player player3 = new PlayerReactiveImpl("Player3");
         LOGGER.info("STARTING GAME"::toString);
-        game.addPlayer(player1);
-        game.addPlayer(player2);
-        game.addPlayer(player3);
+        game.onConnectionCreate(player1);
+        game.onConnectionCreate(player2);
+        game.onConnectionCreate(player3);
         game.setGameEventListener(new GameEventListener() {
             @Override
             public void onGameStart(String gameId) {
@@ -56,7 +56,7 @@ public class GameTest {
          * Close the connection implementation
          */
         @Override
-        public void closeConnection() {
+        public void destroyConnection() {
         }
 
         /**

@@ -202,9 +202,9 @@ public abstract class Player implements Identifiable<String> {
             eventListener.onStopRequest(this);
     }
 
-    protected void handleDisconnection() {
+    protected void handleConnectionPause() {
         if (eventListener != null)
-            eventListener.onPlayerDisconnection(this);
+            eventListener.onConnectionPause(this);
     }
 
     protected void handleSkipRequest() {
@@ -254,7 +254,7 @@ public abstract class Player implements Identifiable<String> {
     /**
      * Close the connection implementation
      */
-    public abstract void closeConnection();
+    public abstract void destroyConnection();
 
     /**
      * Broadcast a message

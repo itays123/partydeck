@@ -29,7 +29,7 @@ public class GameRepository implements GameEventListener {
     public boolean addPlayerToGame(String gameCode, Player player) throws IllegalArgumentException {
         Game game = games.get(gameCode);
         if (game != null)
-            return game.addPlayer(player);
+            return game.onConnectionCreate(player);
         throw new IllegalArgumentException();
     }
 

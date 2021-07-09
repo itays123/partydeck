@@ -10,9 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -149,7 +146,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
      * @param player the player to add
      * @return true if player is successfully added
      */
-    public boolean addPlayer(Player player) {
+    public boolean onConnectionCreate(Player player) {
         if (answerDeck.size() < Player.NUMBER_OF_CARDS) // if there are not enough cards
             return false;
 
@@ -325,7 +322,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
      * @param player the player who disconnected
      */
     @Override
-    public void onPlayerDisconnection(Player player) {
+    public void onConnectionPause(Player player) {
         players.removeEntry(player);
 
         if (currentRound != null)
@@ -348,7 +345,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
             broadcastAll(BroadcastContext.GAME_ENDED, "scores", scores);
         }
         for (Player player: players)
-            player.closeConnection();
+            player.destroyConnection();
         if (eventListener != null)
             eventListener.onGameEnd(id);
     }

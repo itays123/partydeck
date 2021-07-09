@@ -88,7 +88,7 @@ public class ConnectionProvider {
         logger.info("SESSION DISCONNECTED: " + session.getId() + ", Status: " + closeStatus.toString());
         Optional.ofNullable(connections.remove(session.getId()))
                 .filter(player -> !closeStatus.equalsCode(CloseStatus.NORMAL)) // if connection was not closed by the user itself
-                .ifPresent(SessionWrapperPlayer::handleDisconnection);
+                .ifPresent(SessionWrapperPlayer::handleConnectionPause);
     }
 
     private static class SessionWrapperPlayer extends Player  {
@@ -131,11 +131,11 @@ public class ConnectionProvider {
          * Close the connection implementation
          */
         @Override
-        public void closeConnection() {
-            closeConnection(CloseStatus.NORMAL);
+        public void destroyConnection() {
+            destroyConnection(CloseStatus.NORMAL);
         }
 
-        private void closeConnection(CloseStatus status) {
+        private void destroyConnection(CloseStatus status) {
             try {
                 if (session != null)
                     session.close(status);
@@ -155,7 +155,7 @@ public class ConnectionProvider {
                 String json = gson.toJson(args);
                 session.sendMessage(new TextMessage(json));
             } catch (IOException e) {
-                closeConnection(CloseStatus.SESSION_NOT_RELIABLE);
+                destroyConnection(CloseStatus.SESSION_NOT_RELIABLE);
             }
         }
 
@@ -188,8 +188,8 @@ public class ConnectionProvider {
         /**
          * Emits after the session is disconnected
          */
-        public void handleDisconnection() {
-            super.handleDisconnection();
+        public void handleConnectionPause() {
+            super.handleConnectionPause();
         }
     }
 
