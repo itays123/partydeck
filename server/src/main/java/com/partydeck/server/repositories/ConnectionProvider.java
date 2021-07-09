@@ -47,6 +47,26 @@ public class ConnectionProvider {
     }
 
     /**
+     * Fire when a connection is resumed
+     * @param newSession the new session to replace
+     * @param oldPlayerId the id of the player affected
+     * @param code the code of the game affected
+     * @param acceptor the function that applies the change to the game
+     * @throws UnsupportedOperationException if the oldId not found, the game code not found or the game is full.
+     */
+    public void reviveConnection(WebSocketSession newSession, String oldPlayerId, String code, BiFunction<String, Player, Boolean> acceptor) throws UnsupportedOperationException {
+        logger.info("SESSION REVIVED: " + oldPlayerId);
+        SessionWrapperPlayer player = connections.get(oldPlayerId);
+        if (player == null)
+            throw new UnsupportedOperationException();
+        player.setSession(newSession);
+        player.setId(newSession.getId());
+        if (acceptor.apply(code, player))  // if player is accepted, change it's key on the map
+            connections.put(newSession.getId(), connections.remove(oldPlayerId));
+        else throw new UnsupportedOperationException();
+    }
+
+    /**
      * Fire when a new message is received
      * @param session the session responsible for the message
      * @param message the message to send
@@ -65,7 +85,7 @@ public class ConnectionProvider {
      * @param closeStatus the close status
      */
     public void removeConnection(WebSocketSession session, CloseStatus closeStatus) {
-        logger.info("SESSION DISCONNECTED: " + session.getId());
+        logger.info("SESSION DISCONNECTED: " + session.getId() + ", Status: " + closeStatus.toString());
         Optional.ofNullable(connections.remove(session.getId()))
                 .filter(player -> !closeStatus.equalsCode(CloseStatus.NORMAL)) // if connection was not closed by the user itself
                 .ifPresent(SessionWrapperPlayer::handleDisconnection);
@@ -77,6 +97,22 @@ public class ConnectionProvider {
 
         private WebSocketSession session;
         private final Gson gson;
+
+        /**
+         * Modify the session on connection resume
+         * @param session the new session to set
+         */
+        public void setSession(WebSocketSession session) {
+            this.session = session;
+        }
+
+        /**
+         * modify the id of the player on connection resume
+         * @param id the new Id to set
+         */
+        public void setId(String id) {
+            this.id = id;
+        }
 
         /**
          * Creates a new player object

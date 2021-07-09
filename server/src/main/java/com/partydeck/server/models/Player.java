@@ -18,7 +18,7 @@ public abstract class Player implements Identifiable<String> {
     public static final int NUMBER_OF_CARDS = 4;
 
     // attributes
-    private String id;
+    protected String id;
 
     private String nickname;
 
