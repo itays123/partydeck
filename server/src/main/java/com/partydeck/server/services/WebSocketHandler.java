@@ -37,13 +37,22 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         try {
+            
             Map<String, String> query = urlParser.parse(session.getUri());
             String code = Optional.ofNullable(query.get("code")).orElseThrow(IllegalArgumentException::new);
-            String name = Optional.ofNullable(query.get("name")).orElseThrow(IllegalArgumentException::new);
+            Optional<String> oldPlayerId = Optional.ofNullable(query.get("id"));
+            String name;
 
-            LOGGER.debug("New connection made " + code, name);
+            if (oldPlayerId.isEmpty()) { // new connection has been made
+                name = Optional.ofNullable(query.get("name")).orElseThrow(IllegalArgumentException::new);
+                LOGGER.debug("New connection made " + code, name);
+                connectionProvider.addConnection(session, code, name, gameRepository::addPlayerToGame);
+            }
 
-            connectionProvider.addConnection(session, code, name, gameRepository::addPlayerToGame);
+            else { // rejoin event, oldPlayerId is present
+                connectionProvider.reviveConnection(session, oldPlayerId.get(), code, gameRepository::resumeConnection);
+            }
+
 
         } catch (UnsupportedOperationException e) {
             session.close(CloseStatus.BAD_DATA);

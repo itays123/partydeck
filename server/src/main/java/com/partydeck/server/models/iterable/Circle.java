@@ -70,6 +70,18 @@ public class Circle<K,T extends Identifiable<K>> implements Iterable<T> {
     }
 
     /**
+     * Check if the circle contains a given entry
+     * @param e the entry to look for
+     * @return true if the entry is present
+     */
+    public boolean has(T e) {
+        for (T entry: queue)
+            if (entry.equals(e))
+                return true;
+        return false;
+    }
+
+    /**
      * Circle through the entries
      * @return the next entry
      */

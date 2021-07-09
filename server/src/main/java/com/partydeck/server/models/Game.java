@@ -174,6 +174,23 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     }
 
     /**
+     * Fires when a connection is renewed
+     * @param player the player that has renewed connection
+     * @return true if player is returned to the game successfully
+     */
+    public boolean onConnectionResume(Player player) {
+        if (!players.has(player) || !player.isConnected())
+            return false;
+
+        // increase round number of participants
+        if (currentRound != null)
+            currentRound.setNumberOfParticipants(players.size());
+
+        // boardcast rejoin, joined-midgame, etc.
+        return true;
+    }
+
+    /**
      * Fires when the admin requests to start the game
      * @param player the player who asked to start
      */

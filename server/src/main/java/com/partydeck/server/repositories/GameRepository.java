@@ -34,6 +34,19 @@ public class GameRepository implements GameEventListener {
     }
 
     /**
+     * Notifies the game that a connection has been resumed
+     * @param gameCode the game affected
+     * @param player the player with renewed connection
+     * @return true if the game had the player and received the message
+     */
+    public boolean resumeConnection(String gameCode, Player player) {
+        Game game = games.get(gameCode);
+        if (game != null)
+            return game.onConnectionResume(player);
+        return false;
+    }
+
+    /**
      * Creates a new game object
      * @param id the id of the game
      * @param questions the questions of the game
