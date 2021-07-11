@@ -231,7 +231,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
             broadcastAll(BroadcastContext.ROUND_STARTED, "j", judge.getNickname(), "q", question.getContent());
 
         } catch (Exception e) {
-            endGame(false);
+            onStop();
         }
     }
 
@@ -317,7 +317,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
             if (questionDeck.hasNext() && !stopRequested)
                 currentRound.start();
             else
-                endGame(false);
+                onStop();
         }
     }
 
@@ -329,7 +329,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     public void onStopRequest(Player player) {
         if (player.isAdminOf(this)) {
             stopRequested = true;
-            endGame(false);
+            onStop();
         }
     }
 
@@ -351,26 +351,26 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         broadcastAll(BroadcastContext.PLAYER_LEFT, "count", players.size(), "left", player.getNickname());
 
         if ((started && players.size() < 3) || players.size() == 0)
-            endGame(true);
+            interruptAndDestroy();
     }
 
-    private void endGame(boolean interrupted) {
-        if (interrupted) {
-            broadcastAll(BroadcastContext.GAME_INTERRUPTED);
-        } else {
-            Iterable<ScoreboardRow> scores = scores();
-            broadcastAll(BroadcastContext.GAME_ENDED, "scores", scores);
-        }
-        for (Player player: players)
-            player.destroyConnection();
-        if (eventListener != null)
-            eventListener.onGameEnd(id);
-    }
-
-    private Iterable<ScoreboardRow> scores() {
+    private void onStop() {
         List<ScoreboardRow> scores = new ArrayList<>();
         for (Player player: players)
             scores.add(new ScoreboardRow(player));
-        return scores.stream().sorted().collect(Collectors.toList());
+        broadcastAll(BroadcastContext.GAME_ENDED, "scores", scores.stream().sorted().collect(Collectors.toList()));
+        onDestroy();
+    }
+
+    private void interruptAndDestroy() {
+        broadcastAll(BroadcastContext.GAME_INTERRUPTED);
+        onDestroy();
+    }
+
+    public void onDestroy() {
+        for (Player player: players)
+            player.destroyConnection();
+        if (eventListener != null)
+            eventListener.onGameDestroy(id);
     }
 }

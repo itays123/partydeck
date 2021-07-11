@@ -37,9 +37,14 @@ public class GameTest {
             public void onGameStart(String gameId) {
 
             }
+            
+            @Override
+            public void onGamePause(String gameId) {
+
+            }
 
             @Override
-            public void onGameEnd(String gameId) {
+            public void onGameDestroy(String gameId) {
                 LOGGER.info(result::toString);
             }
         });

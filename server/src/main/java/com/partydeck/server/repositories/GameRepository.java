@@ -88,12 +88,22 @@ public class GameRepository implements GameEventListener {
     }
 
     /**
+     * Fires when a game is paused
+     *
+     * @param gameId the id of the game
+     */
+    @Override
+    public void onGamePause(String gameId) {
+
+    }
+
+    /**
      * Fires when a game ends
      *
      * @param gameId the id of the game
      */
     @Override
-    public void onGameEnd(String gameId) {
+    public void onGameDestroy(String gameId) {
         games.remove(gameId);
     }
 }

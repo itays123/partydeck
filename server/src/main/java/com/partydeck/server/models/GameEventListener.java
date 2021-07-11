@@ -12,9 +12,15 @@ public interface GameEventListener {
     void onGameStart(String gameId);
 
     /**
+     * Fires when a game is paused
+     * @param gameId the id of the game
+     */
+    void onGamePause(String gameId);
+
+    /**
      * Fires when a game ends
      * @param gameId the id of the game
      */
-    void onGameEnd(String gameId);
+    void onGameDestroy(String gameId);
 
 }
