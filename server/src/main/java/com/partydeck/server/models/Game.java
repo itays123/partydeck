@@ -340,18 +340,51 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
      */
     @Override
     public void onConnectionPause(Player player) {
-        players.removeEntry(player);
 
         if (currentRound != null)
             currentRound.setNumberOfParticipants(players.size());
 
-        if (player.isAdminOf(this))
-            players.peek().ifPresent(Player::makeAdmin);
+        if (player.isAdminOf(this)) {
+            player.demoteToPlayer();
+            players.circleAndFind(Player::isConnected).ifPresent(Player::makeAdmin);
+        }
+
+        broadcastAll(BroadcastContext.PLAYER_LEFT, "count", players.size(), "left", player.getNickname()); // change context
+
+        // handle onPause
+        if (started && players.size() < 3) // game should pause
+            onPause();
+    }
+
+    /**
+     * Fires when the game has started and there are less than 3 players in the game
+     */
+    private void onPause() {
+        if (eventListener != null)
+            eventListener.onGamePause(id);
+
+        if (currentRound != null) // emit full skip, wait for admin to press "next" or "end game"
+            currentRound.emitFullSkip();
+
+        // broadcast pause
+    }
+
+    /**
+     * Fires when a player was unexpectedly disconnected for too long
+     *
+     * @param player the player who disconnected
+     */
+    @Override
+    public void onConnectionDestroy(Player player) {
+        players.removeEntry(player);
 
         broadcastAll(BroadcastContext.PLAYER_LEFT, "count", players.size(), "left", player.getNickname());
 
-        if ((started && players.size() < 3) || players.size() == 0)
-            interruptAndDestroy();
+        if ((started && players.size() < 3) || players.size() == 0) {
+            broadcastAll(BroadcastContext.GAME_INTERRUPTED);
+            onDestroy();
+        }
+
     }
 
     private void onStop() {
@@ -359,11 +392,6 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         for (Player player: players)
             scores.add(new ScoreboardRow(player));
         broadcastAll(BroadcastContext.GAME_ENDED, "scores", scores.stream().sorted().collect(Collectors.toList()));
-        onDestroy();
-    }
-
-    private void interruptAndDestroy() {
-        broadcastAll(BroadcastContext.GAME_INTERRUPTED);
         onDestroy();
     }
 

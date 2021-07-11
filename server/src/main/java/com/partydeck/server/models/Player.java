@@ -152,6 +152,14 @@ public abstract class Player implements Identifiable<String> {
     }
 
     /**
+     * Change the player admin state to true, only if player is disconnected
+     */
+    public void demoteToPlayer() {
+        if (!isConnected())
+            this.admin = false;
+    }
+
+    /**
      * Increment the number of rounds won by the player.
      */
     public void incrementRoundsWon() {

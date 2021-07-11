@@ -37,7 +37,7 @@ public class GameTest {
             public void onGameStart(String gameId) {
 
             }
-            
+
             @Override
             public void onGamePause(String gameId) {
 

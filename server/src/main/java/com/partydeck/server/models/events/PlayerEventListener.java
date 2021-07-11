@@ -53,4 +53,10 @@ public interface PlayerEventListener {
      */
     void onConnectionPause(Player player);
 
+    /**
+     * Fires when a player was unexpectedly disconnected for too long
+     * @param player the player who disconnected
+     */
+    void onConnectionDestroy(Player player);
+
 }

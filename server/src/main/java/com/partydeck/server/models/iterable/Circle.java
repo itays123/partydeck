@@ -4,6 +4,7 @@ import com.partydeck.server.models.helpers.Identifiable;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * An object representing a circle of entries
@@ -94,11 +95,30 @@ public class Circle<K,T extends Identifiable<K>> implements Iterable<T> {
         return Optional.of(entry);
     }
 
+    /**
+     * Peek the first entry
+     * @return the first entry
+     */
     public Optional<T> peek() {
         if (queue.isEmpty())
             return Optional.empty();
 
         return Optional.of(queue.peek());
+    }
+
+    /**
+     * Circle through the entries
+     * @param condition the condition that any returned entry should make
+     * @return the next entry that has the condition
+     */
+    public Optional<T> circleAndFind(Function<T, Boolean> condition) {
+        for (int i = 0; i < queue.size(); i++) { // a classic for loop, so that we can change the queue as we go
+            T entry = queue.remove();
+            queue.add(entry); // ad entry at the end
+            if (condition.apply(entry))
+                return Optional.of(entry);
+        }
+        return Optional.empty();
     }
 
 
