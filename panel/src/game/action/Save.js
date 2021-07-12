@@ -8,6 +8,8 @@ const Save = ({ isLoading, onClick = async () => {}, callback }) => {
     useGameEditorContext();
 
   const saveClickHandler = () => {
+    console.log('changes', questions.changes(), answers.changes());
+    /*
     let arg;
     if (isGameNew) {
       arg = {
@@ -35,6 +37,7 @@ const Save = ({ isLoading, onClick = async () => {}, callback }) => {
     if (callback) {
       onClick(arg).then(callback);
     } else onClick(arg);
+    */
   };
 
   return (

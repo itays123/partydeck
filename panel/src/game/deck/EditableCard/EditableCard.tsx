@@ -64,7 +64,7 @@ const EditableCard = ({
       )}
       <EditorOnly>
         <div className="length-display absolute bottom-0 right-0 mb-2 mr-4 text-sm text-gray-600">
-          {value.length}/50
+          {value && value.length}/50
         </div>
       </EditorOnly>
     </div>

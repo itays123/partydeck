@@ -26,6 +26,7 @@ function DeckEditor({ editor, label }: Props): JSX.Element {
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-2 pb-6">
         {cardAtomList.map((atom, index) => (
           <EditableCard
+            key={index + ':' + atom.getValue()}
             atom={atom}
             onTabPress={next}
             focused={focusedCardIndex === index}

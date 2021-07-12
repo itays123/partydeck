@@ -1,7 +1,6 @@
 import { useHistory, useParams } from 'react-router-dom';
 import GameEditorContextProvider from './GameEditorContext';
 import { useGame } from './useGame';
-import DeckEditorWrapper from './deck/DeckEditorWrapper';
 import GameSettingsViewEdit from './settings/GameSettingsViewEdit';
 import { useSaveGame } from './action/useSaveGame';
 import Play from './action/Play';
@@ -12,9 +11,12 @@ import Spinner from '../shared/Spinner';
 import { useDeleteGame } from './action/useDeleteGame';
 import PageNotFound from '../shared/PageNotFound';
 import { useGamePending } from '../shared/GamePending/GameCreationPending';
+import DeckEditor from './deck/DeckEditor';
+import GameAction from './action/GameAction';
+import SvgWrapper from '../shared/SvgWrapper';
 
 const GameViewEdit = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const game = useGame(id);
   const { save, isSaveLoading } = useSaveGame(id);
   const { remove } = useDeleteGame(id);
@@ -32,7 +34,7 @@ const GameViewEdit = () => {
   if (game.status === 404) return <PageNotFound />;
 
   return (
-    <GameEditorContextProvider {...game}>
+    <GameEditorContextProvider initialGame={game}>
       <div className="game-view scrollable">
         <div className="bg-gray-100 w-full">
           <header className="container mx-auto pt-8 pb-4 px-8 md:px-2">
@@ -45,11 +47,24 @@ const GameViewEdit = () => {
             <section className="actions flex justify-start flex-row-reverse mt-2">
               <Play onClick={redirectToPage} />
               <Remove onClick={remove} disabled={isSaveLoading} />
-              <Save
-                onClick={save}
+              <GameAction
+                label="Save"
+                loadingLabel="Saving..."
                 isLoading={isSaveLoading}
-                callback={() => window.location.reload()}
-              />
+                disabled={({ isChanged }) => !isChanged}
+                action={({ isPrivate, questions, answers }) =>
+                  save({
+                    isPrivate,
+                    questions: questions.changes(),
+                    answers: answers.changes(),
+                  }).then(window.location.reload)
+                }
+              >
+                <SvgWrapper>
+                  <path d="M0 0h24v24H0z" fill="none" />
+                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
+                </SvgWrapper>
+              </GameAction>
               <Discard
                 onClick={() => history.push('/')}
                 isSaveLoading={isSaveLoading}
@@ -58,8 +73,8 @@ const GameViewEdit = () => {
           </header>
         </div>
         <div>
-          <DeckEditorWrapper title="Questions" contextEditor="questions" />
-          <DeckEditorWrapper title="Answers" contextEditor="answers" />
+          <DeckEditor label="Questions" of="questions" />
+          <DeckEditor label="Answers" of="answers" />
         </div>
       </div>
     </GameEditorContextProvider>

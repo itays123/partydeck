@@ -2,15 +2,14 @@ import { atom } from 'klyva';
 import { useEffect, useState } from 'react';
 import { createContext, useContext } from 'react';
 import { useAuthContext } from '../auth/AuthContext';
-import { Deck } from './deck/DeckEditorTypes';
 import { useDeckEditor } from './deck/useDeckEditor.tmp';
-import { EMPTY_GAME, Game, IGameEditorContext } from './types';
+import { EMPTY_GAME, Game, IGameEditorContext, Deck } from './types';
 
 export const GameEditorContext = createContext<IGameEditorContext>(
   {} as IGameEditorContext
 );
 
-export function useGameEditor(): IGameEditorContext {
+export function useGameEditorContext(): IGameEditorContext {
   return useContext(GameEditorContext);
 }
 
@@ -22,7 +21,7 @@ type Props = {
 const questionsAtom = atom<Deck>([]);
 const answersAtom = atom<Deck>([]);
 
-export function GameEditorContextProvider({
+export default function GameEditorContextProvider({
   children,
   initialGame = EMPTY_GAME,
 }: Props) {
@@ -34,11 +33,6 @@ export function GameEditorContextProvider({
   const [lng, setLng] = useState(initialGame.lng);
   const questions = useDeckEditor(questionsAtom, initialGame.questions, 3);
   const answers = useDeckEditor(answersAtom, initialGame.answers, 12);
-
-  useEffect(() => {
-    questions.clearState();
-    answers.clearState();
-  }, [questions, answers]);
 
   const clearState = () => {
     questions.clearFocus();

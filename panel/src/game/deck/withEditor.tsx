@@ -10,6 +10,9 @@ export function withEditor(
     label: string;
   }> {
     static contextType = GameEditorContext;
+    componentDidMount() {
+      this.context[this.props.of].clearState();
+    }
     render() {
       return (
         <ComponentToRender

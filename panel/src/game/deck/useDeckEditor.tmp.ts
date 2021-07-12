@@ -1,7 +1,7 @@
-import { atom, Atom, useAtom, useAtomSlice } from 'klyva';
+import { Atom, useAtomSlice } from 'klyva';
 import { useState } from 'react';
 import { Editor } from '../types';
-import { Added, Changes, Deck, Deleted, Modified } from './DeckEditorTypes';
+import { Added, Changes, Deck, Deleted, Modified } from '../types';
 
 export function useDeckEditor(
   deckAtom: Atom<Deck>,
@@ -9,15 +9,23 @@ export function useDeckEditor(
   minDeckSize: number = 0
 ): Editor {
   const [focusedCardIndex, setFocusedCardIndex] = useState(-1);
-  const [deckSize] = useAtom(atom(get => get(deckAtom).length));
-  const [isChanged] = useAtom(
-    atom(
-      get =>
-        get(deckAtom).length !== initialDeck.length ||
-        get(deckAtom).some((card, index) => card !== initialDeck[index])
-    )
-  );
+  const [deckSize, setSize] = useState(0);
+  const [isChanged, setChanged] = useState(false);
   const cardAtomList = useAtomSlice(deckAtom);
+
+  deckAtom.subscribe(deck => {
+    setSize(deck.length);
+    setChanged(
+      deck.length !== initialDeck.length ||
+        deck.some((card, index) => card !== initialDeck[index])
+    );
+  });
+
+  // created outside of export for multiple usages
+  const appendCardAndFocus = () => {
+    setFocusedCardIndex(deckSize); // focus on the created card
+    deckAtom.update(list => [...list, '']);
+  };
 
   return {
     cardAtomList,
@@ -29,12 +37,11 @@ export function useDeckEditor(
       setFocusedCardIndex(-1);
     },
     next() {
-      if (focusedCardIndex + 1 === deckSize) this.addCard();
+      if (focusedCardIndex + 1 === deckSize) appendCardAndFocus();
       else setFocusedCardIndex(i => i + 1);
     },
     addCard() {
-      setFocusedCardIndex(deckSize); // focus on the created card
-      deckAtom.update(list => [...list, '']);
+      appendCardAndFocus();
     },
     changes(): Changes {
       const added: Added = [],
