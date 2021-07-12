@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { GameEditorContext } from '../GameEditorContext';
-import { Editor } from './useDeckEditor.tmp';
+import { Editor } from '../types';
 
 export function withEditor(
   ComponentToRender: React.ComponentType<{ editor: Editor; label: string }>
