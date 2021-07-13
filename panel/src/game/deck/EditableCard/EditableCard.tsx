@@ -27,7 +27,10 @@ const EditableCard = ({
   const ref = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
-    if (focused && ref.current) ref.current.focus();
+    if (focused && ref.current) {
+      ref.current.focus();
+      ref.current.setSelectionRange(50, 50);
+    }
   }, [focused]);
 
   return (

@@ -9,7 +9,7 @@ export function useDeckEditor(
   minDeckSize: number = 0
 ): Editor {
   const [focusedCardIndex, setFocusedCardIndex] = useState(-1);
-  const [deckSize, setSize] = useState(0);
+  const [deckSize, setSize] = useState(deckAtom.getValue().length);
   const [isChanged, setChanged] = useState(false);
   const cardAtomList = useAtomSlice(deckAtom);
 
