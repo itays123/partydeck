@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
-import languages from '../shared/helpers/languages';
-import GameLanguageSelect from './create/GameLanguageSelect';
-import NewGamesOnly from './create/NewGamesOnly';
-import EditorOnly from './edit/EditorOnly';
-import { useGameEditorContext } from './edit/GameEditorContext';
-import PrivatePublicToggle from './edit/PrivatePublicToggle/PrivatePublicToggle';
+import languages from '../../shared/helpers/languages';
+import GameLanguageSelect from './GameLanguageSelect';
+import NewGamesOnly, { ExistingGamesOnly } from '../wrapper/NewGamesOnly';
+import EditorOnly, { ViewerOnly } from '../wrapper/EditorOnly';
+import { useGameEditorContext } from '../GameEditorContext';
+import PrivatePublicToggle from './PrivatePublicToggle/PrivatePublicToggle';
 
 const GameSettingsViewEdit = () => {
   const { author, lng, isPrivate } = useGameEditorContext();
@@ -17,13 +17,13 @@ const GameSettingsViewEdit = () => {
         <GameLanguageSelect />
       </NewGamesOnly>
       <h3 className="text-md">
-        <NewGamesOnly gameShouldExist>
+        <ExistingGamesOnly>
           {languages[lng] && <span>{languages[lng].nativeName}</span>}
-        </NewGamesOnly>
-        <EditorOnly shouldNotBeEditor>
+        </ExistingGamesOnly>
+        <ViewerOnly>
           &middot;
           {isPrivate ? 'Private' : 'Public'}
-        </EditorOnly>
+        </ViewerOnly>
         <EditorOnly>
           <PrivatePublicToggle />
         </EditorOnly>

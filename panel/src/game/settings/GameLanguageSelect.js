@@ -1,5 +1,5 @@
 import languages from '../../shared/helpers/languages';
-import { useGameEditorContext } from '../edit/GameEditorContext';
+import { useGameEditorContext } from '../GameEditorContext';
 
 const GameLanguageSelect = () => {
   const { lng, setLng } = useGameEditorContext();

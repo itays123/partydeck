@@ -1,23 +1,36 @@
-import { useEffect, useRef } from 'react';
+import { MouseEventHandler, useEffect, useRef } from 'react';
 import SvgWrapper from '../../../shared/SvgWrapper';
-import EditorOnly from '../EditorOnly';
-import { useGameEditorContext } from '../GameEditorContext';
+import EditorOnly from '../../wrapper/EditorOnly';
+import { useGameEditorContext } from '../../GameEditorContext';
 import './EditableCard.css';
+import { Atom, useAtom } from 'klyva';
+
+type Props = {
+  atom: Atom<string>;
+  focused: boolean;
+  canDelete: boolean;
+  onTabPress: Function;
+  onFocus: MouseEventHandler<HTMLDivElement>;
+  onDeletePress: MouseEventHandler<HTMLButtonElement>;
+};
 
 const EditableCard = ({
-  text,
+  atom,
   focused,
   canDelete,
-  onTextChange = () => {},
-  onDeletePress = () => {},
-  onTabPress = () => {},
-  onFocus = () => {},
-}) => {
+  onTabPress,
+  onFocus,
+  onDeletePress,
+}: Props) => {
+  const [value, setvalue] = useAtom(atom);
   const { isEditable } = useGameEditorContext();
-  const ref = useRef();
+  const ref = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
-    if (focused) ref.current.focus();
+    if (focused && ref.current) {
+      ref.current.focus();
+      ref.current.setSelectionRange(50, 50);
+    }
   }, [focused]);
 
   return (
@@ -26,17 +39,16 @@ const EditableCard = ({
       onClick={onFocus}
     >
       <textarea
-        rows="3"
+        rows={3}
         className="focus:outline-none bg-transparent text-center resize-none"
-        type="text"
         placeholder="An Empty Card"
-        value={text}
+        value={value}
         ref={ref}
         readOnly={!isEditable}
         onKeyDown={e => e.key === 'Tab' && onTabPress()}
         onChange={e => {
-          const { value } = e.target;
-          if (value.length <= 50) onTextChange(value);
+          const { value: newVal } = e.target;
+          if (newVal.length <= 50) setvalue(newVal);
         }}
       />
 
@@ -55,7 +67,7 @@ const EditableCard = ({
       )}
       <EditorOnly>
         <div className="length-display absolute bottom-0 right-0 mb-2 mr-4 text-sm text-gray-600">
-          {text.length}/50
+          {value && value.length}/50
         </div>
       </EditorOnly>
     </div>

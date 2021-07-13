@@ -9,6 +9,10 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.1",
+    "@types/jest": "^26.0.24",
+    "@types/node": "^16.0.0",
+    "@types/react": "^17.0.13",
+    "@types/react-dom": "^17.0.8",
     "autoprefixer": "^9.8.6",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
@@ -16,6 +20,7 @@
     "dotenv": "^9.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "klyva": "^0.8.6",
     "mocha": "^8.2.1",
     "mongoose": "^5.10.14",
     "node-fetch": "^2.6.1",
@@ -25,6 +30,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.2",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.3",
+    "typescript": "^4.3.5",
     "web-vitals": "^1.1.0"
   },
   "scripts": {
@@ -53,5 +59,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-router-dom": "^5.1.8"
   }
 }
