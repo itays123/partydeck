@@ -69,5 +69,8 @@ export function useDeckEditor(
     clearState() {
       deckAtom.update(initialDeck);
     },
+    getValue() {
+      return deckAtom.getValue();
+    },
   };
 }

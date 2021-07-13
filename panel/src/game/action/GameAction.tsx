@@ -7,23 +7,35 @@ type Props = {
   disabled(context: IGameEditorContext): boolean;
   children: JSX.Element | JSX.Element[];
   label: string;
-  loadingLabel: string;
-  isLoading: boolean;
+  loadingLabel?: string;
+  isLoading?: boolean;
+  onActionComplete?(): any;
 };
 
 export default function GameAction({
   action,
   disabled,
-  isLoading,
+  isLoading = false,
   children,
   label,
-  loadingLabel,
+  loadingLabel = 'Loading',
+  onActionComplete = () => {},
 }: Props) {
   const context = useGameEditorContext();
+
+  const clickHandler = () => {
+    if (!isLoading) {
+      const result = action(context);
+      if (result instanceof Promise) {
+        result.then(onActionComplete);
+      }
+    }
+  };
+
   return (
     <button
       className="action-button"
-      onClick={() => !isLoading && action(context)}
+      onClick={clickHandler}
       disabled={disabled(context)}
     >
       {!isLoading ? (

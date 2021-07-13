@@ -3,10 +3,6 @@ import GameEditorContextProvider from './GameEditorContext';
 import { useGame } from './useGame';
 import GameSettingsViewEdit from './settings/GameSettingsViewEdit';
 import { useSaveGame } from './action/useSaveGame';
-import Play from './action/Play';
-import Remove from './action/Remove';
-import Save from './action/Save';
-import Discard from './action/Discard';
 import Spinner from '../shared/Spinner';
 import { useDeleteGame } from './action/useDeleteGame';
 import PageNotFound from '../shared/PageNotFound';
@@ -14,6 +10,7 @@ import { useGamePending } from '../shared/GamePending/GameCreationPending';
 import DeckEditor from './deck/DeckEditor';
 import GameAction from './action/GameAction';
 import SvgWrapper from '../shared/SvgWrapper';
+import EditorOnly from './wrapper/EditorOnly';
 
 const GameViewEdit = () => {
   const { id } = useParams<{ id: string }>();
@@ -45,30 +42,60 @@ const GameViewEdit = () => {
               <GameSettingsViewEdit />
             </section>
             <section className="actions flex justify-start flex-row-reverse mt-2">
-              <Play onClick={redirectToPage} />
-              <Remove onClick={remove} disabled={isSaveLoading} />
               <GameAction
-                label="Save"
-                loadingLabel="Saving..."
-                isLoading={isSaveLoading}
-                disabled={({ isChanged }) => !isChanged}
-                action={({ isPrivate, questions, answers }) =>
-                  save({
-                    isPrivate,
-                    questions: questions.changes(),
-                    answers: answers.changes(),
-                  }).then(window.location.reload)
-                }
+                label="Play"
+                disabled={({ isChanged }) => isChanged}
+                action={redirectToPage}
               >
                 <SvgWrapper>
                   <path d="M0 0h24v24H0z" fill="none" />
-                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
+                  <path d="M8 5v14l11-7z" />
                 </SvgWrapper>
               </GameAction>
-              <Discard
-                onClick={() => history.push('/')}
-                isSaveLoading={isSaveLoading}
-              />
+              <EditorOnly>
+                <GameAction
+                  label="Remove"
+                  disabled={({ isChanged }) => isChanged || isSaveLoading}
+                  action={remove}
+                >
+                  <SvgWrapper>
+                    <path d="M0 0h24v24H0V0z" fill="none" />
+                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4z" />
+                  </SvgWrapper>
+                </GameAction>
+                <GameAction
+                  label="Save"
+                  loadingLabel="Saving..."
+                  isLoading={isSaveLoading}
+                  disabled={({ isChanged }) => !isChanged}
+                  action={({ isPrivate, questions, answers }) =>
+                    save({
+                      isPrivate,
+                      questions: questions.changes(),
+                      answers: answers.changes(),
+                    })
+                  }
+                  onActionComplete={() => window.location.reload()}
+                >
+                  <SvgWrapper>
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
+                  </SvgWrapper>
+                </GameAction>
+                <GameAction
+                  label="Discard"
+                  action={({ clearState }) => {
+                    clearState();
+                    history.push('/');
+                  }}
+                  disabled={({ isChanged }) => !isChanged || isSaveLoading}
+                >
+                  <SvgWrapper>
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                  </SvgWrapper>
+                </GameAction>
+              </EditorOnly>
             </section>
           </header>
         </div>

@@ -55,6 +55,7 @@ export type Editor = {
   changes(): Changes;
   clearState(): void;
   isChanged: boolean;
+  getValue(): Deck;
 };
 
 export const EMPTY_GAME: Game = {
