@@ -1,8 +1,8 @@
 import { atom } from 'klyva';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { createContext, useContext } from 'react';
 import { useAuthContext } from '../auth/AuthContext';
-import { useDeckEditor } from './deck/useDeckEditor.tmp';
+import { useDeckEditor } from './deck/useDeckEditor';
 import { EMPTY_GAME, Game, IGameEditorContext, Deck } from './types';
 
 export const GameEditorContext = createContext<IGameEditorContext>(
