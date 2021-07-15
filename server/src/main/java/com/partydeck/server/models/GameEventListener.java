@@ -18,9 +18,16 @@ public interface GameEventListener {
     void onGamePause(String gameId);
 
     /**
+     * Fires when a game resumes
+     * @param gameId the id of the game
+     */
+    void onGameResume(String gameId);
+
+    /**
      * Fires when a game ends
      * @param gameId the id of the game
      */
     void onGameDestroy(String gameId);
+
 
 }

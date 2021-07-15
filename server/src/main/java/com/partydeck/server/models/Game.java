@@ -200,13 +200,16 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         if (started && !resumed) // waiting for other players to resume connection
             player.broadcast(BroadcastContext.GAME_PAUSED, new HashMap<>());
 
+        if (started && players.size() >= 3)
+            onResume();
+
         // boardcast rejoin, joined-midgame, etc.
         return true;
     }
 
     /*
      * The actual game methods:
-     *  game start, resume, pause, stop and destroy
+     *  game start, resume
      *  round start, end, skip, next
      *  player events
      */
@@ -234,6 +237,22 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         }
     }
 
+    private void onResume() {
+        if (eventListener != null)
+            eventListener.onGameResume(id);
+
+        // ensure admin exists
+        if (players.circleAndFind(Player::isAdmin).isEmpty())
+            players.circleAndFind(Player::isConnected).ifPresent(Player::makeAdmin);
+
+        broadcastAll(BroadcastContext.GAME_RESUMED);
+
+        // in order for a game to be resumed, it has to be started, and therefore the current round != null.
+        currentRound.clear();
+        currentRound.start();
+
+    }
+
     /**
      * Fires every time a new round is created
      */
@@ -246,7 +265,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
                     throw new Exception("Round should not be started");
 
                 Card question = questionDeck.pickTopCard().orElseThrow(); // if there aren't any questions left, finish the game
-                Player judge = players.circle().orElseThrow(); // if there aren't any players left, finish the game
+                Player judge = players.circleAndFind(Player::isConnected).orElseThrow(); // if there aren't any players left, finish the game
                 judge.setJudge(true);
 
                 currentRound.setJudge(judge);

@@ -98,6 +98,16 @@ public class GameRepository implements GameEventListener {
     }
 
     /**
+     * Fires when a game resumes
+     *
+     * @param gameId the id of the game
+     */
+    @Override
+    public void onGameResume(String gameId) {
+
+    }
+
+    /**
      * Fires when a game ends
      *
      * @param gameId the id of the game
