@@ -49,6 +49,15 @@ public class Circle<K,T extends Identifiable<K>> implements Iterable<T> {
     }
 
     /**
+     * Count how many entries have a certain condition
+     * @param condition the condition to fill
+     * @return the number of entries that fill it
+     */
+    public int count(Function<T, Boolean> condition) {
+        return (int) queue.stream().filter(condition::apply).count();
+    }
+
+    /**
      * Check if the circle contains a given entry
      * @param e the entry to look for
      * @return true if the entry is present

@@ -283,7 +283,7 @@ public abstract class Player implements Identifiable<String> {
             case PLAYER_JOINED:
             case PLAYER_LEFT:
             case CONNECTION_PAUSE:
-            case GAME_RESUMED:
+            case CONNECTION_RESUME:
                 args.put("isAdmin", isAdmin());
                 break;
 

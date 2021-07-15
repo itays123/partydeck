@@ -173,7 +173,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
 
             players.addEntry(player);
             player.broadcast(BroadcastContext.INIT, "id", player.getId(), "isAdmin", player.isAdmin(), "game", id);
-            broadcastAll(BroadcastContext.PLAYER_JOINED, "count", players.size(), "joined", player.getNickname());
+            broadcastAll(BroadcastContext.PLAYER_JOINED, "count", players.count(Player::isConnected), "joined", player.getNickname());
 
             // if (resumed) // broadcast joined midgame
             if (started && !resumed)
@@ -183,28 +183,6 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         }
 
         return false;
-    }
-
-    /**
-     * Fires when a connection is renewed
-     * @param player the player that has renewed connection
-     * @return true if player is returned to the game successfully
-     */
-    public boolean onConnectionResume(Player player) {
-
-        broadcastAll(BroadcastContext.CONNECTION_RESUME, "rejoined", player.getNickname());
-
-        if (!players.has(player) || !player.isConnected())
-            return false;
-
-        if (started && !resumed) // waiting for other players to resume connection
-            player.broadcast(BroadcastContext.GAME_PAUSED, new HashMap<>());
-
-        if (started && players.size() >= 3)
-            onResume();
-
-        // boardcast rejoin, joined-midgame, etc.
-        return true;
     }
 
     /*
@@ -220,7 +198,8 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
      */
     @Override
     public void onStartRequest(Player player) {
-        if (player.isAdminOf(this) && players.size() >= MIN_NUMBER_OF_PLAYERS) { // if the start request was valid
+        int playerCount = players.count(Player::isConnected);
+        if (player.isAdminOf(this) && playerCount >= MIN_NUMBER_OF_PLAYERS) { // if the start request was valid
 
             if (eventListener != null)
                 eventListener.onGameStart(id);
@@ -231,19 +210,45 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
             resumed = true;
             currentRound = new Round();
             currentRound.setRoundEventListener(this);
-            currentRound.setNumberOfParticipants(players.size());
+            currentRound.setNumberOfParticipants(playerCount);
             currentRound.start();
 
         }
     }
 
-    private void onResume() {
-        if (eventListener != null)
-            eventListener.onGameResume(id);
+    /**
+     * Fires when a connection is renewed
+     * @param player the player that has renewed connection
+     * @return true if player is returned to the game successfully
+     */
+    public boolean onConnectionResume(Player player) {
+
+        if (!players.has(player) || !player.isConnected())
+            return false;
 
         // ensure admin exists
         if (players.find(Player::isAdmin).isEmpty())
-            players.find(Player::isConnected).ifPresent(Player::makeAdmin);
+            player.makeAdmin();
+
+        if (started && !resumed) // waiting for other players to resume connection
+            player.broadcast(BroadcastContext.GAME_PAUSED, new HashMap<>());
+
+        int newPlayerCount = players.count(Player::isConnected);
+
+        broadcastAll(BroadcastContext.CONNECTION_RESUME, "count", newPlayerCount);
+
+        currentRound.setNumberOfParticipants(newPlayerCount);
+
+        if (started && newPlayerCount >= 3)
+            onResume();
+
+        // boardcast rejoin, joined-midgame, etc.
+        return true;
+    }
+
+    private void onResume() {
+        if (eventListener != null)
+            eventListener.onGameResume(id);
 
         broadcastAll(BroadcastContext.GAME_RESUMED);
 
@@ -388,18 +393,20 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     @Override
     public void onConnectionPause(Player player) {
 
+        int newPlayerCount = players.count(Player::isConnected);
+
         if (currentRound != null)
-            currentRound.setNumberOfParticipants(players.size());
+            currentRound.setNumberOfParticipants(newPlayerCount);
 
         if (player.isAdminOf(this)) {
             player.demoteToPlayer();
             players.find(Player::isConnected).ifPresent(Player::makeAdmin);
         }
 
-        broadcastAll(BroadcastContext.CONNECTION_PAUSE, "count", players.size());
+        broadcastAll(BroadcastContext.CONNECTION_PAUSE, "count", newPlayerCount);
 
         // handle onPause
-        if (started && players.size() < 3) // game should pause
+        if (started && newPlayerCount < 3) // game should pause
             onPause();
     }
 
