@@ -34,6 +34,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     private Round currentRound;
 
     private boolean started;
+    private boolean resumed;
     private boolean stopRequested;
 
     private GameEventListener eventListener;
@@ -48,6 +49,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         this.answerDeck = new Deck<>();
         this.currentRound = null;
         this.started = false;
+        this.resumed = false;
         this.stopRequested = false;
         this.eventListener = null;
     }
@@ -167,6 +169,11 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
             players.addEntry(player);
             player.broadcast(BroadcastContext.INIT, "id", player.getId(), "isAdmin", player.isAdmin(), "game", id);
             broadcastAll(BroadcastContext.PLAYER_JOINED, "count", players.size(), "joined", player.getNickname());
+
+            // if (resumed) // broadcast joined midgame
+            if (started && !resumed)
+                player.broadcast(BroadcastContext.GAME_PAUSED, new HashMap<>());
+
             return true;
         }
 
@@ -182,9 +189,8 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         if (!players.has(player) || !player.isConnected())
             return false;
 
-        // increase round number of participants
-        if (currentRound != null)
-            currentRound.setNumberOfParticipants(players.size());
+        if (started && !resumed) // waiting for other players to resume connection
+            player.broadcast(BroadcastContext.GAME_PAUSED, new HashMap<>());
 
         // boardcast rejoin, joined-midgame, etc.
         return true;
@@ -204,6 +210,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
             broadcastAll(BroadcastContext.GAME_STARTED, "dispatched", "start");
 
             started = true;
+            resumed = true;
             currentRound = new Round();
             currentRound.setRoundEventListener(this);
             currentRound.setNumberOfParticipants(players.size());
@@ -217,22 +224,23 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
      */
     @Override
     public void onRoundStart() {
-        try {
+        if (resumed)
+            try {
 
-            if (!started || stopRequested) // if round should not be started
-                throw new Exception("Round should not be started");
+                if (!started || stopRequested) // if round should not be started
+                    throw new Exception("Round should not be started");
 
-            Card question = questionDeck.pickTopCard().orElseThrow(); // if there aren't any questions left, finish the game
-            Player judge = players.circle().orElseThrow(); // if there aren't any players left, finish the game
-            judge.setJudge(true);
+                Card question = questionDeck.pickTopCard().orElseThrow(); // if there aren't any questions left, finish the game
+                Player judge = players.circle().orElseThrow(); // if there aren't any players left, finish the game
+                judge.setJudge(true);
 
-            currentRound.setJudge(judge);
+                currentRound.setJudge(judge);
 
-            broadcastAll(BroadcastContext.ROUND_STARTED, "j", judge.getNickname(), "q", question.getContent());
+                broadcastAll(BroadcastContext.ROUND_STARTED, "j", judge.getNickname(), "q", question.getContent());
 
-        } catch (Exception e) {
-            onStop();
-        }
+            } catch (Exception e) {
+                onStop();
+            }
     }
 
     /**
@@ -360,6 +368,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
      * Fires when the game has started and there are less than 3 players in the game
      */
     private void onPause() {
+        this.resumed = false;
         broadcastAll(BroadcastContext.GAME_PAUSED);
 
         if (eventListener != null)
