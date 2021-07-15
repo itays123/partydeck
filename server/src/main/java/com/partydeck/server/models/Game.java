@@ -132,6 +132,13 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         this.eventListener = eventListener;
     }
 
+    /*
+    * Connection-related methods:
+    *   Broadcasting
+    *   Connection create
+    *   Connection resume
+     */
+
     private void broadcastAll(BroadcastContext context, Object... args) {
         Map<String, Object> argsMap = new HashMap<>();
         for (int i = 0; i < args.length - 1; i+=2) {
@@ -186,6 +193,9 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
      * @return true if player is returned to the game successfully
      */
     public boolean onConnectionResume(Player player) {
+
+        broadcastAll(BroadcastContext.CONNECTION_RESUME, "rejoined", player.getNickname());
+
         if (!players.has(player) || !player.isConnected())
             return false;
 
@@ -195,6 +205,13 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         // boardcast rejoin, joined-midgame, etc.
         return true;
     }
+
+    /*
+     * The actual game methods:
+     *  game start, resume, pause, stop and destroy
+     *  round start, end, skip, next
+     *  player events
+     */
 
     /**
      * Fires when the admin requests to start the game
@@ -341,6 +358,12 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         }
     }
 
+    /*
+    * Game lifecycle end:
+    *   Connection Pause, Destroy
+    *   Game Pause, Stop, Destroy
+     */
+
     /**
      * Fires when the player has disconnected
      *
@@ -379,6 +402,15 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
 
     }
 
+    private void onStop() {
+        this.resumed = false;
+        List<ScoreboardRow> scores = new ArrayList<>();
+        for (Player player: players)
+            scores.add(new ScoreboardRow(player));
+        broadcastAll(BroadcastContext.GAME_ENDED, "scores", scores.stream().sorted().collect(Collectors.toList()));
+        onDestroy();
+    }
+
     /**
      * Fires when a player was unexpectedly disconnected for too long
      *
@@ -388,21 +420,13 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     public void onConnectionDestroy(Player player) {
         players.removeEntry(player);
 
-        broadcastAll(BroadcastContext.PLAYER_LEFT, "count", players.size(), "left", player.getNickname());
+        broadcastAll(BroadcastContext.PLAYER_LEFT, "left", player.getNickname());
 
         if ((started && players.size() < 3) || players.size() == 0) {
             broadcastAll(BroadcastContext.GAME_INTERRUPTED);
             onDestroy();
         }
 
-    }
-
-    private void onStop() {
-        List<ScoreboardRow> scores = new ArrayList<>();
-        for (Player player: players)
-            scores.add(new ScoreboardRow(player));
-        broadcastAll(BroadcastContext.GAME_ENDED, "scores", scores.stream().sorted().collect(Collectors.toList()));
-        onDestroy();
     }
 
     public void onDestroy() {
