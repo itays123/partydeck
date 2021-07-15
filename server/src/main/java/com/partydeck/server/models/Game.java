@@ -242,8 +242,8 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
             eventListener.onGameResume(id);
 
         // ensure admin exists
-        if (players.circleAndFind(Player::isAdmin).isEmpty())
-            players.circleAndFind(Player::isConnected).ifPresent(Player::makeAdmin);
+        if (players.find(Player::isAdmin).isEmpty())
+            players.find(Player::isConnected).ifPresent(Player::makeAdmin);
 
         broadcastAll(BroadcastContext.GAME_RESUMED);
 
@@ -393,7 +393,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
 
         if (player.isAdminOf(this)) {
             player.demoteToPlayer();
-            players.circleAndFind(Player::isConnected).ifPresent(Player::makeAdmin);
+            players.find(Player::isConnected).ifPresent(Player::makeAdmin);
         }
 
         broadcastAll(BroadcastContext.CONNECTION_PAUSE, "count", players.size());

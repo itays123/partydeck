@@ -41,33 +41,11 @@ public class Circle<K,T extends Identifiable<K>> implements Iterable<T> {
     }
 
     /**
-     * remove an entry by its id
-     * @param id the id of the entry to be removed
-     */
-    public void removeEntry(K id) {
-        for (T entry: queue)
-            if (entry.is(id))
-                removeEntry(entry);
-    }
-
-    /**
      * Checks the number of entries in the circle
      * @return the size of the circle as an integer
      */
     public int size() {
         return queue.size();
-    }
-
-    /**
-     * Check if the circle has an entry with a given id
-     * @param id the id of the entry
-     * @return true if the entry exists
-     */
-    public boolean has(K id) {
-        for (T entry: queue)
-            if (entry.is(id))
-                return true;
-        return false;
     }
 
     /**
@@ -84,30 +62,6 @@ public class Circle<K,T extends Identifiable<K>> implements Iterable<T> {
 
     /**
      * Circle through the entries
-     * @return the next entry
-     */
-    public Optional<T> circle() {
-        if (queue.isEmpty())
-            return Optional.empty();
-
-        T entry = queue.remove();
-        queue.add(entry); // add entry at the end
-        return Optional.of(entry);
-    }
-
-    /**
-     * Peek the first entry
-     * @return the first entry
-     */
-    public Optional<T> peek() {
-        if (queue.isEmpty())
-            return Optional.empty();
-
-        return Optional.of(queue.peek());
-    }
-
-    /**
-     * Circle through the entries
      * @param condition the condition that any returned entry should make
      * @return the next entry that has the condition
      */
@@ -115,6 +69,19 @@ public class Circle<K,T extends Identifiable<K>> implements Iterable<T> {
         for (int i = 0; i < queue.size(); i++) { // a classic for loop, so that we can change the queue as we go
             T entry = queue.remove();
             queue.add(entry); // ad entry at the end
+            if (condition.apply(entry))
+                return Optional.of(entry);
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * find the first entry without cycling
+     * @param condition the condition that any returned entry should make
+     * @return the next entry that has the condition
+     */
+    public Optional<T> find(Function<T, Boolean> condition) {
+        for (T entry: queue) {
             if (condition.apply(entry))
                 return Optional.of(entry);
         }
