@@ -151,12 +151,13 @@ public class ConnectionProvider {
          */
         @Override
         public void broadcast(Map<String, Object> args) {
-            try {
-                String json = gson.toJson(args);
-                session.sendMessage(new TextMessage(json));
-            } catch (IOException e) {
-                destroyConnection(CloseStatus.SESSION_NOT_RELIABLE);
-            }
+            if (session.isOpen())
+                try {
+                    String json = gson.toJson(args);
+                    session.sendMessage(new TextMessage(json));
+                } catch (IOException e) {
+                    destroyConnection(CloseStatus.SESSION_NOT_RELIABLE);
+                }
         }
 
         /**
@@ -178,7 +179,7 @@ public class ConnectionProvider {
             try {
                 Map<String, Object> data = gson.fromJson(message, TYPE);
                 String context = (String) Optional.ofNullable(data.get("context")).orElseThrow();
-                logger.debug("MESSAGE INCOMING (" + context + "): " + data.toString());
+                logger.debug("MESSAGE INCOMING (" + context + "): " + data);
                 handleMessage(BroadcastContext.valueOf(context), data);
             } catch (Exception e) {
                 session.close(CloseStatus.SESSION_NOT_RELIABLE);
