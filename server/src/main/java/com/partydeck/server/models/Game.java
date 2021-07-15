@@ -35,7 +35,6 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
 
     private boolean started;
     private boolean resumed;
-    private boolean stopRequested;
 
     private GameEventListener eventListener;
 
@@ -50,7 +49,6 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         this.currentRound = null;
         this.started = false;
         this.resumed = false;
-        this.stopRequested = false;
         this.eventListener = null;
     }
 
@@ -244,7 +242,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         if (resumed)
             try {
 
-                if (!started || stopRequested) // if round should not be started
+                if (!started) // if round should not be started
                     throw new Exception("Round should not be started");
 
                 Card question = questionDeck.pickTopCard().orElseThrow(); // if there aren't any questions left, finish the game
@@ -339,7 +337,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     public void onNextRoundRequest(Player player) {
         if (player.isAdminOf(this)) {
             currentRound.clear();
-            if (questionDeck.hasNext() && !stopRequested)
+            if (questionDeck.hasNext() && started)
                 currentRound.start();
             else
                 onStop();
@@ -353,7 +351,6 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     @Override
     public void onStopRequest(Player player) {
         if (player.isAdminOf(this)) {
-            stopRequested = true;
             onStop();
         }
     }
@@ -403,6 +400,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     }
 
     private void onStop() {
+        this.started = false;
         this.resumed = false;
         List<ScoreboardRow> scores = new ArrayList<>();
         for (Player player: players)
