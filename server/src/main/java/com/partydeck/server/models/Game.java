@@ -349,7 +349,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
             players.circleAndFind(Player::isConnected).ifPresent(Player::makeAdmin);
         }
 
-        broadcastAll(BroadcastContext.PLAYER_LEFT, "count", players.size(), "left", player.getNickname()); // change context
+        broadcastAll(BroadcastContext.CONNECTION_PAUSE, "count", players.size());
 
         // handle onPause
         if (started && players.size() < 3) // game should pause
@@ -360,13 +360,14 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
      * Fires when the game has started and there are less than 3 players in the game
      */
     private void onPause() {
+        broadcastAll(BroadcastContext.GAME_PAUSED);
+
         if (eventListener != null)
             eventListener.onGamePause(id);
 
         if (currentRound != null) // emit full skip, wait for admin to press "next" or "end game"
             currentRound.emitFullSkip();
 
-        // broadcast pause
     }
 
     /**
