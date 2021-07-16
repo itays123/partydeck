@@ -6,6 +6,7 @@ package com.partydeck.server.models;
 public enum BroadcastContext {
     // server to client
     INIT,
+    REJOIN,
     PLAYER_JOINED,
     CONNECTION_PAUSE,
     CONNECTION_RESUME,

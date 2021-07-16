@@ -223,6 +223,8 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         if (!players.has(player) || !player.isConnected())
             return false;
 
+        player.broadcast(BroadcastContext.REJOIN, "newId", player.getId());
+
         // ensure admin exists
         if (players.find(Player::isAdmin).isEmpty())
             player.makeAdmin();
@@ -239,7 +241,6 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         if (started && newPlayerCount >= 3)
             onResume();
 
-        // boardcast rejoin, joined-midgame, etc.
         return true;
     }
 
@@ -442,6 +443,10 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         players.removeEntry(player);
 
         broadcastAll(BroadcastContext.PLAYER_LEFT, "left", player.getNickname());
+
+        // return player cards
+        Arrays.stream(player.currentCards).forEach(answerDeck::insertCardInBottom);
+        player.currentCards = new Card[] {};
 
         if ((started && players.size() < 3) || players.size() == 0) {
             broadcastAll(BroadcastContext.GAME_INTERRUPTED);

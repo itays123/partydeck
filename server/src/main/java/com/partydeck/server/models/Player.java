@@ -30,7 +30,7 @@ public abstract class Player implements Identifiable<String> {
 
     private int roundsWon;
 
-    protected final Card[] currentCards;
+    protected Card[] currentCards;
 
     /**
      * Empty constructor. Sets everything up.
