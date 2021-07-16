@@ -6,10 +6,7 @@ import com.partydeck.server.models.events.PlayerEventListener;
 import com.partydeck.server.models.events.RoundEventListener;
 import com.partydeck.server.models.helpers.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -263,23 +260,23 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
      */
     @Override
     public void onRoundStart() {
-        if (resumed)
-            try {
+        Optional<Player> judgeOpt = players.circleAndFind(Player::isConnected);
+        if (!started || !resumed || judgeOpt.isEmpty())
+            return;
 
-                if (!started) // if round should not be started
-                    throw new Exception("Round should not be started");
+        Optional<Card> questionOpt = questionDeck.pickTopCard();
 
-                Card question = questionDeck.pickTopCard().orElseThrow(); // if there aren't any questions left, finish the game
-                Player judge = players.circleAndFind(Player::isConnected).orElseThrow(); // if there aren't any players left, finish the game
-                judge.setJudge(true);
+        if (questionOpt.isEmpty()) {
+            onStop();
+            return;
+        }
 
-                currentRound.setJudge(judge);
+        Player judge = judgeOpt.get();
+        Card question = questionOpt.get();
 
-                broadcastAll(BroadcastContext.ROUND_STARTED, "j", judge.getNickname(), "q", question.getContent());
-
-            } catch (Exception e) {
-                onStop();
-            }
+        judge.setJudge(true);
+        currentRound.setJudge(judge);
+        broadcastAll(BroadcastContext.ROUND_STARTED, "j", judge.getNickname(), "q", question.getContent());
     }
 
     /**
