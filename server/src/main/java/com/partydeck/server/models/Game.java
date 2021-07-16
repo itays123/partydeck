@@ -189,29 +189,6 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
      *  player events
      */
 
-    /**
-     * Fires when the admin requests to start the game
-     * @param player the player who asked to start
-     */
-    @Override
-    public void onStartRequest(Player player) {
-        int playerCount = players.count(Player::isConnected);
-        if (player.isAdminOf(this) && playerCount >= MIN_NUMBER_OF_PLAYERS) { // if the start request was valid
-
-            if (eventListener != null)
-                eventListener.onGameStart(id);
-
-            broadcastAll(BroadcastContext.GAME_STARTED, "dispatched", "start");
-
-            started = true;
-            resumed = true;
-            currentRound = new Round();
-            currentRound.setRoundEventListener(this);
-            currentRound.setNumberOfParticipants(playerCount);
-            currentRound.start();
-
-        }
-    }
 
     /**
      * Fires when a connection is renewed
@@ -254,6 +231,30 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         currentRound.clear();
         currentRound.start();
 
+    }
+
+    /**
+     * Fires when the admin requests to start the game
+     * @param player the player who asked to start
+     */
+    @Override
+    public void onStartRequest(Player player) {
+        int playerCount = players.count(Player::isConnected);
+        if (player.isAdminOf(this) && playerCount >= MIN_NUMBER_OF_PLAYERS) { // if the start request was valid
+
+            if (eventListener != null)
+                eventListener.onGameStart(id);
+
+            broadcastAll(BroadcastContext.GAME_STARTED, "dispatched", "start");
+
+            started = true;
+            resumed = true;
+            currentRound = new Round();
+            currentRound.setRoundEventListener(this);
+            currentRound.setNumberOfParticipants(playerCount);
+            currentRound.start();
+
+        }
     }
 
     /**
