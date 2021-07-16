@@ -83,12 +83,31 @@ public class ConnectionProvider {
      * Fire after a connection is closed
      * @param session the session closed
      * @param closeStatus the close status
+     * @return a method that checks if a connection is destroyed and handles it if needed
      */
-    public void removeConnection(WebSocketSession session, CloseStatus closeStatus) {
+    public Optional<Runnable> handleConnectionPause(WebSocketSession session, CloseStatus closeStatus) {
         logger.info("SESSION DISCONNECTED: " + session.getId() + ", Status: " + closeStatus.toString());
-        Optional.ofNullable(connections.remove(session.getId()))
-                .filter(player -> !closeStatus.equalsCode(CloseStatus.NORMAL)) // if connection was not closed by the user itself
-                .ifPresent(SessionWrapperPlayer::handleConnectionPause);
+        if (closeStatus.equalsCode(CloseStatus.NORMAL)) { // if connection is expected.
+            connections.remove(session.getId());
+            return Optional.empty();
+        }
+
+        // connection is unexpected
+        SessionWrapperPlayer player = connections.get(session.getId());
+        if (player == null) return Optional.empty();
+        player.handleConnectionPause();
+
+        return Optional.of(this.destroyHandler(player));
+
+    }
+
+    private Runnable destroyHandler(SessionWrapperPlayer player) {
+        return () -> {
+            if (!player.isConnected()) {
+                player.handleConnectionDestroy();
+                connections.remove(player.getId());
+            }
+        };
     }
 
     private static class SessionWrapperPlayer extends Player  {
@@ -167,7 +186,7 @@ public class ConnectionProvider {
          */
         @Override
         public boolean isConnected() {
-            return session.isOpen();
+            return session != null && session.isOpen();
         }
 
         /**
@@ -192,6 +211,8 @@ public class ConnectionProvider {
         public void handleConnectionPause() {
             super.handleConnectionPause();
         }
+
+
     }
 
 }

@@ -215,6 +215,14 @@ public abstract class Player implements Identifiable<String> {
             eventListener.onConnectionPause(this);
     }
 
+    /**
+     * Fire in case a connection is destroyed
+     */
+    public void handleConnectionDestroy() {
+        if (eventListener != null)
+            eventListener.onConnectionDestroy(this);
+    }
+
     protected void handleSkipRequest() {
         if (eventListener != null && admin)
             eventListener.onSkipRequest(this);

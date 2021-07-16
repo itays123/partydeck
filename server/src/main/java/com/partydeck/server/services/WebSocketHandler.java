@@ -2,6 +2,7 @@ package com.partydeck.server.services;
 
 import com.partydeck.server.repositories.ConnectionProvider;
 import com.partydeck.server.repositories.GameRepository;
+import com.partydeck.server.repositories.Scheduler;
 import com.partydeck.server.repositories.UrlParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The component responsible for the logic of handling WebSocket requests
@@ -33,6 +35,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     @Autowired
     private ConnectionProvider connectionProvider;
+
+    @Autowired
+    private Scheduler scheduler;
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -68,6 +73,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        connectionProvider.removeConnection(session, status);
+        connectionProvider.handleConnectionPause(session, status).ifPresent(destroyHandler -> scheduler.schedule(destroyHandler, 30, TimeUnit.SECONDS));
     }
 }
