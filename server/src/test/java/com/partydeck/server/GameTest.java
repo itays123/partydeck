@@ -42,6 +42,11 @@ public class GameTest {
             public void onGamePause(String gameId) {
 
             }
+            
+            @Override
+            public void onGameResume(String gameId) {
+
+            }
 
             @Override
             public void onGameDestroy(String gameId) {
