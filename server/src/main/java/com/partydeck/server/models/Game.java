@@ -213,11 +213,12 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
 
         broadcastAll(BroadcastContext.CONNECTION_RESUME, "count", newPlayerCount);
 
-        currentRound.setNumberOfParticipants(newPlayerCount);
+        if (started) {
+            currentRound.setNumberOfParticipants(newPlayerCount);
 
-        if (started && newPlayerCount >= 3)
-            onResume();
-
+            if (!resumed && newPlayerCount >= 3)
+                onResume();
+        }
         return true;
     }
 
