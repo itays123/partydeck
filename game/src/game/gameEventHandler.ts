@@ -42,13 +42,13 @@ export const updateStateFromContext = (
     case BroadcastContext.GAME_ENDED:
       return {
         gameState: GameLifecycle.STOPPED,
-        connectionState: ConnectionLifecycle.DESTOYED,
+        connectionState: ConnectionLifecycle.FINISHED,
       };
 
     case BroadcastContext.GAME_INTERRUPTED:
       return {
         gameState: GameLifecycle.DESTROYED,
-        connectionState: ConnectionLifecycle.DESTOYED,
+        connectionState: ConnectionLifecycle.DESTROYED,
       };
 
     default:

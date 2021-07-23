@@ -35,8 +35,8 @@ export enum ConnectionLifecycle {
   PRE_CREATED,
   RESUMED,
   PAUSED,
-  DESTOYED,
-  DESTROYED_UNEXPECTED,
+  FINISHED,
+  DESTROYED,
 }
 
 export enum RoundLifeCycle {

@@ -49,7 +49,7 @@ const handleWsMessage = (evt: MessageEvent<any>) => {
 
 const handleConnectionPause = () => {
   const { playerId, gameCode, connectionState } = gameAtom.getValue();
-  if (connectionState === ConnectionLifecycle.DESTOYED)
+  if (connectionState !== ConnectionLifecycle.RESUMED)
     // expected disconnection
     return;
 
@@ -69,8 +69,7 @@ const handleConnectionDestroy = () => {
     gameAtom.update((state: IGameAtom) => ({
       ...state,
       session: null,
-      connectionState: ConnectionLifecycle.DESTROYED_UNEXPECTED,
-      gameState: GameLifecycle.DESTROYED,
+      connectionState: ConnectionLifecycle.DESTROYED,
     }));
 };
 
