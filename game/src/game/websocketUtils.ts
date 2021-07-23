@@ -29,7 +29,6 @@ export const connect = (
 const handleWsOpen = (ws: WebSocket) => () => {
   gameAtom.update((state: IGameAtom) => ({
     ...state,
-    connectionState: ConnectionLifecycle.RESUMED,
     session: ws,
   }));
 };

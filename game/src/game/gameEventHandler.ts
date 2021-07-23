@@ -18,6 +18,7 @@ export const updateStateFromContext = (
         gameCode: data.gameCode,
         playerId: data.id,
         gameState: GameLifecycle.CREATED,
+        connectionState: ConnectionLifecycle.RESUMED,
       };
 
     case BroadcastContext.PLAYER_JOINED:
