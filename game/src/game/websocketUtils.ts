@@ -3,6 +3,7 @@ import { updateStateFromContext } from './gameEventHandler';
 import {
   BroadcastContext,
   ConnectionLifecycle,
+  GameLifecycle,
   IGameAtom,
   RoundLifeCycle,
 } from './types';
@@ -65,7 +66,12 @@ const handleConnectionPause = () => {
 const handleConnectionDestroy = () => {
   const { connectionState } = gameAtom.getValue();
   if (connectionState !== ConnectionLifecycle.RESUMED)
-    gameAtom.update((state: IGameAtom) => ({ ...state, session: null }));
+    gameAtom.update((state: IGameAtom) => ({
+      ...state,
+      session: null,
+      connectionState: ConnectionLifecycle.DESTROYED_UNEXPECTED,
+      gameState: GameLifecycle.DESTROYED,
+    }));
 };
 
 /*
