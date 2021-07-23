@@ -1,6 +1,6 @@
 import GameContextProvider from './game/GameContext';
 import RoundContextProvider from './round/RoundContext';
-import Deck from './card/Deck';
+import Deck from './components/Deck/Deck';
 import Question from './round/Question';
 import NavWrapper from './shared/Navigation/NavWrapper';
 import AdminControls from './round/AdminControls';
@@ -10,8 +10,8 @@ import GameStartedOnly from './game/filters/GameStartedOnly';
 import Lobby from './lobby/Lobby';
 import ActiveRoundOnly from './game/filters/ActiveRoundOnly';
 import Scoreboard from './scoreboard/Scoreboard';
-import UnexpectedDisconnectionOnly from './game/filters/UnexpectedDisconnectionOnly';
-import DisconnectionDialog from './game/DisconnectionDialog';
+import UnexpectedDisconnectionOnly from './components/UnexpectedDisconnectionDialog/UnexpectedDisconnectionOnly';
+import DisconnectionDialog from './components/UnexpectedDisconnectionDialog/DisconnectionDialog';
 import LoadingFeedback from './round/LoadingFeedback';
 
 function App() {

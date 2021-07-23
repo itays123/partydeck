@@ -1,4 +1,4 @@
-import { useGameContext } from '../game/GameContext';
+import { useGameContext } from '../../game/GameContext';
 import CardPicker from './CardPicker';
 
 const Deck = () => {

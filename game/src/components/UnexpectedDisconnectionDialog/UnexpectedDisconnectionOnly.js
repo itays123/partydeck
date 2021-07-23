@@ -1,5 +1,5 @@
 import Conditional from '../../shared/Conditional';
-import { useGameContext } from '../GameContext';
+import { useGameContext } from '../../game/GameContext';
 
 const UnexpectedDisconnectionOnly = ({ children }) => {
   const { isConnected, showEndScreen } = useGameContext();

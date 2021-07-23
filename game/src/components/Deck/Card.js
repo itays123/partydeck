@@ -1,6 +1,6 @@
-import { useGameContext } from '../game/GameContext';
+import { useGameContext } from '../../game/GameContext';
 import { motion } from 'framer-motion';
-import { useRoundContext } from '../round/RoundContext';
+import { useRoundContext } from '../../round/RoundContext';
 
 const cardVariants = {
   initial: { y: 0 },
