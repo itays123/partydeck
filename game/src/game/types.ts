@@ -8,6 +8,40 @@ export interface IGameContext {
   isAdmin: boolean;
 }
 
+type Card = { id: string; content: string };
+
+export interface IGameData {
+  isConnected: boolean;
+  isConnectionResumed: boolean;
+  isStarted: boolean;
+  gameCode?: string;
+  playerId?: string;
+  round: number;
+  playerCount: number;
+  pickedCardId: string;
+  playerWon: string;
+  question: string;
+  judge: string;
+  selectedCardId: string;
+  isJudge: boolean;
+  skipped: boolean;
+  use: Card[];
+  playersUsed: Map<string, string>;
+  pick: Card[];
+  useMode: boolean;
+  showEndScreen: boolean;
+  scoreboard: any[];
+}
+
+export interface IGameContextValue extends IGameData {
+  start(): void;
+  overrideSkip(): void;
+  requestNextRound(): void;
+  manuallyEndGame(): void;
+  onCardClick(cardId: string): void;
+  onCardButtonClick(): void;
+}
+
 export interface RoundState {
   state: RoundLifecycle;
   round: number;

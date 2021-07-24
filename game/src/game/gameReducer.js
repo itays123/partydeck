@@ -1,7 +1,9 @@
 export const initialGameState = {
   isConnected: true,
+  isConnectionResumed: false,
   isStarted: false,
   gameCode: undefined,
+  playerId: undefined,
   round: 0,
   playerCount: 1,
   pickedCardId: '',
@@ -21,8 +23,16 @@ export const initialGameState = {
 
 export function gameReducer(state, { type, payload }) {
   switch (type) {
-    case 'JOINED': {
-      return { ...state, gameCode: payload.gameCode };
+    case 'INIT': {
+      return {
+        ...state,
+        gameCode: payload.game,
+        playerId: payload.id,
+        isConnectionResumed: true,
+      };
+    }
+    case 'REJOIN': {
+      return { ...state, isConnectionResumed: true, playerId: payload.newId };
     }
     case 'PLAYER_JOINED': {
       const newCount = payload.count;
@@ -109,6 +119,9 @@ export function gameReducer(state, { type, payload }) {
         showEndScreen: true,
         scoreboard: payload.scores,
       };
+    }
+    case 'SESSION_PAUSED': {
+      return { ...state, isConnectionResumed: false };
     }
     case 'DISCONNECTED': {
       return { ...state, isConnected: false };
