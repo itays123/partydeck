@@ -21,19 +21,25 @@ export const connect = (
   ws.onopen = () => websocketAtom.update(ws);
 };
 
-type contextable = {
+export interface Contextable {
   context: string;
-};
+}
 
-export function useSession() {
+type Handler = (ev: MessageEvent<any>) => any;
+type sessionHook = [
+  (handler: Handler) => void,
+  <T extends Contextable>(args: T) => void
+];
+
+export function useSession(): sessionHook {
   const [session] = useAtom(websocketAtom);
   const [, setHandler] = useAtom(messageHandlerAtom);
 
-  const onMessage = (handler: (ev: MessageEvent<any>) => any) => {
-    setHandler(handler);
+  const onMessage = (handler: Handler) => {
+    setHandler(() => handler);
   };
 
-  const sendMessage = <T extends contextable>(args: T) => {
+  const sendMessage = <T extends Contextable>(args: T) => {
     session.send(JSON.stringify(args));
   };
 
