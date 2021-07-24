@@ -1,12 +1,13 @@
-import { gameAtom } from './gameAtom';
-import { updateStateFromContext } from './gameEventHandler';
-import {
-  BroadcastContext,
-  ConnectionLifecycle,
-  GameLifecycle,
-  IGameAtom,
-  RoundLifeCycle,
-} from './types';
+import { atom, focusAtom, useAtom } from 'klyva';
+
+const websocketAtom = atom<WebSocket>({} as WebSocket);
+const messageHandlerAtom = focusAtom(websocketAtom, optic =>
+  optic.prop('onmessage')
+);
+export const connectedAtom = atom(get => {
+  const ws = get(websocketAtom);
+  return ws && ws.readyState === ws.OPEN;
+});
 
 export const connect = (
   gameCode: string,
@@ -17,92 +18,24 @@ export const connect = (
     playerId ? `id=${playerId}` : `name=${name}`
   }`;
   const ws = new WebSocket(uri);
-  ws.onopen = handleWsOpen(ws);
-  ws.onmessage = handleWsMessage;
-  ws.onclose = handleConnectionPause;
+  ws.onopen = () => websocketAtom.update(ws);
 };
 
-/*
- * Events
- */
-
-const handleWsOpen = (ws: WebSocket) => () => {
-  gameAtom.update((state: IGameAtom) => ({
-    ...state,
-    session: ws,
-  }));
+type contextable = {
+  context: string;
 };
 
-const handleWsMessage = (evt: MessageEvent<any>) => {
-  const data = JSON.parse(evt.data);
-  if (data.context)
-    gameAtom.update((state: IGameAtom) => ({
-      ...state,
-      ...updateStateFromContext(
-        BroadcastContext[data.context as keyof typeof BroadcastContext],
-        data,
-        state
-      ),
-    }));
-};
+export function useSession() {
+  const [session] = useAtom(websocketAtom);
+  const [, setHandler] = useAtom(messageHandlerAtom);
 
-const handleConnectionPause = () => {
-  const { playerId, gameCode, connectionState } = gameAtom.getValue();
-  if (connectionState !== ConnectionLifecycle.RESUMED)
-    // expected disconnection
-    return;
+  const onMessage = (handler: (ev: MessageEvent<any>) => any) => {
+    setHandler(handler);
+  };
 
-  gameAtom.update((state: IGameAtom) => ({
-    ...state,
-    connectionState: ConnectionLifecycle.PAUSED,
-  }));
-  setTimeout(handleConnectionDestroy, 30000);
+  const sendMessage = <T extends contextable>(args: T) => {
+    session.send(JSON.stringify(args));
+  };
 
-  // try to reconnect
-  connect(gameCode, null, playerId);
-};
-
-const handleConnectionDestroy = () => {
-  const { connectionState } = gameAtom.getValue();
-  if (connectionState !== ConnectionLifecycle.RESUMED)
-    gameAtom.update((state: IGameAtom) => ({
-      ...state,
-      session: null,
-      connectionState: ConnectionLifecycle.DESTROYED,
-    }));
-};
-
-/*
- * Message-related methods
- */
-
-const sendMessage = <T extends object>(context: BroadcastContext, args: T) => {
-  const { session, connectionState } = gameAtom.getValue();
-  if (connectionState !== ConnectionLifecycle.RESUMED || session === null)
-    return;
-
-  const payload = { ...args, context: BroadcastContext[context] };
-  session.send(JSON.stringify(payload));
-};
-
-export const start = () => sendMessage(BroadcastContext.START, {});
-export const stop = () => sendMessage(BroadcastContext.STOP, {});
-export const skip = () => sendMessage(BroadcastContext.SKIP, {});
-export const next = () => sendMessage(BroadcastContext.NEXT, {});
-
-export const useOrPickCard = (cardId: string) => {
-  const { state, isJudge } = gameAtom.getValue().roundState;
-  if (isJudge && state === RoundLifeCycle.PICK) {
-    sendMessage(BroadcastContext.PICKED, { picked: cardId });
-  }
-  if (!isJudge && state === RoundLifeCycle.USE) {
-    sendMessage(BroadcastContext.USED, { used: cardId });
-    gameAtom.update((state: IGameAtom) => ({
-      ...state,
-      roundState: {
-        ...state.roundState,
-        state: RoundLifeCycle.PENDING_PLAYER_USAGES,
-      },
-    }));
-  }
-};
+  return [onMessage, sendMessage];
+}

@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react';
 import { useWebsocket } from './useWebsocket';
 
-const GameContext = createContext();
+export const GameContext = createContext();
 
 const GameContextProvider = ({ children }) => {
   const websocket = useWebsocket();

@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { gameAtom } from '../../game/gameAtom';
+import GameContext from '../../game/GameContext';
 import { GameLifecycle } from '../../game/types';
 import { connect } from '../../game/websocketUtils';
 
@@ -7,6 +7,7 @@ export function withSavedInstanceState(
   ComponentToRender: React.ComponentType<any>
 ) {
   return class SavedInstanceState extends Component<{}> {
+    static contextType = GameContext as any;
     state = { loading: true };
     componentDidMount() {
       const playerId = localStorage.getItem('playerId');
@@ -20,7 +21,7 @@ export function withSavedInstanceState(
     }
     componentWillUnmount() {
       // save neccesary data if needed
-      const { gameState, gameCode, playerId } = gameAtom.getValue();
+      const { gameState, gameCode, playerId } = this.context;
       if (
         gameState !== GameLifecycle.DESTROYED &&
         gameState !== GameLifecycle.STOPPED

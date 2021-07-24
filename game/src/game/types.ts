@@ -1,5 +1,4 @@
-export interface IGameAtom {
-  session: WebSocket | null;
+export interface IGameContext {
   connectionState: ConnectionLifecycle;
   gameState: GameLifecycle;
   roundState: RoundState;
@@ -10,7 +9,7 @@ export interface IGameAtom {
 }
 
 export interface RoundState {
-  state: RoundLifeCycle;
+  state: RoundLifecycle;
   round: number;
   playerWon?: string;
   question: string;
@@ -39,7 +38,7 @@ export enum ConnectionLifecycle {
   DESTROYED,
 }
 
-export enum RoundLifeCycle {
+export enum RoundLifecycle {
   USE,
   PENDING_PLAYER_USAGES,
   PICK,
