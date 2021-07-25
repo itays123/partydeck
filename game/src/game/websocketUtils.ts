@@ -21,9 +21,9 @@ export function useSession(
 ): sessionHook {
   const [session, setSession] = useState(null as unknown as WebSocket);
 
-  /*
   useEffect(() => {
     if (!session) return;
+    console.log('setting session event listeners...');
     session.addEventListener('open', onOpen);
     session.addEventListener('message', onMessage);
     session.addEventListener('close', onClose);
@@ -33,7 +33,6 @@ export function useSession(
       session.removeEventListener('close', onClose);
     };
   }, [session, onOpen, onMessage, onClose]);
-  */
 
   const connect = (
     gameCode: string,
@@ -44,9 +43,6 @@ export function useSession(
       playerId ? `id=${playerId}` : `name=${name}`
     }`;
     const ws = new WebSocket(uri);
-    ws.onopen = onOpen;
-    ws.onmessage = onMessage;
-    ws.onclose = onClose;
     setSession(ws);
   };
 

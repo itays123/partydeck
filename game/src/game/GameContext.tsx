@@ -1,4 +1,5 @@
-import { createContext, useContext, useReducer } from 'react';
+import { useEffect } from 'react';
+import { createContext, useCallback, useContext, useReducer } from 'react';
 import { Wrapper } from '../shared/types';
 import { gameReducer, initialGameState } from './gameReducer';
 import { IGameContextValue, IGameData } from './types';
@@ -19,6 +20,10 @@ export default function GameContextProvider({ children }: Wrapper) {
     gameReducer as Reducer,
     initialGameState as IGameData
   );
+  const logStateToConsoleOnDisconnect = useCallback(() => {
+    dispatch({ type: 'DISCONNECTED' });
+    console.log('inside callback', state.showEndScreen, state.scoreboard);
+  }, [state.showEndScreen, state.scoreboard]);
   const [connect, sendMessage] = useSession(
     () => {},
     ev => {
@@ -26,10 +31,12 @@ export default function GameContextProvider({ children }: Wrapper) {
       console.log(data);
       if (data.context) dispatch({ type: data.context, payload: data });
     },
-    () => {
-      dispatch({ type: 'DISCONNECTED' });
-    }
+    logStateToConsoleOnDisconnect
   );
+
+  useEffect(() => {
+    console.log('inside effect', state.showEndScreen, state.scoreboard);
+  }, [state.showEndScreen, state.scoreboard]);
 
   /*
    * Supercharge the websocket connection
