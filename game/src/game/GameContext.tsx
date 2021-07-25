@@ -20,17 +20,19 @@ export default function GameContextProvider({ children }: Wrapper) {
     gameReducer as Reducer,
     initialGameState as IGameData
   );
+  const callbackedOpenHandler = useCallback(() => {}, []);
+  const callbackedMessageHandler = useCallback((ev: MessageEvent<any>) => {
+    const data: Contextable = JSON.parse(ev.data);
+    console.log(data);
+    if (data.context) dispatch({ type: data.context, payload: data });
+  }, []);
   const logStateToConsoleOnDisconnect = useCallback(() => {
     dispatch({ type: 'DISCONNECTED' });
     console.log('inside callback', state.showEndScreen, state.scoreboard);
   }, [state.showEndScreen, state.scoreboard]);
   const [connect, sendMessage] = useSession(
-    () => {},
-    ev => {
-      const data: Contextable = JSON.parse(ev.data);
-      console.log(data);
-      if (data.context) dispatch({ type: data.context, payload: data });
-    },
+    callbackedOpenHandler,
+    callbackedMessageHandler,
     logStateToConsoleOnDisconnect
   );
 
