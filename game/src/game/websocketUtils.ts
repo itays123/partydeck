@@ -1,47 +1,58 @@
-import { atom, focusAtom, useAtom } from 'klyva';
-
-const websocketAtom = atom<WebSocket>({} as WebSocket);
-const messageHandlerAtom = focusAtom(websocketAtom, optic =>
-  optic.prop('onmessage')
-);
-export const connectedAtom = atom(get => {
-  const ws = get(websocketAtom);
-  return ws && ws.readyState === ws.OPEN;
-});
-
-export const connect = (
-  gameCode: string,
-  name: string | null,
-  playerId?: string
-) => {
-  const uri = `${process.env.REACT_APP_SERVER_WS}?code=${gameCode}&${
-    playerId ? `id=${playerId}` : `name=${name}`
-  }`;
-  const ws = new WebSocket(uri);
-  ws.onopen = () => websocketAtom.update(ws);
-};
+import { useEffect, useState } from 'react';
+import {
+  SessionConnectHandler,
+  SessionDisconnectHandler,
+  SessionMessageHnalder,
+} from './types';
 
 export interface Contextable {
   context: string;
 }
 
-type Handler = (ev: MessageEvent<any>) => any;
 type sessionHook = [
-  (handler: Handler) => void,
+  (gameCode: string, name: string | null, playerId?: string) => void,
   <T extends Contextable>(args: T) => void
 ];
 
-export function useSession(): sessionHook {
-  const [session] = useAtom(websocketAtom);
-  const [, setHandler] = useAtom(messageHandlerAtom);
+export function useSession(
+  onOpen: SessionConnectHandler,
+  onMessage: SessionMessageHnalder,
+  onClose: SessionDisconnectHandler
+): sessionHook {
+  const [session, setSession] = useState(null as unknown as WebSocket);
 
-  const onMessage = (handler: Handler) => {
-    setHandler(() => handler);
+  /*
+  useEffect(() => {
+    if (!session) return;
+    session.addEventListener('open', onOpen);
+    session.addEventListener('message', onMessage);
+    session.addEventListener('close', onClose);
+    return () => {
+      session.removeEventListener('open', onOpen);
+      session.removeEventListener('message', onMessage);
+      session.removeEventListener('close', onClose);
+    };
+  }, [session, onOpen, onMessage, onClose]);
+  */
+
+  const connect = (
+    gameCode: string,
+    name: string | null,
+    playerId?: string
+  ) => {
+    const uri = `${process.env.REACT_APP_SERVER_WS}?code=${gameCode}&${
+      playerId ? `id=${playerId}` : `name=${name}`
+    }`;
+    const ws = new WebSocket(uri);
+    ws.onopen = onOpen;
+    ws.onmessage = onMessage;
+    ws.onclose = onClose;
+    setSession(ws);
   };
 
   const sendMessage = <T extends Contextable>(args: T) => {
     session.send(JSON.stringify(args));
   };
 
-  return [onMessage, sendMessage];
+  return [connect, sendMessage];
 }

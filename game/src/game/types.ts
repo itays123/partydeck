@@ -34,6 +34,7 @@ export interface IGameData {
 }
 
 export interface IGameContextValue extends IGameData {
+  join(gameCode: string, name: string): void;
   start(): void;
   overrideSkip(): void;
   requestNextRound(): void;
@@ -106,3 +107,7 @@ export enum BroadcastContext {
   PICKED,
   NEXT,
 }
+
+export type SessionConnectHandler = (ev: Event) => any;
+export type SessionMessageHnalder = (ev: MessageEvent<any>) => any;
+export type SessionDisconnectHandler = (ev: Event) => any;

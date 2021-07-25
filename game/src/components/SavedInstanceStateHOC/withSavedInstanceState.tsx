@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import GameContext from '../../game/GameContext';
 import { GameLifecycle } from '../../game/types';
-import { connect } from '../../game/websocketUtils';
 
 export function withSavedInstanceState(
   ComponentToRender: React.ComponentType<any>
@@ -13,7 +12,7 @@ export function withSavedInstanceState(
       const playerId = localStorage.getItem('playerId');
       const gameCode = localStorage.getItem('gameCode');
       if (playerId && gameCode) {
-        connect(gameCode, null, playerId);
+        // connect(gameCode, null, playerId);
         localStorage.removeItem('playerId');
         localStorage.removeItem('gameCode');
       }

@@ -1,15 +1,8 @@
-import { useEffect } from 'react';
-import { useCallback } from 'react';
 import { createContext, useContext, useReducer } from 'react';
 import { Wrapper } from '../shared/types';
 import { gameReducer, initialGameState } from './gameReducer';
 import { IGameContextValue, IGameData } from './types';
-import {
-  connect,
-  connectedAtom,
-  Contextable,
-  useSession,
-} from './websocketUtils';
+import { Contextable, useSession } from './websocketUtils';
 
 export const GameContext = createContext<IGameContextValue>(
   {} as IGameContextValue
@@ -26,23 +19,23 @@ export default function GameContextProvider({ children }: Wrapper) {
     gameReducer as Reducer,
     initialGameState as IGameData
   );
-  const [onMessage, sendMessage] = useSession();
-
-  // wire the session and game state managment system together
-
-  /* eslint-disable react-hooks/exhaustive-deps */
-  useEffect(() => {
-    onMessage(evt => {
-      const data: Contextable = JSON.parse(evt.data);
+  const [connect, sendMessage] = useSession(
+    () => {},
+    ev => {
+      const data: Contextable = JSON.parse(ev.data);
       console.log(data);
       if (data.context) dispatch({ type: data.context, payload: data });
-    });
-  }, []);
+    },
+    () => {
+      dispatch({ type: 'DISCONNECTED' });
+    }
+  );
 
   /*
    * Supercharge the websocket connection
    */
 
+  /*
   const connectionStateCallback = useCallback(
     (connected: boolean) => {
       if (!connected) {
@@ -53,7 +46,7 @@ export default function GameContextProvider({ children }: Wrapper) {
             if (!state.isConnectionResumed) dispatch({ type: 'DISCONNECTED' });
           }, 30 * 1000);
           dispatch({ type: 'SESSION_PAUSED' });
-          connect(state.gameCode!, null, state.playerId!);
+          // connect(state.gameCode!, null, state.playerId!);
         } else dispatch({ type: 'DISCONNECTED' });
       }
     },
@@ -64,11 +57,11 @@ export default function GameContextProvider({ children }: Wrapper) {
       state.isConnectionResumed,
     ]
   );
-
-  connectedAtom.subscribe(connectionStateCallback);
+  */
 
   // deliver the context to the application
 
+  const join = (gameCode: string, name: string) => connect(gameCode, name);
   const start = () => sendMessage({ context: 'START' });
   const overrideSkip = () => sendMessage({ context: 'SKIP' });
   const requestNextRound = () => sendMessage({ context: 'NEXT' });
@@ -88,6 +81,7 @@ export default function GameContextProvider({ children }: Wrapper) {
     <GameContext.Provider
       value={{
         ...state,
+        join,
         start,
         overrideSkip,
         requestNextRound,
