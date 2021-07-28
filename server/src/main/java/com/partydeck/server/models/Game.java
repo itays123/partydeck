@@ -288,6 +288,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
 
         judge.setJudge(true);
         currentRound.setJudge(judge);
+        currentRound.setNumberOfParticipants(players.count(Player::isConnected)); // update this in case a player joined mid-game
         broadcastAll(BroadcastContext.ROUND_STARTED, "j", judge.getNickname(), "q", question.getContent());
     }
 

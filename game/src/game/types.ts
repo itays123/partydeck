@@ -29,6 +29,7 @@ export interface IGameData {
   playersUsed: Map<string, string>;
   pick: Card[];
   useMode: boolean;
+  isWaitingForNextRound: boolean;
   scoreboard: any[];
 }
 

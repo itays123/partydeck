@@ -18,6 +18,8 @@ import ConnectionPauseFeedback from './components/ConnectionPauseFeedback/Connec
 import LocalStorageConnectionRestorer from './components/LocalStorageConnectionRestorer/LocalStorageConnectionRestorer';
 import GameResumedOnly from './game/filters/GameResumedOnly';
 import GamePauseFeeback from './components/GamePauseFeedback/GamePauseFeedback';
+import ValidRoundOnly from './game/filters/ValidRoundOnly';
+import InvalidRoundFeedback from './components/InvalidRoundFeedback/InvalidRoundFeedback';
 
 function App() {
   return (
@@ -29,14 +31,16 @@ function App() {
               <ConnectionResumedOnly fallback={<ConnectionPauseFeedback />}>
                 <GameStartedOnly fallback={<Lobby />}>
                   <GameResumedOnly fallback={<GamePauseFeeback />}>
-                    <RoundContextProvider>
-                      <div className="scrollable">
-                        <Question />
-                        <LoadingFeedback />
-                        <Deck />
-                        <AdminControls />
-                      </div>
-                    </RoundContextProvider>
+                    <ValidRoundOnly fallback={<InvalidRoundFeedback />}>
+                      <RoundContextProvider>
+                        <div className="scrollable">
+                          <Question />
+                          <LoadingFeedback />
+                          <Deck />
+                          <AdminControls />
+                        </div>
+                      </RoundContextProvider>
+                    </ValidRoundOnly>
                   </GameResumedOnly>
                 </GameStartedOnly>
               </ConnectionResumedOnly>

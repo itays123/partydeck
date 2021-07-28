@@ -19,6 +19,7 @@ export const initialGameState: IGameData = {
   playersUsed: new Map(),
   pick: [],
   useMode: true,
+  isWaitingForNextRound: false,
   scoreboard: [],
 };
 
@@ -43,6 +44,7 @@ export function gameReducer(
         playerId: payload.id,
         connectionStatus: ConnectionLifecycle.REFRESHING,
         gameStatus: GameLifecycle.CREATED,
+        isWaitingForNextRound: true,
       };
     }
     case 'REFRESH_FAILED': {
@@ -57,7 +59,11 @@ export function gameReducer(
       };
     }
     case 'JOINED_MID_GAME': {
-      return { ...state, gameStatus: GameLifecycle.RESUMED };
+      return {
+        ...state,
+        gameStatus: GameLifecycle.RESUMED,
+        isWaitingForNextRound: true,
+      };
     }
     case 'PLAYER_JOINED':
     case 'CONNECTION_RESUME':
@@ -98,6 +104,7 @@ export function gameReducer(
         useMode,
         playersUsed: new Map(),
         skipped: false,
+        isWaitingForNextRound: false,
       };
     }
     case 'CARD_SELECTED': {
