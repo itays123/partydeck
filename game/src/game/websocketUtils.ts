@@ -16,7 +16,6 @@ export function useSession(
 
   const updateOpenHandler = () => {
     if (!session) return;
-    console.log('setting session onopen...');
     session.addEventListener('open', onOpen);
     return () => {
       session.removeEventListener('open', onOpen);
@@ -25,7 +24,6 @@ export function useSession(
 
   const updateMessageHandler = () => {
     if (!session) return;
-    console.log('setting session onmessage...');
     session.addEventListener('message', onMessage);
     return () => {
       session.removeEventListener('message', onMessage);
@@ -34,10 +32,8 @@ export function useSession(
 
   const updateCloseHandler = () => {
     if (!session) return;
-    console.log('setting session onclose...');
     session.addEventListener('close', onClose);
     return () => {
-      console.log('removing session onclose...');
       session.removeEventListener('close', onClose);
     };
   };
@@ -61,5 +57,9 @@ export function useSession(
     session.send(JSON.stringify(args));
   };
 
-  return [connect, sendMessage];
+  const close = useCallback(() => {
+    if (session.readyState === session.OPEN) session.close();
+  }, [session]);
+
+  return [connect, sendMessage, close];
 }

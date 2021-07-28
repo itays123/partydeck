@@ -28,7 +28,11 @@ export default function GameContextProvider({ children }: Wrapper) {
   const onOpen = useConnectionCallback();
   const onMessage = useMessageCallback(dispatch);
   const [setConnectFn, onClose] = useConnectionPauseHandler(state, dispatch);
-  const [connect, sendMessage] = useSession(onOpen, onMessage, onClose);
+  const [connect, sendMessage, closeConn] = useSession(
+    onOpen,
+    onMessage,
+    onClose
+  );
 
   // wire everything
   useEffect(() => {
@@ -39,6 +43,17 @@ export default function GameContextProvider({ children }: Wrapper) {
   // deliver the context to the application
 
   const join = (gameCode: string, name: string) => connect(gameCode, name);
+  const reconnect = (gameCode: string, playerId: string) => {
+    dispatch({
+      type: 'RECONNECTION_AFTER_RENDER',
+      payload: { gameCode, playerId },
+    });
+    connect(gameCode, null, playerId);
+  };
+  const close = () => {
+    dispatch({ type: 'DISCONNECTED' });
+    closeConn();
+  };
   const start = () => sendMessage({ context: 'START' });
   const overrideSkip = () => sendMessage({ context: 'SKIP' });
   const requestNextRound = () => sendMessage({ context: 'NEXT' });
@@ -59,6 +74,8 @@ export default function GameContextProvider({ children }: Wrapper) {
       value={{
         ...state,
         join,
+        reconnect,
+        close,
         start,
         overrideSkip,
         requestNextRound,

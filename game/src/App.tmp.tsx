@@ -1,4 +1,4 @@
-import { withSavedInstanceState } from './components/SavedInstanceStateHOC/withSavedInstanceState';
+// import { withSavedInstanceState } from './components/SavedInstanceStateHOC/withSavedInstanceState';
 import DisconnectionDialog from './components/UnexpectedDisconnectionDialog/DisconnectionDialog';
 import { ConnectionLifecycle, GameLifecycle } from './game/types';
 import JoinForm from './lobby/JoinForm';
@@ -21,4 +21,4 @@ function App() {
   );
 }
 
-export default withSavedInstanceState(App);
+export default App;
