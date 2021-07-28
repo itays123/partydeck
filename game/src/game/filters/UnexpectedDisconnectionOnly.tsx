@@ -1,7 +1,8 @@
 import Conditional from '../../shared/Conditional';
-import { useGameContext } from '../../game/GameContext';
+import { Wrapper } from '../../shared/types';
+import { useGameContext } from '../GameContext';
 
-const UnexpectedDisconnectionOnly = ({ children }) => {
+const UnexpectedDisconnectionOnly = ({ children }: Wrapper) => {
   const { isConnected, showEndScreen } = useGameContext();
   return (
     <Conditional condition={!isConnected && !showEndScreen}>

@@ -1,6 +1,9 @@
-export const initialGameState = {
+import { IGameData } from './types';
+
+export const initialGameState: IGameData = {
   isConnected: true,
   isConnectionResumed: false,
+  reconnectionAttemptMade: false,
   isStarted: false,
   gameCode: undefined,
   playerId: undefined,
@@ -21,7 +24,7 @@ export const initialGameState = {
   scoreboard: [],
 };
 
-export function gameReducer(state, { type, payload }) {
+export function gameReducer(state: IGameData, { type, payload }: any) {
   switch (type) {
     case 'INIT': {
       return {
@@ -31,17 +34,25 @@ export function gameReducer(state, { type, payload }) {
         isConnectionResumed: true,
       };
     }
-    case 'REJOIN': {
-      return { ...state, isConnectionResumed: true, playerId: payload.newId };
-    }
-    case 'PLAYER_JOINED': {
-      const newCount = payload.count;
+    case 'RECONNECTION_AFTER_RENDER': {
       return {
         ...state,
-        playerCount: newCount,
-        isAdmin: payload.isAdmin,
+        gameCode: payload.game,
+        playerId: payload.id,
+        reconnectionAttemptMade: true,
       };
     }
+    case 'REJOIN': {
+      return {
+        ...state,
+        isConnectionResumed: true,
+        playerId: payload.newId,
+        reconnectionAttemptMade: false,
+      };
+    }
+    case 'PLAYER_JOINED':
+    case 'CONNECTION_RESUME':
+    case 'CONNECTION_PAUSE':
     case 'PLAYER_LEFT': {
       const newCount = payload.count;
       return {
@@ -62,7 +73,7 @@ export function gameReducer(state, { type, payload }) {
       const selectedCardId = '';
       const isJudge = payload.isJudge;
       const use = isJudge ? [] : payload.use;
-      const pick = [];
+      const pick: string[] = [];
       const useMode = !isJudge;
       return {
         ...state,
@@ -121,10 +132,14 @@ export function gameReducer(state, { type, payload }) {
       };
     }
     case 'SESSION_PAUSED': {
-      return { ...state, isConnectionResumed: false };
+      return {
+        ...state,
+        isConnectionResumed: false,
+        reconnectionAttemptMade: true,
+      };
     }
     case 'DISCONNECTED': {
-      return { ...state, isConnected: false };
+      return { ...state, isConnected: false, isConnectionResumed: false };
     }
     default: {
       return state;
