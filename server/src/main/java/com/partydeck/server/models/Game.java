@@ -5,6 +5,8 @@ import com.partydeck.server.models.iterable.Deck;
 import com.partydeck.server.models.events.PlayerEventListener;
 import com.partydeck.server.models.events.RoundEventListener;
 import com.partydeck.server.models.helpers.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -17,6 +19,9 @@ import java.util.stream.Stream;
  * @version 1.0
  */
 public class Game implements PlayerEventListener, RoundEventListener, Identifiable<String> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Game.class);
+
 
     public static final int TIMEOUT = 30 * 1000; // 30 seconds
     public static final int DELAY = 5 * 1000; // 5 seconds
@@ -232,6 +237,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         broadcastAll(BroadcastContext.GAME_RESUMED);
 
         // in order for a game to be resumed, it has to be started, and therefore the current round != null.
+        resumed = true;
         currentRound.clear();
         currentRound.start();
 
@@ -362,7 +368,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
      */
     @Override
     public void onNextRoundRequest(Player player) {
-
+        LOGGER.info("Requesting for next round" + resumed + started + questionDeck.hasNext());
         if (player.isAdminOf(this)) {
             currentRound.clear();
             if (questionDeck.hasNext() && started)
