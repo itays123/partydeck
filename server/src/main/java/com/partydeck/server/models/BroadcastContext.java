@@ -7,6 +7,7 @@ public enum BroadcastContext {
     // server to client
     INIT,
     REJOIN,
+    JOINED_MID_GAME,
     PLAYER_JOINED,
     CONNECTION_PAUSE,
     CONNECTION_RESUME,

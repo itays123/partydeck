@@ -56,6 +56,9 @@ export function gameReducer(
         gameCode: payload.game,
       };
     }
+    case 'JOINED_MID_GAME': {
+      return { ...state, gameStatus: GameLifecycle.RESUMED };
+    }
     case 'PLAYER_JOINED':
     case 'CONNECTION_RESUME':
     case 'CONNECTION_PAUSE':

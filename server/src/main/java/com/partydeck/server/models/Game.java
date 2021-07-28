@@ -172,7 +172,8 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
             player.broadcast(BroadcastContext.INIT, "id", player.getId(), "isAdmin", player.isAdmin(), "game", id);
             broadcastAll(BroadcastContext.PLAYER_JOINED, "count", players.count(Player::isConnected), "joined", player.getNickname());
 
-            // if (resumed) // broadcast joined midgame
+            if(resumed)
+                player.broadcast(BroadcastContext.JOINED_MID_GAME);
             if (started && !resumed)
                 player.broadcast(BroadcastContext.GAME_PAUSED, new HashMap<>());
 
@@ -206,6 +207,8 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         if (players.find(Player::isAdmin).isEmpty())
             player.makeAdmin();
 
+        if(resumed)
+            player.broadcast(BroadcastContext.JOINED_MID_GAME, new HashMap<>());
         if (started && !resumed) // waiting for other players to resume connection
             player.broadcast(BroadcastContext.GAME_PAUSED, new HashMap<>());
 
@@ -359,6 +362,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
      */
     @Override
     public void onNextRoundRequest(Player player) {
+
         if (player.isAdminOf(this)) {
             currentRound.clear();
             if (questionDeck.hasNext() && started)
