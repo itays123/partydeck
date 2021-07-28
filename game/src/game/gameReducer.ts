@@ -130,6 +130,18 @@ export function gameReducer(
         skipped: true,
       };
     }
+    case 'PAUSE': {
+      return {
+        ...state,
+        gameStatus: GameLifecycle.PAUSED,
+      };
+    }
+    case 'GAME_PAUSED': {
+      return { ...state, gameStatus: GameLifecycle.PAUSED };
+    }
+    case 'GAME_RESUMED': {
+      return { ...state, gameStatus: GameLifecycle.RESUMED };
+    }
     case 'GAME_ENDED': {
       return {
         ...state,
