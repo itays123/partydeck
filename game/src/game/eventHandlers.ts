@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { IGameData, PauseHandlerHook } from './types';
+import { ConnectionLifecycle, IGameData, PauseHandlerHook } from './types';
 import { ConnectFN, Contextable } from './types';
 
 export const useConnectionCallback = () => {
@@ -28,16 +28,23 @@ export const useConnectionPauseHandler = (
   );
 
   const disconnectCallback = useCallback(() => {
-    if (!state.isConnectionResumed) dispatch({ type: 'DISCONNECTED' });
-  }, [dispatch, state.isConnectionResumed]);
+    if (state.connectionStatus !== ConnectionLifecycle.RESUMED)
+      dispatch({ type: 'DISCONNECTED' });
+  }, [dispatch, state.connectionStatus]);
 
   const pauseCallback = useCallback(() => {
-    if (state.showEndScreen) {
-      // disconnection is expected
+    if (
+      state.showEndScreen ||
+      state.connectionStatus === ConnectionLifecycle.PRE_CREATED ||
+      state.connectionStatus === ConnectionLifecycle.PAUSED
+    ) {
+      // disconnection is expected, or an error is prevting the connection from reconnecting
       console.log('expected disconnection');
       dispatch({ type: 'DISCONNECTED' });
-    } else {
-      // try to reconnect
+    } else if (state.connectionStatus === ConnectionLifecycle.REFRESHING) {
+      dispatch({ type: 'REFRESH_FAILED' });
+    } else if (state.connectionStatus !== ConnectionLifecycle.GOING_AWAY) {
+      // connection is unexpected, and not attempting reconnection
       console.log('unexpected disconnection');
       dispatch('SESSION_PAUSED');
       if (connectFn) connectFn(state.gameCode!, null, state.playerId);
@@ -50,6 +57,7 @@ export const useConnectionPauseHandler = (
     state.gameCode,
     state.playerId,
     state.showEndScreen,
+    state.connectionStatus,
   ]);
 
   const registerConnectFunction = useCallback((fn: ConnectFN) => {

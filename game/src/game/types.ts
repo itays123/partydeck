@@ -8,12 +8,12 @@ export interface IGameContext {
   isAdmin: boolean;
 }
 
-type Card = { id: string; content: string };
+export type Card = { id: string; content: string };
 
 export interface IGameData {
-  isConnected: boolean;
-  isConnectionResumed: boolean;
+  connectionStatus: ConnectionLifecycle;
   isStarted: boolean;
+  isAdmin: boolean;
   gameCode?: string;
   playerId?: string;
   round: number;
@@ -35,6 +35,8 @@ export interface IGameData {
 
 export interface IGameContextValue extends IGameData {
   join(gameCode: string, name: string): void;
+  reconnect(gameCode: string, playerId: string): void;
+  close(): void;
   start(): void;
   overrideSkip(): void;
   requestNextRound(): void;
@@ -67,6 +69,8 @@ export enum GameLifecycle {
 
 export enum ConnectionLifecycle {
   PRE_CREATED,
+  GOING_AWAY,
+  REFRESHING,
   RESUMED,
   PAUSED,
   FINISHED,
@@ -122,5 +126,9 @@ export type ConnectFN = (
   playerId?: string
 ) => void;
 
-export type SessionHook = [ConnectFN, <T extends Contextable>(args: T) => void];
+export type SessionHook = [
+  ConnectFN,
+  <T extends Contextable>(args: T) => void,
+  () => void
+];
 export type PauseHandlerHook = [(fn: ConnectFN) => void, () => void];

@@ -51,7 +51,7 @@ export default function GameContextProvider({ children }: Wrapper) {
     connect(gameCode, null, playerId);
   };
   const close = () => {
-    dispatch({ type: 'DISCONNECTED' });
+    dispatch({ type: 'GOING_AWAY' });
     closeConn();
   };
   const start = () => sendMessage({ context: 'START' });

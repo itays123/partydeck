@@ -1,18 +1,16 @@
 import Conditional from '../../shared/Conditional';
 import { Wrapper } from '../../shared/types';
 import { useGameContext } from '../GameContext';
+import { ConnectionLifecycle } from '../types';
 
 export function ConnectionResumedOnly({
   children,
   fallback,
 }: Wrapper & { fallback: JSX.Element }) {
-  const { playerId, isConnectionResumed } = useGameContext();
+  const { connectionStatus } = useGameContext();
   return (
     <Conditional
-      condition={
-        isConnectionResumed ||
-        !playerId /* connection resumed, or not yet established */
-      }
+      condition={connectionStatus === ConnectionLifecycle.RESUMED}
       fallback={fallback}
     >
       {children}

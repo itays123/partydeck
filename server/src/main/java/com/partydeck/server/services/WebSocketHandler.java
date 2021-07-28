@@ -42,7 +42,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         try {
-            
+
+            LOGGER.info("connection attempt: " + session.getUri());
             Map<String, String> query = urlParser.parse(session.getUri());
             String code = Optional.ofNullable(query.get("code")).orElseThrow(IllegalArgumentException::new);
             Optional<String> oldPlayerId = Optional.ofNullable(query.get("id"));

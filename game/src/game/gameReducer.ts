@@ -1,10 +1,9 @@
-import { IGameData } from './types';
+import { Card, ConnectionLifecycle, IGameData } from './types';
 
 export const initialGameState: IGameData = {
-  isConnected: true,
-  isConnectionResumed: false,
-  reconnectionAttemptMade: false,
+  connectionStatus: ConnectionLifecycle.PRE_CREATED,
   isStarted: false,
+  isAdmin: false,
   gameCode: undefined,
   playerId: undefined,
   round: 0,
@@ -24,14 +23,17 @@ export const initialGameState: IGameData = {
   scoreboard: [],
 };
 
-export function gameReducer(state: IGameData, { type, payload }: any) {
+export function gameReducer(
+  state: IGameData,
+  { type, payload }: any
+): IGameData {
   switch (type) {
     case 'INIT': {
       return {
         ...state,
         gameCode: payload.game,
         playerId: payload.id,
-        isConnectionResumed: true,
+        connectionStatus: ConnectionLifecycle.RESUMED,
       };
     }
     case 'RECONNECTION_AFTER_RENDER': {
@@ -39,15 +41,18 @@ export function gameReducer(state: IGameData, { type, payload }: any) {
         ...state,
         gameCode: payload.game,
         playerId: payload.id,
-        reconnectionAttemptMade: true,
+        connectionStatus: ConnectionLifecycle.REFRESHING,
       };
+    }
+    case 'REFRESH_FAILED': {
+      return { ...state, connectionStatus: ConnectionLifecycle.PRE_CREATED };
     }
     case 'REJOIN': {
       return {
         ...state,
-        isConnectionResumed: true,
+        connectionStatus: ConnectionLifecycle.RESUMED,
         playerId: payload.newId,
-        reconnectionAttemptMade: false,
+        gameCode: payload.game,
       };
     }
     case 'PLAYER_JOINED':
@@ -73,7 +78,7 @@ export function gameReducer(state: IGameData, { type, payload }: any) {
       const selectedCardId = '';
       const isJudge = payload.isJudge;
       const use = isJudge ? [] : payload.use;
-      const pick: string[] = [];
+      const pick: Card[] = [];
       const useMode = !isJudge;
       return {
         ...state,
@@ -134,12 +139,14 @@ export function gameReducer(state: IGameData, { type, payload }: any) {
     case 'SESSION_PAUSED': {
       return {
         ...state,
-        isConnectionResumed: false,
-        reconnectionAttemptMade: true,
+        connectionStatus: ConnectionLifecycle.PAUSED,
       };
     }
     case 'DISCONNECTED': {
-      return { ...state, isConnected: false, isConnectionResumed: false };
+      return { ...state, connectionStatus: ConnectionLifecycle.DESTROYED };
+    }
+    case 'GOING_AWAY': {
+      return { ...state, connectionStatus: ConnectionLifecycle.GOING_AWAY };
     }
     default: {
       return state;

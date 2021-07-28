@@ -165,7 +165,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
 
             player.setCards(cards);
 
-            if (players.size() == 0)
+            if (players.count(Player::isConnected) == 0)
                 player.makeAdmin();
 
             players.addEntry(player);
@@ -200,7 +200,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         if (!players.has(player) || !player.isConnected())
             return false;
 
-        player.broadcast(BroadcastContext.REJOIN, "newId", player.getId());
+        player.broadcast(BroadcastContext.REJOIN, "newId", player.getId(), "game", id);
 
         // ensure admin exists
         if (players.find(Player::isAdmin).isEmpty())

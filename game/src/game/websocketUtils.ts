@@ -58,7 +58,7 @@ export function useSession(
   };
 
   const close = useCallback(() => {
-    if (session.readyState === session.OPEN) session.close();
+    if (session.readyState === session.OPEN) session.close(1001);
   }, [session]);
 
   return [connect, sendMessage, close];

@@ -104,6 +104,7 @@ public class ConnectionProvider {
     private Runnable destroyHandler(SessionWrapperPlayer player) {
         return () -> {
             if (!player.isConnected()) {
+                logger.info("SESSION DESTROYED: " + player.getId());
                 player.handleConnectionDestroy();
                 connections.remove(player.getId());
             }
