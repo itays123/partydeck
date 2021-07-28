@@ -1,9 +1,14 @@
 import { useEffect } from 'react';
-import { createContext, useCallback, useContext, useReducer } from 'react';
+import { createContext, useContext, useReducer } from 'react';
 import { Wrapper } from '../shared/types';
+import {
+  useConnectionCallback,
+  useConnectionPauseHandler,
+  useMessageCallback,
+} from './eventHandlers';
 import { gameReducer, initialGameState } from './gameReducer';
 import { IGameContextValue, IGameData } from './types';
-import { Contextable, useSession } from './websocketUtils';
+import { useSession } from './websocketUtils';
 
 export const GameContext = createContext<IGameContextValue>(
   {} as IGameContextValue
@@ -20,53 +25,16 @@ export default function GameContextProvider({ children }: Wrapper) {
     gameReducer as Reducer,
     initialGameState as IGameData
   );
-  const callbackedOpenHandler = useCallback(() => {}, []);
-  const callbackedMessageHandler = useCallback((ev: MessageEvent<any>) => {
-    const data: Contextable = JSON.parse(ev.data);
-    console.log(data);
-    if (data.context) dispatch({ type: data.context, payload: data });
-  }, []);
-  const logStateToConsoleOnDisconnect = useCallback(() => {
-    dispatch({ type: 'DISCONNECTED' });
-    console.log('inside callback', state.showEndScreen, state.scoreboard);
-  }, [state.showEndScreen, state.scoreboard]);
-  const [connect, sendMessage] = useSession(
-    callbackedOpenHandler,
-    callbackedMessageHandler,
-    logStateToConsoleOnDisconnect
-  );
+  const onOpen = useConnectionCallback();
+  const onMessage = useMessageCallback(dispatch);
+  const [setConnectFn, onClose] = useConnectionPauseHandler(state, dispatch);
+  const [connect, sendMessage] = useSession(onOpen, onMessage, onClose);
 
+  // wire everything
   useEffect(() => {
-    console.log('inside effect', state.showEndScreen, state.scoreboard);
-  }, [state.showEndScreen, state.scoreboard]);
-
-  /*
-   * Supercharge the websocket connection
-   */
-
-  /*
-  const connectionStateCallback = useCallback(
-    (connected: boolean) => {
-      if (!connected) {
-        if (!state.showEndScreen) {
-          // disconnection is unexpected
-          console.log('unexpected disconnection');
-          setTimeout(() => {
-            if (!state.isConnectionResumed) dispatch({ type: 'DISCONNECTED' });
-          }, 30 * 1000);
-          dispatch({ type: 'SESSION_PAUSED' });
-          // connect(state.gameCode!, null, state.playerId!);
-        } else dispatch({ type: 'DISCONNECTED' });
-      }
-    },
-    [
-      state.showEndScreen,
-      state.gameCode,
-      state.playerId,
-      state.isConnectionResumed,
-    ]
-  );
-  */
+    console.log('wiring everything...');
+    setConnectFn(connect);
+  }, [setConnectFn, connect]);
 
   // deliver the context to the application
 

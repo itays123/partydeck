@@ -1,24 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
+  Contextable,
   SessionConnectHandler,
   SessionDisconnectHandler,
+  SessionHook,
   SessionMessageHnalder,
 } from './types';
-
-export interface Contextable {
-  context: string;
-}
-
-type sessionHook = [
-  (gameCode: string, name: string | null, playerId?: string) => void,
-  <T extends Contextable>(args: T) => void
-];
 
 export function useSession(
   onOpen: SessionConnectHandler,
   onMessage: SessionMessageHnalder,
   onClose: SessionDisconnectHandler
-): sessionHook {
+): SessionHook {
   const [session, setSession] = useState(null as unknown as WebSocket);
 
   const updateOpenHandler = () => {
@@ -53,17 +46,16 @@ export function useSession(
   useEffect(updateMessageHandler, [session, onMessage]);
   useEffect(updateCloseHandler, [session, onClose]);
 
-  const connect = (
-    gameCode: string,
-    name: string | null,
-    playerId?: string
-  ) => {
-    const uri = `${process.env.REACT_APP_SERVER_WS}?code=${gameCode}&${
-      playerId ? `id=${playerId}` : `name=${name}`
-    }`;
-    const ws = new WebSocket(uri);
-    setSession(ws);
-  };
+  const connect = useCallback(
+    (gameCode: string, name: string | null, playerId?: string) => {
+      const uri = `${process.env.REACT_APP_SERVER_WS}?code=${gameCode}&${
+        playerId ? `id=${playerId}` : `name=${name}`
+      }`;
+      const ws = new WebSocket(uri);
+      setSession(ws);
+    },
+    []
+  );
 
   const sendMessage = <T extends Contextable>(args: T) => {
     session.send(JSON.stringify(args));

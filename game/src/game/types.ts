@@ -111,3 +111,16 @@ export enum BroadcastContext {
 export type SessionConnectHandler = (ev: Event) => any;
 export type SessionMessageHnalder = (ev: MessageEvent<any>) => any;
 export type SessionDisconnectHandler = (ev: Event) => any;
+
+export interface Contextable {
+  context: string;
+}
+
+export type ConnectFN = (
+  gameCode: string,
+  name: string | null,
+  playerId?: string
+) => void;
+
+export type SessionHook = [ConnectFN, <T extends Contextable>(args: T) => void];
+export type PauseHandlerHook = [(fn: ConnectFN) => void, () => void];
