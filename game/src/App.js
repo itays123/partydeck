@@ -8,7 +8,7 @@ import ConnectionCreatedOnly from './game/filters/ConnectionCreatedOnly';
 import JoinForm from './lobby/JoinForm';
 import GameStartedOnly from './game/filters/GameStartedOnly';
 import Lobby from './lobby/Lobby';
-import ActiveRoundOnly from './game/filters/ActiveRoundOnly';
+import GameCreatedOnly from './game/filters/GameCreatedOnly';
 import Scoreboard from './scoreboard/Scoreboard';
 import UnexpectedDisconnectionOnly from './game/filters/UnexpectedDisconnectionOnly';
 import DisconnectionDialog from './components/UnexpectedDisconnectionDialog/DisconnectionDialog';
@@ -23,7 +23,7 @@ function App() {
       <GameContextProvider>
         <LocalStorageConnectionRestorer>
           <ConnectionCreatedOnly fallback={<JoinForm />}>
-            <ActiveRoundOnly fallback={<Scoreboard />}>
+            <GameCreatedOnly fallback={<Scoreboard />}>
               <ConnectionResumedOnly fallback={<ConnectionPauseFeedback />}>
                 <GameStartedOnly fallback={<Lobby />}>
                   <RoundContextProvider>
@@ -39,7 +39,7 @@ function App() {
               <UnexpectedDisconnectionOnly>
                 <DisconnectionDialog />
               </UnexpectedDisconnectionOnly>
-            </ActiveRoundOnly>
+            </GameCreatedOnly>
           </ConnectionCreatedOnly>
         </LocalStorageConnectionRestorer>
       </GameContextProvider>

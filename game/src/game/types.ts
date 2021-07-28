@@ -12,7 +12,7 @@ export type Card = { id: string; content: string };
 
 export interface IGameData {
   connectionStatus: ConnectionLifecycle;
-  isStarted: boolean;
+  gameStatus: GameLifecycle;
   isAdmin: boolean;
   gameCode?: string;
   playerId?: string;
@@ -29,7 +29,6 @@ export interface IGameData {
   playersUsed: Map<string, string>;
   pick: Card[];
   useMode: boolean;
-  showEndScreen: boolean;
   scoreboard: any[];
 }
 

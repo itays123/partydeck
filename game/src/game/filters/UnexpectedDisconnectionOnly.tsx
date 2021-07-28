@@ -1,14 +1,15 @@
 import Conditional from '../../shared/Conditional';
 import { Wrapper } from '../../shared/types';
 import { useGameContext } from '../GameContext';
-import { ConnectionLifecycle } from '../types';
+import { ConnectionLifecycle, GameLifecycle } from '../types';
 
 const UnexpectedDisconnectionOnly = ({ children }: Wrapper) => {
-  const { connectionStatus, showEndScreen } = useGameContext();
+  const { connectionStatus, gameStatus } = useGameContext();
   return (
     <Conditional
       condition={
-        connectionStatus === ConnectionLifecycle.DESTROYED && !showEndScreen
+        connectionStatus === ConnectionLifecycle.DESTROYED &&
+        gameStatus !== GameLifecycle.STOPPED
       }
     >
       {children}

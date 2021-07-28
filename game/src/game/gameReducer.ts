@@ -1,8 +1,8 @@
-import { Card, ConnectionLifecycle, IGameData } from './types';
+import { Card, ConnectionLifecycle, GameLifecycle, IGameData } from './types';
 
 export const initialGameState: IGameData = {
   connectionStatus: ConnectionLifecycle.PRE_CREATED,
-  isStarted: false,
+  gameStatus: GameLifecycle.PRE_CREATED,
   isAdmin: false,
   gameCode: undefined,
   playerId: undefined,
@@ -19,7 +19,6 @@ export const initialGameState: IGameData = {
   playersUsed: new Map(),
   pick: [],
   useMode: true,
-  showEndScreen: false,
   scoreboard: [],
 };
 
@@ -34,6 +33,7 @@ export function gameReducer(
         gameCode: payload.game,
         playerId: payload.id,
         connectionStatus: ConnectionLifecycle.RESUMED,
+        gameStatus: GameLifecycle.CREATED,
       };
     }
     case 'RECONNECTION_AFTER_RENDER': {
@@ -42,6 +42,7 @@ export function gameReducer(
         gameCode: payload.game,
         playerId: payload.id,
         connectionStatus: ConnectionLifecycle.REFRESHING,
+        gameStatus: GameLifecycle.CREATED,
       };
     }
     case 'REFRESH_FAILED': {
@@ -67,7 +68,7 @@ export function gameReducer(
       };
     }
     case 'GAME_STARTED': {
-      return { ...state, isStarted: true };
+      return { ...state, gameStatus: GameLifecycle.RESUMED };
     }
     case 'ROUND_STARTED': {
       const round = state.round + 1;
@@ -132,8 +133,14 @@ export function gameReducer(
     case 'GAME_ENDED': {
       return {
         ...state,
-        showEndScreen: true,
+        gameStatus: GameLifecycle.STOPPED,
         scoreboard: payload.scores,
+      };
+    }
+    case 'GAME_INTERRUPTED': {
+      return {
+        ...state,
+        gameStatus: GameLifecycle.DESTROYED,
       };
     }
     case 'SESSION_PAUSED': {

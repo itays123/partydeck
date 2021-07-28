@@ -1,5 +1,10 @@
 import { useCallback, useState } from 'react';
-import { ConnectionLifecycle, IGameData, PauseHandlerHook } from './types';
+import {
+  ConnectionLifecycle,
+  GameLifecycle,
+  IGameData,
+  PauseHandlerHook,
+} from './types';
 import { ConnectFN, Contextable } from './types';
 
 export const useConnectionCallback = () => {
@@ -34,7 +39,7 @@ export const useConnectionPauseHandler = (
 
   const pauseCallback = useCallback(() => {
     if (
-      state.showEndScreen ||
+      state.gameStatus === GameLifecycle.STOPPED ||
       state.connectionStatus === ConnectionLifecycle.PRE_CREATED ||
       state.connectionStatus === ConnectionLifecycle.PAUSED
     ) {
@@ -56,8 +61,8 @@ export const useConnectionPauseHandler = (
     connectFn,
     state.gameCode,
     state.playerId,
-    state.showEndScreen,
     state.connectionStatus,
+    state.gameStatus,
   ]);
 
   const registerConnectFunction = useCallback((fn: ConnectFN) => {

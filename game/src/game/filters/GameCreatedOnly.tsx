@@ -1,11 +1,18 @@
 import Conditional from '../../shared/Conditional';
 import { ConditionalProps } from '../../shared/types';
 import { useGameContext } from '../GameContext';
+import { GameLifecycle } from '../types';
 
 const ActiveRoundOnly = ({ children, fallback }: ConditionalProps) => {
-  const { showEndScreen } = useGameContext();
+  const { gameStatus } = useGameContext();
   return (
-    <Conditional condition={!showEndScreen} fallback={fallback}>
+    <Conditional
+      condition={
+        gameStatus !== GameLifecycle.STOPPED &&
+        gameStatus !== GameLifecycle.PRE_CREATED
+      }
+      fallback={fallback}
+    >
       {children}
     </Conditional>
   );
