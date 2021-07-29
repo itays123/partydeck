@@ -18,7 +18,7 @@ public abstract class Player implements Identifiable<String> {
     public static final int NUMBER_OF_CARDS = 4;
 
     // attributes
-    private String id;
+    protected String id;
 
     private String nickname;
 
@@ -30,7 +30,7 @@ public abstract class Player implements Identifiable<String> {
 
     private int roundsWon;
 
-    protected final Card[] currentCards;
+    protected Card[] currentCards;
 
     /**
      * Empty constructor. Sets everything up.
@@ -152,6 +152,14 @@ public abstract class Player implements Identifiable<String> {
     }
 
     /**
+     * Change the player admin state to true, only if player is disconnected
+     */
+    public void demoteToPlayer() {
+        if (!isConnected())
+            this.admin = false;
+    }
+
+    /**
      * Increment the number of rounds won by the player.
      */
     public void incrementRoundsWon() {
@@ -202,9 +210,17 @@ public abstract class Player implements Identifiable<String> {
             eventListener.onStopRequest(this);
     }
 
-    protected void handleDisconnection() {
+    protected void handleConnectionPause() {
         if (eventListener != null)
-            eventListener.onPlayerDisconnection(this);
+            eventListener.onConnectionPause(this);
+    }
+
+    /**
+     * Fire in case a connection is destroyed
+     */
+    public void handleConnectionDestroy() {
+        if (eventListener != null)
+            eventListener.onConnectionDestroy(this);
     }
 
     protected void handleSkipRequest() {
@@ -254,7 +270,7 @@ public abstract class Player implements Identifiable<String> {
     /**
      * Close the connection implementation
      */
-    public abstract void closeConnection();
+    public abstract void destroyConnection();
 
     /**
      * Broadcast a message
@@ -274,6 +290,8 @@ public abstract class Player implements Identifiable<String> {
         switch (context) {
             case PLAYER_JOINED:
             case PLAYER_LEFT:
+            case CONNECTION_PAUSE:
+            case CONNECTION_RESUME:
                 args.put("isAdmin", isAdmin());
                 break;
 

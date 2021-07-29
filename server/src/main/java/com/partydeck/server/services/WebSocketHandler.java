@@ -2,6 +2,7 @@ package com.partydeck.server.services;
 
 import com.partydeck.server.repositories.ConnectionProvider;
 import com.partydeck.server.repositories.GameRepository;
+import com.partydeck.server.repositories.Scheduler;
 import com.partydeck.server.repositories.UrlParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The component responsible for the logic of handling WebSocket requests
@@ -34,16 +36,29 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Autowired
     private ConnectionProvider connectionProvider;
 
+    @Autowired
+    private Scheduler scheduler;
+
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         try {
+
+            LOGGER.info("connection attempt: " + session.getUri());
             Map<String, String> query = urlParser.parse(session.getUri());
             String code = Optional.ofNullable(query.get("code")).orElseThrow(IllegalArgumentException::new);
-            String name = Optional.ofNullable(query.get("name")).orElseThrow(IllegalArgumentException::new);
+            Optional<String> oldPlayerId = Optional.ofNullable(query.get("id"));
+            String name;
 
-            LOGGER.debug("New connection made " + code, name);
+            if (oldPlayerId.isEmpty()) { // new connection has been made
+                name = Optional.ofNullable(query.get("name")).orElseThrow(IllegalArgumentException::new);
+                LOGGER.debug("New connection made " + code, name);
+                connectionProvider.addConnection(session, code, name, gameRepository::addPlayerToGame);
+            }
 
-            connectionProvider.addConnection(session, code, name, gameRepository::addPlayerToGame);
+            else { // rejoin event, oldPlayerId is present
+                connectionProvider.reviveConnection(session, oldPlayerId.get(), code, gameRepository::resumeConnection);
+            }
+
 
         } catch (UnsupportedOperationException e) {
             session.close(CloseStatus.BAD_DATA);
@@ -59,6 +74,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        connectionProvider.removeConnection(session, status);
+        connectionProvider.handleConnectionPause(session, status).ifPresent(destroyHandler -> scheduler.schedule(destroyHandler, 30, TimeUnit.SECONDS));
     }
 }

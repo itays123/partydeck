@@ -1,12 +1,11 @@
 import { useGameContext } from '../game/GameContext';
-import JoinForm from './JoinForm';
 import LobbyLoader from './LobbyLoader';
 
 const Lobby = () => {
   const { gameCode, isAdmin, playerCount, start } = useGameContext();
   return (
     <div className="lobby container mx-auto">
-      {gameCode ? (
+      {
         <>
           <div className="gamecode-display flex justify-center mt-4">
             {gameCode.split('').map((char, i) => (
@@ -35,9 +34,7 @@ const Lobby = () => {
             )}
           </div>
         </>
-      ) : (
-        <JoinForm />
-      )}
+      }
     </div>
   );
 };

@@ -4,6 +4,7 @@ import com.partydeck.server.models.helpers.Identifiable;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * An object representing a circle of entries
@@ -40,16 +41,6 @@ public class Circle<K,T extends Identifiable<K>> implements Iterable<T> {
     }
 
     /**
-     * remove an entry by its id
-     * @param id the id of the entry to be removed
-     */
-    public void removeEntry(K id) {
-        for (T entry: queue)
-            if (entry.is(id))
-                removeEntry(entry);
-    }
-
-    /**
      * Checks the number of entries in the circle
      * @return the size of the circle as an integer
      */
@@ -58,35 +49,52 @@ public class Circle<K,T extends Identifiable<K>> implements Iterable<T> {
     }
 
     /**
-     * Check if the circle has an entry with a given id
-     * @param id the id of the entry
-     * @return true if the entry exists
+     * Count how many entries have a certain condition
+     * @param condition the condition to fill
+     * @return the number of entries that fill it
      */
-    public boolean has(K id) {
+    public int count(Function<T, Boolean> condition) {
+        return (int) queue.stream().filter(condition::apply).count();
+    }
+
+    /**
+     * Check if the circle contains a given entry
+     * @param e the entry to look for
+     * @return true if the entry is present
+     */
+    public boolean has(T e) {
         for (T entry: queue)
-            if (entry.is(id))
+            if (entry.equals(e))
                 return true;
         return false;
     }
 
     /**
      * Circle through the entries
-     * @return the next entry
+     * @param condition the condition that any returned entry should make
+     * @return the next entry that has the condition
      */
-    public Optional<T> circle() {
-        if (queue.isEmpty())
-            return Optional.empty();
-
-        T entry = queue.remove();
-        queue.add(entry); // add entry at the end
-        return Optional.of(entry);
+    public Optional<T> circleAndFind(Function<T, Boolean> condition) {
+        for (int i = 0; i < queue.size(); i++) { // a classic for loop, so that we can change the queue as we go
+            T entry = queue.remove();
+            queue.add(entry); // ad entry at the end
+            if (condition.apply(entry))
+                return Optional.of(entry);
+        }
+        return Optional.empty();
     }
 
-    public Optional<T> peek() {
-        if (queue.isEmpty())
-            return Optional.empty();
-
-        return Optional.of(queue.peek());
+    /**
+     * find the first entry without cycling
+     * @param condition the condition that any returned entry should make
+     * @return the next entry that has the condition
+     */
+    public Optional<T> find(Function<T, Boolean> condition) {
+        for (T entry: queue) {
+            if (condition.apply(entry))
+                return Optional.of(entry);
+        }
+        return Optional.empty();
     }
 
 

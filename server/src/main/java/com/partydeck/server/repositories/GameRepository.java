@@ -29,8 +29,21 @@ public class GameRepository implements GameEventListener {
     public boolean addPlayerToGame(String gameCode, Player player) throws IllegalArgumentException {
         Game game = games.get(gameCode);
         if (game != null)
-            return game.addPlayer(player);
+            return game.onConnectionCreate(player);
         throw new IllegalArgumentException();
+    }
+
+    /**
+     * Notifies the game that a connection has been resumed
+     * @param gameCode the game affected
+     * @param player the player with renewed connection
+     * @return true if the game had the player and received the message
+     */
+    public boolean resumeConnection(String gameCode, Player player) {
+        Game game = games.get(gameCode);
+        if (game != null)
+            return game.onConnectionResume(player);
+        return false;
     }
 
     /**
@@ -75,12 +88,32 @@ public class GameRepository implements GameEventListener {
     }
 
     /**
+     * Fires when a game is paused
+     *
+     * @param gameId the id of the game
+     */
+    @Override
+    public void onGamePause(String gameId) {
+
+    }
+
+    /**
+     * Fires when a game resumes
+     *
+     * @param gameId the id of the game
+     */
+    @Override
+    public void onGameResume(String gameId) {
+
+    }
+
+    /**
      * Fires when a game ends
      *
      * @param gameId the id of the game
      */
     @Override
-    public void onGameEnd(String gameId) {
+    public void onGameDestroy(String gameId) {
         games.remove(gameId);
     }
 }

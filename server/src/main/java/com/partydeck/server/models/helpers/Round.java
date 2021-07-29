@@ -111,4 +111,13 @@ public class Round {
             }
         }
     }
+
+    /**
+     * Skip entire round, bring to the waiting-for-admin state
+     */
+    public void emitFullSkip() {
+        if (eventListener != null) {
+            eventListener.onUnexpectedRoundEnd(judge);
+        }
+    }
 }
