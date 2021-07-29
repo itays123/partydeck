@@ -1,8 +1,8 @@
-import { useGameContext } from '../game/GameContext';
+import { useCurrentRound } from '../game/GameContext';
 import { motion } from 'framer-motion';
 
 const PlayersUsed = () => {
-  const { playersUsed } = useGameContext();
+  const { playersUsed } = useCurrentRound();
   return (
     <div>
       <div className="text-center text-gray-100 text-lg mt-4">

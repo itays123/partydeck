@@ -1,13 +1,3 @@
-export interface IGameContext {
-  connectionState: ConnectionLifecycle;
-  gameState: GameLifecycle;
-  roundState: RoundState;
-  gameCode: string;
-  playerId: string;
-  count: number;
-  isAdmin: boolean;
-}
-
 export type Card = { id: string; content: string };
 
 export interface IGameData {
@@ -16,20 +6,8 @@ export interface IGameData {
   isAdmin: boolean;
   gameCode?: string;
   playerId?: string;
-  round: number;
   playerCount: number;
-  pickedCardId: string;
-  playerWon: string;
-  question: string;
-  judge: string;
-  selectedCardId: string;
-  isJudge: boolean;
-  skipped: boolean;
-  use: Card[];
-  playersUsed: Map<string, string>;
-  pick: Card[];
-  useMode: boolean;
-  isWaitingForNextRound: boolean;
+  roundState: IRoundState;
   scoreboard: any[];
 }
 
@@ -45,17 +23,18 @@ export interface IGameContextValue extends IGameData {
   onCardButtonClick(): void;
 }
 
-export interface RoundState {
-  state: RoundLifecycle;
+export interface IRoundState {
+  status: RoundLifecycle;
   round: number;
   playerWon?: string;
   question: string;
   judge: string;
   isJudge: boolean;
-  use: string[] | null;
-  pick: string[];
+  use: Card[] | null;
+  pick: Card[];
   playersUsed: Map<string, string>;
   pickedCardId?: string;
+  selectedCardId: string;
 }
 
 export enum GameLifecycle {
@@ -83,6 +62,7 @@ export enum RoundLifecycle {
   PICK,
   PENDING_JUDGE_PICK,
   PENDING_ADMIN_ACTION,
+  WAITING_FOR_DATA,
 }
 
 export enum BroadcastContext {

@@ -1,4 +1,10 @@
-import { Card, ConnectionLifecycle, GameLifecycle, IGameData } from './types';
+import {
+  ConnectionLifecycle,
+  GameLifecycle,
+  IGameData,
+  IRoundState,
+  RoundLifecycle,
+} from './types';
 
 export const initialGameState: IGameData = {
   connectionStatus: ConnectionLifecycle.PRE_CREATED,
@@ -6,20 +12,20 @@ export const initialGameState: IGameData = {
   isAdmin: false,
   gameCode: undefined,
   playerId: undefined,
-  round: 0,
   playerCount: 1,
-  pickedCardId: '',
-  playerWon: '',
-  question: '',
-  judge: '',
-  selectedCardId: '',
-  isJudge: false,
-  skipped: false,
-  use: [],
-  playersUsed: new Map(),
-  pick: [],
-  useMode: true,
-  isWaitingForNextRound: false,
+  roundState: {
+    status: RoundLifecycle.USE,
+    round: 0,
+    pickedCardId: '',
+    playerWon: '',
+    question: '',
+    judge: '',
+    selectedCardId: '',
+    isJudge: false,
+    use: [],
+    playersUsed: new Map(),
+    pick: [],
+  },
   scoreboard: [],
 };
 
@@ -38,13 +44,17 @@ export function gameReducer(
       };
     }
     case 'RECONNECTION_AFTER_RENDER': {
+      const newRoundState: IRoundState = {
+        ...state.roundState,
+        status: RoundLifecycle.WAITING_FOR_DATA,
+      };
       return {
         ...state,
         gameCode: payload.game,
         playerId: payload.id,
         connectionStatus: ConnectionLifecycle.REFRESHING,
         gameStatus: GameLifecycle.CREATED,
-        isWaitingForNextRound: true,
+        roundState: newRoundState,
       };
     }
     case 'REFRESH_FAILED': {
@@ -59,10 +69,14 @@ export function gameReducer(
       };
     }
     case 'JOINED_MID_GAME': {
+      const newRoundState: IRoundState = {
+        ...state.roundState,
+        status: RoundLifecycle.WAITING_FOR_DATA,
+      };
       return {
         ...state,
         gameStatus: GameLifecycle.RESUMED,
-        isWaitingForNextRound: true,
+        roundState: newRoundState,
       };
     }
     case 'PLAYER_JOINED':
@@ -80,65 +94,72 @@ export function gameReducer(
       return { ...state, gameStatus: GameLifecycle.RESUMED };
     }
     case 'ROUND_STARTED': {
-      const round = state.round + 1;
-      const pickedCardId = '';
-      const playerWon = '';
-      const question = payload.q;
-      const judge = payload.j;
-      const selectedCardId = '';
-      const isJudge = payload.isJudge;
-      const use = isJudge ? [] : payload.use;
-      const pick: Card[] = [];
-      const useMode = !isJudge;
-      return {
-        ...state,
-        round,
-        pickedCardId,
-        playerWon,
-        question,
-        judge,
-        selectedCardId,
+      const { roundState: prev } = state;
+      const { q, j, isJudge, use } = payload;
+      const newRoundState: IRoundState = {
+        status: isJudge
+          ? RoundLifecycle.PENDING_PLAYER_USAGES
+          : RoundLifecycle.USE,
+        round: prev.round + 1,
+        pickedCardId: '',
+        selectedCardId: '',
+        playerWon: '',
+        question: q,
+        judge: j,
         isJudge,
         use,
-        pick,
-        useMode,
+        pick: [],
         playersUsed: new Map(),
-        skipped: false,
-        isWaitingForNextRound: false,
+      };
+      return {
+        ...state,
+        roundState: newRoundState,
       };
     }
     case 'CARD_SELECTED': {
-      return { ...state, selectedCardId: payload.selected };
+      const newRoundState: IRoundState = {
+        ...state.roundState,
+        selectedCardId: payload.selected,
+      };
+      return { ...state, roundState: newRoundState };
     }
     case 'CARD_USED': {
-      return { ...state, useMode: false };
+      const newRoundState: IRoundState = {
+        ...state.roundState,
+        status: RoundLifecycle.PENDING_PLAYER_USAGES,
+      };
+      return { ...state, roundState: newRoundState };
     }
     case 'PLAYER_USAGE': {
-      return {
-        ...state,
-        playersUsed: state.playersUsed.set(
+      const { roundState: prevState } = state;
+      const newRoundState: IRoundState = {
+        ...prevState,
+        playersUsed: prevState.playersUsed.set(
           payload.playerId,
           payload.playerName
         ),
       };
+      return { ...state, roundState: newRoundState };
     }
     case 'PICK': {
-      return { ...state, pick: payload.pick };
+      const newRoundState: IRoundState = {
+        ...state.roundState,
+        pick: payload.pick,
+        status: state.roundState.isJudge
+          ? RoundLifecycle.PICK
+          : RoundLifecycle.PENDING_JUDGE_PICK,
+      };
+      return { ...state, roundState: newRoundState };
     }
-    case 'ROUND_ENDED': {
-      return {
-        ...state,
+    case 'ROUND_ENDED':
+    case 'ROUND_ENDED_404': {
+      const newRoundState: IRoundState = {
+        ...state.roundState,
         playerWon: payload.playerWon,
         pickedCardId: payload.winningCard,
+        status: RoundLifecycle.PENDING_ADMIN_ACTION,
       };
-    }
-    case 'ROUND_ENDED_404': {
-      return {
-        ...state,
-        playerWon: '',
-        pickedCardId: '',
-        skipped: true,
-      };
+      return { ...state, roundState: newRoundState };
     }
     case 'PAUSE': {
       return {

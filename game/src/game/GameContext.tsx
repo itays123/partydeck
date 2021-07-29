@@ -7,7 +7,7 @@ import {
   useMessageCallback,
 } from './eventHandlers';
 import { gameReducer, initialGameState } from './gameReducer';
-import { IGameContextValue, IGameData } from './types';
+import { IGameContextValue, IGameData, RoundLifecycle } from './types';
 import { useSession } from './websocketUtils';
 
 export const GameContext = createContext<IGameContextValue>(
@@ -16,6 +16,10 @@ export const GameContext = createContext<IGameContextValue>(
 
 export function useGameContext() {
   return useContext(GameContext);
+}
+
+export function useCurrentRound() {
+  return useContext(GameContext).roundState;
 }
 
 type Reducer = (state: IGameData, action: any) => IGameData;
@@ -61,11 +65,12 @@ export default function GameContextProvider({ children }: Wrapper) {
   const onCardClick = (cardId: string) =>
     dispatch({ type: 'CARD_SELECTED', payload: { selected: cardId } });
   const onCardButtonClick = () => {
-    if (state.useMode && !state.isJudge) {
+    const { roundState } = state;
+    if (roundState.status === RoundLifecycle.USE) {
       dispatch({ type: 'CARD_USED' });
-      sendMessage({ used: state.selectedCardId, context: 'USED' });
-    } else if (!state.useMode && state.isJudge) {
-      sendMessage({ picked: state.selectedCardId, context: 'PICKED' });
+      sendMessage({ used: roundState.selectedCardId, context: 'USED' });
+    } else if (roundState.status === RoundLifecycle.PICK) {
+      sendMessage({ picked: roundState.selectedCardId, context: 'PICKED' });
     }
   };
 

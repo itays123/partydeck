@@ -1,5 +1,4 @@
 import GameContextProvider from './game/GameContext';
-import RoundContextProvider from './round/RoundContext';
 import Deck from './components/Deck/Deck';
 import Question from './round/Question';
 import NavWrapper from './shared/Navigation/NavWrapper';
@@ -18,7 +17,7 @@ import ConnectionPauseFeedback from './components/ConnectionPauseFeedback/Connec
 import LocalStorageConnectionRestorer from './components/LocalStorageConnectionRestorer/LocalStorageConnectionRestorer';
 import GameResumedOnly from './game/filters/GameResumedOnly';
 import GamePauseFeeback from './components/GamePauseFeedback/GamePauseFeedback';
-import ValidRoundOnly from './game/filters/ValidRoundOnly';
+import ValidRoundOnly from './round/filters/ValidRoundOnly';
 import InvalidRoundFeedback from './components/InvalidRoundFeedback/InvalidRoundFeedback';
 
 function App() {
@@ -32,14 +31,12 @@ function App() {
                 <GameStartedOnly fallback={<Lobby />}>
                   <GameResumedOnly fallback={<GamePauseFeeback />}>
                     <ValidRoundOnly fallback={<InvalidRoundFeedback />}>
-                      <RoundContextProvider>
-                        <div className="scrollable">
-                          <Question />
-                          <LoadingFeedback />
-                          <Deck />
-                          <AdminControls />
-                        </div>
-                      </RoundContextProvider>
+                      <div className="scrollable">
+                        <Question />
+                        <LoadingFeedback />
+                        <Deck />
+                        <AdminControls />
+                      </div>
                     </ValidRoundOnly>
                   </GameResumedOnly>
                 </GameStartedOnly>
