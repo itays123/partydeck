@@ -23,21 +23,7 @@ code {
   .scrollable {
     @apply absolute top-0 bottom-0 left-0 right-0 h-full w-full overflow-y-scroll;
   }
-  /*
-  .colorful-button {
-    @apply px-4 py-2 text-gray-50 rounded focus:outline-none text-center;
-  }
-  .animation-scaleup {
-    @apply transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110;
-  }
-  .action-button {
-    @apply px-3 py-1 ml-4 text-purple-900 font-medium flex focus:outline-none disabled:opacity-50;
-  }
-  */
-  .action-button:disabled {
-    @apply hidden md:flex;
-  }
-  .link-li {
-    @apply block text-left hover:text-gray-600 text-base;
+  .nav-button {
+    @apply font-bold font-roboto px-2 py-1 text-theme-200 hover:text-green hidden md:block;
   }
 }
