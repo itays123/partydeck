@@ -1,18 +1,11 @@
-import ConditinalWrapper, {
-  Wrapper,
-} from '../../shared/helpers/ConditionalWrapper';
-import { useGameEditorContext } from '../GameEditorContext';
+import { createWrapper } from '../../shared/Filters/ConditionalWrapper';
+import { GameEditorContext } from '../GameEditorContext';
 
-export function ViewerOnly({ children }: Wrapper) {
-  const { isEditable } = useGameEditorContext();
-  return (
-    <ConditinalWrapper condition={!isEditable}>{children}</ConditinalWrapper>
-  );
-}
+export const ViewerOnly = createWrapper(
+  GameEditorContext,
+  ctx => !ctx.isEditable
+);
 
-export default function EditorOnly({ children }: Wrapper) {
-  const { isEditable } = useGameEditorContext();
-  return (
-    <ConditinalWrapper condition={isEditable}>{children}</ConditinalWrapper>
-  );
-}
+const EditorOnly = createWrapper(GameEditorContext, ctx => ctx.isEditable);
+
+export default EditorOnly;

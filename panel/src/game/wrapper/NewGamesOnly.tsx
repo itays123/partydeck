@@ -1,20 +1,11 @@
-import ConditionalWrapper, {
-  Wrapper,
-} from '../../shared/helpers/ConditionalWrapper';
-import { useGameEditorContext } from '../GameEditorContext';
+import { createWrapper } from '../../shared/Filters/ConditionalWrapper';
+import { GameEditorContext } from '../GameEditorContext';
 
-export const ExistingGamesOnly = ({ children }: Wrapper) => {
-  const { isGameNew } = useGameEditorContext();
-  return (
-    <ConditionalWrapper condition={!isGameNew}>{children}</ConditionalWrapper>
-  );
-};
+export const ExistingGamesOnly = createWrapper(
+  GameEditorContext,
+  ctx => !ctx.isGameNew
+);
 
-const NewGamesOnly = ({ children }: Wrapper) => {
-  const { isGameNew } = useGameEditorContext();
-  return (
-    <ConditionalWrapper condition={isGameNew}>{children}</ConditionalWrapper>
-  );
-};
+const NewGamesOnly = createWrapper(GameEditorContext, ctx => !ctx.isGameNew);
 
 export default NewGamesOnly;
