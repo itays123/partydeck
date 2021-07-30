@@ -9,7 +9,7 @@ module.exports = {
       theme: colors.indigo,
       gray: colors.blueGray,
       white: {
-        DEFAULT: ':#F9FAFB',
+        DEFAULT: '#F9FAFB',
       },
       pink: {
         DEFAULT: '#EC4899',
