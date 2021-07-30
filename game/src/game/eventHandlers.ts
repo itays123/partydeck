@@ -51,7 +51,7 @@ export const useConnectionPauseHandler = (
     } else if (state.connectionStatus !== ConnectionLifecycle.GOING_AWAY) {
       // connection is unexpected, and not attempting reconnection
       console.log('unexpected disconnection');
-      dispatch('SESSION_PAUSED');
+      dispatch({ type: 'SESSION_PAUSED' });
       if (connectFn) connectFn(state.gameCode!, null, state.playerId);
       setTimeout(disconnectCallback, 30 * 1000);
     }
