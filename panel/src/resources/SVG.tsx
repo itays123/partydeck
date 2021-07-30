@@ -1,4 +1,4 @@
-import { Wrapper } from '../shared/helpers/ConditionalWrapper';
+import { Wrapper } from '../shared/Filters/ConditionalWrapper';
 
 export interface SVGProps {
   viewbox?: string;
