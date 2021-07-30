@@ -5,6 +5,7 @@ import Welcome from './Welcome';
 const Home = () => {
   return (
     <div className="home scrollable">
+      {/* }
       <div className="container mx-auto">
         <AuthOnly shouldNotBeAuthenticated>
           <Welcome />
@@ -13,6 +14,7 @@ const Home = () => {
           <MyGames />
         </AuthOnly>
       </div>
+  { */}
     </div>
   );
 };
