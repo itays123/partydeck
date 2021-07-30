@@ -11,7 +11,10 @@ const Navbar = () => {
     <nav className="bg-gray-100 nav px-8 w-screen flex">
       <div className="md:px-4 lg:px-6 flex items-center h-16 md:ml-8">
         <img src={logo} width={20} height={20} alt="" />
-        <Link to="/" className="text-lg md:text-xl text-purple-900 font-bold">
+        <Link
+          to="/"
+          className="text-lg md:text-xl text-purple-900 font-bold font-roboto"
+        >
           Partydeck
         </Link>
       </div>

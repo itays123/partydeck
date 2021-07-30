@@ -23,6 +23,7 @@ code {
   .scrollable {
     @apply absolute top-0 bottom-0 left-0 right-0 h-full w-full overflow-y-scroll;
   }
+  /*
   .colorful-button {
     @apply px-4 py-2 text-gray-50 rounded focus:outline-none text-center;
   }
@@ -32,6 +33,7 @@ code {
   .action-button {
     @apply px-3 py-1 ml-4 text-purple-900 font-medium flex focus:outline-none disabled:opacity-50;
   }
+  */
   .action-button:disabled {
     @apply hidden md:flex;
   }
