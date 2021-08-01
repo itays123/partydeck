@@ -24,6 +24,12 @@ code {
     @apply absolute top-0 bottom-0 left-0 right-0 h-full w-full overflow-y-scroll;
   }
   .nav-button {
-    @apply font-bold font-roboto px-2 py-1 text-theme-200 hover:text-green hidden md:block;
+    @apply font-bold font-roboto px-2 py-1 text-theme-200 md:hover:text-green;
+  }
+  .nav-button.active {
+    @apply text-theme-200;
+  }
+  .hidden-sm {
+    @apply hidden md:block;
   }
 }

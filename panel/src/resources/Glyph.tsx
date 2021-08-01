@@ -1,4 +1,4 @@
-interface GlyphProps {
+export interface GlyphProps {
   size?: number;
 }
 

@@ -23,18 +23,19 @@ export function externalLink(label: string, to: string) {
   };
 }
 
-export function action<T extends object>(
-  label: string,
+export function action<T extends object, Props extends object = {}>(
+  label: string | ((props: Props) => JSX.Element),
   context: React.Context<T>,
   consumer: (ctx: T) => void
 ) {
-  return function ({ className }: withClass) {
+  return function ({ className, ...props }: withClass & Props) {
     const ctx = useContext(context);
     const action = useCallback(() => consumer(ctx), [ctx]);
     return (
       <button onClick={action} className={className}>
-        {label}
+        {typeof label === 'string' ? label : label(props as unknown as Props)}
       </button>
     );
   };
 }
+

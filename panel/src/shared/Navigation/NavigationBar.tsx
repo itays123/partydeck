@@ -1,5 +1,7 @@
 import { Authenticated, NotAuthenticated } from '../../auth/authFilters';
 import Logo from '../../resources/brand/Logo';
+import ResponsiveAuthPopup from './AuthPopup';
+import PopupContextProvider from './AuthPopupContext';
 import {
   JoinGameLink,
   LinkablePartydeck,
@@ -8,6 +10,7 @@ import {
   Logout,
   MyDecks,
   NewDeck,
+  AuthPopupButton,
 } from './buttons';
 
 export default function NavigationBar() {
@@ -20,14 +23,22 @@ export default function NavigationBar() {
       {/* Search PlaceHolder */}
       <div className="links flex items-center">
         <Authenticated>
-          <MyDecks className="nav-button" />
-          <NewDeck className="nav-button" />
-          <Logout className="nav-button" />
+          <MyDecks className="nav-button hidden-sm" />
+          <NewDeck className="nav-button hidden-sm" />
+          <Logout className="nav-button hidden-sm" />
         </Authenticated>
         <NotAuthenticated>
-          <Login className="nav-button" />
-          <Register className="nav-button" />
+          <Login className="nav-button hidden-sm" />
+          <Register className="nav-button hidden-sm" />
         </NotAuthenticated>
+        <PopupContextProvider>
+          <AuthPopupButton
+            className="nav-button md:hidden focus:outline-none"
+            height={24}
+            width={24}
+          />
+          <ResponsiveAuthPopup />
+        </PopupContextProvider>
         <JoinGameLink className="font-bold font-roboto px-3 py-2 text-theme-700 bg-green rounded hover:bg-green-light ml-2" />
       </div>
     </nav>
