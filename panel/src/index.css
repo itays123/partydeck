@@ -1,20 +1,15 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply text-2xl md:text-3xl lg:text-6xl text-center font-bold mb-6;
+  }
+  h2 {
+    @apply text-xl md:text-2xl lg:text-3xl text-center text-theme-900 font-bold mb-4;
+  }
+}
 
 @layer components {
   .dark-button {
@@ -31,5 +26,8 @@ code {
   }
   .hidden-sm {
     @apply hidden md:block;
+  }
+  .rule-section {
+    @apply flex md:h-32 flex-col md:flex-row items-center text-lg md:text-2xl md:space-x-4 text-center md:text-left p-2;
   }
 }
