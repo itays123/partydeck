@@ -11,7 +11,7 @@ import {
 export default function Footer() {
   return (
     <footer className="bg-theme-700 px-8 pt-12">
-      <div className="links flex space-x-3 text-white pb-4">
+      <div className="links flex flex-col md:flex-row md:space-x-3 text-white pb-4">
         <About className="hover:underline" />
         <HowToCreateDecks className="hover:underline" />
         <GameLibrary className="hover:underline" />
