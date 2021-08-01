@@ -4,11 +4,15 @@ import AuthOnly from './auth/AuthOnly';
 import Login from './auth/login/Login';
 import Profile from './auth/profile/Profile';
 import Register from './auth/register/Register';
+import About from './Content/About';
+import CookieDataPolicy from './Content/CookieDataPolicy';
+import CreatingDecksGuide from './Content/CreatingDecksGuide';
 import CreateGame from './game/CreateGame';
 import GameViewEdit from './game/GameViewEdit';
 import Home from './Home/Home';
 import GameCreationPending from './shared/GamePending/GameCreationPending';
 import GamePendingContextProvider from './shared/GamePending/GamePendingContext';
+import MyGames from './shared/MyGames';
 import NavWrapper from './shared/Navigation/NavWrapper';
 import PageNotFound from './shared/PageNotFound';
 import SearchResults from './shared/Search/SearchResults';
@@ -23,6 +27,20 @@ function App() {
             <Switch>
               <Route exact path="/">
                 <Home />
+              </Route>
+              <Route exact path="/my">
+                <AuthOnly redirect="/">
+                  <MyGames />
+                </AuthOnly>
+              </Route>
+              <Route exact path="/about">
+                <About />
+              </Route>
+              <Route exact path="/about/decks">
+                <CreatingDecksGuide />
+              </Route>
+              <Route exact path="/about/privacy">
+                <CookieDataPolicy />
               </Route>
               <Route path="/game/:id">
                 <GameViewEdit />

@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { useContext } from 'react';
 
 export interface Wrapper {
-  children: JSX.Element | JSX.Element[];
+  children: string | JSX.Element | JSX.Element[];
 }
 
 interface Props {
