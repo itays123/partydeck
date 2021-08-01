@@ -13,11 +13,11 @@ export default function Footer() {
     <footer className="bg-theme-700 px-8 pt-12">
       <div className="links flex space-x-3 text-white pb-4">
         <About className="hover:underline" />
-        <HowToCreateDecks />
-        <GameLibrary />
-        <DeckEditor />
-        <DataCookiePolicy />
-        <PartydeckLive />
+        <HowToCreateDecks className="hover:underline" />
+        <GameLibrary className="hover:underline" />
+        <DeckEditor className="hover:underline" />
+        <DataCookiePolicy className="hover:underline" />
+        <PartydeckLive className="hover:underline" />
       </div>
       <div className="credits flex justify-between text-white py-4 border-t-2 border-white">
         <span>Project Partydeck 2020-2021</span>
