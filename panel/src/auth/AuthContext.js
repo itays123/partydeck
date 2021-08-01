@@ -21,7 +21,7 @@ const AuthContextProvider = ({ children }) => {
           doFetch();
         },
         logout() {
-          logout().then(() => doFetch());
+          logout().then(() => window.location.reload());
         },
         user: data.user,
       }}

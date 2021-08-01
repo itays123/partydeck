@@ -12,5 +12,5 @@ export const Login = link('Log In', '/login');
 export const Register = link('Get Started', '/start');
 export const JoinGameLink = externalLink('Join Game', GameWebsiteLink!);
 export const AuthPopupButton = action(Person, AuthPopupContext, ctx =>
-  ctx.setOpen(b => !b)
+  ctx.setOpen(true)
 );
