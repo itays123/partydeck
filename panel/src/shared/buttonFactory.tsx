@@ -1,7 +1,7 @@
 import { useCallback, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 
-type withClass = { className: string };
+type withClass = { className?: string };
 type JSXProvider<Props> = (props: Props) => JSX.Element;
 
 export function link(label: string, to: string) {
