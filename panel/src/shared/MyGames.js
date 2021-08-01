@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import { useAuthContext } from '../auth/AuthContext';
 import { useProfile } from '../auth/profile/useProfile';
-import GameList from '../shared/GameList/GameList';
-import Search from '../shared/Search/Search';
-import Spinner from '../shared/Spinner';
+import GameList from './GameList/GameList';
+import Search from './Search/Search';
+import Spinner from './Spinner';
 
 const MyGames = () => {
   const { user } = useAuthContext();
