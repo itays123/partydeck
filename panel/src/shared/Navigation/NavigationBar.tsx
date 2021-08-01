@@ -17,7 +17,7 @@ export default function NavigationBar() {
   return (
     <nav className="bg-theme-700 h-16 nav px-8 shadow-xl w-screen flex flex-row items-center justify-between">
       <div className="flex items-center space-x-1">
-        <Logo size={24} />
+        <Logo className="w-6 h-6" />
         <LinkablePartydeck className="font-roboto font-bold text-white text-lg hover:text-theme-300" />
       </div>
       {/* Search PlaceHolder */}
