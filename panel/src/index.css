@@ -9,6 +9,9 @@
   h2 {
     @apply text-xl md:text-2xl lg:text-3xl text-center text-theme-900 font-bold mb-4;
   }
+  ul {
+    @apply md:list-disc md:pl-8 py-4 space-y-4 md:space-y-0;
+  }
 }
 
 @layer components {
@@ -29,5 +32,11 @@
   }
   .rule-section {
     @apply flex md:h-32 flex-col md:flex-row items-center text-lg md:text-2xl md:space-x-4 text-center md:text-left p-2;
+  }
+  .decorated-subtitle {
+    @apply flex flex-col text-center md:text-left md:flex-row items-center text-2xl md:text-6xl md:space-x-8 p-2 font-bold md:py-4;
+  }
+  .content-section {
+    @apply text-center md:text-left md:px-6 text-lg md:text-xl;
   }
 }
