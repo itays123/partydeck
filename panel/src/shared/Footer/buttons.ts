@@ -4,7 +4,7 @@ import { GameWebsiteLink } from '../helpers/GameWebsiteLink';
 
 export const About = link('About', '/about');
 export const HowToCreateDecks = link('Creating Decks Guide', '/about/decks');
-export const GameLibrary = link('Search', '/search');
+export const GameLibrary = link('Game Library', '/search');
 export const DeckEditor = link('Deck Editor', '/create');
 export const DataCookiePolicy = link(
   'Cookies & Personal Data',
