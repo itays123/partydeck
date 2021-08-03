@@ -1,7 +1,7 @@
 import { withClass } from './types';
 
 export function createList(...items: string[]) {
-  return function ({ className }: withClass) {
+  return function List({ className }: withClass) {
     return (
       <ul className={className}>
         {items.map((content, i) => (

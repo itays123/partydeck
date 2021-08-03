@@ -1,5 +1,5 @@
 export function createLongText(text: string) {
-  return function () {
+  return function Text() {
     return (
       <>
         {text.split('\n').map((txt, i) => (

@@ -1,7 +1,7 @@
 import { SVGProps, Wrapper } from '../components/types';
 
 export function createSVGResource(...children: JSX.Element[]) {
-  return function (props: SVGProps) {
+  return function Resource(props: SVGProps) {
     return (
       <SVG {...props} className={'fill-current ' + props.className}>
         {children}

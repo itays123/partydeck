@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { JSXProvider, withClass } from './types';
 
 export function link(label: string, to: string) {
-  return function ({ className }: withClass) {
+  return function LabledLink({ className }: withClass) {
     return (
       <NavLink to={to} className={className}>
         {label}
@@ -16,7 +16,7 @@ export function externalLink<Props extends object = {}>(
   label: string | JSXProvider<Props>,
   to: string
 ) {
-  return function ({ className, ...props }: withClass & Props) {
+  return function ExternalLink({ className, ...props }: withClass & Props) {
     return (
       <a href={to} className={className}>
         {typeof label === 'string' ? label : label(props as unknown as Props)}
@@ -30,7 +30,7 @@ export function action<T extends object, Props extends object = {}>(
   context: React.Context<T>,
   consumer: (ctx: T) => void
 ) {
-  return function ({ className, ...props }: withClass & Props) {
+  return function ContextAction({ className, ...props }: withClass & Props) {
     const ctx = useContext(context);
     const action = useCallback(() => consumer(ctx), [ctx]);
     return (
