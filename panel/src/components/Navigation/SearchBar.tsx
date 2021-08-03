@@ -7,7 +7,7 @@ import SearchBarProvider, {
 export default function SearchBar() {
   return (
     <SearchBarProvider>
-      <div className="flex items-center rounded-full md:mr-4 bg-theme-500 p-1 md:p-2">
+      <div className="flex items-center rounded-full md:mr-4 bg-theme-500 focus-within:bg-white p-1 md:p-2">
         <SearchBarOpener
           className="focus:outline-none text-theme-200"
           width={20}
