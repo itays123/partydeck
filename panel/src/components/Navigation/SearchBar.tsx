@@ -14,7 +14,7 @@ export default function SearchBar() {
           height={20}
         />
         <SearchBarVisibleWrapper>
-          <div className="fixed md:block w-screen md:w-auto bg-white top-0 left-0 h-16 md:h-auto shadow-xl flex items-center px-8 md:px-1 justify-between">
+          <div className="fixed z-50 md:block w-screen md:w-auto bg-white top-0 left-0 h-16 md:h-auto shadow-xl flex items-center px-8 md:px-1 justify-between">
             <div>Search...</div>
             <SearchBarClose
               width={20}
