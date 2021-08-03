@@ -44,17 +44,17 @@ export default function CookieDataPolicy() {
         <p>That's it.</p>
       </section>
       <CookiesSubtitle className="decorated-subtitle" />
-      <section className="content-section">
+      <section className="content-section py-4">
         <CookieUsages />
       </section>
       <div className="md:flex items-baseline justify-evenly">
         <div>
           <WeDoSubtitle className="decorated-subtitle" />
-          <WeDoList className="content-section" />
+          <WeDoList className="content-section my-4" />
         </div>
         <div>
           <WeDontSubtitle className="decorated-subtitle" />
-          <WeDontList className="content-section" />
+          <WeDontList className="content-section my-4" />
         </div>
       </div>
     </ScrollablePageWrapper>
