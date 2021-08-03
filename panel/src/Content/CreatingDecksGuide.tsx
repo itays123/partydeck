@@ -1,10 +1,10 @@
 import Check from '../resources/glyphs/Check';
 import Ingredients from '../resources/glyphs/Ingredients';
 import NewDeck from '../resources/glyphs/NewDeck';
-import { createDecoratedPharagraph } from '../shared/decoratedPharagraphFactory';
+import { createDecoratedPharagraph } from '../components/decoratedPharagraphFactory';
 import ScrollablePageWrapper from '../shared/Footer/ScrollablePageWrapper';
-import { createList } from '../shared/listFactory';
-import { createLongText } from '../shared/longTextFactory';
+import { createList } from '../components/listFactory';
+import { createLongText } from '../components/longTextFactory';
 import PageTitle from '../shared/PageTitle';
 
 const ConsistenciesOfDecksSubtitle = createDecoratedPharagraph(

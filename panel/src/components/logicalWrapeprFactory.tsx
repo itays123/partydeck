@@ -1,10 +1,7 @@
 import React from 'react';
 import { useMemo } from 'react';
 import { useContext } from 'react';
-
-export interface Wrapper {
-  children: string | JSX.Element | JSX.Element[];
-}
+import { Wrapper } from './types';
 
 interface Props {
   condition: boolean;

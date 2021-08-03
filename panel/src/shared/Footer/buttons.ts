@@ -1,5 +1,5 @@
 import GitHub from '../../resources/github/GitHub';
-import { externalLink, link } from '../buttonFactory';
+import { externalLink, link } from '../../components/buttonFactory';
 import { GameWebsiteLink } from '../helpers/GameWebsiteLink';
 
 export const About = link('About', '/about');

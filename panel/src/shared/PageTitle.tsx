@@ -1,4 +1,4 @@
-import { Wrapper } from './Filters/ConditionalWrapper';
+import { Wrapper } from '../components/types';
 
 export default function PageTitle({ children }: Wrapper) {
   return (

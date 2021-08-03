@@ -1,4 +1,4 @@
-import { Wrapper } from '../Filters/ConditionalWrapper';
+import { Wrapper } from '../../components/types';
 import Footer from './Footer';
 
 export default function ScrollablePageWrapper({ children }: Wrapper) {

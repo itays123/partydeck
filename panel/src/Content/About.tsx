@@ -1,9 +1,9 @@
 import Growth from '../resources/glyphs/Growth';
 import LightBulb from '../resources/glyphs/LightBulb';
-import { externalLink } from '../shared/buttonFactory';
-import { createDecoratedPharagraph } from '../shared/decoratedPharagraphFactory';
+import { externalLink } from '../components/buttonFactory';
+import { createDecoratedPharagraph } from '../components/decoratedPharagraphFactory';
 import ScrollablePageWrapper from '../shared/Footer/ScrollablePageWrapper';
-import { createList } from '../shared/listFactory';
+import { createList } from '../components/listFactory';
 import PageTitle from '../shared/PageTitle';
 
 const IdeaSubtitle = createDecoratedPharagraph(

@@ -1,5 +1,5 @@
 import { GlyphProps } from '../resources/Glyph';
-import { JSXProvider, withClass } from './buttonFactory';
+import { JSXProvider, withClass } from './types';
 
 export function createDecoratedPharagraph(
   Glyph: JSXProvider<GlyphProps>,

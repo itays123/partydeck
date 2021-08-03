@@ -1,4 +1,4 @@
-import { createWrapper } from '../../shared/Filters/ConditionalWrapper';
+import { createWrapper } from '../../components/logicalWrapeprFactory';
 import { GameEditorContext } from '../GameEditorContext';
 
 export const ExistingGamesOnly = createWrapper(

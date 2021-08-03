@@ -2,9 +2,9 @@ import Cancel from '../resources/glyphs/Cancel';
 import Check from '../resources/glyphs/Check';
 import Cookie from '../resources/glyphs/Cookie';
 import Privacy from '../resources/glyphs/Privacy';
-import { createDecoratedPharagraph } from '../shared/decoratedPharagraphFactory';
+import { createDecoratedPharagraph } from '../components/decoratedPharagraphFactory';
 import ScrollablePageWrapper from '../shared/Footer/ScrollablePageWrapper';
-import { createList } from '../shared/listFactory';
+import { createList } from '../components/listFactory';
 import PageTitle from '../shared/PageTitle';
 
 const PrivacySubtitle = createDecoratedPharagraph(

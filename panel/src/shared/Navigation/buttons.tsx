@@ -1,6 +1,6 @@
 import { AuthContext } from '../../auth/AuthContext';
 import Person from '../../resources/icons/Person';
-import { action, externalLink, link } from '../buttonFactory';
+import { action, externalLink, link } from '../../components/buttonFactory';
 import { GameWebsiteLink } from '../helpers/GameWebsiteLink';
 import { AuthPopupContext } from './AuthPopupContext';
 

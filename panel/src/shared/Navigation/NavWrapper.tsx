@@ -1,4 +1,4 @@
-import { Wrapper } from '../Filters/ConditionalWrapper';
+import { Wrapper } from '../../components/types';
 import NavigationBar from './NavigationBar';
 
 const NavWrapper = ({ children }: Wrapper) => {

@@ -2,7 +2,7 @@ import CardPick from '../resources/glyphs/CardPick';
 import JudgePick from '../resources/glyphs/JudgePick';
 import Question from '../resources/glyphs/Question';
 import Victory from '../resources/glyphs/Victory';
-import { createDecoratedPharagraph } from '../shared/decoratedPharagraphFactory';
+import { createDecoratedPharagraph } from '../components/decoratedPharagraphFactory';
 
 export const JudgePickedRule = createDecoratedPharagraph(
   JudgePick,

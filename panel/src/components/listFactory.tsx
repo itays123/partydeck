@@ -1,4 +1,4 @@
-import { withClass } from './buttonFactory';
+import { withClass } from './types';
 
 export function createList(...items: string[]) {
   return function ({ className }: withClass) {
