@@ -1,4 +1,4 @@
-import { Wrapper } from '../../components/types';
+import { Wrapper } from '../types';
 import NavigationBar from './NavigationBar';
 
 const NavWrapper = ({ children }: Wrapper) => {

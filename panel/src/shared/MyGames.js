@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAuthContext } from '../auth/AuthContext';
 import { useProfile } from '../auth/profile/useProfile';
-import GameList from './GameList/GameList';
-import Search from './Search/Search';
+import GameList from '../components/GameList/GameList';
 import Spinner from './Spinner';
 
 const MyGames = () => {
@@ -18,9 +17,6 @@ const MyGames = () => {
           <span className="text-gray-700 text-lg"> {games?.length || ''}</span>
         )}
       </h3>
-      <div className="md:hidden px-8 md:px-0 mt-2 -mb-4">
-        <Search />
-      </div>
       {!isLoading ? (
         <GameList games={games} sharedAuthor={user} />
       ) : (

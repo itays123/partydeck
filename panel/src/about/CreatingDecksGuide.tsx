@@ -2,7 +2,7 @@ import Check from '../components/glyphs/Check';
 import Ingredients from '../components/glyphs/Ingredients';
 import NewDeck from '../components/glyphs/NewDeck';
 import { createDecoratedPharagraph } from '../components/decoratedPharagraphFactory';
-import ScrollablePageWrapper from '../shared/Footer/ScrollablePageWrapper';
+import ScrollablePageWrapper from '../components/Footer/ScrollablePageWrapper';
 import { createList } from '../components/listFactory';
 import { createLongText } from '../components/longTextFactory';
 import PageTitle from '../shared/PageTitle';

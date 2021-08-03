@@ -1,8 +1,8 @@
 import { LegacyRef, useContext, useRef } from 'react';
 import { useAuthContext } from '../../auth/AuthContext';
 import { Authenticated, NotAuthenticated } from '../../auth/authFilters';
-import { createWrapper } from '../../components/logicalWrapeprFactory';
-import useClickOutside from '../helpers/useClickOutside';
+import { createWrapper } from '../logicalWrapeprFactory';
+import useClickOutside from '../../shared/helpers/useClickOutside';
 import { AuthPopupContext } from './AuthPopupContext';
 import { Logout, Login, Register, MyDecks, NewDeck } from './buttons';
 

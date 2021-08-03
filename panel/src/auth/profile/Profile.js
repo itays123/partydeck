@@ -1,6 +1,6 @@
 import { useProfile } from './useProfile';
 import { Redirect, useParams } from 'react-router-dom';
-import GameList from '../../shared/GameList/GameList';
+import GameList from '../../components/GameList/GameList';
 import UserDetails from './UserDetails';
 import { useAuthContext } from '../AuthContext';
 import Spinner from '../../shared/Spinner';

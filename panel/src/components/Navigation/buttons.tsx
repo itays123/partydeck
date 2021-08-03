@@ -1,7 +1,7 @@
 import { AuthContext } from '../../auth/AuthContext';
-import Person from '../../components/icons/Person';
-import { action, externalLink, link } from '../../components/buttonFactory';
-import { GameWebsiteLink } from '../helpers/GameWebsiteLink';
+import Person from '../icons/Person';
+import { action, externalLink, link } from '../buttonFactory';
+import { GameWebsiteLink } from '../../shared/helpers/GameWebsiteLink';
 import { AuthPopupContext } from './AuthPopupContext';
 
 export const LinkablePartydeck = link('Partydeck', '/');

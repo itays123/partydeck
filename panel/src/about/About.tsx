@@ -2,7 +2,7 @@ import Growth from '../components/glyphs/Growth';
 import LightBulb from '../components/glyphs/LightBulb';
 import { externalLink } from '../components/buttonFactory';
 import { createDecoratedPharagraph } from '../components/decoratedPharagraphFactory';
-import ScrollablePageWrapper from '../shared/Footer/ScrollablePageWrapper';
+import ScrollablePageWrapper from '../components/Footer/ScrollablePageWrapper';
 import { createList } from '../components/listFactory';
 import PageTitle from '../shared/PageTitle';
 

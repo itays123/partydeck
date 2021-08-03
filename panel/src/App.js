@@ -13,9 +13,9 @@ import Home from './Home/Home';
 import GameCreationPending from './shared/GamePending/GameCreationPending';
 import GamePendingContextProvider from './shared/GamePending/GamePendingContext';
 import MyGames from './shared/MyGames';
-import NavWrapper from './shared/Navigation/NavWrapper';
+import NavWrapper from './components/Navigation/NavWrapper';
 import PageNotFound from './shared/PageNotFound';
-import SearchResults from './shared/Search/SearchResults';
+import SearchResults from './library/SearchResults';
 
 function App() {
   return (

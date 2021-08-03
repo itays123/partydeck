@@ -1,4 +1,4 @@
-import Footer from '../shared/Footer/Footer';
+import Footer from '../components/Footer/Footer';
 import CardCollection from './CardCollection';
 import Header from './Header';
 import {

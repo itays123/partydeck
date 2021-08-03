@@ -1,6 +1,6 @@
-import GitHub from '../../components/github/GitHub';
-import { externalLink, link } from '../../components/buttonFactory';
-import { GameWebsiteLink } from '../helpers/GameWebsiteLink';
+import GitHub from '../github/GitHub';
+import { externalLink, link } from '../buttonFactory';
+import { GameWebsiteLink } from '../../shared/helpers/GameWebsiteLink';
 
 export const About = link('About', '/about');
 export const HowToCreateDecks = link('Creating Decks Guide', '/about/decks');

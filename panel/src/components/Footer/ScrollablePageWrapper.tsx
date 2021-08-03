@@ -1,4 +1,4 @@
-import { Wrapper } from '../../components/types';
+import { Wrapper } from '../types';
 import Footer from './Footer';
 
 export default function ScrollablePageWrapper({ children }: Wrapper) {

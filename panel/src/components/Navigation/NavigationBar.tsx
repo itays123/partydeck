@@ -1,5 +1,5 @@
 import { Authenticated, NotAuthenticated } from '../../auth/authFilters';
-import Logo from '../../components/brand/Logo';
+import Logo from '../brand/Logo';
 import ResponsiveAuthPopup from './AuthPopup';
 import PopupContextProvider from './AuthPopupContext';
 import {

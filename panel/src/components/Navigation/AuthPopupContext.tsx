@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Wrapper } from '../../components/types';
+import { Wrapper } from '../types';
 
 type IsOpenToggle = {
   isOpen: boolean;

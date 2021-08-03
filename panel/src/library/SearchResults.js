@@ -1,5 +1,5 @@
-import GameList from '../GameList/GameList';
-import Spinner from '../Spinner';
+import GameList from '../components/GameList/GameList';
+import Spinner from '../shared/Spinner';
 import { useQuery } from './useQuery';
 import { useSearch } from './useSearch';
 
