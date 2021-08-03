@@ -1,6 +1,4 @@
-export interface GlyphProps {
-  className: string;
-}
+import { GlyphProps } from './types';
 
 export default function createGlyph(src: string) {
   return function ({ className }: GlyphProps) {

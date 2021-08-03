@@ -1,7 +1,7 @@
-import Cancel from '../resources/glyphs/Cancel';
-import Check from '../resources/glyphs/Check';
-import Cookie from '../resources/glyphs/Cookie';
-import Privacy from '../resources/glyphs/Privacy';
+import Cancel from '../components/glyphs/Cancel';
+import Check from '../components/glyphs/Check';
+import Cookie from '../components/glyphs/Cookie';
+import Privacy from '../components/glyphs/Privacy';
 import { createDecoratedPharagraph } from '../components/decoratedPharagraphFactory';
 import ScrollablePageWrapper from '../shared/Footer/ScrollablePageWrapper';
 import { createList } from '../components/listFactory';

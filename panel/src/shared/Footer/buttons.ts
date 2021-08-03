@@ -1,4 +1,4 @@
-import GitHub from '../../resources/github/GitHub';
+import GitHub from '../../components/github/GitHub';
 import { externalLink, link } from '../../components/buttonFactory';
 import { GameWebsiteLink } from '../helpers/GameWebsiteLink';
 

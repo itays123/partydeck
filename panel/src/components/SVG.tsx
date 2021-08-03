@@ -1,11 +1,4 @@
-import { Wrapper } from '../components/types';
-
-export interface SVGProps {
-  viewbox?: string;
-  className?: string;
-  width: number;
-  height: number;
-}
+import { SVGProps, Wrapper } from '../components/types';
 
 export function createSVGResource(...children: JSX.Element[]) {
   return function (props: SVGProps) {

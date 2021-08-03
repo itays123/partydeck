@@ -1,6 +1,6 @@
-import Check from '../resources/glyphs/Check';
-import Ingredients from '../resources/glyphs/Ingredients';
-import NewDeck from '../resources/glyphs/NewDeck';
+import Check from '../components/glyphs/Check';
+import Ingredients from '../components/glyphs/Ingredients';
+import NewDeck from '../components/glyphs/NewDeck';
 import { createDecoratedPharagraph } from '../components/decoratedPharagraphFactory';
 import ScrollablePageWrapper from '../shared/Footer/ScrollablePageWrapper';
 import { createList } from '../components/listFactory';

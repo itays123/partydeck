@@ -1,7 +1,7 @@
-import CreateDecks from '../resources/brand/CreateDecks';
-import HostGames from '../resources/brand/HostGames';
-import InviteFriends from '../resources/brand/InviteFriends';
-import PublishDecks from '../resources/brand/PublishDecks';
+import CreateDecks from '../components/brand/CreateDecks';
+import HostGames from '../components/brand/HostGames';
+import InviteFriends from '../components/brand/InviteFriends';
+import PublishDecks from '../components/brand/PublishDecks';
 
 export default function CardCollection() {
   return (

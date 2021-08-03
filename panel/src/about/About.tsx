@@ -1,5 +1,5 @@
-import Growth from '../resources/glyphs/Growth';
-import LightBulb from '../resources/glyphs/LightBulb';
+import Growth from '../components/glyphs/Growth';
+import LightBulb from '../components/glyphs/LightBulb';
 import { externalLink } from '../components/buttonFactory';
 import { createDecoratedPharagraph } from '../components/decoratedPharagraphFactory';
 import ScrollablePageWrapper from '../shared/Footer/ScrollablePageWrapper';
