@@ -1,5 +1,9 @@
 import { createContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import useClickOutside from '../../shared/helpers/useClickOutside';
+import { action } from '../buttonFactory';
+import Person from '../icons/Person';
+import { createWrapper } from '../logicalWrapeprFactory';
 import { Wrapper } from '../types';
 
 type IsOpenToggle = {
@@ -7,11 +11,27 @@ type IsOpenToggle = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
+type withPopupRef = {
+  popupRef: React.RefObject<HTMLElement>;
+};
+
 export const AuthPopupContext = createContext<IsOpenToggle>(
   null as unknown as IsOpenToggle
 );
 
-export default function PopupContextProvider({ children }: Wrapper) {
+export const PopupVisibleWrapper = createWrapper(
+  AuthPopupContext,
+  ctx => ctx.isOpen
+);
+
+export const PopupOpenButton = action(Person, AuthPopupContext, ctx =>
+  ctx.setOpen(true)
+);
+
+export default function AuthPopupProvider({
+  children,
+  popupRef,
+}: Wrapper & withPopupRef) {
   const [isOpen, setOpen] = useState(false);
   const location = useLocation();
 
@@ -19,6 +39,8 @@ export default function PopupContextProvider({ children }: Wrapper) {
   useEffect(() => {
     setOpen(false);
   }, [location.pathname]);
+
+  useClickOutside(popupRef, () => setOpen(false));
 
   return (
     <AuthPopupContext.Provider value={{ isOpen, setOpen }}>

@@ -1,7 +1,6 @@
 import { Authenticated, NotAuthenticated } from '../../auth/authFilters';
 import Logo from '../brand/Logo';
 import ResponsiveAuthPopup from './AuthPopup';
-import PopupContextProvider from './AuthPopupContext';
 import {
   JoinGameLink,
   LinkablePartydeck,
@@ -10,7 +9,6 @@ import {
   Logout,
   MyDecks,
   NewDeck,
-  AuthPopupButton,
 } from './buttons';
 import SearchBar from './SearchBar';
 
@@ -32,14 +30,7 @@ export default function NavigationBar() {
           <Login className="nav-button hidden-sm" />
           <Register className="nav-button hidden-sm" />
         </NotAuthenticated>
-        <PopupContextProvider>
-          <AuthPopupButton
-            className="nav-button md:hidden focus:outline-none"
-            height={32}
-            width={32}
-          />
-          <ResponsiveAuthPopup />
-        </PopupContextProvider>
+        <ResponsiveAuthPopup />
         <JoinGameLink className="font-bold font-roboto px-1.5 md:px-3 py-1.5 md:py-2 text-theme-700 bg-green rounded-full hover:bg-green-light md:ml-2 text-sm md:text-base" />
       </div>
     </nav>
