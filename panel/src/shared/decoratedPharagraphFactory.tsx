@@ -3,13 +3,13 @@ import { JSXProvider, withClass } from './buttonFactory';
 
 export function createDecoratedPharagraph(
   Glyph: JSXProvider<GlyphProps>,
-  rule: string
+  content: string
 ) {
   return function ({ className }: withClass) {
     return (
       <div className={className}>
         <Glyph className="h-full" />
-        <p>{rule}</p>
+        <p>{content}</p>
       </div>
     );
   };
