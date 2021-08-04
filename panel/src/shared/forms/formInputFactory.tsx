@@ -12,6 +12,7 @@ export function createFormInput<T>({
   loadingLabel,
   onKeyEnter,
   validator,
+  asyncValidator,
   onValueValidated,
   hideErrors,
   context,
@@ -22,7 +23,12 @@ export function createFormInput<T>({
   }: withClass & { focusOnRender?: boolean }) {
     const [value, setValue] = useState('');
     const ctx = useContext(context);
-    const { validate, validState, error } = useValidator(validator, value, ctx);
+    const { validateAsync, validState, error } = useValidator(
+      validator,
+      asyncValidator,
+      value,
+      ctx
+    );
     const ref = useFocusOnRender(focusOnRender);
 
     useValueValidatedCallback(onValueValidated, value, validState, ctx);
@@ -40,8 +46,7 @@ export function createFormInput<T>({
           value={value}
           onKeyDown={e => {
             if (e.key === 'Enter') {
-              if (validState === ValidatorState.INITIAL) validate();
-              if (validState === ValidatorState.VALIDATED) onKeyEnter(ctx);
+              validateAsync().then(valid => valid && onKeyEnter(ctx));
             }
           }}
         />
