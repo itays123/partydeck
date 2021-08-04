@@ -2,35 +2,37 @@ import GameContextProvider from './game/GameContext';
 import Deck from './components/Deck/Deck';
 import Question from './round/Question';
 import AdminControls from './round/AdminControls';
-import ConnectionCreatedOnly from './game/filters/ConnectionCreatedOnly';
 import JoinForm from './lobby/JoinForm';
-import GameStartedOnly from './game/filters/GameStartedOnly';
 import Lobby from './lobby/Lobby';
-import GameCreatedOnly from './game/filters/GameCreatedOnly';
 import Scoreboard from './scoreboard/Scoreboard';
-import UnexpectedDisconnectionOnly from './game/filters/UnexpectedDisconnectionOnly';
 import DisconnectionDialog from './components/UnexpectedDisconnectionDialog/DisconnectionDialog';
 import LoadingFeedback from './round/LoadingFeedback';
-import { ConnectionResumedOnly } from './game/filters/ConnectionResumedOnly';
 import ConnectionPauseFeedback from './components/ConnectionPauseFeedback/ConnectionPauseFeedback';
 import LocalStorageConnectionRestorer from './components/LocalStorageConnectionRestorer/LocalStorageConnectionRestorer';
-import GameResumedOnly from './game/filters/GameResumedOnly';
-import GamePauseFeeback from './components/GamePauseFeedback/GamePauseFeedback';
-import ValidRoundOnly from './round/filters/ValidRoundOnly';
+import GamePauseFeedback from './components/GamePauseFeedback/GamePauseFeedback';
 import InvalidRoundFeedback from './components/InvalidRoundFeedback/InvalidRoundFeedback';
 import BrandWrapper from './components/brand/BrandWrapper';
+import {
+  ConnectionCreatedOnly,
+  ConnectionResumedOnly,
+  GameCreatedOnly,
+  GameStartedOnly,
+  GameResumedOnly,
+  ValidRoundOnly,
+  UnexpectedDisconnectionOnly,
+} from './game/gameContextFilters';
 
 function App() {
   return (
     <BrandWrapper>
       <GameContextProvider>
         <LocalStorageConnectionRestorer>
-          <ConnectionCreatedOnly fallback={<JoinForm />}>
-            <GameCreatedOnly fallback={<Scoreboard />}>
-              <ConnectionResumedOnly fallback={<ConnectionPauseFeedback />}>
-                <GameStartedOnly fallback={<Lobby />}>
-                  <GameResumedOnly fallback={<GamePauseFeeback />}>
-                    <ValidRoundOnly fallback={<InvalidRoundFeedback />}>
+          <ConnectionCreatedOnly fallback={JoinForm}>
+            <GameCreatedOnly fallback={Scoreboard}>
+              <ConnectionResumedOnly fallback={ConnectionPauseFeedback}>
+                <GameStartedOnly fallback={Lobby}>
+                  <GameResumedOnly fallback={GamePauseFeedback}>
+                    <ValidRoundOnly fallback={InvalidRoundFeedback}>
                       <div className="scrollable">
                         <Question />
                         <LoadingFeedback />

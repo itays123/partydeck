@@ -1,5 +1,8 @@
 import { useEffect } from 'react';
 import { createContext, useContext, useReducer } from 'react';
+import { action } from '../components/contextActionFactory';
+import { createWrapper } from '../components/logicalWrapperFactory';
+import { JSXProvider } from '../components/types';
 import { Wrapper } from '../shared/types';
 import {
   useConnectionCallback,
@@ -7,12 +10,29 @@ import {
   useMessageCallback,
 } from './eventHandlers';
 import { gameReducer, initialGameState } from './gameReducer';
-import { IGameContextValue, IGameData, RoundLifecycle } from './types';
+import {
+  IGameContextValue,
+  IGameData,
+  IRoundState,
+  RoundLifecycle,
+} from './types';
 import { useSession } from './websocketUtils';
 
 export const GameContext = createContext<IGameContextValue>(
   {} as IGameContextValue
 );
+
+export const createLogicalWrapper = (
+  consumer: (ctx: IGameContextValue) => boolean
+) => createWrapper(GameContext, consumer);
+export const createRoundWrapper = (consumer: (round: IRoundState) => boolean) =>
+  createWrapper(GameContext, (ctx: IGameContextValue) =>
+    consumer(ctx.roundState)
+  );
+export const createGameAction = <Props extends object>(
+  label: string | JSXProvider<Props>,
+  consumer: (ctx: IGameContextValue) => void
+) => action(label, GameContext, consumer);
 
 export function useGameContext() {
   return useContext(GameContext);

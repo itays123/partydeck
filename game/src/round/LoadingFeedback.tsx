@@ -1,8 +1,10 @@
-import AdminOnly from '../game/filters/AdminOnly';
-import NotSkippedOnly from './filters/NotSkippedOnly';
-import PendingNextRoundOnly from './filters/PendingNextRoundOnly';
-import WaitingForJudgeOnly from './filters/WaitingForJudgeOnly';
-import WaitingForPlayersOnly from './filters/WaitingForPlayersOnly';
+import {
+  WaitingForPlayersOnly,
+  WaitingForJudgeOnly,
+  PendingNextRoundOnly,
+  NotSkippedOnly,
+  NotAdmin,
+} from '../game/gameContextFilters';
 import PlayersUsed from './PlayersUsed';
 import Waiting from './Waiting';
 import WaitingForJudge from './WaitingForJudge';
@@ -22,9 +24,9 @@ const LoadingFeedback = () => {
         <NotSkippedOnly>
           <WinnerDisplay />
         </NotSkippedOnly>
-        <AdminOnly inverted>
+        <NotAdmin>
           <Waiting text="Waiting for game admin..." />
-        </AdminOnly>
+        </NotAdmin>
       </PendingNextRoundOnly>
     </>
   );

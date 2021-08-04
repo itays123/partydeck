@@ -1,6 +1,6 @@
 import { useCurrentRound, useGameContext } from '../../game/GameContext';
 import { motion } from 'framer-motion';
-import ActivePlayerOnly from '../../round/filters/ActivePlayerOnly';
+import { ActivePlayerOnly } from '../../game/gameContextFilters';
 import { Card as CardProps, RoundLifecycle } from '../../game/types';
 
 const cardVariants = {
