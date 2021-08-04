@@ -1,4 +1,4 @@
-export type NullableErrorMessage = null | string;
+export type NullableErrorMessage = undefined | string;
 export type Validator<T> = (value: string, ctx: T) => NullableErrorMessage;
 export type AsyncValidator<T> = (
   value: string,
