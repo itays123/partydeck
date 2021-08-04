@@ -63,7 +63,7 @@ export function createFormInput<T>({
         >
           {loadingLabel}
         </div>
-        <div className={'error ' + (error || hideErrors ? 'exists' : 'valid')}>
+        <div className={'error ' + (error && !hideErrors ? 'exists' : 'valid')}>
           {error}
         </div>
       </div>

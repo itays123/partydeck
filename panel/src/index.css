@@ -42,4 +42,7 @@
   .content-section {
     @apply text-center md:text-left md:px-6 text-lg md:text-xl;
   }
+  .error.valid {
+    @apply hidden;
+  }
 }
