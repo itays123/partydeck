@@ -14,6 +14,7 @@ export interface IFormInputFactory<T> {
   asyncValidator?: AsyncValidator<T>;
   hideErrors?: boolean;
   onChange: (value: string, ctx: T) => void;
+  onBlur?: (ctx: T) => void;
   onKeyEnter: (ctx: T) => void;
 }
 

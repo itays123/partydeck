@@ -15,6 +15,7 @@ type ISearchProvider = {
   query: string;
   setQuery: Dispatch<SetStateAction<string>>;
   search(): void;
+  clear(): void;
 };
 
 const SearchBarContext = createContext({} as ISearchProvider);
@@ -24,7 +25,7 @@ export const SearchBarOpener = action(Search, SearchBarContext, ctx =>
 );
 
 export const SearchBarClose = action(Clear, SearchBarContext, ctx =>
-  ctx.setVisible(false)
+  ctx.clear()
 );
 
 export const SearchBarVisibleWrapper = createWrapper(
@@ -37,6 +38,7 @@ export const SearchBarInput = createFormInput({
   context: SearchBarContext,
   hideErrors: true,
   onChange: (value, ctx) => ctx.setQuery(value),
+  onBlur: ctx => ctx.clear(),
   onKeyEnter: ctx => ctx.search(),
   validator: value => (value.trim().length === 0 ? 'Cannot search' : null),
 });
@@ -46,11 +48,18 @@ export default function SearchBarProvider({ children }: Wrapper) {
   const [query, setQuery] = useState('');
   const { push } = useHistory();
 
-  const search = useCallback(() => push(`/search?q=${query}`), [push, query]);
+  const clear = useCallback(() => {
+    setVisible(false);
+    setQuery('');
+  }, []);
+  const search = useCallback(() => {
+    push(`/search?q=${query}`);
+    clear();
+  }, [push, query, clear]);
 
   return (
     <SearchBarContext.Provider
-      value={{ visible, setVisible, query, setQuery, search }}
+      value={{ visible, setVisible, query, setQuery, search, clear }}
     >
       {children}
     </SearchBarContext.Provider>

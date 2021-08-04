@@ -13,6 +13,7 @@ export function createFormInput<T>({
   validator,
   asyncValidator,
   onChange,
+  onBlur,
   hideErrors,
   context,
 }: IFormInputFactory<T>) {
@@ -49,6 +50,9 @@ export function createFormInput<T>({
             if (e.key === 'Enter') {
               validateAsync().then(valid => valid && onKeyEnter(ctx));
             }
+          }}
+          onBlur={() => {
+            onBlur && onBlur(ctx);
           }}
         />
         <div
