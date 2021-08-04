@@ -1,17 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useGameContext } from '../game/GameContext';
 import FormInput, { classicValidate, useModel } from '../shared/FormInput';
-import { useQuery } from '../shared/Navigation/useQuery';
+import { useQuery } from './useQuery';
 import Spinner from '../shared/Spinner';
 import { useGameCheck } from './useGameCheck';
 
 const JoinForm = () => {
-  const {
-    validateGame,
-    checkGame,
-    awaitingConfirmation,
-    clearErrors,
-  } = useGameCheck();
+  const { validateGame, checkGame, awaitingConfirmation, clearErrors } =
+    useGameCheck();
   const { code: urlCode } = useQuery();
   const code = useModel(urlCode || '', validateGame);
   const name = useModel('', classicValidate);
