@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-export function useFocusOnRender(focusOnRender: boolean) {
+export function useFocusOnRender(focusOnRender?: boolean) {
   const ref = useRef<HTMLInputElement>(null);
 
   useEffect(() => {

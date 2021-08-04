@@ -13,12 +13,13 @@ export function createFormInput<T>({
   onKeyEnter,
   validator,
   onValueValidated,
+  hideErrors,
   context,
 }: IFormInputFactory<T>) {
   return function Input({
     className,
     focusOnRender,
-  }: withClass & { focusOnRender: boolean }) {
+  }: withClass & { focusOnRender?: boolean }) {
     const [value, setValue] = useState('');
     const ctx = useContext(context);
     const { validate, validState, error } = useValidator(validator, value, ctx);
@@ -52,7 +53,9 @@ export function createFormInput<T>({
         >
           {loadingLabel}
         </div>
-        <div className={'error ' + (error ? 'exists' : 'valid')}>{error}</div>
+        <div className={'error ' + (error || hideErrors ? 'exists' : 'valid')}>
+          {error}
+        </div>
       </div>
     );
   };

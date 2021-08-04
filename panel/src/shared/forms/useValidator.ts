@@ -36,7 +36,6 @@ export function useValidator<T>(
     setError(undefined);
   }, []);
 
-  useDebounce(validationHandler, 1000);
   useEffect(clear, [value, clear]);
 
   return {
