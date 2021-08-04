@@ -16,7 +16,10 @@ export default function SearchBar() {
         />
         <SearchBarVisibleWrapper>
           <div className="fixed md:static w-screen md:w-auto bg-white top-0 left-0 h-16 md:h-auto shadow-xl flex items-center px-8 md:px-1 justify-between z-50 ">
-            <SearchBarInput focusOnRender />
+            <SearchBarInput
+              focusOnRender
+              className="focus:outline-none bg-transparent"
+            />
             <SearchBarClose
               width={20}
               height={20}

@@ -4,7 +4,6 @@ import { withClass } from '../../components/types';
 import { IFormInputFactory, ValidatorState } from './types';
 import { useFocusOnRender } from './useFocusOnRender';
 import { useValidator } from './useValidator';
-import { useValueValidatedCallback } from './useValueValidatedCallback';
 
 export function createFormInput<T>({
   name,
@@ -13,7 +12,7 @@ export function createFormInput<T>({
   onKeyEnter,
   validator,
   asyncValidator,
-  onValueValidated,
+  onChange,
   hideErrors,
   context,
 }: IFormInputFactory<T>) {
@@ -23,15 +22,13 @@ export function createFormInput<T>({
   }: withClass & { focusOnRender?: boolean }) {
     const [value, setValue] = useState('');
     const ctx = useContext(context);
-    const { validateAsync, validState, error } = useValidator(
+    const { validate, validateAsync, validState, error } = useValidator(
       validator,
       asyncValidator,
       value,
       ctx
     );
     const ref = useFocusOnRender(focusOnRender);
-
-    useValueValidatedCallback(onValueValidated, value, validState, ctx);
 
     return (
       <div className={className}>
@@ -42,7 +39,11 @@ export function createFormInput<T>({
           id={name}
           name={name}
           ref={ref}
-          onChange={e => setValue(e.target.value)}
+          onChange={e => {
+            const { value } = e.target;
+            setValue(value);
+            validate() || onChange(value, ctx);
+          }}
           value={value}
           onKeyDown={e => {
             if (e.key === 'Enter') {

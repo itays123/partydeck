@@ -8,6 +8,9 @@ module.exports = {
     colors: {
       theme: colors.indigo,
       gray: colors.blueGray,
+      transparent: {
+        DEFAULT: '#00000000',
+      },
       white: {
         DEFAULT: '#F9FAFB',
       },

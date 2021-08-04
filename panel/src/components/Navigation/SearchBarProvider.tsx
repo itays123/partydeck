@@ -36,7 +36,7 @@ export const SearchBarInput = createFormInput({
   name: 'search',
   context: SearchBarContext,
   hideErrors: true,
-  onValueValidated: (value, ctx) => ctx.setQuery(value),
+  onChange: (value, ctx) => ctx.setQuery(value),
   onKeyEnter: ctx => ctx.search(),
   validator: value => (value.trim().length === 0 ? 'Cannot search' : null),
 });

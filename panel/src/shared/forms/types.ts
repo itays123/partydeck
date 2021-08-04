@@ -13,7 +13,7 @@ export interface IFormInputFactory<T> {
   validator: Validator<T>;
   asyncValidator?: AsyncValidator<T>;
   hideErrors?: boolean;
-  onValueValidated: (value: string, ctx: T) => void;
+  onChange: (value: string, ctx: T) => void;
   onKeyEnter: (ctx: T) => void;
 }
 

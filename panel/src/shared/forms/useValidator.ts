@@ -1,5 +1,4 @@
 import { useState, useCallback, useEffect } from 'react';
-import useDebounce from '../helpers/useDebounce';
 import {
   AsyncValidator,
   NullableErrorMessage,
@@ -32,6 +31,7 @@ export function useValidator<T>(
     if (validState !== ValidatorState.INITIAL) return;
     const nullableErrorMessage = validator(value, ctx);
     validationHandler(nullableErrorMessage);
+    return nullableErrorMessage;
   }, [validator, validState, value, ctx, validationHandler]);
 
   const asyncValidatorCallback = useCallback(async () => {
@@ -60,9 +60,9 @@ export function useValidator<T>(
   }, []);
 
   useEffect(clear, [value, clear]);
-  useDebounce(validatorCallback, 500);
 
   return {
+    validate: validatorCallback,
     validateAsync: asyncValidatorCallback,
     validState,
     error,
