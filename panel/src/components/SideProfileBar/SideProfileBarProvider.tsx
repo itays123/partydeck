@@ -53,7 +53,7 @@ export default function SideProfileBarProvider({ children }: Wrapper) {
 
   useEffect(() => {
     // @ts-ignore
-    if (id !== data.user?._id && !isLoading) doFetch();
+    if (id !== data.user?._id && !isLoading && id) doFetch();
   }, [id, doFetch, data, isLoading]);
 
   return (
