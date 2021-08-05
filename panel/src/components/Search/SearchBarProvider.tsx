@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { createContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { createFormInput } from '../../shared/forms/formInputFactory';
+import { Field } from '../../shared/forms/types';
+import { useField } from '../../shared/forms/useField';
 import { action } from '../buttonFactory';
 import Clear from '../icons/Clear';
 import Search from '../icons/Search';
@@ -12,8 +14,7 @@ import { Wrapper } from '../types';
 type ISearchProvider = {
   visible: boolean;
   setVisible: Dispatch<SetStateAction<boolean>>;
-  query: string;
-  setQuery: Dispatch<SetStateAction<string>>;
+  query: Field;
   search(): void;
   clear(): void;
 };
@@ -34,14 +35,12 @@ export const SearchBarVisibleWrapper = createWrapper(
 );
 
 export const SearchBarInput = createFormInput({
-  name: 'search',
+  name: 'query',
   hint: 'Search...',
   context: SearchBarContext,
   hideErrors: true,
-  onChange: (value, ctx) => ctx.setQuery(value),
   onBlur: ctx => ctx.clear(),
   onKeyEnter: ctx => ctx.search(),
-  validator: value => (value.trim().length === 0 ? 'Cannot search' : null),
 });
 
 export default function SearchBarProvider({
@@ -49,21 +48,23 @@ export default function SearchBarProvider({
   visibleOnRender = false,
 }: Wrapper & { visibleOnRender?: boolean }) {
   const [visible, setVisible] = useState(visibleOnRender);
-  const [query, setQuery] = useState('');
+  const queryField = useField((value: string) =>
+    value.trim().length === 0 ? 'Cannot search' : null
+  );
   const { push } = useHistory();
 
   const clear = useCallback(() => {
     setVisible(visibleOnRender);
-    setQuery('');
-  }, [visibleOnRender]);
+    queryField.setter('');
+  }, [visibleOnRender, queryField]);
   const search = useCallback(() => {
-    push(`/search?q=${query}`);
+    push(`/search?q=${queryField.value}`);
     clear();
-  }, [push, query, clear]);
+  }, [push, queryField.value, clear]);
 
   return (
     <SearchBarContext.Provider
-      value={{ visible, setVisible, query, setQuery, search, clear }}
+      value={{ visible, setVisible, query: queryField, search, clear }}
     >
       {children}
     </SearchBarContext.Provider>

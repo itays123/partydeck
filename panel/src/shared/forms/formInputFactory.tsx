@@ -1,18 +1,13 @@
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import { useState } from 'react';
 import { withClass } from '../../components/types';
-import { IFormInputFactory, ValidatorState } from './types';
+import { Field, IFormInputFactory } from './types';
 import { useFocusOnRender } from './useFocusOnRender';
-import { useValidator } from './useValidator';
 
-export function createFormInput<T>({
+export function createFormInput<T extends {}>({
   name,
   label,
-  loadingLabel,
   onKeyEnter,
-  validator,
-  asyncValidator,
-  onChange,
   onBlur,
   hideErrors,
   context,
@@ -22,52 +17,46 @@ export function createFormInput<T>({
     className,
     focusOnRender,
   }: withClass & { focusOnRender?: boolean }) {
-    const [value, setValue] = useState('');
     const ctx = useContext(context);
-    const { validate, validateAsync, validState, error } = useValidator(
-      validator,
-      asyncValidator,
-      value,
-      ctx
+    const { value, setter, error } = useMemo(
+      () => ctx[name] as unknown as Field,
+      [ctx]
     );
     const ref = useFocusOnRender(focusOnRender);
+    const [errorsVisible, setShowErrors] = useState(false);
 
     return (
       <div className={className}>
-        <label htmlFor={name} className="" hidden={!label}>
+        <label htmlFor={name as string} className="" hidden={!label}>
           {label}
         </label>
         <input
-          id={name}
-          name={name}
+          id={name as string}
+          name={name as string}
           ref={ref}
           placeholder={hint}
           onChange={e => {
-            const { value } = e.target;
-            setValue(value);
-            validate() || onChange(value, ctx);
+            setShowErrors(false);
+            setter(e.target.value);
           }}
           value={value}
           onKeyDown={e => {
             if (e.key === 'Enter') {
-              validateAsync().then(valid => valid && onKeyEnter(ctx));
+              if (error) setShowErrors(true && !hideErrors);
+              else onKeyEnter(ctx);
             }
           }}
           onBlur={() => {
             onBlur && onBlur(ctx);
           }}
         />
-        <div
-          className={
-            'loading ' +
-            (validState === ValidatorState.VALIDATING ? 'active' : 'inactive')
-          }
-        >
-          {loadingLabel}
-        </div>
-        <div className={'error ' + (error && !hideErrors ? 'exists' : 'valid')}>
-          {error}
-        </div>
+        {!hideErrors && (
+          <div
+            className={'error ' + (error && errorsVisible ? 'exists' : 'valid')}
+          >
+            {error}
+          </div>
+        )}
       </div>
     );
   };

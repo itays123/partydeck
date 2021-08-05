@@ -1,3 +1,5 @@
+import React from 'react';
+
 export type NullableErrorMessage = null | string;
 export type Validator<T> = (value: string, ctx: T) => NullableErrorMessage;
 export type AsyncValidator<T> = (
@@ -5,16 +7,18 @@ export type AsyncValidator<T> = (
   ctx: T
 ) => Promise<NullableErrorMessage>;
 
-export interface IFormInputFactory<T> {
-  name: string;
+export interface Field {
+  value: string;
+  setter: React.Dispatch<React.SetStateAction<string>>;
+  error: NullableErrorMessage;
+}
+
+export interface IFormInputFactory<T extends {}> {
+  name: keyof T;
   label?: string;
   hint?: string;
-  loadingLabel?: string;
   context: React.Context<T>;
-  validator: Validator<T>;
-  asyncValidator?: AsyncValidator<T>;
   hideErrors?: boolean;
-  onChange: (value: string, ctx: T) => void;
   onBlur?: (ctx: T) => void;
   onKeyEnter: (ctx: T) => void;
 }
