@@ -1,13 +1,13 @@
 import Check from '../components/glyphs/Check';
 import Ingredients from '../components/glyphs/Ingredients';
 import NewDeck from '../components/glyphs/NewDeck';
-import { createDecoratedPharagraph } from '../components/decoratedPharagraphFactory';
+import { createDecoratedText } from '../components/decoratedTextFactory';
 import ScrollablePageWrapper from '../components/Footer/ScrollablePageWrapper';
 import { createList } from '../components/listFactory';
 import { createLongText } from '../components/longTextFactory';
 import PageTitle from '../shared/PageTitle';
 
-const ConsistenciesOfDecksSubtitle = createDecoratedPharagraph(
+const ConsistenciesOfDecksSubtitle = createDecoratedText(
   Ingredients,
   'What Do Good Decks Consist of?'
 );
@@ -26,7 +26,7 @@ const QuestionAnswersMatch = createLongText(
     'The reason your question deck should only consist of “what” questions, is because combining multiple types of questions will lead to a mismatch in the answer’s data type. If the deck above had the question “When did Ross go to bed last night?”, non of the answers would fit.\n' +
     'If you still want a deck that contains more WH words, we recommend adding enough answer cards that match the questions with this word. For example, we can add the answers “By the time you finally finished breakfast”, “After John left Hanna”, and “By the time your dad came back with the milk”.'
 );
-const CardCountSubtitle = createDecoratedPharagraph(
+const CardCountSubtitle = createDecoratedText(
   NewDeck,
   'How Many Cards Should You Create'
 );
@@ -37,7 +37,7 @@ const CardCountLongText = createLongText(
     'The amount of cards in the  answer deck has to be at least 4 times the amount of players expected to play - 4 cards for every player in the game, but should be way above the minimal amount.\n' +
     'Our reasearch shows that a card should be used once in 6 to 12 rounds. Each round, every player uses a card, meaning we should have some extra answer cards in the answer deck, between 6 to 12 times the amount players, in addition to the cards given to the players before the game starts.'
 );
-const CheckListSubtitle = createDecoratedPharagraph(
+const CheckListSubtitle = createDecoratedText(
   Check,
   'Ensure This Before Using Your Deck In Action'
 );

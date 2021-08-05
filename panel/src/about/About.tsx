@@ -1,15 +1,12 @@
 import Growth from '../components/glyphs/Growth';
 import LightBulb from '../components/glyphs/LightBulb';
 import { externalLink } from '../components/buttonFactory';
-import { createDecoratedPharagraph } from '../components/decoratedPharagraphFactory';
+import { createDecoratedText } from '../components/decoratedTextFactory';
 import ScrollablePageWrapper from '../components/Footer/ScrollablePageWrapper';
 import { createList } from '../components/listFactory';
 import PageTitle from '../shared/PageTitle';
 
-const IdeaSubtitle = createDecoratedPharagraph(
-  LightBulb,
-  'The Idea of Partydeck'
-);
+const IdeaSubtitle = createDecoratedText(LightBulb, 'The Idea of Partydeck');
 const FeaturesList = createList(
   'Playable from distance',
   'Inclusive and fair - the game makes the judge or the round judge based on the quality of the answer card rather than the quality of the player who had it.',
@@ -17,7 +14,7 @@ const FeaturesList = createList(
   'Personalized - each one can make their own customized version',
   'Connecting - the game makes you get to know the other players better'
 );
-const GettingBetterSubtitle = createDecoratedPharagraph(
+const GettingBetterSubtitle = createDecoratedText(
   Growth,
   'Always Getting Better'
 );
