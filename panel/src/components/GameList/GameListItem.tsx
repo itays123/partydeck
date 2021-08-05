@@ -22,7 +22,7 @@ export default function GameListItem({
 }: Game) {
   return (
     <GameActionsProvider gameId={_id}>
-      <div className="game-item p-4 bg-theme-100 rounded">
+      <div className="game-item p-4 bg-theme-100 rounded border-b-4 border-theme-100 hover:border-theme-500">
         <div className="details flex items-center space-x-4 font-roboto text-theme-600 font-medium md:text-lg">
           <span className="text-theme-700">
             {questionCount + answerCount} cards
