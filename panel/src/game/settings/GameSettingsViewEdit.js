@@ -4,7 +4,7 @@ import GameLanguageSelect from './GameLanguageSelect';
 import NewGamesOnly, { ExistingGamesOnly } from '../wrapper/NewGamesOnly';
 import EditorOnly, { ViewerOnly } from '../wrapper/EditorOnly';
 import { useGameEditorContext } from '../GameEditorContext';
-import PrivatePublicToggle from './PrivatePublicToggle/PrivatePublicToggle';
+import PrivatePublicTickbox from './PrivatePublicTickBox/PrivatePublicTickbox';
 
 const GameSettingsViewEdit = () => {
   const { author, lng, isPrivate } = useGameEditorContext();
@@ -25,7 +25,7 @@ const GameSettingsViewEdit = () => {
           {isPrivate ? 'Private' : 'Public'}
         </ViewerOnly>
         <EditorOnly>
-          <PrivatePublicToggle />
+          <PrivatePublicTickbox />
         </EditorOnly>
       </h3>
     </>
