@@ -11,6 +11,9 @@ module.exports = {
       transparent: {
         DEFAULT: '#00000000',
       },
+      halfblack: {
+        DEFAULT: '#0000007F',
+      },
       white: {
         DEFAULT: '#F9FAFB',
       },
