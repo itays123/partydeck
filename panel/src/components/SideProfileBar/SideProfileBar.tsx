@@ -23,7 +23,7 @@ export default function SideProfileBar() {
 
   return (
     <ProfileBarOpen>
-      <div className="absolute inset-0 md:static md:w-4/10 transition-all flex flex-col py-4 px-8 bg-white">
+      <div className="absolute inset-0 lg:static lg:w-4/10 transition-all flex flex-col py-4 px-8 bg-white">
         <ProfileBarClose
           className="self-end rounded-full bg-theme-800 text-white p-0.5"
           width={20}
