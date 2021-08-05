@@ -14,7 +14,7 @@ export default function MyDecks() {
     <div className="my-decks px-8">
       <div className="flex items-center justify-between">
         <PageTitle>My Decks</PageTitle>
-        <CreateDeckLink className="w-8 md:w-14" />
+        <CreateDeckLink className="w-8 md:w-14 md:mr-8" />
       </div>
       <div>
         <section className="info"></section>
