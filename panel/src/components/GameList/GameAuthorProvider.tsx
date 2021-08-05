@@ -1,6 +1,7 @@
 import { createContext, useMemo } from 'react';
 import { useAuthContext } from '../../auth/AuthContext';
 import { createWrapper } from '../logicalWrapeprFactory';
+import { useProfile } from '../SideProfileBar/SideProfileBarProvider';
 import { Wrapper } from '../types';
 import { Author } from './types';
 
@@ -22,12 +23,16 @@ export function GameAuthorProvider({
   children,
   sharedAuthor,
 }: Wrapper & { sharedAuthor?: Author }) {
-  const { user } = useAuthContext();
+  const { user, isSignedIn } = useAuthContext();
+  const { open } = useProfile();
   const isAuthor = useMemo(
-    () => sharedAuthor?._id === user?._id,
-    [sharedAuthor, user]
+    () => sharedAuthor?._id === user?._id && isSignedIn,
+    [sharedAuthor, user, isSignedIn]
   );
-  const shouldLink = useMemo(() => !sharedAuthor, [sharedAuthor]);
+  const shouldLink = useMemo(
+    () => !sharedAuthor && !!open,
+    [sharedAuthor, open]
+  );
   return (
     <GameAuthorContext.Provider
       value={{ author: sharedAuthor, isAuthor, shouldLink }}

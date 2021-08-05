@@ -1,5 +1,5 @@
 import { useContext, useMemo } from 'react';
-import { link } from '../buttonFactory';
+import { ProfileBarOpener } from '../SideProfileBar/SideProfileBarProvider';
 import { withClass } from '../types';
 import { GameAuthorContext } from './GameAuthorProvider';
 import { Author } from './types';
@@ -14,7 +14,7 @@ export function GameAuthor({
     [author, sharedAuthor]
   );
   return shouldLink ? (
-    link(name, '/user/' + _id)({ className })
+    ProfileBarOpener(name, _id)({ className })
   ) : (
     <div className={className}>{name}</div>
   );
