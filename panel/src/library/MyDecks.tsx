@@ -19,7 +19,7 @@ export default function MyDecks() {
       <div>
         <section className="info"></section>
         <section className="games">
-          {isLoading || <GameList games={games} sharedAuthor={user} />}
+          <GameList games={games} sharedAuthor={user} isLoading={isLoading} />
         </section>
       </div>
     </div>
