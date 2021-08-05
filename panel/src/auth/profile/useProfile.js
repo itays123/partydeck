@@ -1,4 +1,4 @@
-import { useFetch } from '../../shared/helpers/useAsyncFetch';
+import { useFetch } from '../../shared/helpers/useFetch';
 
 export function useProfile(userId) {
   const { data, isLoading, status } = useFetch('/' + userId);

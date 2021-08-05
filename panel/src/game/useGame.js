@@ -1,4 +1,4 @@
-import { useFetch } from '../shared/helpers/useAsyncFetch';
+import { useFetch } from '../shared/helpers/useFetch';
 
 export function useGame(gameId) {
   const { data, isLoading, status } = useFetch('/game/' + gameId);

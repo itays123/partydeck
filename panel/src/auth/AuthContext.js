@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import { useFetch } from '../shared/helpers/useAsyncFetch';
+import { useFetch } from '../shared/helpers/useFetch';
 
 export const AuthContext = createContext();
 

@@ -1,4 +1,4 @@
-import { useFetch } from '../../shared/helpers/useAsyncFetch';
+import { useFetch } from '../../shared/helpers/useFetch';
 import { useAuthContext } from '../AuthContext';
 
 export function useRegister() {
