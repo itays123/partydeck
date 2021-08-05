@@ -2,11 +2,14 @@ import { useCallback, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { JSXProvider, withClass } from './types';
 
-export function link(label: string, to: string) {
-  return function LabledLink({ className }: withClass) {
+export function link<Props extends object = {}>(
+  label: string | JSXProvider<Props>,
+  to: string
+) {
+  return function LabledLink({ className, ...props }: withClass & Props) {
     return (
       <NavLink to={to} className={className}>
-        {label}
+        {typeof label === 'string' ? label : label(props as unknown as Props)}
       </NavLink>
     );
   };

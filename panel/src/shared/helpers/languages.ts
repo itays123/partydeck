@@ -1,4 +1,7 @@
-const languages = {
+type Language = { name: string; nativeName: string };
+type LanguagesMap = { [key: string]: Language };
+
+const languages: LanguagesMap = {
   ab: {
     name: 'Abkhaz',
     nativeName: 'аҧсуа',
@@ -472,8 +475,7 @@ const languages = {
     nativeName: 'ᐊᓂᔑᓈᐯᒧᐎᓐ',
   },
   cu: {
-    name:
-      'Old Church Slavonic, Church Slavic, Church Slavonic, Old Bulgarian, Old Slavonic',
+    name: 'Old Church Slavonic, Church Slavic, Church Slavonic, Old Bulgarian, Old Slavonic',
     nativeName: 'ѩзыкъ словѣньскъ',
   },
   om: {

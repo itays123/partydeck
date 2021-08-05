@@ -12,10 +12,11 @@ import GameViewEdit from './game/GameViewEdit';
 import Home from './Home/Home';
 import GameCreationPending from './shared/GamePending/GameCreationPending';
 import GamePendingContextProvider from './shared/GamePending/GamePendingContext';
-import MyGames from './shared/MyGames';
 import NavWrapper from './components/Navigation/NavWrapper';
 import PageNotFound from './shared/PageNotFound';
 import SearchResults from './library/SearchResults';
+import { AuthProtectedPage } from './auth/AuthProtectedPage';
+import MyDecks from './library/MyDecks';
 
 function App() {
   return (
@@ -29,9 +30,9 @@ function App() {
                 <Home />
               </Route>
               <Route exact path="/my">
-                <AuthOnly redirect="/">
-                  <MyGames />
-                </AuthOnly>
+                <AuthProtectedPage>
+                  <MyDecks />
+                </AuthProtectedPage>
               </Route>
               <Route exact path="/about">
                 <About />
