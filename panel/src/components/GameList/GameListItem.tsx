@@ -28,7 +28,7 @@ export default function GameListItem({
             {questionCount + answerCount} cards
           </span>
           <span>{languages[lng] && languages[lng].nativeName}</span>
-          <GameAuthor author={author} />
+          <GameAuthor author={author} className="hover:text-gray-700" />
           <GamePrivateIcon isPrivate={isPrivate} width={20} height={20} />
         </div>
         <div className="title-actions flex items-center justify-between">

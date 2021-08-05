@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useFetch } from '../shared/helpers/useAsyncFetch';
+import { useFetch } from '../../shared/helpers/useAsyncFetch';
 
 export function useSearch(query) {
   const [result, setResult] = useState([]);
