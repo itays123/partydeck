@@ -1,6 +1,6 @@
 import { Redirect } from 'react-router-dom';
 import { Wrapper } from '../components/types';
-import { Authenticated, NotAuthenticated } from './authFilters';
+import { Authenticated, NotAuthenticated } from './AuthContext';
 
 export function AuthProtectedPage({
   redirect = '/',

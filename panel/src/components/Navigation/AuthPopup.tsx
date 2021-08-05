@@ -1,6 +1,9 @@
 import { LegacyRef, useRef } from 'react';
-import { useAuthContext } from '../../auth/AuthContext';
-import { Authenticated, NotAuthenticated } from '../../auth/authFilters';
+import {
+  useAuthContext,
+  Authenticated,
+  NotAuthenticated,
+} from '../../auth/AuthContext';
 import AuthPopupProvider, {
   PopupOpenButton,
   PopupVisibleWrapper,
