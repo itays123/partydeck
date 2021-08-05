@@ -12,6 +12,9 @@
   input {
     @apply focus:outline-none bg-transparent;
   }
+  a {
+    @apply active:outline-none;
+  }
 }
 
 @layer components {

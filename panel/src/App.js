@@ -17,6 +17,7 @@ import PageNotFound from './shared/PageNotFound';
 import { AuthProtectedPage } from './auth/AuthProtectedPage';
 import MyDecks from './library/MyDecks';
 import GameLibrary from './library/GameLibrary';
+import LoginModal from './auth/LoginModal';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <GamePendingContextProvider>
           {/* A small component that is essential for the `/pending` route */}
           <NavWrapper>
+            <LoginModal />
             <Switch>
               <Route exact path="/">
                 <Home />

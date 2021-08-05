@@ -48,6 +48,7 @@ module.exports = {
       backgroundColor: ['checked'],
       borderColor: ['checked'],
       display: ['odd'],
+      outline: ['active'],
     },
   },
   plugins: [],
