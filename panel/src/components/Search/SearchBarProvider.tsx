@@ -35,6 +35,7 @@ export const SearchBarVisibleWrapper = createWrapper(
 
 export const SearchBarInput = createFormInput({
   name: 'search',
+  hint: 'Search...',
   context: SearchBarContext,
   hideErrors: true,
   onChange: (value, ctx) => ctx.setQuery(value),
@@ -43,15 +44,18 @@ export const SearchBarInput = createFormInput({
   validator: value => (value.trim().length === 0 ? 'Cannot search' : null),
 });
 
-export default function SearchBarProvider({ children }: Wrapper) {
-  const [visible, setVisible] = useState(false);
+export default function SearchBarProvider({
+  children,
+  visibleOnRender = false,
+}: Wrapper & { visibleOnRender?: boolean }) {
+  const [visible, setVisible] = useState(visibleOnRender);
   const [query, setQuery] = useState('');
   const { push } = useHistory();
 
   const clear = useCallback(() => {
-    setVisible(false);
+    setVisible(visibleOnRender);
     setQuery('');
-  }, []);
+  }, [visibleOnRender]);
   const search = useCallback(() => {
     push(`/search?q=${query}`);
     clear();

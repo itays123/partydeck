@@ -8,6 +8,7 @@ export type AsyncValidator<T> = (
 export interface IFormInputFactory<T> {
   name: string;
   label?: string;
+  hint?: string;
   loadingLabel?: string;
   context: React.Context<T>;
   validator: Validator<T>;

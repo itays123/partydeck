@@ -3,7 +3,7 @@ import SearchBarProvider, {
   SearchBarInput,
   SearchBarOpener,
   SearchBarVisibleWrapper,
-} from './SearchBarProvider';
+} from '../Search/SearchBarProvider';
 
 export default function SearchBar() {
   return (

@@ -16,6 +16,7 @@ export function createFormInput<T>({
   onBlur,
   hideErrors,
   context,
+  hint,
 }: IFormInputFactory<T>) {
   return function Input({
     className,
@@ -40,6 +41,7 @@ export function createFormInput<T>({
           id={name}
           name={name}
           ref={ref}
+          placeholder={hint}
           onChange={e => {
             const { value } = e.target;
             setValue(value);

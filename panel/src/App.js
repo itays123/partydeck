@@ -14,9 +14,9 @@ import GameCreationPending from './shared/GamePending/GameCreationPending';
 import GamePendingContextProvider from './shared/GamePending/GamePendingContext';
 import NavWrapper from './components/Navigation/NavWrapper';
 import PageNotFound from './shared/PageNotFound';
-import SearchResults from './library/SearchResults';
 import { AuthProtectedPage } from './auth/AuthProtectedPage';
 import MyDecks from './library/MyDecks';
+import GameLibrary from './library/GameLibrary';
 
 function App() {
   return (
@@ -60,7 +60,7 @@ function App() {
                 </AuthOnly>
               </Route>
               <Route path="/search">
-                <SearchResults />
+                <GameLibrary />
               </Route>
               <Route path="/create">
                 <AuthOnly redirect="/">
