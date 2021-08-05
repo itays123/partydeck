@@ -23,7 +23,7 @@ export default function GameListItem({
   return (
     <GameActionsProvider gameId={_id}>
       <div className="game-item p-4 bg-theme-100 rounded border-b-4 border-theme-100 hover:border-theme-500">
-        <div className="details flex items-center space-x-4 font-roboto text-theme-600 font-medium md:text-lg">
+        <div className="details flex items-center space-x-4 font-roboto text-theme-600 font-medium text-sm md:text-lg">
           <span className="text-theme-700">
             {questionCount + answerCount} cards
           </span>
@@ -38,7 +38,7 @@ export default function GameListItem({
           <h2 className="text-2xl md:text-5xl text-theme-700 mb-0">
             <LinkableGameName name={name} className="font-bold" />
           </h2>
-          <div className="space-x-2">
+          <div className="space-x-2 mt-2 md:mt-0">
             <IsAuthor>
               <EditButton className="w-8 md:w-14" />
               <RemoveButton className="w-8 md:w-14" />
