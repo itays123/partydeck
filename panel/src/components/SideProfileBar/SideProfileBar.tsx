@@ -34,13 +34,13 @@ export default function SideProfileBar() {
         </ProfileLoading>
         <ProfilePresent>
           <div className="details mt-8">
-            <h1 className="text-left">{name}</h1>
+            <h1 className="text-left font-bold text-theme-800">{name}</h1>
             <h2 className="text-xl">
               {totalCards} cards in {games?.length} decks
             </h2>
           </div>
-          <div className="flex-grow overflow-y-scroll mt-8 -mx-8">
-            <h3 className="text-lg font-medium px-8">More from {name}</h3>
+          <div className="flex-grow overflow-y-scroll mt-8 -mx-4">
+            <h3 className="text-lg font-medium px-4">More from {name}</h3>
             <GameList sharedAuthor={{ name, _id }} games={games} />
           </div>
         </ProfilePresent>

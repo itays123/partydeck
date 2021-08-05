@@ -16,7 +16,9 @@ export default function SearchResults({ query }: { query: string }) {
           <div className="flex-grow flex flex-row items-stretch justify-start overflow-y-hidden">
             <ScrollableSearchResultsWrapper className="flex-1">
               <PageTitle>Search Results</PageTitle>
-              <h2 className="text-left px-4 -mt-4">"{query}"</h2>
+              <h2 className="px-4 -mt-8 text-theme-600 font-medium text-lg md:text-2xl">
+                "{query}"
+              </h2>
               <SearchResultList />
               <MoreResultsLoading>
                 <Spinner />
