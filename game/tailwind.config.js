@@ -11,6 +11,7 @@ module.exports = {
       transparent: {
         DEFAULT: '#00000000',
         dark: '#0000001A',
+        theme: colors.indigo[200] + 'A1',
       },
       white: {
         DEFAULT: '#F9FAFB',
