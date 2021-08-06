@@ -18,10 +18,7 @@ export function useCheckEmail(emailShouldBeUnique: boolean = false) {
   return {
     async checkEmail(email: string) {
       setCheckAllowed(false);
-      const { status } = await doFetch(
-        null,
-        `?email=${email.toLowerCase()}`
-      ).then();
+      const { status } = await doFetch(null, `?email=${email.toLowerCase()}`);
       return emailShouldBeUnique === (status === 200);
     },
     emailInUse,
