@@ -10,7 +10,7 @@
     @apply md:list-disc md:pl-8 space-y-4 md:space-y-0;
   }
   input {
-    @apply focus:outline-none bg-transparent;
+    @apply focus:outline-none bg-transparent w-full;
   }
   a {
     @apply active:outline-none;

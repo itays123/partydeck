@@ -1,12 +1,18 @@
 import { useContext, useMemo } from 'react';
-import { useState } from 'react';
 import { withClass } from '../../components/types';
 import { Field, IFormInputFactory } from './types';
 import { useFocusOnRender } from './useFocusOnRender';
 
+type FormInputProps = withClass & {
+  focusOnRender?: boolean;
+  overrideLabel?: string;
+  overrideHint?: string;
+};
+
 export function createFormInput<T extends {}>({
   name,
   label,
+  type,
   onKeyEnter,
   onBlur,
   hideErrors,
@@ -16,33 +22,34 @@ export function createFormInput<T extends {}>({
   return function Input({
     className,
     focusOnRender,
-  }: withClass & { focusOnRender?: boolean }) {
+    overrideLabel,
+    overrideHint,
+  }: FormInputProps) {
     const ctx = useContext(context);
-    const { value, setter, error } = useMemo(
+    const { value, setter, error, errorsVisible, showErrors } = useMemo(
       () => ctx[name] as unknown as Field,
       [ctx]
     );
     const ref = useFocusOnRender(focusOnRender);
-    const [errorsVisible, setShowErrors] = useState(false);
 
     return (
       <div className={className}>
         <label htmlFor={name as string} className="" hidden={!label}>
-          {label}
+          {overrideLabel || label}
         </label>
         <input
           id={name as string}
           name={name as string}
           ref={ref}
-          placeholder={hint}
+          placeholder={overrideHint || hint}
+          type={type}
           onChange={e => {
-            setShowErrors(false);
             setter(e.target.value);
           }}
           value={value}
           onKeyDown={e => {
             if (e.key === 'Enter') {
-              if (error) setShowErrors(true && !hideErrors);
+              if (error) showErrors();
               else onKeyEnter(ctx);
             }
           }}

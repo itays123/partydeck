@@ -11,12 +11,15 @@ export interface Field {
   value: string;
   setter: React.Dispatch<React.SetStateAction<string>>;
   error: NullableErrorMessage;
+  errorsVisible: boolean;
+  showErrors(): void;
 }
 
 export interface IFormInputFactory<T extends {}> {
   name: keyof T;
   label?: string;
   hint?: string;
+  type?: 'text' | 'email' | 'password' | 'number';
   context: React.Context<T>;
   hideErrors?: boolean;
   onBlur?: (ctx: T) => void;

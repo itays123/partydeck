@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Field, NullableErrorMessage } from './types';
 
 export function useField(
@@ -6,6 +6,20 @@ export function useField(
   initialValue: string = ''
 ): Field {
   const [value, setter] = useState(initialValue);
+  const [errorsVisible, setErrorsVisible] = useState(false);
   const error = useMemo(() => validator(value), [value, validator]);
-  return { value, setter, error };
+
+  useEffect(() => {
+    setErrorsVisible(false);
+  }, [value]);
+
+  return {
+    value,
+    setter,
+    error,
+    errorsVisible,
+    showErrors() {
+      setErrorsVisible(true);
+    },
+  };
 }
