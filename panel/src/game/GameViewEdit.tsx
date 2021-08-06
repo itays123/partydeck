@@ -3,7 +3,6 @@ import GameEditorContextProvider from './GameEditorContext';
 import { useGame } from './useGame';
 import GameSettingsViewEdit from './settings/GameSettingsViewEdit';
 import { useSaveGame } from './action/useSaveGame';
-import Spinner from '../shared/Spinner';
 import { useDeleteGame } from './action/useDeleteGame';
 import PageNotFound from '../shared/PageNotFound';
 import { useGamePending } from '../shared/GamePending/GameCreationPending';
@@ -11,6 +10,7 @@ import DeckEditor from './deck/DeckEditor';
 import GameAction from './action/GameAction';
 import SvgWrapper from '../shared/SvgWrapper';
 import EditorOnly from './wrapper/EditorOnly';
+import Spinner from '../components/Spinner/Spinner';
 
 const GameViewEdit = () => {
   const { id } = useParams<{ id: string }>();
@@ -22,9 +22,8 @@ const GameViewEdit = () => {
 
   if (game.isLoading)
     return (
-      <div className="container mx-auto mt-8 flex">
-        <Spinner />
-        Loading...
+      <div className="container mx-auto mt-8">
+        <Spinner label="loading..." />
       </div>
     );
 

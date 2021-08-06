@@ -1,4 +1,4 @@
-import { Wrapper } from '../components/types';
+import { Wrapper } from '../types';
 
 export default function PageTitle({ children }: Wrapper) {
   return (

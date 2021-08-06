@@ -2,7 +2,7 @@ import { useAuthContext } from '../auth/AuthContext';
 import { useProfile } from '../components/SideProfileBar/useProfile';
 import { link } from '../components/buttonFactory';
 import GameList from '../components/GameList/GameList';
-import PageTitle from '../shared/PageTitle';
+import PageTitle from '../components/PageTitle/PageTitle';
 import NewDeck from '../components/glyphs/NewDeck';
 
 const CreateDeckLink = link(NewDeck, '/create');

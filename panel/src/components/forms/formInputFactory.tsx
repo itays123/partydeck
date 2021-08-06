@@ -1,5 +1,5 @@
 import { useContext, useMemo } from 'react';
-import { withClass } from '../../components/types';
+import { withClass } from '../types';
 import { Field, IFormInputFactory } from './types';
 import { useFocusOnRender } from './useFocusOnRender';
 

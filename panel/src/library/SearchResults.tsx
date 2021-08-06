@@ -1,12 +1,12 @@
 import SideProfileBar from '../components/SideProfileBar/SideProfileBar';
 import SideProfileBarProvider from '../components/SideProfileBar/SideProfileBarProvider';
-import PageTitle from '../shared/PageTitle';
-import Spinner from '../shared/Spinner';
+import PageTitle from '../components/PageTitle/PageTitle';
 import { ScrollableSearchResultsWrapper } from './search/ScrollableSearchResultWrapper';
 import SearchResultList from './search/SearchResultList';
 import SearchResultProvider, {
   MoreResultsLoading,
 } from './search/SearchResultProvider';
+import Spinner from '../components/Spinner/Spinner';
 
 export default function SearchResults({ query }: { query: string }) {
   return (
@@ -21,7 +21,7 @@ export default function SearchResults({ query }: { query: string }) {
               </h2>
               <SearchResultList />
               <MoreResultsLoading>
-                <Spinner />
+                <Spinner label="loading more results..." />
               </MoreResultsLoading>
             </ScrollableSearchResultsWrapper>
             <SideProfileBar />

@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { Field } from '../../shared/forms/types';
+import { Field } from '../../components/forms/types';
 
 export function usePasswordValidator(
   authError: boolean,

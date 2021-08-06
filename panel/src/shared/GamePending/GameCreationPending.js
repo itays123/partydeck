@@ -1,6 +1,6 @@
 import { Redirect, useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
-import Spinner from '../Spinner';
+import Spinner from '../../components/Spinner/Spinner';
 import { useGamePendingContext } from './GamePendingContext';
 
 const { REACT_APP_GAME_URL } = process.env;
@@ -14,9 +14,7 @@ const GameCreationPending = () => {
         {isPending ? 'Please Wait' : hasError ? 'Error' : 'Ready!'}
       </h1>
       {isPending ? (
-        <div className="flex">
-          <Spinner /> Your game is being created...
-        </div>
+        <Spinner label="Creating Your Game..." />
       ) : hasError ? (
         <div className="flex flex-col items-center">
           <p>Error creating the live game</p>

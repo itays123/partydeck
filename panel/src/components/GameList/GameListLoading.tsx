@@ -1,14 +1,5 @@
-import Spinner from '../../shared/Spinner';
+import Spinner from '../Spinner/Spinner';
 
 export function GameListLoading({ isLoading }: { isLoading?: boolean }) {
-  return (
-    <>
-      {isLoading && (
-        <div className="flex justify-center items-center">
-          <Spinner />
-          <span>Loading decks....</span>
-        </div>
-      )}
-    </>
-  );
+  return <>{isLoading && <Spinner label="loading decks..." />}</>;
 }

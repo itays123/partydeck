@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { createContext, useState } from 'react';
 import { Wrapper } from '../../components/types';
-import { Field } from '../../shared/forms/types';
-import { useField } from '../../shared/forms/useField';
+import { Field } from '../../components/forms/types';
+import { useField } from '../../components/forms/useField';
 import { useAsyncEmailValidator } from './useAsyncEmailValidator';
 import { useAsyncPasswordValidator } from './useAsyncPasswordValidator';
 import { useCheckEmail } from './useCheckEmail';

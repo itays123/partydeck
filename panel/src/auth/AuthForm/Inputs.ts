@@ -1,4 +1,4 @@
-import { createFormInput } from '../../shared/forms/formInputFactory';
+import { createFormInput } from '../../components/forms/formInputFactory';
 import { AuthFormContext } from './AuthFormProvider';
 
 export const NameInputField = createFormInput({

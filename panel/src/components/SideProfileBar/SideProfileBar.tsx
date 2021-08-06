@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import Spinner from '../../shared/Spinner';
 import GameList from '../GameList/GameList';
+import Spinner from '../Spinner/Spinner';
 import {
   ProfileBarClose,
   ProfileBarOpen,
@@ -30,7 +30,7 @@ export default function SideProfileBar() {
           height={20}
         />
         <ProfileLoading>
-          <Spinner />
+          <Spinner label="loading..." />
         </ProfileLoading>
         <ProfilePresent>
           <div className="details mt-8">

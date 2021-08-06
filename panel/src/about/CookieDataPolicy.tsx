@@ -5,7 +5,7 @@ import Privacy from '../components/glyphs/Privacy';
 import { createDecoratedText } from '../components/decoratedTextFactory';
 import ScrollablePageWrapper from '../components/Footer/ScrollablePageWrapper';
 import { createList } from '../components/listFactory';
-import PageTitle from '../shared/PageTitle';
+import PageTitle from '../components/PageTitle/PageTitle';
 
 const PrivacySubtitle = createDecoratedText(
   Privacy,

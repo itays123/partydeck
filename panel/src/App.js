@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import AuthContextProvider from './auth/AuthContext';
-import AuthOnly from './auth/AuthOnly';
 import About from './about/About';
 import CookieDataPolicy from './about/CookieDataPolicy';
 import CreatingDecksGuide from './about/CreatingDecksGuide';
@@ -51,14 +50,14 @@ function App() {
                 <GameLibrary />
               </Route>
               <Route path="/create">
-                <AuthOnly redirect="/">
+                <AuthProtectedPage>
                   <CreateGame />
-                </AuthOnly>
+                </AuthProtectedPage>
               </Route>
               <Route path="/pending">
-                <AuthOnly redirect="/">
+                <AuthProtectedPage>
                   <GameCreationPending />
-                </AuthOnly>
+                </AuthProtectedPage>
               </Route>
               <Route>
                 <PageNotFound />

@@ -1,7 +1,7 @@
 import SearchBarProvider, {
   SearchBarInput,
 } from '../components/Search/SearchBarProvider';
-import PageTitle from '../shared/PageTitle';
+import PageTitle from '../components/PageTitle/PageTitle';
 import { useQuery } from './search/useQuery';
 import SearchResults from './SearchResults';
 

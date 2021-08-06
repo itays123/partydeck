@@ -1,4 +1,4 @@
-import Spinner from '../../shared/Spinner';
+import Spinner from '../../components/Spinner/Spinner';
 import { useGameEditorContext } from '../GameEditorContext';
 import { IGameEditorContext } from '../types';
 
@@ -44,10 +44,7 @@ export default function GameAction({
           {label}
         </>
       ) : (
-        <div className="flex items-center">
-          <Spinner />
-          {loadingLabel}
-        </div>
+        <Spinner label={loadingLabel} />
       )}
     </button>
   );

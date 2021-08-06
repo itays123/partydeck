@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useCallback } from 'react';
-import { Field } from '../../shared/forms/types';
+import { Field } from '../../components/forms/types';
 import { AuthFormStage } from './AuthFormProvider';
 
 export function useAsyncEmailValidator(

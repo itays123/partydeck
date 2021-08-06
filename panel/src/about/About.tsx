@@ -4,7 +4,7 @@ import { externalLink } from '../components/buttonFactory';
 import { createDecoratedText } from '../components/decoratedTextFactory';
 import ScrollablePageWrapper from '../components/Footer/ScrollablePageWrapper';
 import { createList } from '../components/listFactory';
-import PageTitle from '../shared/PageTitle';
+import PageTitle from '../components/PageTitle/PageTitle';
 
 const IdeaSubtitle = createDecoratedText(LightBulb, 'The Idea of Partydeck');
 const FeaturesList = createList(
