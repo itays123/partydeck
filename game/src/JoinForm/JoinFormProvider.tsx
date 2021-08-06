@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { createContext } from 'react';
 import { Field } from '../components/forms/types';
 import { useField } from '../components/forms/useField';
@@ -24,6 +24,10 @@ interface IJoinForm {
 }
 
 export const JoinFormContext = createContext({} as IJoinForm);
+
+export function useJoinForm() {
+  return useContext(JoinFormContext);
+}
 
 const classicValidate = (errorMessage: string) => (value: string) =>
   value.trim().length === 0 ? errorMessage : null;
