@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useAuthContext } from '../../auth/AuthContext';
 import useClickOutside from '../../shared/helpers/useClickOutside';
 import { action } from '../buttonFactory';
 import Person from '../icons/Person';
@@ -34,11 +35,17 @@ export default function AuthPopupProvider({
 }: Wrapper & withPopupRef) {
   const [isOpen, setOpen] = useState(false);
   const location = useLocation();
+  const { loginModal, registerModal } = useAuthContext();
 
   // on each redirect, set the popup to closed
   useEffect(() => {
     setOpen(false);
   }, [location.pathname]);
+
+  // when modals open, close the popup
+  useEffect(() => {
+    if (loginModal.isOpen || registerModal.isOpen) setOpen(false);
+  }, [loginModal.isOpen, registerModal.isOpen]);
 
   useClickOutside(popupRef, () => setOpen(false));
 

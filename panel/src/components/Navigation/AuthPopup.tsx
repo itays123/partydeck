@@ -39,8 +39,8 @@ export default function ResponsiveAuthPopup() {
             <NotAuthenticated>
               <div className="font-bold">Guest</div>
               <div className="w-max flex flex-col">
-                <Login className="hover:text-gray-600" />
-                <Register className="hover:text-gray-600" />
+                <Login className="hover:text-gray-600 text-left" />
+                <Register className="hover:text-gray-600 text-left" />
               </div>
             </NotAuthenticated>
           </div>
