@@ -18,6 +18,7 @@ import { AuthProtectedPage } from './auth/AuthProtectedPage';
 import MyDecks from './library/MyDecks';
 import GameLibrary from './library/GameLibrary';
 import LoginModal from './auth/LoginModal';
+import RegisterModal from './auth/RegisterModal';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           {/* A small component that is essential for the `/pending` route */}
           <NavWrapper>
             <LoginModal />
+            <RegisterModal />
             <Switch>
               <Route exact path="/">
                 <Home />
@@ -50,16 +52,6 @@ function App() {
               </Route>
               <Route path="/user/:id">
                 <Profile />
-              </Route>
-              <Route path="/login">
-                <AuthOnly shouldNotBeAuthenticated redirect="/">
-                  <Login />
-                </AuthOnly>
-              </Route>
-              <Route path="/start">
-                <AuthOnly shouldNotBeAuthenticated redirect="/">
-                  <Register />
-                </AuthOnly>
               </Route>
               <Route path="/search">
                 <GameLibrary />
