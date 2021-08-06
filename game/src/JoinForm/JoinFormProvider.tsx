@@ -1,114 +1,65 @@
-import { Dispatch, SetStateAction, useCallback } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createContext } from 'react';
-import { action } from '../components/contextActionFactory';
-import { createFormInput } from '../components/forms/formInputFactory';
-import { NullableErrorMessage } from '../components/forms/types';
-import Next from '../components/glyphs/Next';
-import { createWrapper } from '../components/logicalWrapperFactory';
+import { Field } from '../components/forms/types';
+import { useField } from '../components/forms/useField';
 import { Wrapper } from '../components/types';
 import { useGameContext } from '../game/GameContext';
+import { useAsyncCodeValidator } from './useAsyncCodeValidator';
 import { useGameCheck } from './useGameCheck';
 import { useQuery } from './useQuery';
 
-enum FormStatus {
+export enum JoinFormStage {
   CODE,
+  VALIDATING_CODE,
   NAME,
   LOADING,
 }
 
 interface IJoinForm {
-  status: FormStatus;
-  gameCode: string;
-  setGameCode: Dispatch<SetStateAction<string>>;
-  checkGameExists(value?: string): Promise<boolean>;
-  validateGameCode(value: string): NullableErrorMessage;
-  name: string;
-  setName: Dispatch<SetStateAction<string>>;
-  validateName(value: string): NullableErrorMessage;
+  stage: JoinFormStage;
+  gameCode: Field;
+  name: Field;
+  checkGame(): void;
   join(): void;
 }
 
-const JoinFormContext = createContext<IJoinForm>({} as IJoinForm);
+export const JoinFormContext = createContext({} as IJoinForm);
 
-export const ValidateCodeButton = action(Next, JoinFormContext, ctx =>
-  ctx.checkGameExists()
-);
-export const JoinButton = action(Next, JoinFormContext, ctx => ctx.join());
-export const LoadingWrapper = createWrapper(
-  JoinFormContext,
-  ctx => ctx.status === FormStatus.LOADING
-);
-export const CodeFieldActive = createWrapper(
-  JoinFormContext,
-  ctx => ctx.status === FormStatus.CODE
-);
-export const CodeInputField = createFormInput({
-  name: 'Code',
-  label: 'GAME CODE',
-  context: JoinFormContext,
-  onChange: (value, ctx) => ctx.setGameCode(value),
-  validator: (value, ctx) => ctx.validateGameCode(value),
-  onKeyEnter: ctx => ctx.checkGameExists(),
-});
-export const NameFieldActive = createWrapper(
-  JoinFormContext,
-  ctx => ctx.status === FormStatus.NAME
-);
-export const NameInputField = createFormInput({
-  name: 'Name',
-  label: 'Your Name...',
-  context: JoinFormContext,
-  onChange: (value, ctx) => ctx.setName(value),
-  validator: (value, ctx) => ctx.validateName(value),
-  onKeyEnter: ctx => ctx.join(),
-});
+const classicValidate = (errorMessage: string) => (value: string) =>
+  value.trim().length === 0 ? errorMessage : null;
 
 export function JoinFormProvider({ children }: Wrapper) {
   const { code: urlCode } = useQuery();
-  const [status, setStatus] = useState(
-    urlCode ? FormStatus.LOADING : FormStatus.CODE
-  );
-  const [gameCode, setGameCode] = useState(urlCode);
-  const [name, setName] = useState('');
-  const { gameFound, checkGameExists } = useGameCheck();
+  const { checkGame, validateCode, allowCheck } = useGameCheck();
+  const gameCode = useField(validateCode, urlCode);
+  const name = useField(classicValidate('Name must be entered'));
+  const [stage, setStage] = useState(JoinFormStage.CODE);
   const { join } = useGameContext();
-  const validateGameCode = useCallback(
-    (value: string) => {
-      if (value.length !== 6) {
-        return 'Invalid code';
-      } else if (!gameFound) {
-        return 'Game does not exist';
-      }
-    },
-    [gameFound]
+  const checkGameCallback = useAsyncCodeValidator(
+    gameCode,
+    checkGame,
+    setStage
   );
-  const validateName = useCallback((value: string) => {
-    if (value.trim().length === 0) {
-      return 'Name must be entered';
-    }
-  }, []);
-  const checkGameCallback = useCallback(
-    (code?: string) => checkGameExists(code || gameCode),
-    [checkGameExists, gameCode]
-  );
-  const joinCallback = useCallback(
-    () => join(gameCode, name),
-    [join, gameCode, name]
-  );
+
+  useEffect(() => {
+    if (urlCode && stage === JoinFormStage.CODE) checkGameCallback();
+  }, [urlCode, stage, checkGameCallback]);
+
+  useEffect(() => {
+    allowCheck();
+  }, [gameCode.value, allowCheck]);
 
   return (
     <JoinFormContext.Provider
       value={{
-        status,
         gameCode,
         name,
-        setGameCode,
-        setName,
-        checkGameExists: checkGameCallback,
-        join: joinCallback,
-        validateGameCode,
-        validateName,
+        stage,
+        checkGame: checkGameCallback,
+        join() {
+          setStage(JoinFormStage.LOADING);
+          join(gameCode.value, name.value);
+        },
       }}
     >
       {children}

@@ -2,7 +2,6 @@ import GameContextProvider from './game/GameContext';
 import Deck from './components/Deck/Deck';
 import Question from './round/Question';
 import AdminControls from './round/AdminControls';
-import JoinForm from './lobby/JoinForm';
 import Lobby from './lobby/Lobby';
 import Scoreboard from './scoreboard/Scoreboard';
 import DisconnectionDialog from './components/UnexpectedDisconnectionDialog/DisconnectionDialog';
@@ -21,6 +20,7 @@ import {
   ValidRoundOnly,
   UnexpectedDisconnectionOnly,
 } from './game/gameContextFilters';
+import JoinForm from './JoinForm/JoinForm';
 
 function App() {
   return (
