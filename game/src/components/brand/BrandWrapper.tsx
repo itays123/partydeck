@@ -3,7 +3,7 @@ import BrandedLogo from './BrandedLogo';
 
 export default function BrandWrapper({ children }: Wrapper) {
   return (
-    <div className="app w-screen h-screen bg-theme-600 mx-0 overflow-y-hidden flex flex-col">
+    <div className="app w-screen h-screen mx-0 overflow-y-hidden flex flex-col">
       <header className="h-16 bg-transparent-dark px-8">
         <BrandedLogo
           className="flex items-center h-16 space-x-1"

@@ -21,36 +21,39 @@ import {
   UnexpectedDisconnectionOnly,
 } from './game/gameContextFilters';
 import JoinForm from './JoinForm/JoinForm';
+import { ThemeProvider } from './components/theme/ThemeProvider';
 
 function App() {
   return (
-    <BrandWrapper>
-      <GameContextProvider>
-        <LocalStorageConnectionRestorer>
-          <ConnectionCreatedOnly fallback={JoinForm}>
-            <GameCreatedOnly fallback={Scoreboard}>
-              <ConnectionResumedOnly fallback={ConnectionPauseFeedback}>
-                <GameStartedOnly fallback={Lobby}>
-                  <GameResumedOnly fallback={GamePauseFeedback}>
-                    <ValidRoundOnly fallback={InvalidRoundFeedback}>
-                      <div className="scrollable">
-                        <Question />
-                        <LoadingFeedback />
-                        <Deck />
-                        <AdminControls />
-                      </div>
-                    </ValidRoundOnly>
-                  </GameResumedOnly>
-                </GameStartedOnly>
-              </ConnectionResumedOnly>
-              <UnexpectedDisconnectionOnly>
-                <DisconnectionDialog />
-              </UnexpectedDisconnectionOnly>
-            </GameCreatedOnly>
-          </ConnectionCreatedOnly>
-        </LocalStorageConnectionRestorer>
-      </GameContextProvider>
-    </BrandWrapper>
+    <ThemeProvider>
+      <BrandWrapper>
+        <GameContextProvider>
+          <LocalStorageConnectionRestorer>
+            <ConnectionCreatedOnly fallback={JoinForm}>
+              <GameCreatedOnly fallback={Scoreboard}>
+                <ConnectionResumedOnly fallback={ConnectionPauseFeedback}>
+                  <GameStartedOnly fallback={Lobby}>
+                    <GameResumedOnly fallback={GamePauseFeedback}>
+                      <ValidRoundOnly fallback={InvalidRoundFeedback}>
+                        <div className="scrollable">
+                          <Question />
+                          <LoadingFeedback />
+                          <Deck />
+                          <AdminControls />
+                        </div>
+                      </ValidRoundOnly>
+                    </GameResumedOnly>
+                  </GameStartedOnly>
+                </ConnectionResumedOnly>
+                <UnexpectedDisconnectionOnly>
+                  <DisconnectionDialog />
+                </UnexpectedDisconnectionOnly>
+              </GameCreatedOnly>
+            </ConnectionCreatedOnly>
+          </LocalStorageConnectionRestorer>
+        </GameContextProvider>
+      </BrandWrapper>
+    </ThemeProvider>
   );
 }
 

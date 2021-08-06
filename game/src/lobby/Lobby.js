@@ -1,8 +1,10 @@
+import { useBackground } from '../components/theme/useBackground';
 import { useGameContext } from '../game/GameContext';
 import LobbyLoader from './LobbyLoader';
 
 const Lobby = () => {
   const { gameCode, isAdmin, playerCount, start } = useGameContext();
+  useBackground(0);
   return (
     <div className="lobby container mx-auto">
       {
