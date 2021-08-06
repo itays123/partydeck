@@ -12,7 +12,7 @@ import {
   Validating,
   ValidatingEmail,
 } from './AuthForm/Wrappers';
-import { useLogin } from './useLogin';
+import { useLogin } from './actions/useLogin';
 
 const ModalProvider = createModal(AuthContext, 'loginModal', 'Log In');
 

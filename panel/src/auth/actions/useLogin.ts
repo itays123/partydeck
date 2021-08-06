@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
-import { useFetch } from '../shared/helpers/useFetch';
-import { useAuthContext } from './AuthContext';
-import { AuthCredentials } from './AuthForm/AuthFormProvider';
+import { useFetch } from '../../shared/helpers/useFetch';
+import { useAuthContext } from '../AuthContext';
+import { AuthCredentials } from '../AuthForm/AuthFormProvider';
 
 type LoginCredentials = { email: string; password: string };
 

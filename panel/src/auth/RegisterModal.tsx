@@ -17,7 +17,7 @@ import {
   Validating,
   ValidatingEmail,
 } from './AuthForm/Wrappers';
-import { useRegister } from './useRegister';
+import { useRegister } from './actions/useRegister';
 
 const ModalProvider = createModal(AuthContext, 'registerModal', 'Get Started');
 

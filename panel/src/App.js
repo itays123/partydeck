@@ -1,9 +1,6 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import AuthContextProvider from './auth/AuthContext';
 import AuthOnly from './auth/AuthOnly';
-import Login from './auth/login/Login';
-import Profile from './auth/profile/Profile';
-import Register from './auth/register/Register';
 import About from './about/About';
 import CookieDataPolicy from './about/CookieDataPolicy';
 import CreatingDecksGuide from './about/CreatingDecksGuide';
@@ -49,9 +46,6 @@ function App() {
               </Route>
               <Route path="/game/:id">
                 <GameViewEdit />
-              </Route>
-              <Route path="/user/:id">
-                <Profile />
               </Route>
               <Route path="/search">
                 <GameLibrary />
