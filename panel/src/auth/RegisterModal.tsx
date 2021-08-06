@@ -10,6 +10,7 @@ import {
   PasswordConfirmInputField,
   PasswordInputField,
 } from './AuthForm/Inputs';
+import PrivacyStatement from './AuthForm/PrivacyStatement';
 import {
   NameAndEmailStage,
   PasswordStage,
@@ -53,6 +54,7 @@ export default function RegisterModal() {
                 <Validating>
                   <Spinner label="creating your account..." />
                 </Validating>
+                <PrivacyStatement />
                 <SubmitButton className="accent-button text-center w-52 text-white" />
               </PasswordStage>
             </div>

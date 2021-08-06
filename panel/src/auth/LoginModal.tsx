@@ -5,6 +5,7 @@ import { AuthContext } from './AuthContext';
 import { CheckEmailButton, SubmitButton } from './AuthForm/Actions';
 import AuthFormProvider from './AuthForm/AuthFormProvider';
 import { EmailInputField, PasswordInputField } from './AuthForm/Inputs';
+import PrivacyStatement from './AuthForm/PrivacyStatement';
 import {
   NameAndEmailStage,
   PasswordStage,
@@ -43,6 +44,7 @@ export default function LoginModal() {
                 <Validating>
                   <Spinner label="logging you in..." />
                 </Validating>
+                <PrivacyStatement />
                 <SubmitButton className="accent-button text-center w-52 text-white" />
               </PasswordStage>
             </div>
