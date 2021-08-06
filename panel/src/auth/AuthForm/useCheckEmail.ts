@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useFetch } from '../../shared/helpers/useFetch';
 
 const re =
@@ -12,9 +12,12 @@ export function useCheckEmail(emailShouldBeUnique: boolean = false) {
     false
   );
   const emailInUse = useMemo(() => status === 409, [status]);
+  const [checkAllowed, setCheckAllowed] = useState(true); // to allow recheck after not desires response
+  const allowCheck = useCallback(() => setCheckAllowed(true), []);
 
   return {
     async checkEmail(email: string) {
+      setCheckAllowed(false);
       const { status } = await doFetch(
         null,
         `?email=${email.toLowerCase()}`
@@ -25,10 +28,14 @@ export function useCheckEmail(emailShouldBeUnique: boolean = false) {
     isLoading,
     validateEmail(email: string) {
       if (!re.test(email.toLowerCase())) return 'Invalid Email';
+      else if (checkAllowed)
+        // didn't validate yet, go ahead and validate
+        return null;
       else if (emailInUse && emailShouldBeUnique) return 'Email already in use';
       else if (!emailInUse && !emailShouldBeUnique)
         return 'No user with this email';
       else return null;
     },
+    allowCheck,
   };
 }

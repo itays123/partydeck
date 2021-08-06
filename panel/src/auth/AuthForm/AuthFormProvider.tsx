@@ -1,9 +1,12 @@
-import { useCallback } from 'react';
+import { useEffect } from 'react';
 import { createContext, useState } from 'react';
 import { Wrapper } from '../../components/types';
 import { Field } from '../../shared/forms/types';
 import { useField } from '../../shared/forms/useField';
+import { useAsyncEmailValidator } from './useAsyncEmailValidator';
+import { useAsyncPasswordValidator } from './useAsyncPasswordValidator';
 import { useCheckEmail } from './useCheckEmail';
+import { usePasswordValidator } from './usePasswordValidator';
 
 interface IAuthFormContext {
   email: Field;
@@ -24,9 +27,9 @@ export enum AuthFormStage {
 
 export const AuthFormContext = createContext({} as IAuthFormContext);
 
-type AuthCredentials = { email: string; password: string; name: string };
+export type AuthCredentials = { name: string; email: string; password: string };
 type ProviderProps = Wrapper & {
-  onSubmit: (creds: AuthCredentials) => void;
+  onSubmit: (creds: AuthCredentials) => Promise<boolean>;
   emailShouldBeUnique?: boolean;
 };
 
@@ -38,37 +41,32 @@ export default function AuthFormProvider({
   onSubmit,
   emailShouldBeUnique = false,
 }: ProviderProps) {
-  const { validateEmail, checkEmail } = useCheckEmail(emailShouldBeUnique);
+  const [authError, setAuthError] = useState(false);
+  const { validateEmail, checkEmail, allowCheck } =
+    useCheckEmail(emailShouldBeUnique);
   const email = useField(validateEmail);
   const passwordConfirm = useField(classicValidate('Invalid Password'));
-  const passwordsMatchValidator = useCallback(
-    (value: string) =>
-      !!passwordConfirm.error || passwordConfirm.value === value // confirm field not in use, or equals to password
-        ? null
-        : "Passwords don't match",
-    [passwordConfirm]
-  );
-  const password = useField(passwordsMatchValidator);
+  const pwValidator = usePasswordValidator(authError, passwordConfirm);
+  const password = useField(pwValidator);
   const name = useField(classicValidate('Invalid Name'));
   const [stage, setStage] = useState(AuthFormStage.TYPING_NAME_EMAIL);
+  const checkEmailCallback = useAsyncEmailValidator(
+    email,
+    checkEmail,
+    setStage
+  );
+  const submitCallback = useAsyncPasswordValidator({
+    name,
+    email,
+    password,
+    onSubmit,
+    setStage,
+    setAuthError,
+  });
 
-  const checkEmailCallback = useCallback(() => {
-    checkEmail(email.value).then(isValid =>
-      setStage(
-        isValid
-          ? AuthFormStage.TYPING_PASSWORD
-          : AuthFormStage.TYPING_NAME_EMAIL
-      )
-    );
-  }, [email, checkEmail]);
-  const submitCallback = useCallback(() => {
-    setStage(AuthFormStage.VALIDATING);
-    onSubmit({
-      name: name.value,
-      email: email.value,
-      password: password.value,
-    });
-  }, [name, email, password, onSubmit]);
+  useEffect(() => {
+    allowCheck();
+  }, [email.value, allowCheck]);
 
   return (
     <AuthFormContext.Provider
