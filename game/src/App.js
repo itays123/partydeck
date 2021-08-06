@@ -2,7 +2,6 @@ import GameContextProvider from './game/GameContext';
 import Deck from './components/Deck/Deck';
 import Question from './round/Question';
 import AdminControls from './round/AdminControls';
-import Lobby from './lobby/Lobby';
 import Scoreboard from './scoreboard/Scoreboard';
 import DisconnectionDialog from './components/UnexpectedDisconnectionDialog/DisconnectionDialog';
 import LoadingFeedback from './round/LoadingFeedback';
@@ -22,6 +21,7 @@ import {
 } from './game/gameContextFilters';
 import JoinForm from './JoinForm/JoinForm';
 import { ThemeProvider } from './components/theme/ThemeProvider';
+import { Lobby } from './lobby/Lobby';
 
 function App() {
   return (
