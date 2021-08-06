@@ -1,6 +1,6 @@
 import { createModal } from '../components/Modal/modalFactory';
 import { ModalWrapper } from '../components/Modal/ModalWrapper';
-import Spinner from '../shared/Spinner';
+import Spinner from '../components/Spinner/Spinner';
 import { AuthContext } from './AuthContext';
 import { CheckEmailButton, SubmitButton } from './AuthForm/Actions';
 import AuthFormProvider from './AuthForm/AuthFormProvider';
@@ -21,32 +21,34 @@ export default function LoginModal() {
   const login = useLogin();
   return (
     <ModalProvider.Visible>
-      <ModalWrapper>
-        <div className="flex justify-between items-start">
-          <h1>Log In</h1>
-          <ModalProvider.Closer
-            width={32}
-            height={32}
-            className="p-2 text-theme-800 -m-8"
-          />
-        </div>
-        <AuthFormProvider onSubmit={login}>
-          <NameAndEmailStage>
-            <EmailInputField />
-            <CheckEmailButton />
-            <ValidatingEmail>
-              <Spinner />
-            </ValidatingEmail>
-          </NameAndEmailStage>
-          <PasswordStage>
-            <PasswordInputField />
-            <SubmitButton />
-            <Validating>
-              <Spinner />
-            </Validating>
-          </PasswordStage>
-        </AuthFormProvider>
-      </ModalWrapper>
+      <AuthFormProvider onSubmit={login}>
+        <ModalWrapper>
+          <div className="flex flex-col items-center">
+            <ModalProvider.Closer
+              width={32}
+              height={32}
+              className="self-end p-2 -m-8"
+            />
+            <h1 className="mb-8">Log In</h1>
+            <div className="space-y-4">
+              <NameAndEmailStage>
+                <EmailInputField className="auth-input" />
+                <ValidatingEmail>
+                  <Spinner label="validating your email..." />
+                </ValidatingEmail>
+                <CheckEmailButton className="accent-button text-center w-52 text-white" />
+              </NameAndEmailStage>
+              <PasswordStage>
+                <PasswordInputField className="auth-input" />
+                <Validating>
+                  <Spinner label="logging you in..." />
+                </Validating>
+                <SubmitButton className="accent-button text-center w-52 text-white" />
+              </PasswordStage>
+            </div>
+          </div>
+        </ModalWrapper>
+      </AuthFormProvider>
     </ModalProvider.Visible>
   );
 }

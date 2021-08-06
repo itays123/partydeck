@@ -15,12 +15,12 @@
   a {
     @apply active:outline-none;
   }
+  label {
+    @apply mb-2;
+  }
 }
 
 @layer components {
-  .dark-button {
-    @apply bg-gray-800 text-gray-100 py-2 focus:outline-none hover:bg-gray-700 disabled:opacity-70;
-  }
   .scrollable {
     @apply absolute top-0 bottom-0 left-0 right-0 h-full w-full overflow-y-scroll;
   }
@@ -44,5 +44,17 @@
   }
   .error.valid {
     @apply hidden;
+  }
+  .error.exists {
+    @apply text-pink-dark text-sm ml-2;
+  }
+  .auth-input {
+    @apply bg-transparent w-52;
+  }
+  .auth-input input {
+    @apply px-2 py-1 border-gray-400 border-b-2;
+  }
+  .accent-button {
+    @apply font-bold font-roboto px-1.5 md:px-3 py-1.5 md:py-2 text-theme-700 bg-green rounded-full hover:bg-green-light md:ml-2 text-sm md:text-base focus:outline-none;
   }
 }

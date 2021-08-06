@@ -31,7 +31,7 @@ export default function NavigationBar() {
           <Register className="nav-button hidden-sm" />
         </NotAuthenticated>
         <ResponsiveAuthPopup />
-        <JoinGameLink className="font-bold font-roboto px-1.5 md:px-3 py-1.5 md:py-2 text-theme-700 bg-green rounded-full hover:bg-green-light md:ml-2 text-sm md:text-base" />
+        <JoinGameLink className="accent-button" />
       </div>
     </nav>
   );

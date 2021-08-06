@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useEffect } from 'react';
 import { createWrapper } from '../components/logicalWrapeprFactory';
 import { ModalHook } from '../components/Modal/types';
 import useModal from '../components/Modal/useModal';
@@ -36,6 +36,13 @@ const AuthContextProvider = ({ children }: Wrapper) => {
   const { doFetch: logout } = useFetch('/auth/logout', 'DELETE', false, false);
   const loginModal = useModal();
   const registerModal = useModal();
+
+  useEffect(() => {
+    if (status === 200) {
+      loginModal.close();
+      registerModal.close();
+    }
+  }, [loginModal, registerModal, status]);
 
   return (
     <AuthContext.Provider
