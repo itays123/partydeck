@@ -39,6 +39,13 @@ module.exports = {
     fill: {
       current: 'currentColor',
     },
+    extend: {
+      gridTemplateColumns: {
+        'iterator-sm': 'repeat(3, 86px)',
+        'iterator-md': 'repeat(4, 86px)',
+        'iterator-lg': 'repeat(6, 86px)',
+      },
+    },
   },
   variants: {
     extend: {

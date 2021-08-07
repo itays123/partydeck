@@ -6,6 +6,7 @@ export interface IGameData {
   isAdmin: boolean;
   gameCode?: string;
   playerId?: string;
+  players: Map<string, string>;
   playerCount: number;
   roundState: IRoundState;
   scoreboard: any[];

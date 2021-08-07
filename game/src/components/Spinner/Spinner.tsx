@@ -1,6 +1,12 @@
-const Spinner = ({ label }: { label: string }) => {
+const Spinner = ({
+  label,
+  className = 'text-lg text-white capitalize',
+}: {
+  label: string;
+  className?: string;
+}) => {
   return (
-    <div className="flex items-center space-x-3 text-lg text-white capitalize">
+    <div className={'flex items-center space-x-3 ' + className}>
       <svg
         className="animate-spin h-5 w-5 mr-3 ..."
         viewBox="0 0 24 24"

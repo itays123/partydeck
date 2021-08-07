@@ -12,6 +12,7 @@ export const initialGameState: IGameData = {
   isAdmin: false,
   gameCode: undefined,
   playerId: undefined,
+  players: new Map(),
   playerCount: 1,
   roundState: {
     status: RoundLifecycle.USE,
@@ -41,6 +42,9 @@ export function gameReducer(
         playerId: payload.id,
         connectionStatus: ConnectionLifecycle.RESUMED,
         gameStatus: GameLifecycle.CREATED,
+        players: state.players
+          ? state.players.set(payload.id, 'You')
+          : new Map([[payload.id as string, 'You']]),
       };
     }
     case 'RECONNECTION_AFTER_RENDER': {
