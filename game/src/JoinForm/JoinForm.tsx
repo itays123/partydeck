@@ -14,11 +14,11 @@ export default function JoinForm() {
         <SlidingDiv className="flex items-center space-x-2">
           <TypingCode>
             <GameCodeInput focusOnRender className="joinform-input" />
-            <CheckCodeButton className="w-12 h-12 shadow" />
+            <CheckCodeButton className="w-12 h-12 shadow rounded-full" />
           </TypingCode>
           <TypingName>
             <NameInput focusOnRender className="joinform-input" />
-            <JoinGameButton className="w-12 h-12 shadow" />
+            <JoinGameButton className="w-12 h-12 shadow rounded-full" />
           </TypingName>
           <JoiningGame>
             <Spinner label="Getting you in..." />
