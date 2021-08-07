@@ -44,6 +44,7 @@ module.exports = {
         'iterator-sm': 'repeat(3, 86px)',
         'iterator-md': 'repeat(4, 86px)',
         'iterator-lg': 'repeat(6, 86px)',
+        'iterator-rows': '128px',
       },
     },
   },

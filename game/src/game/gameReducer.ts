@@ -12,7 +12,16 @@ export const initialGameState: IGameData = {
   isAdmin: false,
   gameCode: undefined,
   playerId: undefined,
-  players: new Map(),
+  players: new Map([
+    ['admin', 'admin'],
+    ['player1', 'player1'],
+    ['player2', 'player2'],
+    ['player3', 'player3'],
+    ['player4', 'player4'],
+    ['player5', 'player5'],
+    ['player6', 'player6'],
+    ['player7', 'player7'],
+  ]),
   playerCount: 1,
   roundState: {
     status: RoundLifecycle.USE,
