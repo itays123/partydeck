@@ -21,7 +21,7 @@ import {
 } from './game/gameContextFilters';
 import JoinForm from './JoinForm/JoinForm';
 import { ThemeProvider } from './components/theme/ThemeProvider';
-import { Lobby } from './lobby/Lobby';
+import { Lobby } from './Lobby/Lobby';
 
 function App() {
   return (
