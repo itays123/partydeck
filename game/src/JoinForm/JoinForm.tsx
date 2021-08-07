@@ -1,10 +1,11 @@
 import BrandedLogo from '../components/brand/BrandedLogo';
-import SlidingDiv from './SlidingDiv';
+import SlidingDiv from './animations/SlidingDiv';
 import Spinner from '../components/Spinner/Spinner';
 import { CheckCodeButton, JoinGameButton } from './Actions';
 import { GameCodeInput, NameInput } from './Inputs';
 import { JoinFormProvider } from './JoinFormProvider';
 import { JoiningGame, TypingCode, TypingName } from './Wrappers';
+import DebouncedCodeValidationLoading from './animations/DebouncedCodeValidationLoading';
 
 export default function JoinForm() {
   return (
@@ -16,6 +17,7 @@ export default function JoinForm() {
             <GameCodeInput focusOnRender className="joinform-input" />
             <CheckCodeButton className="w-12 h-12 shadow rounded-full" />
           </TypingCode>
+          <DebouncedCodeValidationLoading />
           <TypingName>
             <NameInput focusOnRender className="joinform-input" />
             <JoinGameButton className="w-12 h-12 shadow rounded-full" />

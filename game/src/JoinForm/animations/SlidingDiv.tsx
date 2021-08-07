@@ -1,6 +1,6 @@
 import { AnimatePresence, motion, Variants } from 'framer-motion';
-import { Wrapper } from '../components/types';
-import { useJoinForm } from './JoinFormProvider';
+import { Wrapper } from '../../components/types';
+import { useJoinForm } from '../JoinFormProvider';
 
 const variants: Variants = {
   initial: {
@@ -14,6 +14,7 @@ const variants: Variants = {
     transition: {
       type: 'tween',
       duration: 1.0,
+      delay: 0.3,
     },
   },
   exit: {
@@ -22,7 +23,7 @@ const variants: Variants = {
     zIndex: 0,
     transition: {
       type: 'tween',
-      duration: 0.1,
+      duration: 0.3,
     },
   },
 };
