@@ -22,7 +22,7 @@ export function Lobby() {
         <GameCodeDisplay />
         <EnoughPlayers>
           <AdminOnly>
-            <StartGameButton className="rounded-full shadow-xl" />
+            <StartGameButton className="rounded-full shadow-xl w-16 h-16" />
           </AdminOnly>
         </EnoughPlayers>
       </div>
