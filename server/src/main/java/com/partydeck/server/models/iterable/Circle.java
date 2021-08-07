@@ -5,15 +5,16 @@ import com.partydeck.server.models.helpers.Identifiable;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * An object representing a circle of entries
  * @author Itay Schechner
- * @version 1.0
- * @param <K> the unique key type of the entry
+ * @version 1.1.2
  * @param <T> the type of the entry
  */
-public class Circle<K,T extends Identifiable<K>> implements Iterable<T> {
+public class Circle<T extends Identifiable<String>> implements Iterable<T> {
 
     private final Queue<T> queue;
 
@@ -95,6 +96,10 @@ public class Circle<K,T extends Identifiable<K>> implements Iterable<T> {
                 return Optional.of(entry);
         }
         return Optional.empty();
+    }
+
+    public List<String[]> asList(Function<T, String> extraField) {
+        return queue.stream().map(p -> new String[] { p.getId(), extraField.apply(p) }).collect(Collectors.toList());
     }
 
 

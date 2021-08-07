@@ -131,6 +131,7 @@ public class ConnectionProvider {
          * @param id the new Id to set
          */
         public void setId(String id) {
+            this.oldId = this.id;
             this.id = id;
         }
 

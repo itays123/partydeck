@@ -12,16 +12,7 @@ export const initialGameState: IGameData = {
   isAdmin: false,
   gameCode: undefined,
   playerId: undefined,
-  players: new Map([
-    ['admin', 'admin'],
-    ['player1', 'player1'],
-    ['player2', 'player2'],
-    ['player3', 'player3'],
-    ['player4', 'player4'],
-    ['player5', 'player5'],
-    ['player6', 'player6'],
-    ['player7', 'player7'],
-  ]),
+  players: new Map(),
   playerCount: 1,
   roundState: {
     status: RoundLifecycle.USE,
@@ -51,9 +42,7 @@ export function gameReducer(
         playerId: payload.id,
         connectionStatus: ConnectionLifecycle.RESUMED,
         gameStatus: GameLifecycle.CREATED,
-        players: state.players
-          ? state.players.set(payload.id, 'You')
-          : new Map([[payload.id as string, 'You']]),
+        players: new Map(payload.players),
       };
     }
     case 'RECONNECTION_AFTER_RENDER': {
@@ -79,6 +68,7 @@ export function gameReducer(
         connectionStatus: ConnectionLifecycle.RESUMED,
         playerId: payload.newId,
         gameCode: payload.game,
+        players: new Map(payload.players),
       };
     }
     case 'JOINED_MID_GAME': {
@@ -92,14 +82,37 @@ export function gameReducer(
         roundState: newRoundState,
       };
     }
-    case 'PLAYER_JOINED':
-    case 'CONNECTION_RESUME':
-    case 'CONNECTION_PAUSE':
-    case 'PLAYER_LEFT': {
-      const newCount = payload.count;
+    case 'PLAYER_JOINED': {
       return {
         ...state,
-        playerCount: newCount,
+        playerCount: payload.count,
+        players: state.players.set(payload.joinedId, payload.joined),
+        isAdmin: payload.isAdmin,
+      };
+    }
+    case 'CONNECTION_RESUME': {
+      const oldPlayer = state.players.get(payload.from)!;
+      state.players.delete(payload.from);
+      return {
+        ...state,
+        playerCount: payload.count,
+        players: state.players.set(payload.to, oldPlayer),
+        isAdmin: payload.isAdmin,
+      };
+    }
+    case 'CONNECTION_PAUSE': {
+      return {
+        ...state,
+        playerCount: payload.count,
+        isAdmin: payload.isAdmin,
+      };
+    }
+    case 'PLAYER_LEFT': {
+      state.players.delete(payload.leftId);
+      return {
+        ...state,
+        playerCount: payload.count,
+        players: state.players,
         isAdmin: payload.isAdmin,
       };
     }

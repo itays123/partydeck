@@ -20,6 +20,9 @@ public abstract class Player implements Identifiable<String> {
     // attributes
     protected String id;
 
+    // if an id changes, keep a reference to the old one as well.
+    protected String oldId;
+
     private String nickname;
 
     private boolean admin;
@@ -37,6 +40,7 @@ public abstract class Player implements Identifiable<String> {
      */
     public Player() {
         this.id = "";
+        this.oldId = "";
         this.nickname = "Anonymous";
         this.admin = false;
         this.judge = false;
@@ -63,6 +67,14 @@ public abstract class Player implements Identifiable<String> {
     @Override
     public String getId() {
         return id;
+    }
+
+    /**
+     * Retrieve the old id of the player, if exists;
+     * @return the old player id, empty string if not present
+     */
+    public String getOldId() {
+        return oldId;
     }
 
     /**
