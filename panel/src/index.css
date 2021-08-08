@@ -57,4 +57,7 @@
   .accent-button {
     @apply font-bold font-roboto px-1.5 md:px-3 py-1.5 md:py-2 text-theme-700 bg-green rounded-full hover:bg-green-light md:ml-2 text-sm md:text-base focus:outline-none disabled:opacity-70;
   }
+  .branded-background {
+    background-image: url('./components/brand/BrandDecoration.png');
+  }
 }

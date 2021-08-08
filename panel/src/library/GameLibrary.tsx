@@ -10,14 +10,18 @@ export default function GameLibrary() {
   if (q) return <SearchResults query={q} />;
 
   return (
-    <div className="px-8">
-      <PageTitle>The Game Library</PageTitle>
-      <section className="absolute bottom-0 left-0 right-0 h-full w-full flex flex-col items-center justify-center px-12">
+    <div className="px-8 flex flex-col h-full">
+      <div className="flex-0">
+        <PageTitle>The Game Library</PageTitle>
+      </div>
+      <section className="flex-grow h-full w-full flex flex-col items-center justify-center">
         <SearchBarProvider visibleOnRender>
-          <SearchBarInput
-            overrideHint="Search The Game Library..."
-            className="px-4 py-2 shadow-lg ring-1 ring-theme-600 rounded-full w-full max-w-lg"
-          />
+          <div className="branded-background bg-no-repeat bg-center flex items-center justify-center w-full max-w-4xl h-full">
+            <SearchBarInput
+              overrideHint="Search The Game Library..."
+              className="px-4 py-2 shadow-xl ring-1 ring-theme-600 rounded-full w-full max-w-lg bg-white"
+            />
+          </div>
         </SearchBarProvider>
       </section>
     </div>
