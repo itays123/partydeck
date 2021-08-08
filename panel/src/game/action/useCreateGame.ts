@@ -1,10 +1,13 @@
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useFetch } from '../../shared/helpers/useFetch';
+import { Game } from '../types';
+
+type Body = Omit<Game, 'author'>;
 
 export function useCreateGame() {
   const history = useHistory();
-  const { isLoading, doFetch, data } = useFetch('/game', 'POST', false);
+  const { isLoading, doFetch, data } = useFetch<Body>('/game', 'POST', false);
 
   useEffect(() => {
     if (data.id && !isLoading) {
@@ -14,7 +17,7 @@ export function useCreateGame() {
 
   return {
     isLoading,
-    create(game) {
+    create(game: Body) {
       doFetch(game);
     },
   };
