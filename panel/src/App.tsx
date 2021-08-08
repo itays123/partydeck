@@ -9,12 +9,12 @@ import Home from './Home/Home';
 import GameCreationPending from './shared/GamePending/GameCreationPending';
 import GamePendingContextProvider from './shared/GamePending/GamePendingContext';
 import NavWrapper from './components/Navigation/NavWrapper';
-import PageNotFound from './shared/PageNotFound';
 import { AuthProtectedPage } from './auth/AuthProtectedPage';
 import MyDecks from './library/MyDecks';
 import GameLibrary from './library/GameLibrary';
 import LoginModal from './auth/LoginModal';
 import RegisterModal from './auth/RegisterModal';
+import PageNotFound from './library/PageNotFound';
 
 function App() {
   return (

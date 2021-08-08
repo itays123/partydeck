@@ -4,7 +4,7 @@ import { useGame } from './useGame';
 import GameSettingsViewEdit from './settings/GameSettingsViewEdit';
 import { useSaveGame } from './action/useSaveGame';
 import { useDeleteGame } from './action/useDeleteGame';
-import PageNotFound from '../shared/PageNotFound';
+import PageNotFound from '../library/PageNotFound';
 import { useGamePending } from '../shared/GamePending/GameCreationPending';
 import DeckEditor from './deck/DeckEditor';
 import GameAction from './action/GameAction';
