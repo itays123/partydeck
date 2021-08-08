@@ -4,6 +4,7 @@ import Spinner from '../../components/Spinner/Spinner';
 import {
   ErrorInCreation,
   GameCreationLoading,
+  GameCreationNotLoading,
   LiveGameCreationContext,
   LiveGameReady,
   useGameCreationContext,
@@ -22,6 +23,11 @@ export default function LiveGameCreationModal() {
   return (
     <ModalProvider.Visible>
       <ModalWrapper>
+        <div className="flex justify-end mb-2">
+          <GameCreationNotLoading>
+            <ModalProvider.Closer width={32} height={32} className="-m-8 p-2" />
+          </GameCreationNotLoading>
+        </div>
         <h1>Creating Your Live Game...</h1>
         <GameCreationLoading>
           <Spinner label="please wait as we create your game..." />

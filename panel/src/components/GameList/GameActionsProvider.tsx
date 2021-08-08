@@ -6,10 +6,9 @@ import Play from '../glyphs/Play';
 import { withClass, Wrapper } from '../types';
 import { useHistory } from 'react-router-dom';
 import { useDeleteGame } from '../../game/action/useDeleteGame';
-import { useGamePending } from '../../shared/GamePending/GameCreationPending';
+import { LiveGameCreationContext } from '../../game/play/LiveGameModalProvider';
 
 interface IGameActions {
-  play(): void;
   remove(): void;
   viewEdit(): void;
 }
@@ -27,7 +26,9 @@ export const EditButton = action(Edit, GameActionsContext, ctx =>
 export const RemoveButton = action(Remove, GameActionsContext, ctx =>
   ctx.remove()
 );
-export const PlayButton = action(Play, GameActionsContext, ctx => ctx.play());
+export const PlayButton = action(Play, LiveGameCreationContext, ctx =>
+  ctx.createLiveGame()
+);
 
 export function GameActionsProvider({
   children,
@@ -35,13 +36,11 @@ export function GameActionsProvider({
 }: Wrapper & { gameId: string }) {
   const { push } = useHistory();
   const { remove } = useDeleteGame(gameId);
-  const { redirectToPage } = useGamePending(gameId);
   return (
     <GameActionsContext.Provider
       value={{
         viewEdit: () => push('/game/' + gameId),
         remove,
-        play: redirectToPage,
       }}
     >
       {children}

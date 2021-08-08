@@ -6,8 +6,6 @@ import CreatingDecksGuide from './about/CreatingDecksGuide';
 import CreateGame from './game/CreateGame';
 import GameViewEdit from './game/GameViewEdit';
 import Home from './Home/Home';
-import GameCreationPending from './shared/GamePending/GameCreationPending';
-import GamePendingContextProvider from './shared/GamePending/GamePendingContext';
 import NavWrapper from './components/Navigation/NavWrapper';
 import { AuthProtectedPage } from './auth/AuthProtectedPage';
 import MyDecks from './library/MyDecks';
@@ -20,51 +18,43 @@ function App() {
   return (
     <BrowserRouter>
       <AuthContextProvider>
-        <GamePendingContextProvider>
-          {/* A small component that is essential for the `/pending` route */}
-          <NavWrapper>
-            <LoginModal />
-            <RegisterModal />
-            <Switch>
-              <Route exact path="/">
-                <Home />
-              </Route>
-              <Route exact path="/my">
-                <AuthProtectedPage>
-                  <MyDecks />
-                </AuthProtectedPage>
-              </Route>
-              <Route exact path="/about">
-                <About />
-              </Route>
-              <Route exact path="/about/decks">
-                <CreatingDecksGuide />
-              </Route>
-              <Route exact path="/about/privacy">
-                <CookieDataPolicy />
-              </Route>
-              <Route path="/game/:id">
-                <GameViewEdit />
-              </Route>
-              <Route path="/search">
-                <GameLibrary />
-              </Route>
-              <Route path="/create">
-                <AuthProtectedPage>
-                  <CreateGame />
-                </AuthProtectedPage>
-              </Route>
-              <Route path="/pending">
-                <AuthProtectedPage>
-                  <GameCreationPending />
-                </AuthProtectedPage>
-              </Route>
-              <Route>
-                <PageNotFound />
-              </Route>
-            </Switch>
-          </NavWrapper>
-        </GamePendingContextProvider>
+        <NavWrapper>
+          <LoginModal />
+          <RegisterModal />
+          <Switch>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route exact path="/my">
+              <AuthProtectedPage>
+                <MyDecks />
+              </AuthProtectedPage>
+            </Route>
+            <Route exact path="/about">
+              <About />
+            </Route>
+            <Route exact path="/about/decks">
+              <CreatingDecksGuide />
+            </Route>
+            <Route exact path="/about/privacy">
+              <CookieDataPolicy />
+            </Route>
+            <Route path="/game/:id">
+              <GameViewEdit />
+            </Route>
+            <Route path="/search">
+              <GameLibrary />
+            </Route>
+            <Route path="/create">
+              <AuthProtectedPage>
+                <CreateGame />
+              </AuthProtectedPage>
+            </Route>
+            <Route>
+              <PageNotFound />
+            </Route>
+          </Switch>
+        </NavWrapper>
       </AuthContextProvider>
     </BrowserRouter>
   );

@@ -27,6 +27,10 @@ export const GameCreationLoading = createWrapper(
   LiveGameCreationContext,
   ctx => ctx.isLoading
 );
+export const GameCreationNotLoading = createWrapper(
+  LiveGameCreationContext,
+  ctx => !ctx.isLoading
+);
 export const LiveGameReady = createWrapper(
   LiveGameCreationContext,
   ctx => !!ctx.liveCode
