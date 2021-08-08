@@ -38,7 +38,7 @@ export default function RegisterModal() {
             <h1 className="mb-8">Get Started</h1>
             <div className="space-y-4">
               <NameAndEmailStage>
-                <NameInputField className="auth-input" />
+                <NameInputField className="auth-input" focusOnRender />
                 <EmailInputField className="auth-input" />
                 <ValidatingEmail>
                   <Spinner label="validating your email..." />
@@ -46,7 +46,10 @@ export default function RegisterModal() {
                 <CheckEmailButton className="accent-button text-center w-52 text-white" />
               </NameAndEmailStage>
               <PasswordStage>
-                <PasswordConfirmInputField className="auth-input" />
+                <PasswordConfirmInputField
+                  className="auth-input"
+                  focusOnRender
+                />
                 <PasswordInputField
                   className="auth-input"
                   overrideLabel="Confirm Password"

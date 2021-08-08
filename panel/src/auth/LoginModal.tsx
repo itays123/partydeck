@@ -33,14 +33,14 @@ export default function LoginModal() {
             <h1 className="mb-8">Log In</h1>
             <div className="space-y-4">
               <NameAndEmailStage>
-                <EmailInputField className="auth-input" />
+                <EmailInputField className="auth-input" focusOnRender />
                 <ValidatingEmail>
                   <Spinner label="validating your email..." />
                 </ValidatingEmail>
                 <CheckEmailButton className="accent-button text-center w-52 text-white" />
               </NameAndEmailStage>
               <PasswordStage>
-                <PasswordInputField className="auth-input" />
+                <PasswordInputField className="auth-input" focusOnRender />
                 <Validating>
                   <Spinner label="logging you in..." />
                 </Validating>
