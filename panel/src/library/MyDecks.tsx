@@ -1,5 +1,5 @@
 import { useAuthContext } from '../auth/AuthContext';
-import { useProfile } from '../components/SideProfileBar/useProfile';
+import { useProfile } from '../auth/actions/useProfile';
 import { link } from '../components/buttonFactory';
 import GameList from '../components/GameList/GameList';
 import PageTitle from '../components/PageTitle/PageTitle';
