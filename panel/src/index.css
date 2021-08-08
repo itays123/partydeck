@@ -55,6 +55,6 @@
     @apply px-2 py-1 border-gray-400 border-b-2;
   }
   .accent-button {
-    @apply font-bold font-roboto px-1.5 md:px-3 py-1.5 md:py-2 text-theme-700 bg-green rounded-full hover:bg-green-light md:ml-2 text-sm md:text-base focus:outline-none;
+    @apply font-bold font-roboto px-1.5 md:px-3 py-1.5 md:py-2 text-theme-700 bg-green rounded-full hover:bg-green-light md:ml-2 text-sm md:text-base focus:outline-none disabled:opacity-70;
   }
 }

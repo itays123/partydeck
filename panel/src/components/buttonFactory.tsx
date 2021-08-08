@@ -1,4 +1,4 @@
-import { useCallback, useContext } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 import { NavLink } from 'react-router-dom';
 import { JSXProvider, withClass } from './types';
 
@@ -31,13 +31,18 @@ export function externalLink<Props extends object = {}>(
 export function action<T extends object, Props extends object = {}>(
   label: string | JSXProvider<Props>,
   context: React.Context<T>,
-  consumer: (ctx: T) => void
+  consumer: (ctx: T) => void,
+  disabledConsumer?: (ctx: T) => boolean
 ) {
   return function ContextAction({ className, ...props }: withClass & Props) {
     const ctx = useContext(context);
     const action = useCallback(() => consumer(ctx), [ctx]);
+    const disabled = useMemo(
+      () => !!disabledConsumer && disabledConsumer(ctx),
+      [ctx]
+    );
     return (
-      <button onClick={action} className={className}>
+      <button onClick={action} className={className} disabled={disabled}>
         {typeof label === 'string' ? label : label(props as unknown as Props)}
       </button>
     );
