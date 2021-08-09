@@ -2,7 +2,6 @@ import GameContextProvider from './game/GameContext';
 import Deck from './components/Deck/Deck';
 import Question from './round/Question';
 import AdminControls from './round/AdminControls';
-import Scoreboard from './scoreboard/Scoreboard';
 import DisconnectionDialog from './components/UnexpectedDisconnectionDialog/DisconnectionDialog';
 import LoadingFeedback from './round/LoadingFeedback';
 import ConnectionPauseFeedback from './components/ConnectionPauseFeedback/ConnectionPauseFeedback';
@@ -22,6 +21,7 @@ import {
 import JoinForm from './JoinForm/JoinForm';
 import { ThemeProvider } from './components/theme/ThemeProvider';
 import { Lobby } from './Lobby/Lobby';
+import GameOver from './GameOver/GameOver';
 
 function App() {
   return (
@@ -30,7 +30,7 @@ function App() {
         <GameContextProvider>
           <LocalStorageConnectionRestorer>
             <ConnectionCreatedOnly fallback={JoinForm}>
-              <GameCreatedOnly fallback={Scoreboard}>
+              <GameCreatedOnly fallback={GameOver}>
                 <ConnectionResumedOnly fallback={ConnectionPauseFeedback}>
                   <GameStartedOnly fallback={Lobby}>
                     <GameResumedOnly fallback={GamePauseFeedback}>
