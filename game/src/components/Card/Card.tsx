@@ -4,12 +4,14 @@ import { Wrapper } from '../types';
 export interface Specs {
   inactive?: boolean;
   small?: boolean;
+  hidden?: boolean;
 }
 
 export default function Card({
   children,
   inactive = false,
   small = false,
+  hidden = false,
 }: Wrapper & Specs) {
   return (
     <motion.div
@@ -18,6 +20,7 @@ export default function Card({
       animate={{
         backgroundColor: inactive ? '#C7D2FEDE' : '#FFFFFF',
         scale: small ? 2 / 3 : 1,
+        opacity: hidden ? 0 : 1,
       }}
     >
       {children}

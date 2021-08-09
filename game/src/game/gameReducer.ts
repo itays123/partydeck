@@ -7,10 +7,10 @@ import {
 } from './types';
 
 export const initialGameState: IGameData = {
-  connectionStatus: ConnectionLifecycle.PRE_CREATED,
-  gameStatus: GameLifecycle.PRE_CREATED,
+  connectionStatus: ConnectionLifecycle.RESUMED,
+  gameStatus: GameLifecycle.RESUMED,
   isAdmin: false,
-  gameCode: undefined,
+  gameCode: '123456',
   playerId: undefined,
   players: new Map(),
   playerCount: 1,
@@ -19,11 +19,16 @@ export const initialGameState: IGameData = {
     round: 0,
     pickedCardId: '',
     playerWon: '',
-    question: '',
-    judge: '',
+    question: 'What would be a good name for a dog?',
+    judge: 'Alex',
     selectedCardId: '',
     isJudge: false,
-    use: [],
+    use: [
+      { id: '1', content: 'Card 1' },
+      { id: '2', content: 'Card 2' },
+      { id: '3', content: 'Card 3' },
+      { id: '4', content: 'Card 4' },
+    ],
     playersUsed: new Map(),
     pick: [],
   },

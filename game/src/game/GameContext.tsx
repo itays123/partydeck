@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useCallback } from 'react';
 import { createContext, useContext, useReducer } from 'react';
 import { action } from '../components/contextActionFactory';
 import { createWrapper } from '../components/logicalWrapperFactory';
@@ -82,8 +83,11 @@ export default function GameContextProvider({ children }: Wrapper) {
   const overrideSkip = () => sendMessage({ context: 'SKIP' });
   const requestNextRound = () => sendMessage({ context: 'NEXT' });
   const manuallyEndGame = () => sendMessage({ context: 'STOP' });
-  const onCardClick = (cardId: string) =>
-    dispatch({ type: 'CARD_SELECTED', payload: { selected: cardId } });
+  const onCardClick = useCallback(
+    (cardId: string) =>
+      dispatch({ type: 'CARD_SELECTED', payload: { selected: cardId } }),
+    []
+  );
   const onCardButtonClick = () => {
     const { roundState } = state;
     if (roundState.status === RoundLifecycle.USE) {

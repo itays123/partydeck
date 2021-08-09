@@ -1,0 +1,16 @@
+import { useMemo } from 'react';
+import { Card } from '../../game/types';
+
+export function useCards(selectedIndex: number, deck: Card[]) {
+  const previousCard = useMemo(
+    () => (selectedIndex - 1 >= 0 ? deck[selectedIndex - 1] : undefined),
+    [deck, selectedIndex]
+  );
+  const currentCard = useMemo(() => deck[selectedIndex], [deck, selectedIndex]);
+  const nextCard = useMemo(
+    () =>
+      selectedIndex + 1 < deck.length ? deck[selectedIndex + 1] : undefined,
+    [deck, selectedIndex]
+  );
+  return { previousCard, currentCard, nextCard };
+}
