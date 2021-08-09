@@ -11,7 +11,7 @@ export default function BrandedLogo({
     as,
     { className },
     <span className="text-white font-roboto font-bold">Partydeck</span>,
-    <span className="text-theme-300 font-medium">Live!</span>
+    <span className="text-theme-100 font-medium">LIVE!</span>
   );
   return (
     <div className="flex items-center space-x-1">
