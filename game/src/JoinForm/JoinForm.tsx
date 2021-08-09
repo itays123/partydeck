@@ -4,8 +4,12 @@ import Spinner from '../components/Spinner/Spinner';
 import { CheckCodeButton, JoinGameButton } from './Actions';
 import { GameCodeInput, NameInput } from './Inputs';
 import { JoinFormProvider } from './JoinFormProvider';
-import { JoiningGame, TypingCode, TypingName } from './Wrappers';
-import DebouncedCodeValidationLoading from './animations/DebouncedCodeValidationLoading';
+import {
+  DebouncedJoining,
+  DebouncedTypingCode,
+  DebouncedTypingName,
+  DebouncedVlidatingCode,
+} from './animations/DebouncedStageWrappers';
 
 export default function JoinForm() {
   return (
@@ -13,18 +17,23 @@ export default function JoinForm() {
       <BrandedLogo className="text-4xl space-x-2" svg="w-12 h-12" as="h1" />
       <JoinFormProvider>
         <SlidingDiv className="flex items-center space-x-2">
-          <TypingCode>
+          <DebouncedTypingCode>
             <GameCodeInput focusOnRender className="joinform-input" />
             <CheckCodeButton className="w-12 h-12 shadow rounded-full" />
-          </TypingCode>
-          <DebouncedCodeValidationLoading />
-          <TypingName>
+          </DebouncedTypingCode>
+          <DebouncedVlidatingCode>
+            <Spinner
+              className="text-white text-lg capitalize"
+              label="checking game code..."
+            />
+          </DebouncedVlidatingCode>
+          <DebouncedTypingName>
             <NameInput focusOnRender className="joinform-input" />
             <JoinGameButton className="w-12 h-12 shadow rounded-full" />
-          </TypingName>
-          <JoiningGame>
+          </DebouncedTypingName>
+          <DebouncedJoining>
             <Spinner label="Getting you in..." />
-          </JoiningGame>
+          </DebouncedJoining>
         </SlidingDiv>
       </JoinFormProvider>
     </div>

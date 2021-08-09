@@ -6,7 +6,6 @@ export const GameCodeInput = createFormInput({
   name: 'gameCode',
   hint: 'GAME CODE',
   onKeyEnter: ctx => ctx.checkGame(),
-  hideErrors: true,
 });
 
 export const NameInput = createFormInput({
