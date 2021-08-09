@@ -1,6 +1,4 @@
 import GameContextProvider from './game/GameContext';
-import Deck from './components/Deck/Deck';
-import Question from './round/Question';
 import DisconnectionDialog from './components/UnexpectedDisconnectionDialog/DisconnectionDialog';
 import ConnectionPauseFeedback from './components/ConnectionPauseFeedback/ConnectionPauseFeedback';
 import LocalStorageConnectionRestorer from './components/LocalStorageConnectionRestorer/LocalStorageConnectionRestorer';
@@ -34,10 +32,6 @@ function App() {
                   <GameStartedOnly fallback={Lobby}>
                     <GameResumedOnly fallback={GamePauseFeedback}>
                       <ValidRoundOnly fallback={InvalidRoundFeedback}>
-                        <div className="scrollable">
-                          <Question />
-                          <Deck />
-                        </div>
                         <RoundLayout />
                       </ValidRoundOnly>
                     </GameResumedOnly>
