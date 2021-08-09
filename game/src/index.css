@@ -25,4 +25,10 @@
   .joinform-input {
     @apply h-12 w-52 rounded-full bg-white shadow p-4 flex items-center;
   }
+  .player-list-wrapper {
+    @apply grid grid-cols-iterator-sm md:grid-cols-iterator-md lg:grid-cols-iterator-lg gap-2 justify-items-center overflow-y-scroll;
+  }
+  .hovering-button {
+    @apply w-12 h-12 shadow rounded-full absolute bottom-8 right-8;
+  }
 }

@@ -3,12 +3,12 @@ import {
   NextButton,
   SkipButton,
 } from '../game/gameContextActions';
+import { AdminOnly } from '../game/gameContextFilters';
 import {
-  AdminOnly,
   PendingNextRoundOnly,
   WaitingForJudgeOnly,
   WaitingForPlayersOnly,
-} from '../game/gameContextFilters';
+} from '../RoundLayout/RoundLogicalWrappers';
 
 const AdminControls = () => {
   return (

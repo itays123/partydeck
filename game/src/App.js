@@ -1,9 +1,7 @@
 import GameContextProvider from './game/GameContext';
 import Deck from './components/Deck/Deck';
 import Question from './round/Question';
-import AdminControls from './round/AdminControls';
 import DisconnectionDialog from './components/UnexpectedDisconnectionDialog/DisconnectionDialog';
-import LoadingFeedback from './round/LoadingFeedback';
 import ConnectionPauseFeedback from './components/ConnectionPauseFeedback/ConnectionPauseFeedback';
 import LocalStorageConnectionRestorer from './components/LocalStorageConnectionRestorer/LocalStorageConnectionRestorer';
 import GamePauseFeedback from './components/GamePauseFeedback/GamePauseFeedback';
@@ -22,6 +20,7 @@ import JoinForm from './JoinForm/JoinForm';
 import { ThemeProvider } from './components/theme/ThemeProvider';
 import { Lobby } from './Lobby/Lobby';
 import GameOver from './GameOver/GameOver';
+import RoundLayout from './RoundLayout/RoundLayout';
 
 function App() {
   return (
@@ -37,10 +36,9 @@ function App() {
                       <ValidRoundOnly fallback={InvalidRoundFeedback}>
                         <div className="scrollable">
                           <Question />
-                          <LoadingFeedback />
                           <Deck />
-                          <AdminControls />
                         </div>
+                        <RoundLayout />
                       </ValidRoundOnly>
                     </GameResumedOnly>
                   </GameStartedOnly>

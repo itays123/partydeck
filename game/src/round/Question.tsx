@@ -1,5 +1,5 @@
 import { useCurrentRound } from '../game/GameContext';
-import { UsingOnly } from '../game/gameContextFilters';
+import { UsingOnly } from '../RoundLayout/RoundLogicalWrappers';
 
 const Question = () => {
   const { question, judge } = useCurrentRound();

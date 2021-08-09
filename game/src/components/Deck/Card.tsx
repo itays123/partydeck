@@ -1,6 +1,6 @@
 import { useCurrentRound, useGameContext } from '../../game/GameContext';
 import { motion } from 'framer-motion';
-import { ActivePlayerOnly } from '../../game/gameContextFilters';
+import { ActivePlayer } from '../../RoundLayout/RoundLogicalWrappers';
 import { Card as CardProps, RoundLifecycle } from '../../game/types';
 
 const cardVariants = {
@@ -27,14 +27,14 @@ const Card = ({ id, content }: CardProps) => {
     >
       <p className="text-2xl md:text-xl">{content.substring(0, 50)}</p>
       {isSelected && (
-        <ActivePlayerOnly>
+        <ActivePlayer>
           <button
             className="absolute bottom-0 bg-gray-500 py-2 w-full rounded-b text-gray-100"
             onClick={() => onCardButtonClick()}
           >
             {status === RoundLifecycle.USE ? 'USE' : 'PICK'}
           </button>
-        </ActivePlayerOnly>
+        </ActivePlayer>
       )}
       {isPicked && (
         <div className="absolute bottom-0 w-full py-2 font-bold capitalize">

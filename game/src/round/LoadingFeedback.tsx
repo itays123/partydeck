@@ -1,10 +1,10 @@
+import { NotAdmin } from '../game/gameContextFilters';
 import {
   WaitingForPlayersOnly,
   WaitingForJudgeOnly,
   PendingNextRoundOnly,
-  NotSkippedOnly,
-  NotAdmin,
-} from '../game/gameContextFilters';
+  NotSkipped,
+} from '../RoundLayout/RoundLogicalWrappers';
 import PlayersUsed from './PlayersUsed';
 import Waiting from './Waiting';
 import WaitingForJudge from './WaitingForJudge';
@@ -21,9 +21,9 @@ const LoadingFeedback = () => {
         <WaitingForJudge />
       </WaitingForJudgeOnly>
       <PendingNextRoundOnly>
-        <NotSkippedOnly>
+        <NotSkipped>
           <WinnerDisplay />
-        </NotSkippedOnly>
+        </NotSkipped>
         <NotAdmin>
           <Waiting text="Waiting for game admin..." />
         </NotAdmin>

@@ -12,7 +12,7 @@ export function Lobby() {
     <div className="absolute inset-0 p-8 flex flex-col items-center justify-between w-full h-full overflow-y-hidden">
       <PageTitle>Waiting For Players...</PageTitle>
       <div
-        className="flex-grow mt-8 -py-8 grid grid-cols-iterator-sm md:grid-cols-iterator-md lg:grid-cols-iterator-lg gap-2 justify-items-center overflow-y-scroll"
+        className="flex-grow mt-8 -py-8 player-list-wrapper"
         style={{ gridAutoRows: 128 }}
       >
         <PlayerIterator />

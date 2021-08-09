@@ -36,23 +36,3 @@ export const ValidRoundOnly = createRoundWrapper(
   // when a player joins mid-game, the context is waiting for data
   ({ status }) => status !== RoundLifecycle.WAITING_FOR_DATA
 );
-export const ActivePlayerOnly = createRoundWrapper(
-  ({ status }) =>
-    status === RoundLifecycle.USE || status === RoundLifecycle.PICK
-);
-export const NotSkippedOnly = createRoundWrapper(
-  ({ status, playerWon }) =>
-    status !== RoundLifecycle.PENDING_ADMIN_ACTION || !!playerWon
-);
-export const PendingNextRoundOnly = createRoundWrapper(
-  ({ status }) => status === RoundLifecycle.PENDING_ADMIN_ACTION
-);
-export const UsingOnly = createRoundWrapper(
-  ({ status }) => status === RoundLifecycle.USE
-);
-export const WaitingForJudgeOnly = createRoundWrapper(
-  ({ status }) => status === RoundLifecycle.PENDING_JUDGE_PICK
-);
-export const WaitingForPlayersOnly = createRoundWrapper(
-  ({ status }) => status === RoundLifecycle.PENDING_PLAYER_USAGES
-);
