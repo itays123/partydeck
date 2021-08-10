@@ -61,6 +61,6 @@
     background-image: url('./components/brand/BrandDecoration.png');
   }
   .card {
-    @apply w-32 h-48 bg-theme-50 absolute inset-x-card-center inset-y-2 rounded shadow-lg;
+    @apply w-32 h-48 absolute inset-x-card-center inset-y-2 rounded-lg text-theme-800 font-medium shadow-card;
   }
 }

@@ -42,11 +42,13 @@ module.exports = {
     },
     extend: {
       width: {
-        'cardpicker-md': 'calc(128px * 3 + 60px)',
-        'cardpicker-sm': 'calc(128px + 20px)',
+        'cardpicker-md': 'calc(128px * 3)',
       },
       inset: {
         'card-center': 'calc(50% - 64px)',
+      },
+      boxShadow: {
+        card: '0 4px 4px 0 rgba(0, 0, 0, 0.1), 0 -4px 4px 0 rgba(0, 0, 0, 0.1)',
       },
     },
   },

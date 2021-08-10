@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import Next from '../../components/icons/Next';
 import Prev from '../../components/icons/Prev';
 import { Editor } from '../types';
@@ -32,9 +32,9 @@ function DeckEditor({ editor, label }: Props): JSX.Element {
   }, [selectedIndex]);
 
   return (
-    <div className="card-list mt-4">
-      <h3 className="font-medium text-2xl">{label}</h3>
-      <div className="flex justify-center items-center w-full mt-8">
+    <div className="card-list mt-4 flex flex-col items-start p-8">
+      <h3 className="font-medium text-2xl text-theme-800">{label}</h3>
+      <div className="flex justify-center items-center mt-8">
         <button
           onClick={swipeLeft}
           disabled={!swipeLeftAllowed}

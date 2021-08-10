@@ -29,7 +29,7 @@ export function CardLikeAddCardButton({ addCard }: Props) {
   return (
     <AnimatePresence>
       <motion.div
-        className="card flex items-center justify-center bg-theme-50 cursor-pointer"
+        className="card flex items-center justify-center cursor-pointer"
         onClick={addCard as MouseEventHandler}
         variants={variants}
         initial="enter"
