@@ -1,5 +1,5 @@
-import PlayerIterator from '../components/PlayerIterator/PlayerIterator';
-import { useCurrentRound } from '../game/GameContext';
+import PlayerIterator from '../PlayerIterator/PlayerIterator';
+import { useCurrentRound } from '../../game/GameContext';
 
 export function PlayerAnswerFeeback() {
   const { playersUsed } = useCurrentRound();

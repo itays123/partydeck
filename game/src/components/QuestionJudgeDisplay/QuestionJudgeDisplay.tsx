@@ -1,4 +1,4 @@
-import { useCurrentRound } from '../game/GameContext';
+import { useCurrentRound } from '../../game/GameContext';
 
 export function QuestionJudgeDisplay() {
   const { question, judge } = useCurrentRound();

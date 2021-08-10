@@ -15,6 +15,12 @@ export const PendingNextRoundOnly = createRoundWrapper(
 export const UsingOnly = createRoundWrapper(
   ({ status }) => status === RoundLifecycle.USE
 );
+export const PickOptionsReady = createRoundWrapper(
+  ({ status }) =>
+    status === RoundLifecycle.PICK ||
+    status === RoundLifecycle.PENDING_JUDGE_PICK
+);
+export const JudgeOnly = createRoundWrapper(({ isJudge }) => isJudge);
 export const WaitingForJudgeOnly = createRoundWrapper(
   ({ status }) => status === RoundLifecycle.PENDING_JUDGE_PICK
 );
