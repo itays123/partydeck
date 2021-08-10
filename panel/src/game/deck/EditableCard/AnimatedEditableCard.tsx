@@ -7,7 +7,7 @@ export const variants = {
   enter: ([position, direction]: [number, SwipeDir]) => {
     // will either be -2 (enter from left) or 2 (enter from right)
     return {
-      x: direction > 0 ? 250 : -250,
+      x: direction > 0 ? -250 : 250,
       opacity: 0,
       zIndex: 0,
     };
@@ -15,7 +15,7 @@ export const variants = {
   visible: ([position, direction]: [number, SwipeDir]) => {
     return {
       zIndex: position === 0 ? 2 : 1,
-      x: -150 * position, // -150, 0 or 150
+      x: 120 * position, // -120, 0 or 120
       opacity: 1,
       scale: position === 0 ? 1 : 2 / 3,
       transition: {
@@ -27,7 +27,7 @@ export const variants = {
     // will either be -2 (exit to left) or 2 (exit to right)
     return {
       zIndex: 0,
-      x: direction < 0 ? 250 : -250,
+      x: direction < 0 ? -250 : 250,
       opacity: 0,
     };
   },
@@ -83,10 +83,10 @@ export function AnimatedEditableCard({
           onDragEnd={(e, { offset, velocity }) => {
             const swipePower = Math.abs(offset.x) * velocity.x;
 
-            if (swipePower < -3000 && swipeLeft) {
-              swipeLeft();
-            } else if (swipePower > 3000 && swipeRight) {
+            if (swipePower < -3000 && swipeRight) {
               swipeRight();
+            } else if (swipePower > 3000 && swipeLeft) {
+              swipeLeft();
             }
           }}
         />

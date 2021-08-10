@@ -60,9 +60,6 @@
   .branded-background {
     background-image: url('./components/brand/BrandDecoration.png');
   }
-  .editable-card-pos-1 {
-    @apply opacity-0 md:opacity-100;
-  }
   .card {
     @apply w-32 h-48 bg-theme-50 absolute inset-x-card-center inset-y-2 rounded shadow-lg;
   }

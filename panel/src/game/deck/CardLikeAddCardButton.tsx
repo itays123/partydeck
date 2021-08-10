@@ -4,19 +4,19 @@ import Add from '../../components/icons/Add';
 
 const variants = {
   enter: {
-    x: -250,
+    x: 250,
     opacity: 0,
     zIndex: 0,
   },
   visible: {
     zIndex: 1,
-    x: -150, // -150, 0 or 150
+    x: 120, // -150, 0 or 150
     opacity: 1,
     scale: 2 / 3,
   },
   exit: {
     zIndex: 0,
-    x: 250,
+    x: -250,
     opacity: 0,
   },
 };

@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+import Next from '../../components/icons/Next';
+import Prev from '../../components/icons/Prev';
 import { Editor } from '../types';
 import { CardLikeAddCardButton } from './CardLikeAddCardButton';
 import { AnimatedEditableCard } from './EditableCard/AnimatedEditableCard';
@@ -30,7 +32,14 @@ function DeckEditor({ editor, label }: Props): JSX.Element {
     <div className="card-list mt-4">
       <h3 className="font-medium text-2xl">{label}</h3>
       <div className="flex justify-center items-center w-full mt-8">
-        <div className="relative h-52 w-cardpicker-sm md:w-cardpicker-md overflow-x-hidden">
+        <button
+          onClick={swipeLeft}
+          disabled={!swipeLeftAllowed}
+          className="text-theme-800 disabled:opacity-50 focus:outline-none hidden-sm"
+        >
+          <Prev width={32} height={32} viewbox="0 0 60 60" />
+        </button>
+        <div className="relative h-52 w-cardpicker-md overflow-x-hidden">
           {!swipeRightAllowed && <CardLikeAddCardButton addCard={swipeRight} />}
           <AnimatedEditableCard
             key={selectedIndex - 1}
@@ -69,19 +78,12 @@ function DeckEditor({ editor, label }: Props): JSX.Element {
             atom={nextCard}
           />
         </div>
-        {/*}
-        <EditorOnly>
-          <button
-            className="rounded text-center py-8 border-4 border-dashed border-gray-500 flex items-center justify-center focus:outline-none"
-            onClick={() => addCard()}
-          >
-            <SvgWrapper w={48} h={48} className="text-gray-500">
-              <path d="M0 0h24v24H0z" fill="none" />
-              <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-            </SvgWrapper>
-          </button>
-        </EditorOnly>
-        {*/}
+        <button
+          onClick={swipeRight}
+          className="text-theme-800 disabled:opacity-50 focus:outline-none hidden-sm"
+        >
+          <Next width={32} height={32} viewbox="0 0 60 60" />
+        </button>
       </div>
     </div>
   );
