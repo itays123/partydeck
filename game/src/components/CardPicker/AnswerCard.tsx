@@ -9,14 +9,9 @@ export interface AnswerCardProps {
 export function AnswerCard({ position, content, innerRef }: AnswerCardProps) {
   return (
     <div
-      className={`rounded w-32 h-48 px-3 py-2 answer-card-pos-${Math.abs(
+      className={`rounded w-32 h-48 px-3 py-2 absolute inset-x-card-center answer-card-pos-${Math.abs(
         position
       )}`}
-      style={{
-        position: 'absolute',
-        left: 'calc(50% - 64px)',
-        right: 'calc(50% - 64px)',
-      }}
       ref={innerRef as LegacyRef<HTMLDivElement>}
     >
       <div className="h-full w-full flex flex-col justify-between items-center text-theme-800 font-medium py-8">

@@ -50,6 +50,9 @@ module.exports = {
         'cardpicker-md': 'calc(128px * 3 + 60px)',
         'cardpicker-sm': 'calc(128px + 20px)',
       },
+      inset: {
+        'card-center': 'calc(50% - 64px)',
+      },
     },
   },
   variants: {
