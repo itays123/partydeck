@@ -45,11 +45,11 @@ export function CardPicker({ of }: { of: 'use' | 'pick' }) {
           content={previousCard?.content}
         />
         <AnimatedAnswerCard
-          key={currentCard.id}
-          id={currentCard.id}
+          key={currentCard?.id || 'current'}
+          id={currentCard?.id || 'currrent'}
           position={0}
           swipeDir={swipeDir}
-          content={currentCard.content}
+          content={currentCard?.content}
           swipeLeft={swipeLeft}
           swipeRight={swipeRight}
         />
