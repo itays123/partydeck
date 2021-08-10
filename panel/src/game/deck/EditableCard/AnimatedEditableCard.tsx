@@ -7,7 +7,7 @@ export const variants = {
   enter: ([position, direction]: [number, SwipeDir]) => {
     // will either be -2 (enter from left) or 2 (enter from right)
     return {
-      x: direction > 0 ? -250 : 250,
+      x: direction > 0 ? 250 : -250,
       opacity: 0,
       zIndex: 0,
     };
@@ -27,7 +27,7 @@ export const variants = {
     // will either be -2 (exit to left) or 2 (exit to right)
     return {
       zIndex: 0,
-      x: direction < 0 ? -250 : 250,
+      x: direction < 0 ? 250 : -250,
       opacity: 0,
     };
   },

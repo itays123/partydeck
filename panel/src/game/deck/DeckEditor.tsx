@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import Next from '../../components/icons/Next';
 import Prev from '../../components/icons/Prev';
 import { Editor } from '../types';
@@ -27,6 +27,9 @@ function DeckEditor({ editor, label }: Props): JSX.Element {
     cardAtomList,
     selectedIndex
   );
+  const uniqueInstanceId = useMemo(() => {
+    return (selectedIndex + 1) * Math.floor(Math.random() * 100000);
+  }, [selectedIndex]);
 
   return (
     <div className="card-list mt-4">
@@ -43,14 +46,14 @@ function DeckEditor({ editor, label }: Props): JSX.Element {
           {!swipeRightAllowed && <CardLikeAddCardButton addCard={swipeRight} />}
           <AnimatedEditableCard
             key={selectedIndex - 1}
-            id={previousCard?.getValue() + ':' + (selectedIndex - 1)}
+            id={uniqueInstanceId + ':' + (selectedIndex - 1)}
             position={-1}
             swipeDir={swipeDir}
             atom={previousCard}
           />
           <AnimatedEditableCard
             key={selectedIndex}
-            id={currentCard?.getValue() + ':' + selectedIndex}
+            id={uniqueInstanceId + ':' + selectedIndex}
             position={0}
             swipeDir={swipeDir}
             swipeLeft={swipeLeft}
@@ -72,7 +75,7 @@ function DeckEditor({ editor, label }: Props): JSX.Element {
           />
           <AnimatedEditableCard
             key={selectedIndex + 1}
-            id={nextCard?.getValue() + ':' + (selectedIndex + 1)}
+            id={uniqueInstanceId + ':' + (selectedIndex + 1)}
             position={1}
             swipeDir={swipeDir}
             atom={nextCard}

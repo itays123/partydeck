@@ -45,7 +45,7 @@ const EditableCard = ({
           placeholder="An Empty Card"
           value={value}
           ref={ref}
-          readOnly={!isEditable}
+          readOnly={!isEditable || position !== 0}
           onChange={e => {
             const { value: newVal } = e.target;
             if (newVal.length <= 50) setvalue(newVal);
