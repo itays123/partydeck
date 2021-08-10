@@ -15,7 +15,7 @@ export const variants = {
   visible: ([position, direction]: [number, SwipeDir]) => {
     return {
       backgroundColor: position === 0 ? '#FFFFFF' : '#C7D2FEDE',
-      zIndex: 1,
+      zIndex: position === 0 ? 2 : 1,
       x: -150 * position, // -150, 0 or 150
       opacity: 1,
       scale: position === 0 ? 1 : 2 / 3,
@@ -60,7 +60,6 @@ export function AnimatedAnswerCard({
     <AnimatePresence initial={false} custom={position}>
       {position >= -1 && position <= 1 && props.content && (
         <MotionAnswerCard
-          layout
           key={id}
           content={props.content}
           player={props.player}
@@ -82,10 +81,10 @@ export function AnimatedAnswerCard({
           onDragEnd={(e, { offset, velocity }) => {
             const swipePower = Math.abs(offset.x) * velocity.x;
 
-            if (swipePower < -5000 && swipeRight) {
-              swipeRight();
-            } else if (swipePower > 5000 && swipeLeft) {
+            if (swipePower < -5000 && swipeLeft) {
               swipeLeft();
+            } else if (swipePower > 5000 && swipeRight) {
+              swipeRight();
             }
           }}
         />
