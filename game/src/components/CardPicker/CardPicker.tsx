@@ -6,7 +6,7 @@ import { AnimatedAnswerCard } from './animations/AnimatedAnswerCard';
 import { useSwipes } from './useSwipes';
 
 export function CardPicker({ of }: { of: 'use' | 'pick' }) {
-  const { pickedCardId, [of]: deck } = useCurrentRound();
+  const { [of]: deck } = useCurrentRound();
   const { onCardClick } = useGameContext();
   const {
     selectedIndex,
@@ -36,7 +36,6 @@ export function CardPicker({ of }: { of: 'use' | 'pick' }) {
             position={index - selectedIndex}
             key={card.id}
             content={card.content}
-            picked={pickedCardId === card.id}
             swipeLeft={swipeLeft}
             swipeRight={swipeRight}
           />
