@@ -15,10 +15,10 @@ export const initialGameState: IGameData = {
   players: new Map(),
   playerCount: 1,
   roundState: {
-    status: RoundLifecycle.USE,
+    status: RoundLifecycle.PENDING_ADMIN_ACTION,
     round: 0,
-    pickedCardId: '',
-    playerWon: '',
+    pickedCardId: '1',
+    playerWon: 'Admin',
     question: 'What would be a good name for a dog?',
     judge: 'Alex',
     selectedCardId: '',
@@ -30,7 +30,7 @@ export const initialGameState: IGameData = {
       { id: '4', content: 'Card 4' },
     ],
     playersUsed: new Map(),
-    pick: [],
+    pick: [{ id: '1', content: 'Card 1' }],
   },
   scoreboard: [],
 };

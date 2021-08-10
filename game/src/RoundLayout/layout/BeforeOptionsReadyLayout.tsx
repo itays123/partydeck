@@ -3,8 +3,10 @@ import Spinner from '../../components/Spinner/Spinner';
 import { AdminOnly } from '../../game/gameContextFilters';
 import { PlayerAnswerFeeback } from '../../components/PlayerAnswerFeedback/PlayerAnswerFeedback';
 import { SkipButton } from '../RoundActionButtons';
+import { Colors, useBackground } from '../../components/theme/useBackground';
 
 export default function BeforeOptionsReadyLayout() {
+  useBackground(Colors.THEME);
   return (
     <>
       <PageTitle>Waiting For Responses...</PageTitle>
