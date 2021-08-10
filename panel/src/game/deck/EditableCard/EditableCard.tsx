@@ -35,12 +35,10 @@ const EditableCard = ({
 
   return (
     <div
-      className={`w-32 h-48 absolute inset-x-card-center inset-y-2 editable-card-pos-${Math.abs(
-        position
-      )}`}
+      className={`card editable-card-pos-${Math.abs(position)}`}
       ref={innerRef}
     >
-      <div className="w-full h-full card rounded shadow-lg bg-theme-50 text-center px-3 py-8 relative group">
+      <div className="w-full h-full text-center px-3 py-8 relative group">
         <textarea
           rows={3}
           className="focus:outline-none bg-transparent text-center resize-none w-full"

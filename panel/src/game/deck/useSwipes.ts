@@ -32,7 +32,9 @@ export function useSwipes(
       onSwipeOverload();
       setSelectedIndex(([i]) => [i + 1, SwipeDir.Right]);
     }
-  }, [swipeRightAllowed, onSwipeOverload]);
+    },
+    [swipeRightAllowed, onSwipeOverload]
+  );
 
   // in case a deck re-renders after initial render
   useEffect(() => {

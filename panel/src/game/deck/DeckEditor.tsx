@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { Editor } from '../types';
+import { CardLikeAddCardButton } from './CardLikeAddCardButton';
 import { AnimatedEditableCard } from './EditableCard/AnimatedEditableCard';
 import { useCards } from './useCards';
 import { useSwipes } from './useSwipes';
@@ -23,11 +25,13 @@ function DeckEditor({ editor, label }: Props): JSX.Element {
     cardAtomList,
     selectedIndex
   );
+
   return (
     <div className="card-list mt-4">
       <h3 className="font-medium text-2xl">{label}</h3>
       <div className="flex justify-center items-center w-full mt-8">
         <div className="relative h-52 w-cardpicker-sm md:w-cardpicker-md overflow-x-hidden">
+          {!swipeRightAllowed && <CardLikeAddCardButton addCard={swipeRight} />}
           <AnimatedEditableCard
             key={selectedIndex - 1}
             id={previousCard?.getValue() + ':' + (selectedIndex - 1)}
@@ -45,8 +49,11 @@ function DeckEditor({ editor, label }: Props): JSX.Element {
             canDelete={canDelete}
             onDeletePress={() => {
               currentCard?.remove();
-              if (!swipeRightAllowed)
-                // last element
+              if (
+                !swipeRightAllowed ||
+                selectedIndex + 2 === cardAtomList.length
+              )
+                // last element or the one before
                 swipeLeft();
               else if (swipeLeftAllowed)
                 // not first or last

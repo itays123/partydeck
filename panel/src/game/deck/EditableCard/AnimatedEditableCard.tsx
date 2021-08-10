@@ -14,7 +14,6 @@ export const variants = {
   },
   visible: ([position, direction]: [number, SwipeDir]) => {
     return {
-      backgroundColor: position === 0 ? '#FFFFFF' : '#C7D2FEDE',
       zIndex: position === 0 ? 2 : 1,
       x: -150 * position, // -150, 0 or 150
       opacity: 1,
