@@ -81,9 +81,9 @@ export function AnimatedAnswerCard({
           onDragEnd={(e, { offset, velocity }) => {
             const swipePower = Math.abs(offset.x) * velocity.x;
 
-            if (swipePower < -5000 && swipeLeft) {
+            if (swipePower < -3000 && swipeLeft) {
               swipeLeft();
-            } else if (swipePower > 5000 && swipeRight) {
+            } else if (swipePower > 3000 && swipeRight) {
               swipeRight();
             }
           }}
