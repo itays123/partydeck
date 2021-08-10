@@ -3,6 +3,7 @@ import { useCurrentRound, useGameContext } from '../../game/GameContext';
 import Next from '../icons/Next';
 import Prev from '../icons/Prev';
 import { AnimatedAnswerCard } from './animations/AnimatedAnswerCard';
+import { useCards } from './useCards';
 import { useSwipes } from './useSwipes';
 
 export function CardPicker({ of }: { of: 'use' | 'pick' }) {
@@ -15,6 +16,10 @@ export function CardPicker({ of }: { of: 'use' | 'pick' }) {
     swipeLeft,
     swipeRight,
   } = useSwipes(deck!);
+  const { previousCard, currentCard, nextCard } = useCards(
+    selectedIndex,
+    deck!
+  );
 
   // inform the context when the selected card changes
   useEffect(() => {
@@ -31,15 +36,26 @@ export function CardPicker({ of }: { of: 'use' | 'pick' }) {
         <Prev width={32} height={32} />
       </button>
       <div className="relative h-48 w-cardpicker-sm md:w-cardpicker-md">
-        {deck?.map((card, index) => (
-          <AnimatedAnswerCard
-            position={index - selectedIndex}
-            key={card.id}
-            content={card.content}
-            swipeLeft={swipeLeft}
-            swipeRight={swipeRight}
-          />
-        ))}
+        <AnimatedAnswerCard
+          key={previousCard?.id || 'prev'}
+          id={previousCard?.id || 'prev'}
+          position={-1}
+          content={previousCard?.content}
+        />
+        <AnimatedAnswerCard
+          key={currentCard.id}
+          id={currentCard.id}
+          position={0}
+          content={currentCard.content}
+          swipeLeft={swipeLeft}
+          swipeRight={swipeRight}
+        />
+        <AnimatedAnswerCard
+          key={nextCard?.id || 'next'}
+          id={nextCard?.id || 'next'}
+          position={1}
+          content={nextCard?.content}
+        />
       </div>
       <button
         onClick={swipeRight}

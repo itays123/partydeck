@@ -39,12 +39,14 @@ const answerCardForwardRef = forwardRef<HTMLDivElement, AnswerCardProps>(
 export const MotionAnswerCard = motion.custom(answerCardForwardRef);
 
 interface AnimatedAnswerCardProps extends Partial<AnswerCardProps> {
+  id: string;
   position: number;
   swipeLeft?: () => void;
   swipeRight?: () => void;
 }
 
 export function AnimatedAnswerCard({
+  id,
   position,
   swipeLeft,
   swipeRight,
@@ -52,10 +54,10 @@ export function AnimatedAnswerCard({
 }: AnimatedAnswerCardProps) {
   return (
     <AnimatePresence initial={false} custom={position}>
-      {position >= -1 && position <= 1 && (
+      {position >= -1 && position <= 1 && props.content && (
         <MotionAnswerCard
           layout
-          key={position}
+          key={id}
           content={props.content}
           player={props.player}
           custom={position}
