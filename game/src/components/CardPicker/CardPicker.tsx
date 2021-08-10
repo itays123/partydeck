@@ -1,34 +1,31 @@
 import { useEffect } from 'react';
-import { useState } from 'react';
 import { useCurrentRound, useGameContext } from '../../game/GameContext';
-import { useCards } from './useCards';
 import Next from '../icons/Next';
 import Prev from '../icons/Prev';
 import { AnimatedAnswerCard } from './animations/AnimatedAnswerCard';
-import { useCallback } from 'react';
+import { useSwipes } from './useSwipes';
 
 export function CardPicker({ of }: { of: 'use' | 'pick' }) {
-  const { pickedCardId, [of]: deck, playerWon } = useCurrentRound();
+  const { pickedCardId, [of]: deck } = useCurrentRound();
   const { onCardClick } = useGameContext();
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const { currentCard } = useCards(selectedIndex, deck!);
-  const swipeLeft = useCallback(() => {
-    selectedIndex > 0 && setSelectedIndex(i => i - 1);
-  }, [selectedIndex]);
-  const swipeRight = useCallback(() => {
-    selectedIndex < deck?.length! - 1 && setSelectedIndex(i => i + 1);
-  }, [selectedIndex, deck]);
+  const {
+    selectedIndex,
+    swipeLeftAllowed,
+    swipeRightAllowed,
+    swipeLeft,
+    swipeRight,
+  } = useSwipes(deck!);
 
   // inform the context when the selected card changes
   useEffect(() => {
-    onCardClick(currentCard.id);
-  }, [currentCard, onCardClick]);
+    onCardClick(deck?.[selectedIndex]?.id!);
+  }, [selectedIndex, deck, onCardClick]);
 
   return (
     <div className="flex justify-center items-center w-full mt-8">
       <button
         onClick={swipeLeft}
-        disabled={selectedIndex === 0}
+        disabled={!swipeLeftAllowed}
         className="text-white disabled:opacity-50 focus:outline-none"
       >
         <Prev width={32} height={32} />
@@ -40,7 +37,6 @@ export function CardPicker({ of }: { of: 'use' | 'pick' }) {
             key={card.id}
             content={card.content}
             picked={pickedCardId === card.id}
-            player={playerWon}
             swipeLeft={swipeLeft}
             swipeRight={swipeRight}
           />
@@ -48,7 +44,7 @@ export function CardPicker({ of }: { of: 'use' | 'pick' }) {
       </div>
       <button
         onClick={swipeRight}
-        disabled={selectedIndex === deck?.length! - 1}
+        disabled={!swipeRightAllowed}
         className="text-white disabled:opacity-50 focus:outline-none"
       >
         <Next width={32} height={32} />
