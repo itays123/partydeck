@@ -38,6 +38,6 @@
     @apply text-sm absolute bottom-0 text-pink-dark;
   }
   .answer-card-pos-1 {
-    @apply hidden md:block;
+    @apply opacity-0 md:opacity-100;
   }
 }

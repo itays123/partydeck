@@ -35,7 +35,7 @@ export function CardPicker({ of }: { of: 'use' | 'pick' }) {
       >
         <Prev width={32} height={32} />
       </button>
-      <div className="relative h-48 w-cardpicker-sm md:w-cardpicker-md">
+      <div className="relative h-48 w-cardpicker-sm md:w-cardpicker-md overflow-x-hidden">
         <AnimatedAnswerCard
           key={previousCard?.id || 'prev'}
           id={previousCard?.id || 'prev'}
