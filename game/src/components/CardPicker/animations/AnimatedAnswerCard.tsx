@@ -62,8 +62,6 @@ export function AnimatedAnswerCard({
         <MotionAnswerCard
           key={id}
           content={props.content}
-          player={props.player}
-          picked={props.picked}
           custom={[position, swipeDir]}
           position={position}
           variants={variants}

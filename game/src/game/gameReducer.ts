@@ -15,7 +15,7 @@ export const initialGameState: IGameData = {
   players: new Map(),
   playerCount: 1,
   roundState: {
-    status: RoundLifecycle.PENDING_ADMIN_ACTION,
+    status: RoundLifecycle.USE,
     round: 0,
     pickedCardId: '1',
     playerWon: 'Admin',
