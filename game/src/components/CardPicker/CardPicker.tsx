@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useCurrentRound, useGameContext } from '../../game/GameContext';
 import { useCards } from './useCards';
-import { useSubscribeToPickedCardId } from './useSubscribeToPickedCardId';
 import Next from '../icons/Next';
 import Prev from '../icons/Prev';
 import { AnimatedAnswerCard } from './animations/AnimatedAnswerCard';
@@ -24,9 +23,6 @@ export function CardPicker({ of }: { of: 'use' | 'pick' }) {
   useEffect(() => {
     onCardClick(currentCard.id);
   }, [currentCard, onCardClick]);
-
-  // focus on picked card when picked
-  useSubscribeToPickedCardId(deck!, setSelectedIndex);
 
   return (
     <div className="flex justify-center items-center w-full mt-8">
