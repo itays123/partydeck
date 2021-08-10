@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { GameContext } from '../../game/GameContext';
 import { ConnectionLifecycle } from '../../game/types';
-import { Wrapper } from '../../shared/types';
+import { Wrapper } from '../types';
 import LocalStorageUtils from './localstorageUtils';
 
 export default class LocalStorageConnectionRestorer extends Component<Wrapper> {

@@ -1,4 +1,4 @@
-import { Wrapper } from '../../shared/types';
+import { Wrapper } from '../types';
 import BrandedLogo from './BrandedLogo';
 
 export default function BrandWrapper({ children }: Wrapper) {

@@ -4,7 +4,7 @@ import { createContext, useContext, useReducer } from 'react';
 import { action } from '../components/contextActionFactory';
 import { createWrapper } from '../components/logicalWrapperFactory';
 import { JSXProvider } from '../components/types';
-import { Wrapper } from '../shared/types';
+import { Wrapper } from '../components/types';
 import {
   useConnectionCallback,
   useConnectionPauseHandler,
