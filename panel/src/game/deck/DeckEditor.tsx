@@ -22,6 +22,7 @@ function DeckEditor({ editor, label }: Props): JSX.Element {
     swipeRightAllowed,
     swipeRight,
     swipeDir,
+    swipeWhenRemoved,
   } = useSwipes(cardAtomList, addCard);
   const { previousCard, currentCard, nextCard } = useCards(
     cardAtomList,
@@ -32,8 +33,10 @@ function DeckEditor({ editor, label }: Props): JSX.Element {
   }, [selectedIndex]);
 
   return (
-    <div className="card-list mt-4 flex flex-col items-start p-8">
-      <h3 className="font-medium text-2xl text-theme-800">{label}</h3>
+    <div className="card-list mt-4 flex flex-col items-start">
+      <h3 className="font-medium text-2xl text-theme-800 px-8 md:px-0">
+        {label}
+      </h3>
       <div className="flex justify-center items-center mt-8">
         <button
           onClick={swipeLeft}
@@ -61,15 +64,7 @@ function DeckEditor({ editor, label }: Props): JSX.Element {
             canDelete={canDelete}
             onDeletePress={() => {
               currentCard?.remove();
-              if (
-                !swipeRightAllowed ||
-                selectedIndex + 2 === cardAtomList.length
-              )
-                // last element or the one before
-                swipeLeft();
-              else if (swipeLeftAllowed)
-                // not first or last
-                swipeRight();
+              swipeWhenRemoved();
             }}
             atom={currentCard}
           />

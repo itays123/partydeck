@@ -1,20 +1,19 @@
 import { useHistory, useParams } from 'react-router-dom';
-import GameEditorContextProvider from './GameEditorContext';
+import GameEditorContextProvider, { EditorOnly } from './GameEditorContext';
 import { useGame } from './useGame';
-import GameSettingsViewEdit from './settings/GameSettingsViewEdit';
 import { useSaveGame } from './action/useSaveGame';
 import { useDeleteGame } from './action/useDeleteGame';
 import PageNotFound from '../library/PageNotFound';
-import DeckEditor from './deck/DeckEditor';
 import GameAction from './action/GameAction';
 import SvgWrapper from '../shared/SvgWrapper';
-import EditorOnly from './wrapper/EditorOnly';
 import Spinner from '../components/Spinner/Spinner';
 import {
   CreateLiveGameButton,
   CreateLiveGameProvider,
 } from './play/LiveGameModalProvider';
 import LiveGameCreationModal from './play/LiveGameCreationModal';
+import DeckEditors from './layout/DeckEditors';
+import GameSettingsBar from './layout/GameSettingsBar';
 
 const GameViewEdit = () => {
   const { id } = useParams<{ id: string }>();
@@ -37,13 +36,13 @@ const GameViewEdit = () => {
       <LiveGameCreationModal />
       <GameEditorContextProvider initialGame={game}>
         <div className="game-view scrollable">
-          <div className="bg-gray-100 w-full">
+          <div className="bg-theme-100 w-full">
             <header className="container mx-auto pt-8 pb-4 px-8 md:px-2">
               <section className="details">
-                <h1 className="text-xl md:text-2xl lg:text-4xl font-bold text-purple-600">
+                <h1 className="text-left text-4xl md:text-6xl lg:text-8xl font-medium text-theme-600">
                   {game.name}
                 </h1>
-                <GameSettingsViewEdit />
+                <GameSettingsBar />
               </section>
               <section className="actions flex justify-start flex-row-reverse mt-2">
                 <CreateLiveGameButton className="w-10 h-10" />
@@ -94,10 +93,7 @@ const GameViewEdit = () => {
               </section>
             </header>
           </div>
-          <div>
-            <DeckEditor label="Questions" of="questions" />
-            <DeckEditor label="Answers" of="answers" />
-          </div>
+          <DeckEditors />
         </div>
       </GameEditorContextProvider>
     </CreateLiveGameProvider>

@@ -1,9 +1,13 @@
 import { Link } from 'react-router-dom';
 import languages from '../../shared/helpers/languages';
 import GameLanguageSelect from './GameLanguageSelect';
-import NewGamesOnly, { ExistingGamesOnly } from '../wrapper/NewGamesOnly';
-import EditorOnly, { ViewerOnly } from '../wrapper/EditorOnly';
-import { useGameEditorContext } from '../GameEditorContext';
+import {
+  useGameEditorContext,
+  NewGamesOnly,
+  ExistingGamesOnly,
+  ViewerOnly,
+  EditorOnly,
+} from '../GameEditorContext';
 import PrivatePublicTickbox from './PrivatePublicTickBox/PrivatePublicTickbox';
 
 const GameSettingsViewEdit = () => {

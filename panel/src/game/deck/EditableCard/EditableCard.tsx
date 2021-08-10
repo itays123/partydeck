@@ -1,7 +1,6 @@
 import { MouseEventHandler, RefObject, useEffect, useRef } from 'react';
 import SvgWrapper from '../../../shared/SvgWrapper';
-import EditorOnly from '../../wrapper/EditorOnly';
-import { useGameEditorContext } from '../../GameEditorContext';
+import { useGameEditorContext, EditorOnly } from '../../GameEditorContext';
 import './EditableCard.css';
 import { Atom, useAtom } from 'klyva';
 

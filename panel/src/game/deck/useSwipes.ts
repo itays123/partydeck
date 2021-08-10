@@ -32,9 +32,22 @@ export function useSwipes(
       onSwipeOverload();
       setSelectedIndex(([i]) => [i + 1, SwipeDir.Right]);
     }
-    },
-    [swipeRightAllowed, onSwipeOverload]
-  );
+  }, [swipeRightAllowed, onSwipeOverload]);
+  const swipeWhenRemoved = useCallback(() => {
+    if (!swipeRightAllowed || selectedIndex + 2 === deck.length)
+      // last element or the one before
+      swipeLeft();
+    else if (swipeLeftAllowed)
+      // not first or last
+      swipeRight();
+  }, [
+    swipeLeft,
+    swipeLeftAllowed,
+    swipeRight,
+    swipeRightAllowed,
+    deck,
+    selectedIndex,
+  ]);
 
   // in case a deck re-renders after initial render
   useEffect(() => {
@@ -49,5 +62,6 @@ export function useSwipes(
     swipeRightAllowed,
     swipeLeft,
     swipeRight,
+    swipeWhenRemoved,
   };
 }
