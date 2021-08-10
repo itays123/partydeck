@@ -1,20 +1,22 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { forwardRef } from 'react';
 import { AnswerCard, AnswerCardProps } from '../AnswerCard';
+import { SwipeDir } from '../useSwipes';
 
 export const variants = {
-  enter: (position: number) => {
+  enter: ([position, direction]: [number, SwipeDir]) => {
     // will either be -2 (enter from left) or 2 (enter from right)
     return {
-      x: position > 0 ? 250 : -250,
+      x: direction > 0 ? 250 : -250,
       opacity: 0,
+      zIndex: 0,
     };
   },
-  visible: (position: number) => {
+  visible: ([position, direction]: [number, SwipeDir]) => {
     return {
       backgroundColor: position === 0 ? '#FFFFFF' : '#C7D2FEDE',
       zIndex: 1,
-      x: 150 * position, // -150, 0 or 150
+      x: -150 * position, // -150, 0 or 150
       opacity: 1,
       scale: position === 0 ? 1 : 2 / 3,
       transition: {
@@ -22,11 +24,11 @@ export const variants = {
       },
     };
   },
-  exit: (position: number) => {
+  exit: ([position, direction]: [number, SwipeDir]) => {
     // will either be -2 (exit to left) or 2 (exit to right)
     return {
       zIndex: 0,
-      x: position < 0 ? -250 : 250,
+      x: direction < 0 ? 250 : -250,
       opacity: 0,
     };
   },
@@ -41,6 +43,7 @@ export const MotionAnswerCard = motion.custom(answerCardForwardRef);
 interface AnimatedAnswerCardProps extends Partial<AnswerCardProps> {
   id: string;
   position: number;
+  swipeDir: SwipeDir;
   swipeLeft?: () => void;
   swipeRight?: () => void;
 }
@@ -48,6 +51,7 @@ interface AnimatedAnswerCardProps extends Partial<AnswerCardProps> {
 export function AnimatedAnswerCard({
   id,
   position,
+  swipeDir,
   swipeLeft,
   swipeRight,
   ...props
@@ -60,7 +64,7 @@ export function AnimatedAnswerCard({
           key={id}
           content={props.content}
           player={props.player}
-          custom={position}
+          custom={[position, swipeDir]}
           position={position}
           variants={variants}
           initial="enter"

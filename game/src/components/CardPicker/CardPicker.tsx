@@ -11,6 +11,7 @@ export function CardPicker({ of }: { of: 'use' | 'pick' }) {
   const { onCardClick } = useGameContext();
   const {
     selectedIndex,
+    swipeDir,
     swipeLeftAllowed,
     swipeRightAllowed,
     swipeLeft,
@@ -40,12 +41,14 @@ export function CardPicker({ of }: { of: 'use' | 'pick' }) {
           key={previousCard?.id || 'prev'}
           id={previousCard?.id || 'prev'}
           position={-1}
+          swipeDir={swipeDir}
           content={previousCard?.content}
         />
         <AnimatedAnswerCard
           key={currentCard.id}
           id={currentCard.id}
           position={0}
+          swipeDir={swipeDir}
           content={currentCard.content}
           swipeLeft={swipeLeft}
           swipeRight={swipeRight}
@@ -54,6 +57,7 @@ export function CardPicker({ of }: { of: 'use' | 'pick' }) {
           key={nextCard?.id || 'next'}
           id={nextCard?.id || 'next'}
           position={1}
+          swipeDir={swipeDir}
           content={nextCard?.content}
         />
       </div>
