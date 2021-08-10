@@ -1,4 +1,5 @@
 import GameCodeDisplay from '../components/GameCodeDisplay/GameCodeDisplay';
+import FadingDiv from './animations/FadingDiv';
 import BeforeOptionsReadyLayout from './layout/BeforeOptionsReadyLayout';
 import OptionsReadyLayout from './layout/OptionsReadyLayout';
 import RoundEndedLayout from './layout/RoundEndedLayout';
@@ -12,7 +13,7 @@ import {
 
 export default function RoundLayout() {
   return (
-    <div className="flex flex-col items-center w-full h-full py-8 px-8">
+    <FadingDiv className="flex flex-col items-center w-full h-full py-8 px-8">
       <UsingOnly>
         <UseDeckLayout />
       </UsingOnly>
@@ -28,6 +29,6 @@ export default function RoundLayout() {
       <div className="absolute bottom-0 left-0 px-8 py-4">
         <GameCodeDisplay />
       </div>
-    </div>
+    </FadingDiv>
   );
 }

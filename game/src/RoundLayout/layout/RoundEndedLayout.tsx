@@ -1,10 +1,12 @@
 import { useMemo } from 'react';
 import Card from '../../components/Card/Card';
+import PageTitle from '../../components/PageTitle/PageTitle';
 import { QuestionJudgeDisplay } from '../../components/QuestionJudgeDisplay/QuestionJudgeDisplay';
 import { Colors, useBackground } from '../../components/theme/useBackground';
 import { useCurrentRound } from '../../game/GameContext';
 import { AdminOnly } from '../../game/gameContextFilters';
 import { EndGameButton, NextRoundButton } from '../RoundActionButtons';
+import { NotSkipped, Skipped } from '../RoundLogicalWrappers';
 import { useIsWinner } from '../useIsWinner';
 
 export default function RoundEndedLayout() {
@@ -19,23 +21,28 @@ export default function RoundEndedLayout() {
 
   return (
     <>
-      <h1
-        className={
-          (isWinner ? 'text-4xl' : 'text-3xl') +
-          ' text-white font-medium md:text-6xl'
-        }
-      >
-        {isWinner ? "It's a win!" : 'We have a winner!'}
-      </h1>
-      <QuestionJudgeDisplay hideJudge />
-      <div className="mt-8">
-        <Card>
-          <div className="h-full w-full flex flex-col justify-between items-center text-theme-800 font-medium pt-8 pb-4">
-            <p>{winningCard?.content}</p>
-            <p className="font-bold text-xl">{playerWon}</p>
-          </div>
-        </Card>
-      </div>
+      <NotSkipped>
+        <h1
+          className={
+            (isWinner ? 'text-4xl' : 'text-3xl') +
+            ' text-white font-medium md:text-6xl'
+          }
+        >
+          {isWinner ? "It's a win!" : 'We have a winner!'}
+        </h1>
+        <QuestionJudgeDisplay hideJudge />
+        <div className="mt-8">
+          <Card>
+            <div className="h-full w-full flex flex-col justify-between items-center text-theme-800 font-medium pt-8 pb-4">
+              <p>{winningCard?.content}</p>
+              <p className="font-bold text-xl">{playerWon}</p>
+            </div>
+          </Card>
+        </div>
+      </NotSkipped>
+      <Skipped>
+        <PageTitle>This round was a waste...</PageTitle>
+      </Skipped>
       <AdminOnly>
         <NextRoundButton className="hovering-button" />
         <EndGameButton className="hovering-button bottom-24" />

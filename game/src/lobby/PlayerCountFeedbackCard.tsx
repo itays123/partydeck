@@ -21,7 +21,10 @@ export default function PlayerCountFeedbackCard() {
         <div className="text-theme-800 font-medium text-center text-lg">
           <TwoPlayersLeft>Waiting for 2 players...</TwoPlayersLeft>
           <OnePlayerLeft>Waiting for 1 player...</OnePlayerLeft>
-          <EnoughPlayers>All set! Are you waiting for someone?</EnoughPlayers>
+          <EnoughPlayers>
+            <span>All set!</span>
+            <p className="text-md">Are you waiting for someone?</p>
+          </EnoughPlayers>
         </div>
       </div>
     </Card>
