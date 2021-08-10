@@ -1,7 +1,7 @@
-import SvgWrapper from '../../shared/SvgWrapper';
 import { Editor } from '../types';
-import EditorOnly from '../wrapper/EditorOnly';
-import EditableCard from './EditableCard/EditableCard';
+import { AnimatedEditableCard } from './EditableCard/AnimatedEditableCard';
+import { useCards } from './useCards';
+import { useSwipes } from './useSwipes';
 import { withEditor } from './withEditor';
 
 type Props = {
@@ -10,34 +10,59 @@ type Props = {
 };
 
 function DeckEditor({ editor, label }: Props): JSX.Element {
+  const { cardAtomList, canDelete, addCard } = editor;
   const {
+    selectedIndex,
+    swipeLeftAllowed,
+    swipeLeft,
+    swipeRightAllowed,
+    swipeRight,
+    swipeDir,
+  } = useSwipes(cardAtomList, addCard);
+  const { previousCard, currentCard, nextCard } = useCards(
     cardAtomList,
-    next,
-    focusedCardIndex,
-    setFocusedCardIndex,
-    canDelete,
-    addCard,
-  } = editor;
+    selectedIndex
+  );
   return (
-    <div className="card-list container mx-auto overflow-y-visible mt-4 px-8 md:px-2">
-      <h3>
-        <span className="font-medium text-2xl">{label} </span>
-        <span className="font-thin text-gray-700 text-sm">
-          {cardAtomList.length}
-        </span>
-      </h3>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-2 pb-6">
-        {cardAtomList.map((atom, index) => (
-          <EditableCard
-            key={index + ':' + atom.getValue()}
-            atom={atom}
-            onTabPress={next}
-            focused={focusedCardIndex === index}
-            onFocus={() => setFocusedCardIndex(index)}
-            canDelete={canDelete}
-            onDeletePress={atom.remove}
+    <div className="card-list mt-4">
+      <h3 className="font-medium text-2xl">{label}</h3>
+      <div className="flex justify-center items-center w-full mt-8">
+        <div className="relative h-52 w-cardpicker-sm md:w-cardpicker-md overflow-x-hidden">
+          <AnimatedEditableCard
+            key={selectedIndex - 1}
+            id={previousCard?.getValue() + ':' + (selectedIndex - 1)}
+            position={-1}
+            swipeDir={swipeDir}
+            atom={previousCard}
           />
-        ))}
+          <AnimatedEditableCard
+            key={selectedIndex}
+            id={currentCard?.getValue() + ':' + selectedIndex}
+            position={0}
+            swipeDir={swipeDir}
+            swipeLeft={swipeLeft}
+            swipeRight={swipeRight}
+            canDelete={canDelete}
+            onDeletePress={() => {
+              currentCard?.remove();
+              if (!swipeRightAllowed)
+                // last element
+                swipeLeft();
+              else if (swipeLeftAllowed)
+                // not first or last
+                swipeRight();
+            }}
+            atom={currentCard}
+          />
+          <AnimatedEditableCard
+            key={selectedIndex + 1}
+            id={nextCard?.getValue() + ':' + (selectedIndex + 1)}
+            position={1}
+            swipeDir={swipeDir}
+            atom={nextCard}
+          />
+        </div>
+        {/*}
         <EditorOnly>
           <button
             className="rounded text-center py-8 border-4 border-dashed border-gray-500 flex items-center justify-center focus:outline-none"
@@ -49,6 +74,7 @@ function DeckEditor({ editor, label }: Props): JSX.Element {
             </SvgWrapper>
           </button>
         </EditorOnly>
+        {*/}
       </div>
     </div>
   );

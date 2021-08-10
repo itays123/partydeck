@@ -60,4 +60,7 @@
   .branded-background {
     background-image: url('./components/brand/BrandDecoration.png');
   }
+  .answer-card-pos-1 {
+    @apply opacity-0 md:opacity-100;
+  }
 }

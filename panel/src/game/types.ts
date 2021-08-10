@@ -47,10 +47,6 @@ export interface Game {
 export type Editor = {
   cardAtomList: RemovableAtom<string>[];
   canDelete: boolean;
-  focusedCardIndex: number;
-  setFocusedCardIndex: React.Dispatch<React.SetStateAction<number>>;
-  clearFocus(): void;
-  next(): void;
   addCard(): void;
   changes(): Changes;
   clearState(): void;

@@ -35,9 +35,7 @@ export default function GameEditorContextProvider({
   const answers = useDeckEditor(answersAtom, initialGame.answers, 12);
 
   const clearState = () => {
-    questions.clearFocus();
     questions.clearState();
-    answers.clearFocus();
     answers.clearState();
     setPrivate(initialGame.isPrivate);
     if (isGameNew) {
