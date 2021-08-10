@@ -46,6 +46,10 @@ module.exports = {
         'iterator-lg': 'repeat(6, 86px)',
         'iterator-rows': '128px',
       },
+      width: {
+        'cardpicker-md': 'calc(128px * 3 + 60px)',
+        'cardpicker-sm': 'calc(128px + 20px)',
+      },
     },
   },
   variants: {
