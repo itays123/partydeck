@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Game } from '../../components/GameList/types';
-import { useFetch } from '../../shared/helpers/useFetch';
+import { useFetch } from '../../helpers/useFetch';
 
 export function useSearch(query: string) {
   const [result, setResult] = useState<Game[]>([]);

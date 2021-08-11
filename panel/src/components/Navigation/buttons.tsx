@@ -1,6 +1,6 @@
 import { AuthContext } from '../../auth/AuthContext';
 import { action, externalLink, link } from '../buttonFactory';
-import { GameWebsiteLink } from '../../shared/helpers/GameWebsiteLink';
+import { GameWebsiteLink } from '../../helpers/GameWebsiteLink';
 import { LoginModalOpener } from '../../auth/LoginModal';
 import { RegisterModalOpener } from '../../auth/RegisterModal';
 

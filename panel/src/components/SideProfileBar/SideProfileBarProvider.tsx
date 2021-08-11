@@ -5,7 +5,7 @@ import { createWrapper } from '../logicalWrapeprFactory';
 import { Wrapper } from '../types';
 import Clear from '../icons/Clear';
 import { useState } from 'react';
-import { useFetch } from '../../shared/helpers/useFetch';
+import { useFetch } from '../../helpers/useFetch';
 import { useEffect } from 'react';
 import { useAuthContext } from '../../auth/AuthContext';
 import { useMemo } from 'react';

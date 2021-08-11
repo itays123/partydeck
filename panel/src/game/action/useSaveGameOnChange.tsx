@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useAuthContext } from '../../auth/AuthContext';
-import useDebouncedValue from '../../shared/helpers/useDebouncedValue';
+import useDebouncedValue from '../../helpers/useDebouncedValue';
 import GameEditorContextProvider, {
   GameEditorProviderProps,
   useGameEditorContext,

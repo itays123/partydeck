@@ -1,5 +1,5 @@
 import { User } from '../types';
-import { useFetch } from '../../shared/helpers/useFetch';
+import { useFetch } from '../../helpers/useFetch';
 
 export function useProfile(userId: string) {
   const { data, isLoading, status } = useFetch<unknown, { user: User }>(

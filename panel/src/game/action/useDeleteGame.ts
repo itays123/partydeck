@@ -1,5 +1,5 @@
 import { useHistory } from 'react-router';
-import { useFetch } from '../../shared/helpers/useFetch';
+import { useFetch } from '../../helpers/useFetch';
 
 export function useDeleteGame(gameId: string) {
   const { doFetch, isLoading } = useFetch(

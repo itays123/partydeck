@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useFetch } from '../../shared/helpers/useFetch';
+import { useFetch } from '../../helpers/useFetch';
 import { useAuthContext } from '../AuthContext';
 import { AuthCredentials } from '../AuthForm/AuthFormProvider';
 

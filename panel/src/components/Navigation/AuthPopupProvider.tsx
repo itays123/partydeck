@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAuthContext } from '../../auth/AuthContext';
-import useClickOutside from '../../shared/helpers/useClickOutside';
+import useClickOutside from '../../helpers/useClickOutside';
 import { action } from '../buttonFactory';
 import Person from '../icons/Person';
 import { createWrapper } from '../logicalWrapeprFactory';

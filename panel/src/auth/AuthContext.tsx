@@ -3,7 +3,7 @@ import { createWrapper } from '../components/logicalWrapeprFactory';
 import { ModalHook } from '../components/Modal/types';
 import useModal from '../components/Modal/useModal';
 import { Wrapper } from '../components/types';
-import { useFetch } from '../shared/helpers/useFetch';
+import { useFetch } from '../helpers/useFetch';
 import { User } from './types';
 
 interface IAuthContext {

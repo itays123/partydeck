@@ -1,4 +1,4 @@
-import { useFetch } from '../shared/helpers/useFetch';
+import { useFetch } from '../helpers/useFetch';
 import { Game } from './types';
 
 export function useGame(gameId: string) {

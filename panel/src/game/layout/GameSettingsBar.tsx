@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import languages from '../../shared/helpers/languages';
+import languages from '../../helpers/languages';
 import {
   ExistingGamesOnly,
   NewGamesOnly,

@@ -1,6 +1,6 @@
 import LiveGameCreationModal from '../../game/play/LiveGameCreationModal';
 import { CreateLiveGameProvider } from '../../game/play/LiveGameModalProvider';
-import languages from '../../shared/helpers/languages';
+import languages from '../../helpers/languages';
 import {
   EditButton,
   GameActionsProvider,

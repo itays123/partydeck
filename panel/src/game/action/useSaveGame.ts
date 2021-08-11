@@ -1,4 +1,4 @@
-import { useFetch } from '../../shared/helpers/useFetch';
+import { useFetch } from '../../helpers/useFetch';
 import { Changes, Game } from '../types';
 
 export type SaveReqBody = {
