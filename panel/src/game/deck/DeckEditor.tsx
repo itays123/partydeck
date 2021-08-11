@@ -57,6 +57,7 @@ function DeckEditor({ editor, label }: Props): JSX.Element {
             id={uniqueInstanceId + ':' + (selectedIndex - 1)}
             position={-1}
             swipeDir={swipeDir}
+            onFocus={swipeLeft}
             value={previousCard}
           />
           <AnimatedEditableCard
@@ -76,6 +77,7 @@ function DeckEditor({ editor, label }: Props): JSX.Element {
             id={uniqueInstanceId + ':' + (selectedIndex + 1)}
             position={1}
             swipeDir={swipeDir}
+            onFocus={swipeRight}
             value={nextCard}
           />
         </div>

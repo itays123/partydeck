@@ -9,6 +9,7 @@ export type EditableCardProps = {
   focused: boolean;
   canDelete: boolean;
   onDeletePress: MouseEventHandler<HTMLButtonElement>;
+  onFocus: Function;
   position?: number;
   innerRef?: RefObject<HTMLDivElement>;
 };
@@ -19,6 +20,7 @@ const EditableCard = ({
   focused,
   canDelete,
   onDeletePress,
+  onFocus,
   innerRef,
   position = 0,
 }: EditableCardProps) => {
@@ -45,6 +47,7 @@ const EditableCard = ({
           value={value}
           ref={ref}
           readOnly={!isEditable || position !== 0}
+          onFocus={() => onFocus()}
           onChange={e => {
             const { value: newVal } = e.target;
             if (newVal.length <= 50) setValue(newVal);

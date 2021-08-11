@@ -66,6 +66,7 @@ export function AnimatedEditableCard({
           focused={props.focused || false}
           canDelete={props.canDelete || false}
           onDeletePress={props.onDeletePress || (() => {})}
+          onFocus={props.onFocus || (() => {})}
           key={id}
           custom={[position, swipeDir]}
           variants={variants}
