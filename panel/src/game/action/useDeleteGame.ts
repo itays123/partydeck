@@ -13,7 +13,7 @@ export function useDeleteGame(gameId: string) {
   return {
     isLoading,
     remove() {
-      doFetch().then(() => history.push('/'));
+      doFetch().then(() => history.push('/my'));
     },
   };
 }
