@@ -136,7 +136,7 @@ export function useDeck(initialDeck: Deck, minDeckSize: number = 3) {
     [activeIndexes.length]
   );
   const canDelete = useMemo(
-    () => deck.length >= minDeckSize,
+    () => deck.length > minDeckSize,
     [minDeckSize, deck.length]
   );
   const isChanged = useMemo(
