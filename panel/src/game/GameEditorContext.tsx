@@ -1,5 +1,6 @@
 import { atom } from 'klyva';
-import { useState } from 'react';
+import { useMemo } from 'react';
+import { useCallback, useState } from 'react';
 import { createContext, useContext } from 'react';
 import { useAuthContext } from '../auth/AuthContext';
 import { createWrapper } from '../components/logicalWrapeprFactory';
@@ -39,6 +40,7 @@ export const NewGamesOnly = createWrapper(
 type Props = {
   children: JSX.Element | JSX.Element[];
   initialGame: Game;
+  refresh?(): Promise<void>;
 };
 
 const questionsAtom = atom<Deck>([]);
@@ -47,6 +49,7 @@ const answersAtom = atom<Deck>([]);
 export default function GameEditorContextProvider({
   children,
   initialGame = EMPTY_GAME,
+  refresh,
 }: Props) {
   const { user } = useAuthContext();
   const isGameNew = !!!initialGame.author;
@@ -57,7 +60,7 @@ export default function GameEditorContextProvider({
   const questions = useDeckEditor(questionsAtom, initialGame.questions, 3);
   const answers = useDeckEditor(answersAtom, initialGame.answers, 12);
 
-  const clearState = () => {
+  const clearState = useCallback(() => {
     questions.clearState();
     answers.clearState();
     setPrivate(initialGame.isPrivate);
@@ -65,14 +68,26 @@ export default function GameEditorContextProvider({
       setLng(initialGame.lng);
       setName(initialGame.name);
     }
-  };
+  }, [questions, answers, isGameNew, initialGame]);
 
-  const isChanged =
-    name !== initialGame.name ||
-    isPrivate !== initialGame.isPrivate ||
-    lng !== initialGame.lng ||
-    questions.isChanged ||
-    answers.isChanged;
+  const isChanged = useMemo(
+    () =>
+      name !== initialGame.name ||
+      isPrivate !== initialGame.isPrivate ||
+      lng !== initialGame.lng ||
+      questions.isChanged ||
+      answers.isChanged,
+    [
+      answers.isChanged,
+      initialGame.isPrivate,
+      initialGame.lng,
+      initialGame.name,
+      isPrivate,
+      lng,
+      name,
+      questions.isChanged,
+    ]
+  );
 
   return (
     <GameEditorContext.Provider
@@ -90,6 +105,7 @@ export default function GameEditorContextProvider({
         author: isGameNew ? user : initialGame.author,
         clearState,
         isChanged,
+        refresh,
       }}
     >
       {children}

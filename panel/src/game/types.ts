@@ -33,6 +33,7 @@ export interface IGameEditorContext {
   answers: Editor;
   author: any;
   clearState(): void;
+  refresh?(): Promise<void>;
 }
 
 export interface Game {
