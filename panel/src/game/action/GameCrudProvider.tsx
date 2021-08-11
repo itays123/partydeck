@@ -6,11 +6,7 @@ import { Wrapper } from '../../components/types';
 import { useSaveGame } from './useSaveGame';
 import { useDeleteGame } from './useDeleteGame';
 import { useSaveGameOnChange } from './useSaveGameOnChange';
-
-export type Action = {
-  isLoading: boolean;
-  doFetch(): void;
-};
+import { Action } from '../types';
 
 interface IGameCrud {
   save: Action;

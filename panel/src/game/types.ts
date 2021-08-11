@@ -11,6 +11,11 @@ export type DeckAtom = {
   deleted: Deleted;
 };
 
+export type Action = {
+  isLoading: boolean;
+  doFetch(): void;
+};
+
 export type Changes = {
   added: Added;
   modified: Modified;
@@ -59,6 +64,6 @@ export const EMPTY_GAME: Game = {
   isPrivate: false,
   lng: 'en',
   author: null,
-  questions: ['', '', ''], // 3 questions min
-  answers: ['', '', '', '', '', '', '', '', '', '', '', ''], // 12 answer min
+  questions: [],
+  answers: [],
 };

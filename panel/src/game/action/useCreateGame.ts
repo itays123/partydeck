@@ -17,8 +17,6 @@ export function useCreateGame() {
 
   return {
     isLoading,
-    create(game: Body) {
-      doFetch(game);
-    },
+    create: doFetch,
   };
 }
