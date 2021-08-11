@@ -1,4 +1,6 @@
-import { MouseEventHandler, RefObject, useEffect, useRef } from 'react';
+import { useEffect } from 'react';
+import { LegacyRef, MouseEventHandler, RefObject } from 'react';
+import { useFocusOnRender } from '../../../components/forms/useFocusOnRender';
 import SvgWrapper from '../../../shared/SvgWrapper';
 import { useGameEditorContext, EditorOnly } from '../../GameEditorContext';
 import './EditableCard.css';
@@ -25,14 +27,11 @@ const EditableCard = ({
   position = 0,
 }: EditableCardProps) => {
   const { isEditable } = useGameEditorContext();
-  const ref = useRef<HTMLTextAreaElement | null>(null);
+  const ref = useFocusOnRender(focused);
 
   useEffect(() => {
-    if (focused && ref.current) {
-      ref.current.focus();
-      ref.current.setSelectionRange(50, 50);
-    }
-  }, [focused]);
+    ref.current?.setSelectionRange(50, 50);
+  }, [focused, ref]);
 
   return (
     <div
@@ -45,7 +44,7 @@ const EditableCard = ({
           className="focus:outline-none bg-transparent text-center resize-none w-full"
           placeholder="An Empty Card"
           value={value}
-          ref={ref}
+          ref={ref as unknown as LegacyRef<HTMLTextAreaElement>}
           readOnly={!isEditable || position !== 0}
           onFocus={() => onFocus()}
           onChange={e => {

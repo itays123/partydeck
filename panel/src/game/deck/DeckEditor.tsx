@@ -4,16 +4,22 @@ import Prev from '../../components/icons/Prev';
 import { Editor } from '../types';
 import { CardLikeAddCardButton } from './CardLikeAddCardButton';
 import { AnimatedEditableCard } from './EditableCard/AnimatedEditableCard';
+import { FocusEntity } from './FocusProvider';
 import { useCards } from './useCards';
 import { useSwipes } from './useSwipes';
 import { withEditor } from './withEditor';
 
-type Props = {
+export type DeckEditorProps = {
   editor: Editor;
   label: string;
+  focusProvider: FocusEntity;
 };
 
-function DeckEditor({ editor, label }: Props): JSX.Element {
+function DeckEditor({
+  editor,
+  label,
+  focusProvider,
+}: DeckEditorProps): JSX.Element {
   const { deck, canDelete, addCard, changeValue, deleteCard } = editor;
   const {
     selectedIndex,
@@ -64,6 +70,8 @@ function DeckEditor({ editor, label }: Props): JSX.Element {
             key={selectedIndex}
             id={uniqueInstanceId + ':' + selectedIndex}
             position={0}
+            focused={focusProvider.isFocused}
+            onFocus={focusProvider.focus}
             swipeDir={swipeDir}
             swipeLeft={swipeLeft}
             swipeRight={swipeRight}
