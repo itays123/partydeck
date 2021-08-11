@@ -19,12 +19,6 @@ export function useSaveGameOnChange(
   const { refresh } = useGameEditorContext();
 
   const saveCallback = useCallback(() => {
-    console.log(
-      isChanged,
-      debouncedIsChanged,
-      !isSaveLoading,
-      !debouncedSaveLoading
-    );
     if (
       !isSaveLoading &&
       !debouncedSaveLoading &&
@@ -32,7 +26,6 @@ export function useSaveGameOnChange(
       isChanged &&
       debouncedIsChanged
     ) {
-      console.log('saving game...');
       return fetchSave({
         isPrivate,
         questions: questions.changes,
