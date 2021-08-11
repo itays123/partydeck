@@ -55,6 +55,7 @@ export type Editor = {
   changeValue(index: number, value: string): void;
   deleteCard(index: number): void;
   canDelete: boolean;
+  minDeckSize: number;
   isChanged: boolean;
   reset(): void;
 };

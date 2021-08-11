@@ -156,6 +156,7 @@ export function useDeck(initialDeck: Deck, minDeckSize: number = 3) {
     changeValue,
     deleteCard,
     canDelete,
+    minDeckSize,
     isChanged,
     reset,
   };

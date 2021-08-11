@@ -20,7 +20,8 @@ function DeckEditor({
   label,
   focusProvider,
 }: DeckEditorProps): JSX.Element {
-  const { deck, canDelete, addCard, changeValue, deleteCard } = editor;
+  const { deck, canDelete, minDeckSize, addCard, changeValue, deleteCard } =
+    editor;
   const {
     selectedIndex,
     swipeLeftAllowed,
@@ -47,6 +48,10 @@ function DeckEditor({
     <div className="card-list mt-4 flex flex-col items-start">
       <h3 className="font-medium text-2xl text-theme-800 px-8 md:px-0">
         {label}
+        <span className="text-sm text-theme-600 ml-3">
+          {deck.length}
+          {!canDelete && '/' + minDeckSize} cards
+        </span>
       </h3>
       <div className="flex justify-center items-center mt-8">
         <button
