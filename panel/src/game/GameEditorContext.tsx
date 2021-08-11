@@ -1,11 +1,10 @@
-import { atom } from 'klyva';
 import { useMemo } from 'react';
 import { useCallback, useState } from 'react';
 import { createContext, useContext } from 'react';
 import { useAuthContext } from '../auth/AuthContext';
 import { createWrapper } from '../components/logicalWrapeprFactory';
-import { useDeckEditor } from './deck/useDeckEditor';
-import { EMPTY_GAME, Game, IGameEditorContext, Deck } from './types';
+import { useDeck } from './deck/useDeck';
+import { EMPTY_GAME, Game, IGameEditorContext } from './types';
 
 export const GameEditorContext = createContext<IGameEditorContext>(
   {} as IGameEditorContext
@@ -37,32 +36,29 @@ export const NewGamesOnly = createWrapper(
 );
 
 // context provider logic
-type Props = {
+export type GameEditorProviderProps = {
   children: JSX.Element | JSX.Element[];
   initialGame: Game;
-  refresh?(): Promise<void>;
+  refresh?(game: Game): void;
 };
-
-const questionsAtom = atom<Deck>([]);
-const answersAtom = atom<Deck>([]);
 
 export default function GameEditorContextProvider({
   children,
   initialGame = EMPTY_GAME,
   refresh,
-}: Props) {
+}: GameEditorProviderProps) {
   const { user } = useAuthContext();
   const isGameNew = !!!initialGame.author;
   const isEditable = user?._id === initialGame.author?._id || isGameNew;
   const [name, setName] = useState(initialGame.name);
   const [isPrivate, setPrivate] = useState(initialGame.isPrivate);
   const [lng, setLng] = useState(initialGame.lng);
-  const questions = useDeckEditor(questionsAtom, initialGame.questions, 3);
-  const answers = useDeckEditor(answersAtom, initialGame.answers, 12);
+  const questions = useDeck(initialGame.questions, 3);
+  const answers = useDeck(initialGame.answers, 12);
 
   const clearState = useCallback(() => {
-    questions.clearState();
-    answers.clearState();
+    questions.reset();
+    answers.reset();
     setPrivate(initialGame.isPrivate);
     if (isGameNew) {
       setLng(initialGame.lng);

@@ -2,10 +2,10 @@ import { MouseEventHandler, RefObject, useEffect, useRef } from 'react';
 import SvgWrapper from '../../../shared/SvgWrapper';
 import { useGameEditorContext, EditorOnly } from '../../GameEditorContext';
 import './EditableCard.css';
-import { Atom, useAtom } from 'klyva';
 
 export type EditableCardProps = {
-  atom: Atom<string>;
+  value: string;
+  setValue: (value: string) => void;
   focused: boolean;
   canDelete: boolean;
   onDeletePress: MouseEventHandler<HTMLButtonElement>;
@@ -14,14 +14,14 @@ export type EditableCardProps = {
 };
 
 const EditableCard = ({
-  atom,
+  value,
+  setValue,
   focused,
   canDelete,
   onDeletePress,
   innerRef,
   position = 0,
 }: EditableCardProps) => {
-  const [value, setvalue] = useAtom(atom);
   const { isEditable } = useGameEditorContext();
   const ref = useRef<HTMLTextAreaElement | null>(null);
 
@@ -47,7 +47,7 @@ const EditableCard = ({
           readOnly={!isEditable || position !== 0}
           onChange={e => {
             const { value: newVal } = e.target;
-            if (newVal.length <= 50) setvalue(newVal);
+            if (newVal.length <= 50) setValue(newVal);
           }}
         />
 

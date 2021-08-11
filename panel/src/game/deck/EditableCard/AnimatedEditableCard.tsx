@@ -59,9 +59,10 @@ export function AnimatedEditableCard({
 }: Partial<EditableCardProps> & Swipeable) {
   return (
     <AnimatePresence initial={false} custom={[position, swipeDir]}>
-      {props.atom && (
+      {props.value !== undefined && (
         <MotionEditableCard
-          atom={props.atom}
+          value={props.value}
+          setValue={props.setValue || (() => {})}
           focused={props.focused || false}
           canDelete={props.canDelete || false}
           onDeletePress={props.onDeletePress || (() => {})}

@@ -1,7 +1,7 @@
-import { RemovableAtom } from 'klyva';
 import { useMemo } from 'react';
+import { Deck } from '../types';
 
-export function useCards(deck: RemovableAtom<string>[], selectedIndex: number) {
+export function useCards(deck: Deck, selectedIndex: number) {
   const previousCard = useMemo(
     () => (selectedIndex - 1 >= 0 ? deck[selectedIndex - 1] : undefined),
     [deck, selectedIndex]

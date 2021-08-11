@@ -1,5 +1,3 @@
-import { RemovableAtom } from 'klyva';
-
 export type Deck = string[];
 
 export type Added = string[];
@@ -33,7 +31,7 @@ export interface IGameEditorContext {
   answers: Editor;
   author: any;
   clearState(): void;
-  refresh?(): Promise<void>;
+  refresh?(game: Game): void;
 }
 
 export interface Game {
@@ -46,13 +44,14 @@ export interface Game {
 }
 
 export type Editor = {
-  cardAtomList: RemovableAtom<string>[];
-  canDelete: boolean;
+  deck: Deck;
+  changes: Changes;
   addCard(): void;
-  changes(): Changes;
-  clearState(): void;
+  changeValue(index: number, value: string): void;
+  deleteCard(index: number): void;
+  canDelete: boolean;
   isChanged: boolean;
-  getValue(): Deck;
+  reset(): void;
 };
 
 export const EMPTY_GAME: Game = {

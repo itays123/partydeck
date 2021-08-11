@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import Next from '../../components/icons/Next';
 import Prev from '../../components/icons/Prev';
 import { Editor } from '../types';
@@ -14,7 +14,7 @@ type Props = {
 };
 
 function DeckEditor({ editor, label }: Props): JSX.Element {
-  const { cardAtomList, canDelete, addCard } = editor;
+  const { deck, canDelete, addCard, changeValue, deleteCard } = editor;
   const {
     selectedIndex,
     swipeLeftAllowed,
@@ -23,14 +23,19 @@ function DeckEditor({ editor, label }: Props): JSX.Element {
     swipeRight,
     swipeDir,
     swipeWhenRemoved,
-  } = useSwipes(cardAtomList, addCard);
-  const { previousCard, currentCard, nextCard } = useCards(
-    cardAtomList,
-    selectedIndex
-  );
+  } = useSwipes(deck, addCard);
+  const { previousCard, currentCard, nextCard } = useCards(deck, selectedIndex);
   const uniqueInstanceId = useMemo(() => {
-    return (selectedIndex + 1) * Math.floor(Math.random() * 100000);
-  }, [selectedIndex]);
+    return (selectedIndex + 1) * Math.floor(Math.random() * 100000) * swipeDir;
+  }, [selectedIndex, swipeDir]);
+  const updateSelectedCard = useCallback(
+    (value: string) => changeValue(selectedIndex, value),
+    [selectedIndex, changeValue]
+  );
+  const deleteSelectedCard = useCallback(() => {
+    deleteCard(selectedIndex);
+    swipeWhenRemoved();
+  }, [selectedIndex, deleteCard, swipeWhenRemoved]);
 
   return (
     <div className="card-list mt-4 flex flex-col items-start">
@@ -52,7 +57,7 @@ function DeckEditor({ editor, label }: Props): JSX.Element {
             id={uniqueInstanceId + ':' + (selectedIndex - 1)}
             position={-1}
             swipeDir={swipeDir}
-            atom={previousCard}
+            value={previousCard}
           />
           <AnimatedEditableCard
             key={selectedIndex}
@@ -62,18 +67,16 @@ function DeckEditor({ editor, label }: Props): JSX.Element {
             swipeLeft={swipeLeft}
             swipeRight={swipeRight}
             canDelete={canDelete}
-            onDeletePress={() => {
-              currentCard?.remove();
-              swipeWhenRemoved();
-            }}
-            atom={currentCard}
+            onDeletePress={deleteSelectedCard}
+            value={currentCard}
+            setValue={updateSelectedCard}
           />
           <AnimatedEditableCard
             key={selectedIndex + 1}
             id={uniqueInstanceId + ':' + (selectedIndex + 1)}
             position={1}
             swipeDir={swipeDir}
-            atom={nextCard}
+            value={nextCard}
           />
         </div>
         <button

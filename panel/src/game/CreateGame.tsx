@@ -31,8 +31,8 @@ const CreateGame = () => {
                     name,
                     lng,
                     isPrivate,
-                    questions: questions.getValue(),
-                    answers: answers.getValue(),
+                    questions: questions.deck,
+                    answers: answers.deck,
                   })
                 }
               >

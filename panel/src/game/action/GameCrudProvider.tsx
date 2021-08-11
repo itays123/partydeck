@@ -3,13 +3,11 @@ import { action } from '../../components/buttonFactory';
 import { createWrapper } from '../../components/logicalWrapeprFactory';
 import Remove from '../../components/glyphs/Remove';
 import { Wrapper } from '../../components/types';
-import { useGameEditorContext } from '../GameEditorContext';
 import { useSaveGame } from './useSaveGame';
 import { useDeleteGame } from './useDeleteGame';
-import { useCallback } from 'react';
 import { useSaveGameOnChange } from './useSaveGameOnChange';
 
-type Action = {
+export type Action = {
   isLoading: boolean;
   doFetch(): void;
 };
@@ -37,22 +35,10 @@ export default function GameCrudProvider({
   children,
   gameId,
 }: Wrapper & { gameId: string }) {
-  const { save, isSaveLoading } = useSaveGame(gameId);
+  const { save, isSaveLoading, refreshedGame } = useSaveGame(gameId);
   const { remove, isLoading } = useDeleteGame(gameId);
-  const { isPrivate, questions, answers, refresh, clearState } =
-    useGameEditorContext();
-  const saveCallback = useCallback(() => {
-    if (!isSaveLoading)
-      save({
-        isPrivate,
-        questions: questions.changes(),
-        answers: answers.changes(),
-      })
-        .then(() => refresh && refresh())
-        .then(clearState);
-  }, [isPrivate, questions, answers, save, isSaveLoading, clearState, refresh]);
 
-  useSaveGameOnChange(saveCallback);
+  const saveCallback = useSaveGameOnChange(save, isSaveLoading, refreshedGame);
 
   return (
     <GameCrudContext.Provider

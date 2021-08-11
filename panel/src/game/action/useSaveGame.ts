@@ -1,10 +1,14 @@
 import { useFetch } from '../../shared/helpers/useFetch';
-import { Changes } from '../types';
+import { Changes, Game } from '../types';
 
-type Body = { isPrivate: boolean; questions: Changes; answers: Changes };
+export type SaveReqBody = {
+  isPrivate: boolean;
+  questions: Changes;
+  answers: Changes;
+};
 
 export function useSaveGame(gameId: string) {
-  const { isLoading, doFetch } = useFetch<Body>(
+  const { isLoading, doFetch, data } = useFetch<SaveReqBody, Game>(
     '/game/' + gameId,
     'PUT',
     false
@@ -12,8 +16,7 @@ export function useSaveGame(gameId: string) {
 
   return {
     isSaveLoading: isLoading,
-    save(changes: Body) {
-      return doFetch(changes);
-    },
+    save: doFetch,
+    refreshedGame: data,
   };
 }

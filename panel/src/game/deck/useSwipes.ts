@@ -1,16 +1,15 @@
-import { RemovableAtom } from 'klyva';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Deck } from '../types';
 
 export enum SwipeDir {
   Initial = 0,
   Left = -1,
+  FixingLeft = -2,
   Right = 1,
+  FixingRight = 2,
 }
 
-export function useSwipes(
-  deck: RemovableAtom<string>[],
-  onSwipeOverload?: Function
-) {
+export function useSwipes(deck: Deck, onSwipeOverload?: Function) {
   const [[selectedIndex, swipeDir], setSelectedIndex] = useState([
     deck.length - 1,
     SwipeDir.Initial,
@@ -34,20 +33,11 @@ export function useSwipes(
     }
   }, [swipeRightAllowed, onSwipeOverload]);
   const swipeWhenRemoved = useCallback(() => {
-    if (!swipeRightAllowed || selectedIndex + 2 === deck.length)
+    if (!swipeRightAllowed)
       // last element or the one before
       swipeLeft();
-    else if (swipeLeftAllowed)
-      // not first or last
-      swipeRight();
-  }, [
-    swipeLeft,
-    swipeLeftAllowed,
-    swipeRight,
-    swipeRightAllowed,
-    deck,
-    selectedIndex,
-  ]);
+    else setSelectedIndex(([i]) => [i, SwipeDir.FixingRight]);
+  }, [swipeRightAllowed, swipeLeft]);
 
   // in case a deck re-renders after initial render
   useEffect(() => {

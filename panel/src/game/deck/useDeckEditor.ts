@@ -1,24 +1,25 @@
 import { Atom, useAtomSlice } from 'klyva';
-import { useCallback, useState } from 'react';
-import { Editor } from '../types';
+import { useCallback, useEffect, useState } from 'react';
 import { Added, Deck, Deleted, Modified } from '../types';
 
 export function useDeckEditor(
   deckAtom: Atom<Deck>,
   initialDeck: Deck,
   minDeckSize: number = 0
-): Editor {
+) {
   const [deckSize, setSize] = useState(deckAtom.getValue().length);
   const [isChanged, setChanged] = useState(false);
   const cardAtomList = useAtomSlice(deckAtom);
 
-  deckAtom.subscribe(deck => {
-    setSize(deck.length);
-    setChanged(
-      deck.length !== initialDeck.length ||
-        deck.some((card, index) => card !== initialDeck[index])
-    );
-  });
+  useEffect(() => {
+    deckAtom.subscribe(deck => {
+      setSize(deck.length);
+      setChanged(
+        deck.length !== initialDeck.length ||
+          deck.some((card, index) => card !== initialDeck[index])
+      );
+    });
+  }, [initialDeck, deckAtom]);
 
   const addCard = useCallback(
     () => deckAtom.update(list => [...list, '']),

@@ -45,8 +45,8 @@ router.post('/', onlyAuth, security, async (req, res) => {
 router.put('/:id', onlyAuth, async (req, res) => {
   const { id } = req.params;
   try {
-    await Game.updateGame(id, req.body);
-    res.status(200).json({ status: 200 });
+    const game = await Game.updateGame(id, req.body);
+    res.status(200).json(game);
   } catch (err) {
     res.status(422).json({ error: 'validation error' });
   }
