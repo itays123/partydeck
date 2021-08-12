@@ -2,47 +2,99 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Components & Hooks
+## Architecture
 
-### Card
+### Game utilities
 
-- `Card` is the component responsible for displaying a card
-- `CardPicker` is responsible for displaying a list of `Card`s
-- `Deck` is the component that tracks use / pick and renders the matching `CardPicker`.
+The entire application is based on 3 enums that toggle the current stage of the game:
 
-### Game
+```ts
+enum GameLifecycle {
+  PRE_CREATED, // initial state
+  CREATED, // lobby state
+  RESUMED, // round is active
+  PAUSED, // too many players disconnected
+  STOPPED, // game sucessfully ended
+  DESTROYED, // game paused for too long
+}
 
-- `GameContextProvider`, `useGameContext` are the hook and component responsible for using the `GameContext`. The context's value is the `gameReducer`'s state.
-- `useWebsocket` is the component responsible for dispatching events of the reducer as a result of websocket events.
+enum ConnectionLifecycle {
+  PRE_CREATED, // initial state
+  GOING_AWAY, // disconnected, but saving the data. This can happen before page reload, for example
+  REFRESHING, // disconnected, but found saved data. For instance, on page reload after refresh
+  RESUMED, // connected
+  PAUSED, // unexpected disconnection, but attempting reconnection
+  FINISHED, // sucessfully ended the game
+  DESTROYED, // unexpected disconnection, and could not reconnect
+}
 
-### Lobby
+enum RoundLifecycle {
+  USE, // the player should submit an answer
+  PENDING_PLAYER_USAGES, // the player is waiting for other players to submit answers
+  PICK, // the player judges in this round, and has to pick a winner
+  PENDING_JUDGE_PICK, // the player is not the judge in this round, and waiting for the judge pick
+  PENDING_ADMIN_ACTION, // the round is ended, waiting for the game admin to start the next round
+  WAITING_FOR_DATA, // round data is missing
+}
+```
 
-- `JoinForm` is the component responsible for collecting the name and game code of the user.
-- `Lobby` is the page that renders if the websocket connection is not open and was never closed before.
-- `LobbyLoader` is the component responsible for showing a `Spinner` and the matching loading message.
-- `useGameCheck` is the component responsible for validating the game code.
+- The `GameContext` is responsible for connecting to the server, maintaining the game state and toggling between those states.
 
-### Round
+### Components
 
-- `EndGameButton` is a button shown by the end of a round for the game admin
-- `LoadingFeedback` is the component responsible for showing what's happenning in the game.
-- `Question` is the component responsible for displaying the current question and judge.
-- `RoundContextProvider` and `useRoundContext` are the component and hook responsible for using the `RoundContext`, that stores the round current state and player activity.
-- `Waiting` is a compbination of the `Spinner` and a text used by the `LoadingFeedback` compnent.
+The components folder consists of:
 
-### Scoreboard
+- The `brand` folder contains brand-related resources
+- The `Card`component is a general UI wrapper
+- `CardPicker` is the component responsible for displaying decks and animating them
+- `GameCodeDisplay` displays the game code in the bottom of the screen
+- the `glyphs` and `icons` folder are for svg-related resources
+- The `PageTitle` component
+- The `PlayerIterator` component, that displays a grid of cards with the player names on it.
+- `QuestionJudgeDisplay`, responsible for displaying the round question and judge
+- A simple `Spinner` component
+- My custom `ThemeProvider` wrapper and `useBackground` hook
+- My custom form utilities
+- Context actions and logical warppers that [broke the internet](https://dev.to/itays123/using-the-react-context-api-the-right-way-a-time-saver-5c3f)
 
-- `Row` is the component responsible for displaying a player name and score.
-- `Scoreboard` is the component rendered when the websocker connection has been closed.
+It also contains the `LocalStorageConnectionRestorer`, a component responsible for controlling the `ConnectionLifeCycle.GOING_AWAY` and `ConnectionLifeCycle.REFRESHING` states.
 
-### Shared Components
+Other than those, we have a few simple components that provide feedback on special game states:
 
-- Navigation
-  - `Navbar` is the app's header
-  - `NavWrapper` is the component responsible for positioning the navbar on screen.
-  - `useQuery` is a hook responsible for extracting query params from the current url.
-- `FormInput` is a custom form input.
-- `Spinner` is a simple loading animation.
+- `ConnectionPauseFeedback`, when `GameLifeCycle.RESUMED` and `ConnectionLifeCycle.PAUSED`
+- `GamePauseFeedback`, when `GameLifeCycle.PAUSED` and `ConnectionLifeCycle.RESUMED`
+- `InvalidRoundFeedback`, when `GameLifeCycle.RESUMED`, `GameLifeCycle.RESUMED`, but `RoundLifeCycle.WAITING_FOR_DATA`
+- `PlayerAnswerFeedback`, when `RoundLifeCycle.PENDING_PLAYER_USAGES`
+- `UnexpectedDisconnectionDialog`, when `GameLifeCycle.DESTROYED` or `RoundLifeCycle.DESTROYED`
+
+### The Join Form
+
+The group of components that are visible when `GameLifeCycle.PRE_CREATED` and `ConnectionLifeCycle.PRE_CREATED`.
+
+Their main functionality is to collect the game code and name from the user and connect them to the live game in the server via `WebSocket`.
+
+### The Lobby
+
+The group of components that are visible when `GameLifeCycle.CREATED` and `ConnectionLifeCycle.RESUMED`.
+
+Their main functionality is to display the game code and the connected players.
+
+### The Round Layout
+
+The group of components that are visible on active rounds.
+
+Consists of:
+
+- The use deck layout, that displays the `use` deck on `RoundLifeCycle.USE`
+- The before options ready layout, that displays the `PlayerAnswerFeedback` component as well as skip options for game admins
+- The options ready layout, that displays the pick deck and allows the jduge to pick the winner card
+- The round ended layout, that shows who won and displays the next round and stop game buttons for the admin.
+
+### The Game Over Screen
+
+The group of components that are visible when `ConnectionLifeCycle.FINISHED` and `GameLifeCycle.STOPPED`.
+
+Their main functionality is to show the scoreboard and display a confetti if the user is within the podium.
 
 ## Available Scripts
 
