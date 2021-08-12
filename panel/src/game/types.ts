@@ -1,5 +1,3 @@
-import { RemovableAtom } from 'klyva';
-
 export type Deck = string[];
 
 export type Added = string[];
@@ -11,6 +9,11 @@ export type DeckAtom = {
   added: Added;
   modified: Modified;
   deleted: Deleted;
+};
+
+export type Action = {
+  isLoading: boolean;
+  doFetch(): void;
 };
 
 export type Changes = {
@@ -33,6 +36,7 @@ export interface IGameEditorContext {
   answers: Editor;
   author: any;
   clearState(): void;
+  refresh?(game: Game): void;
 }
 
 export interface Game {
@@ -45,17 +49,15 @@ export interface Game {
 }
 
 export type Editor = {
-  cardAtomList: RemovableAtom<string>[];
-  canDelete: boolean;
-  focusedCardIndex: number;
-  setFocusedCardIndex: React.Dispatch<React.SetStateAction<number>>;
-  clearFocus(): void;
-  next(): void;
+  deck: Deck;
+  changes: Changes;
   addCard(): void;
-  changes(): Changes;
-  clearState(): void;
+  changeValue(index: number, value: string): void;
+  deleteCard(index: number): void;
+  canDelete: boolean;
+  minDeckSize: number;
   isChanged: boolean;
-  getValue(): Deck;
+  reset(): void;
 };
 
 export const EMPTY_GAME: Game = {
@@ -63,6 +65,6 @@ export const EMPTY_GAME: Game = {
   isPrivate: false,
   lng: 'en',
   author: null,
-  questions: ['', '', ''], // 3 questions min
-  answers: ['', '', '', '', '', '', '', '', '', '', '', ''], // 12 answer min
+  questions: [],
+  answers: [],
 };

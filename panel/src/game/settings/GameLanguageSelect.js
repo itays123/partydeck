@@ -1,4 +1,4 @@
-import languages from '../../shared/helpers/languages';
+import languages from '../../helpers/languages';
 import { useGameEditorContext } from '../GameEditorContext';
 
 const GameLanguageSelect = () => {

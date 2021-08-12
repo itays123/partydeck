@@ -1,25 +1,25 @@
-import React, { Component } from 'react';
-import { GameEditorContext } from '../GameEditorContext';
-import { Editor } from '../types';
+import { useGameEditorContext } from '../GameEditorContext';
+import { DeckEditorProps } from './DeckEditor';
+import { useFocus } from './FocusProvider';
 
 export function withEditor(
-  ComponentToRender: React.ComponentType<{ editor: Editor; label: string }>
+  ComponentToRender: React.ComponentType<DeckEditorProps>
 ) {
-  return class DeckEditorWithEditor extends Component<{
+  return function DeckEditorWithEditorAndFocus({
+    of,
+    label,
+  }: {
     of: 'questions' | 'answers';
     label: string;
-  }> {
-    static contextType = GameEditorContext;
-    componentDidMount() {
-      this.context[this.props.of].clearState();
-    }
-    render() {
-      return (
-        <ComponentToRender
-          editor={this.context[this.props.of]}
-          label={this.props.label}
-        />
-      );
-    }
+  }) {
+    const { [of]: editor } = useGameEditorContext();
+    const { [of]: focusProvider } = useFocus();
+    return (
+      <ComponentToRender
+        label={label}
+        editor={editor}
+        focusProvider={focusProvider}
+      />
+    );
   };
 }

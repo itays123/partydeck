@@ -1,41 +1,66 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .dark-button {
-    @apply bg-gray-800 text-gray-100 py-2 focus:outline-none hover:bg-gray-700 disabled:opacity-70;
+@layer base {
+  h1 {
+    @apply text-2xl md:text-3xl lg:text-6xl text-center font-bold mb-6;
   }
+  ul {
+    @apply md:list-disc md:pl-8 space-y-4 md:space-y-0;
+  }
+  input {
+    @apply focus:outline-none bg-transparent w-full;
+  }
+  a {
+    @apply active:outline-none;
+  }
+  label {
+    @apply mb-2;
+  }
+}
+
+@layer components {
   .scrollable {
     @apply absolute top-0 bottom-0 left-0 right-0 h-full w-full overflow-y-scroll;
   }
-  .colorful-button {
-    @apply px-4 py-2 text-gray-50 rounded focus:outline-none text-center;
+  .nav-button {
+    @apply font-bold font-roboto px-2 py-1 text-theme-200 md:hover:text-green;
   }
-  .animation-scaleup {
-    @apply transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110;
+  .nav-button.active {
+    @apply text-theme-200;
   }
-  .action-button {
-    @apply px-3 py-1 ml-4 text-purple-900 font-medium flex focus:outline-none disabled:opacity-50;
+  .hidden-sm {
+    @apply hidden md:block;
   }
-  .action-button:disabled {
-    @apply hidden md:flex;
+  .rule-section {
+    @apply flex md:h-32 flex-col md:flex-row items-center text-lg md:text-2xl md:space-x-4 text-center md:text-left p-2;
   }
-  .link-li {
-    @apply block text-left hover:text-gray-600 text-base;
+  .decorated-subtitle {
+    @apply flex flex-col text-center md:text-left md:flex-row items-center text-2xl md:text-6xl md:space-x-8 p-2 font-bold md:py-4;
+  }
+  .content-section {
+    @apply text-center md:text-left md:px-6 text-lg md:text-xl;
+  }
+  .error.valid {
+    @apply hidden;
+  }
+  .error.exists {
+    @apply text-pink-dark text-sm ml-2;
+  }
+  .auth-input {
+    @apply bg-transparent w-52;
+  }
+  .auth-input input {
+    @apply px-2 py-1 border-gray-400 border-b-2;
+  }
+  .accent-button {
+    @apply font-bold font-roboto px-1.5 md:px-3 py-1.5 md:py-2 text-theme-700 bg-green rounded-full hover:bg-green-light md:ml-2 text-sm md:text-base focus:outline-none disabled:opacity-70;
+  }
+  .branded-background {
+    background-image: url('./components/brand/BrandDecoration.png');
+  }
+  .card {
+    @apply w-32 h-48 absolute inset-x-card-center inset-y-2 rounded-lg text-theme-800 font-medium shadow-card;
   }
 }

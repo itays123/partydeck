@@ -12,6 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * An object representing the game
@@ -29,7 +30,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
 
     private String id;
 
-    private Circle<String, Player> players;
+    private Circle<Player> players;
     private Deck<String, Card> questionDeck;
     private Deck<String, Card> answerDeck;
 
@@ -174,8 +175,8 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
                 player.makeAdmin();
 
             players.addEntry(player);
-            player.broadcast(BroadcastContext.INIT, "id", player.getId(), "isAdmin", player.isAdmin(), "game", id);
-            broadcastAll(BroadcastContext.PLAYER_JOINED, "count", players.count(Player::isConnected), "joined", player.getNickname());
+            player.broadcast(BroadcastContext.INIT, "id", player.getId(), "isAdmin", player.isAdmin(), "game", id, "players", players.asList(Player::getNickname));
+            broadcastAll(BroadcastContext.PLAYER_JOINED, "count", players.count(Player::isConnected), "joined", player.getNickname(), "joinedId", player.getId());
 
             if(resumed)
                 player.broadcast(BroadcastContext.JOINED_MID_GAME);
@@ -206,7 +207,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
         if (!players.has(player) || !player.isConnected())
             return false;
 
-        player.broadcast(BroadcastContext.REJOIN, "newId", player.getId(), "game", id);
+        player.broadcast(BroadcastContext.REJOIN, "newId", player.getId(), "game", id, "players", players.asList(Player::getNickname));
 
         // ensure admin exists
         if (players.find(Player::isAdmin).isEmpty())
@@ -219,7 +220,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
 
         int newPlayerCount = players.count(Player::isConnected);
 
-        broadcastAll(BroadcastContext.CONNECTION_RESUME, "count", newPlayerCount);
+        broadcastAll(BroadcastContext.CONNECTION_RESUME, "count", newPlayerCount, "from", player.getOldId(), "to", player.getId());
 
         if (started) {
             currentRound.setNumberOfParticipants(newPlayerCount);
@@ -455,7 +456,7 @@ public class Game implements PlayerEventListener, RoundEventListener, Identifiab
     public void onConnectionDestroy(Player player) {
         players.removeEntry(player);
 
-        broadcastAll(BroadcastContext.PLAYER_LEFT, "left", player.getNickname());
+        broadcastAll(BroadcastContext.PLAYER_LEFT, "left", player.getNickname(), "leftId", player.getId());
 
         // return player cards
         Arrays.stream(player.currentCards).forEach(answerDeck::insertCardInBottom);

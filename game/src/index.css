@@ -1,29 +1,12 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.no-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  input {
+    @apply bg-transparent focus:outline-none w-full;
+  }
+}
 
 @layer components {
   .dark-button {
@@ -31,5 +14,30 @@ code {
   }
   .scrollable {
     @apply absolute top-0 bottom-0 left-0 right-0 h-full w-full overflow-y-scroll;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .joinform-input {
+    @apply h-12 w-52 rounded-full bg-white shadow p-4 flex items-center relative;
+  }
+  .player-list-wrapper {
+    @apply grid grid-cols-iterator-sm md:grid-cols-iterator-md lg:grid-cols-iterator-lg gap-2 justify-items-center overflow-y-scroll;
+  }
+  .hovering-button {
+    @apply w-12 h-12 shadow rounded-full absolute bottom-8 right-8;
+  }
+  .error.valid {
+    @apply hidden;
+  }
+  .error.exists {
+    @apply text-sm absolute bottom-0 text-pink-dark;
+  }
+  .answer-card-pos-1 {
+    @apply opacity-0 md:opacity-100;
   }
 }

@@ -19,6 +19,7 @@
     "cookie-parser": "^1.4.5",
     "dotenv": "^9.0.0",
     "express": "^4.17.1",
+    "framer-motion": "^4.1.17",
     "jsonwebtoken": "^8.5.1",
     "klyva": "^0.8.6",
     "mocha": "^8.2.1",
