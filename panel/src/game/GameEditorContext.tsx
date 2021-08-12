@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react';
 import { createContext, useContext } from 'react';
 import { useAuthContext } from '../auth/AuthContext';
 import { createWrapper } from '../components/logicalWrapeprFactory';
+import languages from '../helpers/languages';
 import { useDeck } from './deck/useDeck';
 import { EMPTY_GAME, Game, IGameEditorContext } from './types';
 
@@ -39,6 +40,14 @@ export const Changed = createWrapper(GameEditorContext, ctx => ctx.isChanged);
 export const NotChanged = createWrapper(
   GameEditorContext,
   ctx => !ctx.isChanged
+);
+export const AllValuesValidated = createWrapper(
+  GameEditorContext,
+  ctx =>
+    ctx.name.trim() !== '' &&
+    languages[ctx.lng] !== undefined &&
+    ctx.questions.deck.length >= 3 &&
+    ctx.answers.deck.length >= 12
 );
 
 // context provider logic

@@ -7,6 +7,7 @@ import {
   SaveNewGameNotLoading,
 } from '../action/NewGamesSaveProvider';
 import {
+  AllValuesValidated,
   Changed,
   EditorOnly,
   ExistingGamesOnly,
@@ -44,8 +45,10 @@ export default function GameHeader() {
             <Spinner label="Saving..." />
           </SaveNewGameLoading>
           <SaveNewGameNotLoading>
-            <SaveButton className="w-10 h-10" />
-            <CancelButton className="w-10 h-10" />
+            <AllValuesValidated>
+              <SaveButton className="w-10 h-10" />
+              <CancelButton className="w-10 h-10" />
+            </AllValuesValidated>
           </SaveNewGameNotLoading>
         </NewGamesOnly>
       </section>
