@@ -6,6 +6,7 @@ import GameEditorContextProvider, {
   useGameEditorContext,
 } from '../GameEditorContext';
 import { Game } from '../types';
+import { useHardIsChanged } from './useHardIsChanged';
 import { SaveReqBody } from './useSaveGame';
 
 export function useSaveGameOnChange(
@@ -14,7 +15,7 @@ export function useSaveGameOnChange(
   refreshedGame: Game
 ) {
   const { isPrivate, questions, answers, isChanged } = useGameEditorContext();
-  const debouncedIsChanged = useDebouncedValue(isChanged, 1500);
+  const debouncedIsChanged = useHardIsChanged();
   const debouncedSaveLoading = useDebouncedValue(isSaveLoading, 250); // do not save more than one second after save is done
   const { refresh } = useGameEditorContext();
 
