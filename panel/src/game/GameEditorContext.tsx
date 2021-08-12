@@ -35,6 +35,12 @@ export const NewGamesOnly = createWrapper(
   ctx => ctx.isGameNew
 );
 
+export const Changed = createWrapper(GameEditorContext, ctx => ctx.isChanged);
+export const NotChanged = createWrapper(
+  GameEditorContext,
+  ctx => !ctx.isChanged
+);
+
 // context provider logic
 export type GameEditorProviderProps = {
   children: JSX.Element | JSX.Element[];

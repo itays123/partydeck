@@ -1,9 +1,5 @@
 import Spinner from '../../components/Spinner/Spinner';
-import {
-  RemoveButton,
-  SaveLoading,
-  SaveNotLoading,
-} from '../action/GameCrudProvider';
+import { RemoveButton } from '../action/GameCrudProvider';
 import {
   CancelButton,
   SaveButton,
@@ -11,9 +7,11 @@ import {
   SaveNewGameNotLoading,
 } from '../action/NewGamesSaveProvider';
 import {
+  Changed,
   EditorOnly,
   ExistingGamesOnly,
   NewGamesOnly,
+  NotChanged,
   useGameEditorContext,
 } from '../GameEditorContext';
 import { CreateLiveGameButton } from '../play/LiveGameModalProvider';
@@ -31,15 +29,15 @@ export default function GameHeader() {
       </h1>
       <section className="actions flex justify-start flex-row-reverse mt-2 space-x-2">
         <ExistingGamesOnly>
-          <SaveLoading>
+          <Changed>
             <Spinner label="Saving..." />
-          </SaveLoading>
-          <SaveNotLoading>
+          </Changed>
+          <NotChanged>
             <CreateLiveGameButton className="w-10 h-10" />
             <EditorOnly>
               <RemoveButton className="w-10 h-10" />
             </EditorOnly>
-          </SaveNotLoading>
+          </NotChanged>
         </ExistingGamesOnly>
         <NewGamesOnly>
           <SaveNewGameLoading>
