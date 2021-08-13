@@ -6,6 +6,10 @@ The `Partydeck` app contains 3 microservices, all connected:
 - **The live `game`**, the fronend `React.js` app that connects to the live server.
 - **The game `panel`**, a traditional MERN application to store and manage decks.
 
+The application's microservices architecture is described in the following chart:
+
+![Microservice architecture](architecture.png)
+
 ## Want to give it a try?
 
 1. Go to the game panel url: https://partydeck-game-panel-iygnk5fpxq-ue.a.run.app

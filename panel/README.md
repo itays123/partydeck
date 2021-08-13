@@ -24,76 +24,91 @@ This is a traditional `Node.js` server.
 - `POST` **`/api/auth/register`**: Creates a new user.
 - `GET` **`/api/auth/check`** checks if email is in use.
 
-## Components & Hooks
-
-- The `App` component is responsible for routing
+## Architecture
 
 ### Authentication
 
-- login
-  - `Login` is the page responsible for login operations, containing a form.
-  - `useLogin` is the hook responsible for fetching the login route of the server.
-- profile
-  - `Profile` is the page responsible for showing user's public games.
-  - `useProfile` is responsible for fetching the user data.
-  - `UserDetails` is the header component of the `Profile` page.
-- register
-  - `Register` is the page responsible for register operations, containing a form.
-  - `useRegister` is the hook responsible for fetching the register route of the server.
-- `AuthContextProvider`, `useAuthContext` are the component and hook responsible for using the `AuthContext`.
-- `AuthOnly` is a component that displays its children only if the user is authenticated
-- `CookieConfirm` is a prompt showed in the `Login` and `Register` pages.
-- `useCheckEmail` is a validation hook for the email input field in the `Login` and `Register` pages.
+The authentication folder consists of 3 hooks that can be used to get auth data:
+
+- `useLogin`
+- `useRegister`
+- `useProfile` - for getting user data
+
+Apart from that, it provides a highly-composable, super customizeable authentication form utilities that are being used in the `LoginModal` and `RegisterModal`.
+The folder consists of:
+
+- My context logical warppers and context actions that [broke the internet](https://dev.to/itays123/using-the-react-context-api-the-right-way-a-time-saver-5c3f)
+- super resuable form inputs
+- validation tools
+
+Combined toghether, the two folders are used in the `AuthContext` provider file, in the `AuthProtectedPage` and in the login and register modals.
 
 ### Game view/edit/create
 
-- action
-  - `Discard`, `Play`, `Remove`, `Save` are the action buttons displayed in the game pages.
-- create
-  - `CreateGame` is the page responsible for the create game form
-  - `GameLanguageSelect` is the component responsible for editing the language
-  - `GameNameForm` is the component responsible for naming a game.
-  - `NewGamesOnly` is a component that only shows its children if the game is new.
-  - `useCreateGame` is the component responsible for fetching the create game route.
-- edit
-  - `EditableCard` is the component responsible for displaying a card, and modifying/deleting it if editor.
-  - `PrivatePublicToggle`
-  - `DeckEditor` is a component that gets an editor object from the props and uses it.
-  - `DeckEditorWrapper` is responsible for getting the editor object depending on the deck type and giving it to the deck editor
-  - `EditorOnly` is a component that only shows its children if the game author id is the same as the user id.
-  - `GameEditorContextProvider`, `useGameEditorContext` are the component and hook responsible for using the GameEditorContext.
-  - `useDeckEditor` is responsible for saving the deck edited state in an efficient way and formatting it if needed. It is also responsible for tracking the user focus.
-  - `useDeleteGame` is responsible for fetching the delete game route.
-  - `useSaveGame` is responsible for fetching the update game route.
-- view
-  - `usePlayGame` is responsible for fetching the play route.
-- `GameSettingsViewEdit` is responsible for editing the game settings, such as name, language, private state etc.
-- `GameViewEdit` is the page responsible for viewing and editing existing games.
-- `useGame` is responsible for editing existing games.
+This folder consists of all the UI related to storing decks and using them.
 
-### Home
+In the `action` folder, all files that are related to CRUD operations can be found.
 
-- `Home` is the default page.
-- `MyGames` is the component shown to signed in users.
-- `Welcome` is the component shown to unauthenticated users.
+- For existing games, The `GameCrudProvider` component is used, providing easy acess to the save and delete methods in the `useSaveGame` and `useDeleteGame`.
+- New games have a similar functionality with the `NewGameSaveProvider` and the `useCreateGame` hook.
+- Existing games also have use the `SaveGameOnChange` hook. In the file, you can find a `RefreshableGameEditorProvider`, as well as the hook. The hook uses the `HardIsChanged` hook, a component that returns true if the game has unsaved changes for more than 1.5 seconds.
 
-### shared components and hooks
+It also provides an intergartion with the live server to compose a live game from a given deck. In the `play` folder, you can see all of the live-game integration files:
 
-- `GameList` is a component responsible for displaying a list of `GameItem`s
-  - `GameItem` is a component that shows game data such as name, language, creator and number of cards.
-  - `GameListContext`, `useAuthor` are responsible for storing a shared author in the profile and home page.
-- Navigation: `NavWrapper` is a component responsible for setting the position of the `Navbar` on the screen
-  - `Navbar` is the component responsible for showing the header of the application.
-  - `NavigationButton`
-  - `SignedInDialog` is the prompt opened when pressing the user photo in the `SignedInLinks`
-  - `SignedInLinks`, `SignedOutLinks` are the links shown depending on the auth state.
-- `Search` is the search input component that redirects to the `SearchResults` page, showing a `GameList`
-  - `useQuery` is the hook responsible for extrenalizing the query out of the current url
-  - `useSearch` is responsible for fetching the search route.
-- `FormInput` is used in authentication prompts.
-- `PageNotFound` is the fallback page.
-- `Spinner` is a simple loading animation.
-- `SvgWrapper` is a component responsible for wrapping svg paths.
+- The provider, responsible for the logic behind the scenes
+- The modal, providing feedback when a user pressed `play`
+- The hook, fetching the server.
+
+The deck editing UI is well developed and structured, and it uses the `EditableCard` component with `framer-motion` to create an animated deck of cards. The core of this folder is the `useDeck` hook, that tracks the changes made to a deck and easily edits it in real time.
+
+For customizing other game data, the `settings` folder is made. Its capabilities:
+
+- customizing a game name
+- toggling game visibility
+- toggling game language
+
+Combining the four of those will create a huge, unreadable component. Because of that, the `layout` folder is created, containing independent part of the game view edit and the game create page that can be reused. It consists of:
+
+- The game ready wrapper, that displays a loader of the game is loading
+- The game header, containing the name and the actions
+- The game settings bar, containing the settings
+- The deck editors section, providing focus utilities
+
+If you read the contents of this folder, you can picture exacly what the page looks like. These layout components are used in the `CreateGame` and `GameViewEdit` components.
+
+### Home, about, library pages
+
+Apart from the game editor pages and the authentication modals, there are other pages to the application:
+
+- The home page
+- The about (`/about`), cookie & data policy (`/about/privacy`) and creating decks guide (`/about/decks`).
+- The game library page (`/search`) and the search results page.
+- The auth-protected page containing the user's decks (`/my`)
+- The page not found page.
+
+### Components
+
+The components folder consists of small, reusable components of my UI, containing the following:
+
+- brand resources, github-related resources, glyphs and icons.
+- form utilities
+- modal utilities
+- The `NavigationBar` and `Footer` components
+- The `GameList` component, shown in the search results and my decks page
+- A simple spinner
+- A search bar
+- The `SideProfileBar` component, used in the game library pages.
+- My context warppers and actions that broke the internet
+
+### Helpers
+
+This folder is made for non-componentable code that is used anywhere on the app, containing:
+
+- The live game website link, imported from the environment.
+- The languages object, that maps the language code (i.e: 'en') to the language name.
+- The `useClickOutside` hook
+- The `useDebounce` and `useDebouncedValue` hook
+- The `useFetch` hook
 
 ## Available Scripts
 
