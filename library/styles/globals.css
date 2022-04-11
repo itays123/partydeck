@@ -6,6 +6,9 @@
   h1 {
     @apply text-2xl md:text-3xl lg:text-6xl text-center font-bold mb-6;
   }
+  ul {
+    @apply md:list-disc md:pl-8 space-y-4 md:space-y-0;
+  }
   a {
     @apply active:outline-none;
   }
@@ -22,6 +25,15 @@
     @apply md:h-32 text-lg md:text-2xl md:space-x-4 text-center md:text-left p-2;
   }
   .scrollable {
-    @apply absolute top-0 bottom-0 left-0 right-0 h-full w-full overflow-y-scroll;
+    @apply absolute inset-0 h-full w-full overflow-y-scroll px-8;
+  }
+  .decorated-title {
+    @apply text-4xl md:text-6xl lg:text-8xl text-theme-700 font-medium text-left;
+  }
+  .decorated-subtitle {
+    @apply text-2xl md:text-6xl font-bold;
+  }
+  .content-section {
+    @apply text-center md:text-left md:px-6 text-lg md:text-xl;
   }
 }
