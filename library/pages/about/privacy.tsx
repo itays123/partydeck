@@ -9,7 +9,7 @@ import Layout from '../../components/layout/Layout';
 const CookieDataPolicy: NextPage = () => {
   return (
     <Layout>
-      <div className="scrollable space-y-12">
+      <div className="scrollable space-y-12 px-8">
         <h1 className="decorated-title">Data & Cookie Policy</h1>
         <ContentSection
           title="What Do We Know About Signed In Users?"

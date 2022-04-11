@@ -10,7 +10,7 @@ const GITHUB_LINK = process.env.NEXT_PUBLIC_GITHUB_LINK;
 const About: NextPage = () => {
   return (
     <Layout>
-      <div className="about scrollable space-y-12 ">
+      <div className="about scrollable space-y-12 px-8">
         <h1 className="decorated-title">About Us</h1>
         <ContentSection title="The Idea of Partydeck" glyph={LightBulb}>
           <p>When we thought of Partydeck, we wanted a game that is:</p>

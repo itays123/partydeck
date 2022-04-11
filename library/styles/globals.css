@@ -25,7 +25,7 @@
     @apply md:h-32 text-lg md:text-2xl md:space-x-4 text-center md:text-left p-2;
   }
   .scrollable {
-    @apply absolute inset-0 h-full w-full overflow-y-scroll px-8;
+    @apply absolute inset-0 h-full w-full overflow-y-scroll;
   }
   .decorated-title {
     @apply text-4xl md:text-6xl lg:text-8xl text-theme-700 font-medium text-left;
