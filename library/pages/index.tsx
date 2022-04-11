@@ -5,7 +5,7 @@ import Layout from '../components/Layout';
 const Home: NextPage = () => {
   return (
     <Layout>
-      <div>Hello</div>
+      <div className="bg-theme-500">Hello</div>
     </Layout>
   );
 };

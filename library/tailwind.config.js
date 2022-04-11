@@ -6,34 +6,32 @@ module.exports = {
     './pages/**/*.{js,ts,jsx,tsx}',
     './components/**/*.{js,ts,jsx,tsx}',
   ],
+  darkMode: 'class', // or 'media' or 'class'
   theme: {
-    darkMode: 'class', // or 'media' or 'class'
-    theme: {
-      colors: {
-        theme: colors.indigo,
-        base: colors.slate,
-        pink: {
-          DEFAULT: '#EC4899',
-          light: '#F6C5DD',
-          dark: '#831843',
-        },
-        orange: {
-          DEFAULT: '#F59E0B',
-          light: '#F9DFB2',
-          dark: '#78350F',
-        },
-        green: {
-          DEFAULT: '#76E235',
-          light: '#D2F3BF',
-          dark: '#365314',
-        },
+    colors: {
+      theme: colors.indigo,
+      base: colors.slate,
+      pink: {
+        DEFAULT: '#EC4899',
+        light: '#F6C5DD',
+        dark: '#831843',
       },
-      fontFamily: {
-        sans: ['"Rubik"', ...fontFamily.sans],
-        roboto: ['"Roboto"', ...fontFamily.sans],
+      orange: {
+        DEFAULT: '#F59E0B',
+        light: '#F9DFB2',
+        dark: '#78350F',
       },
-      extend: {},
+      green: {
+        DEFAULT: '#76E235',
+        light: '#D2F3BF',
+        dark: '#365314',
+      },
     },
-    plugins: [],
+    fontFamily: {
+      sans: ['"Rubik"', ...fontFamily.sans],
+      roboto: ['"Roboto"', ...fontFamily.sans],
+    },
+    extend: {},
   },
+  plugins: [],
 };
