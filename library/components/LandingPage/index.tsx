@@ -1,12 +1,12 @@
-import CardPick from '../../glyphs/CardPick';
-import CreateDecks from '../../glyphs/CreateDecks';
-import HostGames from '../../glyphs/HostGames';
-import InviteFriends from '../../glyphs/InviteFriends';
-import JudgePick from '../../glyphs/JudgePick';
-import PublishDecks from '../../glyphs/PublishDecks';
-import Question from '../../glyphs/Question';
-import Victory from '../../glyphs/Victory';
-import GlyphLayout from '../../layout/GlyphLayout';
+import CardPick from '../glyphs/CardPick';
+import CreateDecks from '../glyphs/CreateDecks';
+import HostGames from '../glyphs/HostGames';
+import InviteFriends from '../glyphs/InviteFriends';
+import JudgePick from '../glyphs/JudgePick';
+import PublishDecks from '../glyphs/PublishDecks';
+import Question from '../glyphs/Question';
+import Victory from '../glyphs/Victory';
+import GlyphLayout from '../layout/GlyphLayout';
 import LandingPageHeader from './LandingPageHeader';
 
 export default function LandingPage() {

@@ -1,4 +1,4 @@
-import Logo from '../../glyphs/Logo';
+import Logo from '../glyphs/Logo';
 
 export default function LandingPageHeader() {
   return (
