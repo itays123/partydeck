@@ -1,7 +1,6 @@
-import Link from 'next/link';
 import Growth from '../../glyphs/Growth';
 import LightBulb from '../../glyphs/LightBulb';
-import GlyphLayout from '../../layout/GlyphLayout';
+import ContentSection from '../../layout/ContentSection';
 import ExternalLink from '../../navigation/ExternalLink';
 
 const GITHUB_LINK = process.env.NEXT_PUBLIC_GITHUB_LINK;
@@ -10,10 +9,7 @@ export default function AboutPage() {
   return (
     <div className="about scrollable space-y-12 ">
       <h1 className="decorated-title">About Us</h1>
-      <GlyphLayout glyph={LightBulb}>
-        <h2 className="decorated-subtitle">The Idea of Partydeck</h2>
-      </GlyphLayout>
-      <section className="content-section">
+      <ContentSection title="The Idea of Partydeck" glyph={LightBulb}>
         <p>When we thought of Partydeck, we wanted a game that is:</p>
         <ul>
           <li>Playable from distance</li>
@@ -32,11 +28,8 @@ export default function AboutPage() {
             Connecting - the game makes you get to know the other players better
           </li>
         </ul>
-      </section>
-      <GlyphLayout glyph={Growth}>
-        <h2 className="decorated-subtitle">Always Getting Better</h2>
-      </GlyphLayout>
-      <section className="content-section">
+      </ContentSection>
+      <ContentSection title="Always Getting Better" glyph={Growth}>
         <p>
           Developing an application takes time and patience, and the result is
           not always perfect.
@@ -49,7 +42,7 @@ export default function AboutPage() {
           </ExternalLink>
           , or the email link described there. Thanks a lot, the Partydeck team.
         </p>
-      </section>
+      </ContentSection>
     </div>
   );
 }
