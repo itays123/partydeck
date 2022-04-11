@@ -21,4 +21,7 @@
   .rule-section {
     @apply md:h-32 text-lg md:text-2xl md:space-x-4 text-center md:text-left p-2;
   }
+  .scrollable {
+    @apply absolute top-0 bottom-0 left-0 right-0 h-full w-full overflow-y-scroll;
+  }
 }

@@ -12,7 +12,9 @@ export default function GlyphLayout({
 }: GlyphProps) {
   return (
     <div className={`flex flex-responsive ${className}`}>
-      <Glyph className="h-full" />
+      <div className="flex-shrink-0 self-stretch flex justify-center">
+        <Glyph />
+      </div>
       <div className="flex-grow">{children}</div>
     </div>
   );

@@ -11,6 +11,15 @@ module.exports = {
     colors: {
       theme: colors.indigo,
       base: colors.slate,
+      transparent: {
+        DEFAULT: '#00000000',
+      },
+      halfblack: {
+        DEFAULT: '#0000007F',
+      },
+      white: {
+        DEFAULT: '#F9FAFB',
+      },
       pink: {
         DEFAULT: '#EC4899',
         light: '#F6C5DD',
