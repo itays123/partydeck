@@ -1,7 +1,0 @@
-.length-display {
-  opacity: 0;
-}
-
-.card > textarea:focus ~ .length-display {
-  opacity: 100;
-}
